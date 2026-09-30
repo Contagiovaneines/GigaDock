@@ -238,10 +238,10 @@ public class ThreeColumnSettingsAndInstallerUpgradeTests
     }
 
     [Fact]
-    public void InstallService_ConstantesEVersionamento_SaoVersao1_5_0()
+    public void InstallService_ConstantesEVersionamento_SaoVersao1_6_0()
     {
         var installService = new InstallService();
-        Assert.Equal("1.5.0", InstallService.CurrentVersion);
+        Assert.Equal("1.6.0", InstallService.CurrentVersion);
         Assert.Equal("Dock Windows", InstallService.AppName);
         Assert.Equal("DockWindows.App.exe", InstallService.AppExeName);
     }

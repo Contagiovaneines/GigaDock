@@ -175,7 +175,7 @@
                             </Border>
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="Dock Windows" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                <TextBlock Text="Versão 1.5.0" FontSize="11" Foreground="#8E8E93"/>
+                                <TextBlock Text="Versão 1.6.0" FontSize="11" Foreground="#8E8E93"/>
                             </StackPanel>
                         </StackPanel>
 
