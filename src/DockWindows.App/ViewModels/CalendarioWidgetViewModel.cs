@@ -1,0 +1,192 @@
+using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Windows.Input;
+using System.Windows.Threading;
+using DockWindows.App.Common;
+using DockWindows.Core.Models;
+
+namespace DockWindows.App.ViewModels;
+
+public class CalendarioWidgetViewModel : ObservableObject
+{
+    private static readonly CultureInfo PtBr = new("pt-BR");
+    private readonly DispatcherTimer _timer;
+    private readonly Action? _onAbrirAjustes;
+
+    private bool _habilitado = true;
+    private FormatoWidget _formato = FormatoWidget.Compacto;
+    private bool _painelAberto;
+    private DateTime _dataSelecionada = DateTime.Today;
+    private DateTime _dataExibicao = DateTime.Today;
+
+    public DateTime DataSelecionada
+    {
+        get => _dataSelecionada;
+        set => SetProperty(ref _dataSelecionada, value);
+    }
+
+    public DateTime DataExibicao
+    {
+        get => _dataExibicao;
+        set => SetProperty(ref _dataExibicao, value);
+    }
+
+    public CalendarioWidgetViewModel(Action? onAbrirAjustes = null)
+    {
+        _onAbrirAjustes = onAbrirAjustes;
+        Compromissos = new ObservableCollection<CompromissoLocal>();
+
+        AlternarPainelCommand = new RelayCommand(AlternarPainel);
+        FecharPainelCommand = new RelayCommand(FecharPainel);
+        AbrirAjustesCommand = new RelayCommand(() =>
+        {
+            FecharPainel();
+            _onAbrirAjustes?.Invoke();
+        });
+
+        _timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMinutes(1)
+        };
+        _timer.Tick += (s, e) => AtualizarDataECompromisso();
+        _timer.Start();
+
+        AtualizarDataECompromisso();
+    }
+
+    public bool Habilitado
+    {
+        get => _habilitado;
+        set => SetProperty(ref _habilitado, value);
+    }
+
+    public FormatoWidget Formato
+    {
+        get => _formato;
+        set
+        {
+            if (SetProperty(ref _formato, value))
+            {
+                OnPropertyChanged(nameof(EhExpandido));
+                OnPropertyChanged(nameof(TextoExibicao));
+            }
+        }
+    }
+
+    public bool EhExpandido => Formato == FormatoWidget.Expandido;
+
+    public bool PainelAberto
+    {
+        get => _painelAberto;
+        set => SetProperty(ref _painelAberto, value);
+    }
+
+    public ObservableCollection<CompromissoLocal> Compromissos { get; }
+
+    public CompromissoLocal? ProximoCompromisso
+    {
+        get
+        {
+            var agora = DateTime.Now;
+            // Próximo compromisso a partir de hoje
+            return Compromissos
+                .Where(c => c.DataHora >= agora.AddMinutes(-30))
+                .OrderBy(c => c.DataHora)
+                .FirstOrDefault()
+                ?? Compromissos.OrderBy(c => c.DataHora).FirstOrDefault();
+        }
+    }
+
+    public bool TemCompromissos => ProximoCompromisso != null;
+
+    public string DataCurta => DateTime.Now.ToString("dd MMM", PtBr);
+    public string DataCompleta => DateTime.Now.ToString("dddd, dd 'de' MMMM", PtBr);
+    public string DiaDaSemanaCurto => DateTime.Now.ToString("ddd", PtBr).ToUpperInvariant();
+    public string DiaDoMes => DateTime.Now.Day.ToString();
+
+    public string TituloEventoCurto => ProximoCompromisso != null ? ProximoCompromisso.Titulo : "Compromissos";
+    public string HoraEventoCurto => ProximoCompromisso != null ? ProximoCompromisso.DataHora.ToString("HH:mm") : DataCurta;
+
+    public string TextoCompacto
+    {
+        get
+        {
+            if (ProximoCompromisso != null)
+            {
+                var hora = ProximoCompromisso.DataHora.ToString("HH:mm");
+                return $"{hora} {ProximoCompromisso.Titulo}";
+            }
+            return DataCurta;
+        }
+    }
+
+    public string TextoExpandido
+    {
+        get
+        {
+            var hoje = DateTime.Now.ToString("ddd, dd MMM", PtBr);
+            if (ProximoCompromisso != null)
+            {
+                var hora = ProximoCompromisso.DataHora.ToString("HH:mm");
+                return $"{hoje} • {hora} {ProximoCompromisso.Titulo}";
+            }
+            return $"{hoje} • Sem eventos pendentes";
+        }
+    }
+
+    public string TextoExibicao => EhExpandido ? TextoExpandido : TextoCompacto;
+
+    public string TextoDica
+    {
+        get
+        {
+            if (ProximoCompromisso != null)
+            {
+                return $"Próximo compromisso:\n{ProximoCompromisso.Titulo}\n{ProximoCompromisso.DataHora:dd/MM/yyyy HH:mm}\nClique para ver eventos";
+            }
+            return $"{DataCompleta}\nNenhum evento configurado\nClique para abrir o calendário";
+        }
+    }
+
+    public ICommand AlternarPainelCommand { get; }
+    public ICommand FecharPainelCommand { get; }
+    public ICommand AbrirAjustesCommand { get; }
+
+    public void SincronizarCompromissos(IEnumerable<CompromissoLocal> lista)
+    {
+        Compromissos.Clear();
+        foreach (var c in lista.OrderBy(c => c.DataHora))
+        {
+            Compromissos.Add(c);
+        }
+        AtualizarDataECompromisso();
+    }
+
+    public void AtualizarDataECompromisso()
+    {
+        OnPropertyChanged(nameof(ProximoCompromisso));
+        OnPropertyChanged(nameof(TemCompromissos));
+        OnPropertyChanged(nameof(DataCurta));
+        OnPropertyChanged(nameof(DataCompleta));
+        OnPropertyChanged(nameof(DiaDaSemanaCurto));
+        OnPropertyChanged(nameof(DiaDoMes));
+        OnPropertyChanged(nameof(TituloEventoCurto));
+        OnPropertyChanged(nameof(HoraEventoCurto));
+        OnPropertyChanged(nameof(TextoCompacto));
+        OnPropertyChanged(nameof(TextoExpandido));
+        OnPropertyChanged(nameof(TextoExibicao));
+        OnPropertyChanged(nameof(TextoDica));
+    }
+
+    private void AlternarPainel()
+    {
+        PainelAberto = !PainelAberto;
+    }
+
+    private void FecharPainel()
+    {
+        PainelAberto = false;
+    }
+}

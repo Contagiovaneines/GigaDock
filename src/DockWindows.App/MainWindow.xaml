@@ -1,0 +1,209 @@
+<Window x:Class="DockWindows.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:DockWindows.App.Converters"
+        xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
+        Title="Dock Windows"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="{Binding SempreNoTopo}"
+        SizeToContent="WidthAndHeight"
+        AllowDrop="True"
+        DragOver="Window_DragOver"
+        Drop="Window_Drop"
+        PreviewKeyDown="Window_PreviewKeyDown">
+
+    <Window.Resources>
+        <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>
+
+        <!-- Estilo base dos botões de item -->
+        <Style x:Key="DockItemButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="3,2"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border BorderBrush="#58A6FF" BorderThickness="2" CornerRadius="12" Margin="-2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ItemBorder" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="12" Padding="{TemplateBinding Padding}">
+                            <Grid RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
+                                    <ScaleTransform x:Name="ItemScale" ScaleX="1.0" ScaleY="1.0"/>
+                                </Grid.RenderTransform>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#2EFFFFFF"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#55FFFFFF"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ItemScale" Storyboard.TargetProperty="ScaleX"
+                                                             To="1.18" Duration="0:0:0.12">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="ItemScale" Storyboard.TargetProperty="ScaleY"
+                                                             To="1.18" Duration="0:0:0.12">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ItemScale" Storyboard.TargetProperty="ScaleX"
+                                                             To="1.0" Duration="0:0:0.12">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="ItemScale" Storyboard.TargetProperty="ScaleY"
+                                                             To="1.0" Duration="0:0:0.12">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#4AFFFFFF"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="ItemScale" Storyboard.TargetProperty="ScaleX"
+                                                             To="0.95" Duration="0:0:0.08">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="ItemScale" Storyboard.TargetProperty="ScaleY"
+                                                             To="0.95" Duration="0:0:0.08">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Context menu dos itens fixados -->
+        <ContextMenu x:Key="ItemContextMenu" Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
+            <MenuItem Header="🚀 Abrir / Executar" Command="{Binding ExecutarCommand}" FontWeight="Bold"/>
+            <MenuItem Header="📁 Abrir Local do Arquivo" Command="{Binding AbrirLocalCommand}"/>
+            <Separator Background="#33333A"/>
+            <MenuItem Header="⬅️ Mover para a Esquerda" Command="{Binding MoverEsquerdaCommand}"/>
+            <MenuItem Header="➡️ Mover para a Direita" Command="{Binding MoverDireitaCommand}"/>
+            <Separator Background="#33333A"/>
+            <MenuItem Header="✏️ Editar Item..." Command="{Binding EditarCommand}"/>
+            <MenuItem Header="🗑️ Desafixar do Ambiente" Command="{Binding RemoverCommand}"/>
+        </ContextMenu>
+    </Window.Resources>
+
+    <!-- Container geral com margem compacta para renderizar o DropShadow suavemente -->
+    <Grid Margin="8,6,8,4" Name="MainGrid">
+        
+        <!-- BARRA PRINCIPAL FLUTUANTE (DOCK) -->
+        <Border x:Name="DockBorder"
+                CornerRadius="{Binding RaioCantosDockRadius}"
+                BorderThickness="1"
+                BorderBrush="{Binding BordaDockColor, Converter={StaticResource ColorToBrushConverter}}"
+                Background="{Binding FundoDockColor, Converter={StaticResource ColorToBrushConverter}}"
+                Padding="0"
+                Height="{Binding AlturaBarra}"
+                Opacity="{Binding OpacidadeDock}">
+            <Border.ContextMenu>
+                <ContextMenu Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
+                    <MenuItem Header="🚀 Menu Iniciar (Win)" Command="{Binding AbrirMenuIniciarCommand}"/>
+                    <Separator Background="#33333A"/>
+                    <MenuItem Header="💼 Mudar de Ambiente" ItemsSource="{Binding Ambientes}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Header" Value="{Binding Nome}"/>
+                                <Setter Property="IsChecked" Value="{Binding EstaAtivo}"/>
+                                <Setter Property="Command" Value="{Binding DataContext.TrocarAmbienteCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
+                    <Separator Background="#33333A"/>
+                    <MenuItem Header="⚙️ Ajustes e Personalização..." Command="{Binding AbrirAjustesCommand}" FontWeight="Bold"/>
+                    <MenuItem Header="🔄 Restaurar Barra do Windows" Command="{Binding RestaurarBarraWindowsCommand}"/>
+                    <Separator Background="#33333A"/>
+                    <MenuItem Header="🚪 Sair do Dock Windows" Command="{Binding SairCommand}"/>
+                </ContextMenu>
+            </Border.ContextMenu>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="16" ShadowDepth="3" Direction="270" Color="#000000" Opacity="0.45"/>
+            </Border.Effect>
+
+            <Grid>
+                <!-- Camada Especular de Vidro Líquido (Liquid Glass Specular Reflection) -->
+                <Border CornerRadius="{Binding RaioCantosDockRadius}"
+                        BorderThickness="1,1,0,0"
+                        IsHitTestVisible="False"
+                        Visibility="{Binding TemEfeitoVidro, Converter={StaticResource BoolToVis}}">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#A0FFFFFF" Offset="0.0"/>
+                            <GradientStop Color="#40FFFFFF" Offset="0.3"/>
+                            <GradientStop Color="#15FFFFFF" Offset="0.7"/>
+                            <GradientStop Color="#05FFFFFF" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#1AFFFFFF" Offset="0.0"/>
+                            <GradientStop Color="#08FFFFFF" Offset="0.3"/>
+                            <GradientStop Color="#00FFFFFF" Offset="0.6"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Conteúdo da barra -->
+                <Grid x:Name="DockContentGrid" Margin="8,2" VerticalAlignment="Center">
+                    <Grid.RenderTransform>
+                        <TranslateTransform x:Name="ContentTransform" X="0" Y="0"/>
+                    </Grid.RenderTransform>
+
+                    <!-- Container dinâmico das seções ordenadas e configuráveis -->
+                    <StackPanel x:Name="SectionsContainer" Orientation="Horizontal" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

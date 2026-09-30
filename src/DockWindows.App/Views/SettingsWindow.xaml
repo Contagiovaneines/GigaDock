@@ -1,0 +1,257 @@
+<Window x:Class="DockWindows.App.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core"
+        xmlns:conv="clr-namespace:DockWindows.App.Converters"
+        Title="Dock Windows — Configurações"
+        Width="580"
+        Height="520"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#18181A"
+        Foreground="#FFFFFF"
+        FontFamily="Segoe UI">
+    <Window.Resources>
+        <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="#A0A0A5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="TabBorder" Background="Transparent" BorderThickness="0,0,0,2" BorderBrush="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="#0A84FF"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,8"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#2A2A30"/>
+            <Setter Property="Foreground" Value="#111111"/>
+            <Setter Property="BorderBrush" Value="#44444E"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Margin" Value="0,4,0,12"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Configurações da Dock"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Foreground="#0A84FF"
+                   Margin="8,0,0,14"/>
+
+        <!-- Abas Principais -->
+        <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0">
+            
+            <!-- ABA GERAL -->
+            <TabItem Header="⚙️ Geral">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10,16,10,10">
+                        <!-- Modo de Barra Principal -->
+                        <Border Background="#202026" BorderBrush="#353540" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,14">
+                            <StackPanel>
+                                <TextBlock Text="Modo de Substituição" FontWeight="Bold" FontSize="14" Foreground="#0A84FF" Margin="0,0,0,6"/>
+                                <CheckBox Content="Usar como barra principal"
+                                          IsChecked="{Binding UsarComoBarraPrincipal, Mode=TwoWay}"/>
+                                <TextBlock Text="Posiciona a dock rente à borda inferior e oculta automaticamente a barra nativa do Windows (sem encerrar ou alterar o Explorer)."
+                                           FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="24,0,0,8"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="24,4,0,0">
+                                    <Button Content="🔄 Restaurar barra do Windows"
+                                            Command="{Binding RestaurarBarraWindowsCommand}"
+                                            Background="#2A2A32" Foreground="#FFFFFF" BorderBrush="#444450"
+                                            Padding="10,5" Cursor="Hand" FontSize="12" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <CheckBox Content="Iniciar o Dock Windows automaticamente com o Windows"
+                                  IsChecked="{Binding IniciarComWindows, Mode=TwoWay}"/>
+                        <TextBlock Text="Registra na inicialização do usuário (HKCU) sem exigir permissões de administrador."
+                                   FontSize="11" Foreground="#8E8E93" Margin="24,0,0,10"/>
+
+                        <CheckBox Content="Manter a dock sempre visível no topo (Topmost)"
+                                  IsChecked="{Binding SempreNoTopo, Mode=TwoWay}"/>
+                        <TextBlock Text="Garante que a barra flutuante fique sobreposta às janelas comuns."
+                                   FontSize="11" Foreground="#8E8E93" Margin="24,0,0,10"/>
+
+                        <CheckBox Content="Ocultar automaticamente quando ociosa (Auto-Hide)"
+                                  IsChecked="{Binding OcultarAutomaticamente, Mode=TwoWay}"/>
+                        <TextBlock Text="A dock se recolhe suavemente e reaparece ao aproximar o ponteiro do mouse."
+                                   FontSize="11" Foreground="#8E8E93" Margin="24,0,0,10"/>
+
+                        <CheckBox Content="Desativar animações e transições"
+                                  IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}"/>
+                        <TextBlock Text="Alterna ambientes e estados instantaneamente sem animações visuais."
+                                   FontSize="11" Foreground="#8E8E93" Margin="24,0,0,10"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ABA APARÊNCIA -->
+            <TabItem Header="🎨 Aparência">
+                <StackPanel Margin="10,16,10,10">
+                    <TextBlock Text="Modo de Tema:" FontSize="13" Foreground="#A0A0A5"/>
+                    <ComboBox x:Name="CmbTema" SelectionChanged="CmbTema_SelectionChanged" Width="260" HorizontalAlignment="Left">
+                        <ComboBoxItem Content="Escuro (Dark)" Tag="{x:Static models:TemaModo.Escuro}"/>
+                        <ComboBoxItem Content="Claro (Light)" Tag="{x:Static models:TemaModo.Claro}"/>
+                        <ComboBoxItem Content="Seguir o Windows (Sistema)" Tag="{x:Static models:TemaModo.Sistema}"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Tamanho dos Ícones:" FontSize="13" Foreground="#A0A0A5"/>
+                    <ComboBox x:Name="CmbTamanho" SelectionChanged="CmbTamanho_SelectionChanged" Width="260" HorizontalAlignment="Left">
+                        <ComboBoxItem Content="Pequeno (32px)" Tag="{x:Static models:TamanhoIcone.Pequeno}"/>
+                        <ComboBoxItem Content="Médio (40px — Padrão)" Tag="{x:Static models:TamanhoIcone.Medio}"/>
+                        <ComboBoxItem Content="Grande (48px)" Tag="{x:Static models:TamanhoIcone.Grande}"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Opacidade da Barra:" FontSize="13" Foreground="#A0A0A5" Margin="0,6,0,4"/>
+                    <Grid Width="340" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider Minimum="0.5" Maximum="1.0"
+                                Value="{Binding OpacidadeDock, Mode=TwoWay}"
+                                TickFrequency="0.05" IsSnapToTickEnabled="True"
+                                VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding OpacidadeDock, StringFormat={}{0:P0}}"
+                                   FontSize="13" FontWeight="Bold"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+
+            <!-- ABA AMBIENTES -->
+            <TabItem Header="💼 Ambientes">
+                <Grid Margin="10,14,10,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Lista de Ambientes -->
+                    <ListBox ItemsSource="{Binding Ambientes}"
+                             SelectedItem="{Binding AmbienteSelecionado, Mode=TwoWay}"
+                             Background="#202024"
+                             BorderBrush="#333338"
+                             Foreground="#FFFFFF"
+                             FontSize="13">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="4">
+                                    <Ellipse Width="12" Height="12" Margin="0,0,8,0"
+                                             Fill="{Binding CorHex, Converter={StaticResource ColorToBrushConverter}}"/>
+                                    <TextBlock Text="{Binding Nome}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Detalhes do Ambiente Selecionado -->
+                    <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                        <TextBlock Text="Nome do Ambiente:" FontSize="12" Foreground="#A0A0A5"/>
+                        <TextBox Text="{Binding AmbienteSelecionado.Nome, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#2A2A30" Foreground="#FFFFFF" BorderBrush="#44444E"
+                                 Padding="6,4" Margin="0,4,0,10" FontSize="13"/>
+
+                        <TextBlock Text="Cor de Destaque:" FontSize="12" Foreground="#A0A0A5" Margin="0,0,0,6"/>
+                        <!-- Paleta de cores rápidas -->
+                        <WrapPanel Margin="0,0,0,12">
+                            <Button Width="26" Height="26" Margin="3" Background="#0078D4" BorderThickness="0" Click="Cor_Click" Tag="#0078D4" ToolTip="Azul Real"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#107C41" BorderThickness="0" Click="Cor_Click" Tag="#107C41" ToolTip="Verde Esmeralda"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#8764B8" BorderThickness="0" Click="Cor_Click" Tag="#8764B8" ToolTip="Violeta"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#D83B01" BorderThickness="0" Click="Cor_Click" Tag="#D83B01" ToolTip="Laranja"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#E81123" BorderThickness="0" Click="Cor_Click" Tag="#E81123" ToolTip="Vermelho"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#008272" BorderThickness="0" Click="Cor_Click" Tag="#008272" ToolTip="Ciano Escuro"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#5C2D91" BorderThickness="0" Click="Cor_Click" Tag="#5C2D91" ToolTip="Púrpura"/>
+                            <Button Width="26" Height="26" Margin="3" Background="#004E8C" BorderThickness="0" Click="Cor_Click" Tag="#004E8C" ToolTip="Azul Marinho"/>
+                        </WrapPanel>
+
+                        <TextBlock Text="Widgets Ativos:" FontSize="12" Foreground="#A0A0A5"/>
+                        <CheckBox Content="Exibir Relógio e Calendário"
+                                  IsChecked="{Binding AmbienteSelecionado.Widgets.RelogioHabilitado, Mode=TwoWay}"/>
+                        <CheckBox Content="Exibir Pomodoro de Foco"
+                                  IsChecked="{Binding AmbienteSelecionado.Widgets.PomodoroHabilitado, Mode=TwoWay}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- ABA SOBRE -->
+            <TabItem Header="ℹ️ Sobre">
+                <StackPanel Margin="10,16,10,10">
+                    <TextBlock Text="Dock Windows 1.0" FontSize="16" FontWeight="Bold" Foreground="#0A84FF"/>
+                    <TextBlock Text="Aplicativo desktop original para Windows 10 e 11 com barra flutuante e ambientes independentes."
+                               TextWrapping="Wrap" Margin="0,6,0,12" FontSize="13" Foreground="#C8C8CE"/>
+
+                    <TextBlock Text="🔒 Privacidade e Armazenamento 100% Local" FontSize="13" FontWeight="SemiBold" Foreground="#30D158"/>
+                    <TextBlock Text="Nenhum dado é enviado para a internet. Sem contas, telemetria ou cadastros."
+                               FontSize="12" Foreground="#8E8E93" Margin="0,2,0,16"/>
+
+                    <TextBlock Text="Arquivo de configurações local:" FontSize="12" Foreground="#A0A0A5"/>
+                    <TextBlock Text="{Binding CaminhoArquivoConfig}"
+                               TextWrapping="Wrap" FontSize="11" Foreground="#58A6FF" Margin="0,2,0,8"/>
+                    <Button Content="Abrir Pasta no Explorador de Arquivos"
+                            Command="{Binding AbrirPastaConfiguracoesCommand}"
+                            Background="#33333A" Foreground="#FFFFFF"
+                            Padding="12,6" HorizontalAlignment="Left"
+                            Cursor="Hand"/>
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+
+        <!-- Rodapé de Ações -->
+        <Grid Grid.Row="2" Margin="0,14,0,0">
+            <Button Content="🎨 Personalizar Dock..."
+                    Command="{Binding AbrirPersonalizarCommand}"
+                    Background="#24242A"
+                    BorderBrush="#3E3E48"
+                    Foreground="#0A84FF"
+                    Padding="14,8"
+                    FontWeight="SemiBold"
+                    HorizontalAlignment="Left"
+                    Cursor="Hand"/>
+
+            <Button Content="Concluir"
+                    Command="{Binding SalvarEFecharCommand}"
+                    Background="#0078D4"
+                    Foreground="#FFFFFF"
+                    Padding="22,8"
+                    FontWeight="SemiBold"
+                    HorizontalAlignment="Right"
+                    Cursor="Hand"
+                    IsDefault="True"/>
+        </Grid>
+    </Grid>
+</Window>

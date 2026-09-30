@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DockWindows.App/DockWindows.App.csproj" />
+    <Project Path="src/DockWindows.Core/DockWindows.Core.csproj" />
+    <Project Path="src/DockWindows.Infrastructure/DockWindows.Infrastructure.csproj" />
+    <Project Path="src/DockWindows.Installer/DockWindows.Installer.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DockWindows.Tests/DockWindows.Tests.csproj" />
+  </Folder>
+</Solution>

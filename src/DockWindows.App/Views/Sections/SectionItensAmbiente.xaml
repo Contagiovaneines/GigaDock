@@ -1,0 +1,150 @@
+<UserControl x:Class="DockWindows.App.Views.Sections.SectionItensAmbiente"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:DockWindows.App.Converters"
+             xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
+             AllowDrop="True"
+             DragOver="Itens_DragOver"
+             Drop="Itens_Drop">
+
+    <UserControl.Resources>
+        <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>
+        <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+
+        <!-- Context menu dos itens fixados do ambiente -->
+        <ContextMenu x:Key="ItemContextMenu" Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
+            <MenuItem Header="🚀 Abrir / Executar" Command="{Binding ExecutarCommand}" FontWeight="Bold"/>
+            <MenuItem Header="📁 Abrir Local do Arquivo" Command="{Binding AbrirLocalCommand}"/>
+            <Separator Background="#33333A"/>
+            <MenuItem Header="⬅️ Mover para a Esquerda" Command="{Binding MoverEsquerdaCommand}"/>
+            <MenuItem Header="➡️ Mover para a Direita" Command="{Binding MoverDireitaCommand}"/>
+            <MenuItem Header="🌐 Mover para Aplicativos Globais" Command="{Binding MoverParaGlobalCommand}"/>
+            <Separator Background="#33333A"/>
+            <MenuItem Header="✏️ Editar Item..." Command="{Binding EditarCommand}"/>
+            <MenuItem Header="❌ Desafixar do Ambiente" Command="{Binding RemoverCommand}"/>
+        </ContextMenu>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <!-- SELETOR DE AMBIENTES (PÍLULA) -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                    Visibility="{Binding ExibirSeletorAmbientes, Converter={StaticResource BoolToVis}}">
+            <ItemsControl ItemsSource="{Binding Ambientes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding DataContext.TrocarAmbienteCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding}"
+                                Margin="2,0"
+                                Padding="10,6"
+                                Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="BtnBorder" CornerRadius="12" Padding="{TemplateBinding Padding}" Background="Transparent">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Icone}" Margin="0,0,5,0" FontSize="13"/>
+                                            <TextBlock Text="{Binding Nome}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding EstaAtivo}" Value="True">
+                                            <Setter TargetName="BtnBorder" Property="Background"
+                                                    Value="{Binding CorHex, Converter={StaticResource ColorToBrushConverter}}"/>
+                                            <Setter TargetName="BtnBorder" Property="Effect">
+                                                <Setter.Value>
+                                                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.3" Color="Black"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding EstaAtivo}" Value="False"/>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter TargetName="BtnBorder" Property="Background" Value="#20FFFFFF"/>
+                                        </MultiDataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Menu de Gerenciamento do Ambiente Ativo (...) -->
+            <Button Width="26" Height="26" Margin="4,0,0,0"
+                    Background="Transparent" BorderThickness="0"
+                    Foreground="#8E8E93" Content="⋮" FontSize="15"
+                    Cursor="Hand" ToolTip="Gerenciar ambientes"
+                    Click="BtnGerenciarAmbiente_Click">
+                <Button.ContextMenu>
+                    <ContextMenu Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
+                        <MenuItem Header="➕ Novo Ambiente..." Command="{Binding NovoAmbienteCommand}"/>
+                        <MenuItem Header="✏️ Renomear Ambiente Atual"
+                                  Command="{Binding RenomearAmbienteCommand}"
+                                  CommandParameter="{Binding AmbienteAtivo}"/>
+                        <MenuItem Header="🗑️ Excluir Ambiente Atual"
+                                  Command="{Binding ExcluirAmbienteCommand}"
+                                  CommandParameter="{Binding AmbienteAtivo}"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+
+            <!-- Separador interno se houver seletor e itens -->
+            <Rectangle Width="1" Height="24"
+                       Fill="{Binding SeparadorColor, Converter={StaticResource ColorToBrushConverter}}"
+                       Visibility="{Binding ExibirItensFixados, Converter={StaticResource BoolToVis}}"
+                       Margin="8,0"/>
+        </StackPanel>
+
+        <!-- ITENS FIXADOS DO AMBIENTE ATIVO -->
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
+                      Visibility="{Binding ExibirItensFixados, Converter={StaticResource BoolToVis}}">
+            <ItemsControl ItemsSource="{Binding AmbienteAtivo.Itens}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:ItemViewModel}">
+                        <Button Style="{DynamicResource DockItemButtonStyle}"
+                                Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}"
+                                Command="{Binding ExecutarCommand}"
+                                ContextMenu="{StaticResource ItemContextMenu}"
+                                ToolTip="{Binding TextoDica}"
+                                AutomationProperties.Name="{Binding Titulo}">
+                            <Grid Width="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
+                                  Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}">
+                                <!-- Ícone Extraído -->
+                                <Border Width="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CornerRadius="10" Background="#10FFFFFF" BorderBrush="#20FFFFFF" BorderThickness="1">
+                                    <Image Source="{Binding Icone}"
+                                           RenderOptions.BitmapScalingMode="HighQuality"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Image.Clip>
+                                            <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,100,100" />
+                                        </Image.Clip>
+                                    </Image>
+                                </Border>
+
+                                <!-- Fallback se não houver ícone de sistema -->
+                                <Border Background="{Binding DataContext.AmbienteAtivo.CorHex, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource ColorToBrushConverter}}"
+                                        CornerRadius="10"
+                                        Visibility="{Binding Icone, Converter={StaticResource InvertBoolToVis}}">
+                                    <TextBlock Text="🌐" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>
