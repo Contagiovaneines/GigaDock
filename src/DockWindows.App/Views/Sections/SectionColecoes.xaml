@@ -66,10 +66,10 @@
                                                 </Border>
 
                                                 <!-- Badge com Contagem de Itens -->
-                                                <Border Background="#0A84FF" CornerRadius="6"
-                                                        MinWidth="14" Height="14" Padding="3,0"
-                                                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,-2,0">
-                                                    <TextBlock Text="{Binding QuantidadeItens}" FontSize="9" FontWeight="Bold"
+                                                <Border Background="#FF3B30" CornerRadius="8"
+                                                        MinWidth="16" Height="16" Padding="4,0"
+                                                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,-4,0">
+                                                    <TextBlock Text="{Binding QuantidadeItens}" FontSize="10" FontWeight="Bold"
                                                                Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </Grid>

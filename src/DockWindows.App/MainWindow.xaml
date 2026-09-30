@@ -194,7 +194,7 @@
                 </Border>
 
                 <!-- Conteúdo da barra -->
-                <Grid x:Name="DockContentGrid" Margin="8,2" VerticalAlignment="Center">
+                <Grid x:Name="DockContentGrid" Margin="24,2,24,2" VerticalAlignment="Center">
                     <Grid.RenderTransform>
                         <TranslateTransform x:Name="ContentTransform" X="0" Y="0"/>
                     </Grid.RenderTransform>

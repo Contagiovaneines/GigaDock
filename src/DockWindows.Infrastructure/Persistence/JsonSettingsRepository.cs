@@ -220,6 +220,31 @@ public class JsonSettingsRepository : ISettingsRepository
                     amb.EstiloIndicadorApps = "Barra";
                 }
             }
+
+            // Migração v4 -> v5
+            if (prefs.SchemaVersion < 5)
+            {
+                prefs.SchemaVersion = 5;
+                prefs.ExibirSeletorAmbientes = false;
+                prefs.RaioCantosDock = 100.0;
+
+                if (prefs.OrdemSecoes != null)
+                {
+                    if (!prefs.OrdemSecoes.Any(s => s.Tipo == TipoSecaoDock.ClimaInline))
+                    {
+                        prefs.OrdemSecoes.Insert(1, new ConfigSecaoDock { Tipo = TipoSecaoDock.ClimaInline, Nome = "Clima Inline", Visivel = true, Ordem = 1 });
+                    }
+                    if (!prefs.OrdemSecoes.Any(s => s.Tipo == TipoSecaoDock.MidiaInline))
+                    {
+                        prefs.OrdemSecoes.Insert(2, new ConfigSecaoDock { Tipo = TipoSecaoDock.MidiaInline, Nome = "Mídia Inline", Visivel = true, Ordem = 2 });
+                    }
+                    for (int i = 0; i < prefs.OrdemSecoes.Count; i++)
+                    {
+                        prefs.OrdemSecoes[i].Ordem = i;
+                    }
+                }
+            }
+
             try
             {
                 SalvarInterno(prefs, criarBackup: true);
