@@ -29,7 +29,7 @@
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
         <!-- SELETOR DE AMBIENTES (PÍLULA) -->
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                    Visibility="{Binding ExibirSeletorAmbientes, Converter={StaticResource BoolToVis}}">
+                    Visibility="Collapsed">
             <ItemsControl ItemsSource="{Binding Ambientes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

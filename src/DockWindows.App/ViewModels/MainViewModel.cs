@@ -48,6 +48,23 @@ public class MainViewModel : ObservableObject
 
         _preferencias = _repository.Carregar();
 
+        // Garante que as novas seções de mídia e clima existam (para usuários de versões antigas)
+        if (_preferencias.OrdemSecoes != null)
+        {
+            if (!_preferencias.OrdemSecoes.Any(s => s.Tipo == TipoSecaoDock.ClimaInline))
+            {
+                _preferencias.OrdemSecoes.Insert(1, new ConfigSecaoDock { Tipo = TipoSecaoDock.ClimaInline, Nome = "Clima Inline", Visivel = true, Ordem = 1 });
+            }
+            if (!_preferencias.OrdemSecoes.Any(s => s.Tipo == TipoSecaoDock.MidiaInline))
+            {
+                _preferencias.OrdemSecoes.Insert(2, new ConfigSecaoDock { Tipo = TipoSecaoDock.MidiaInline, Nome = "Mídia Inline", Visivel = true, Ordem = 2 });
+            }
+            for (int i = 0; i < _preferencias.OrdemSecoes.Count; i++)
+            {
+                _preferencias.OrdemSecoes[i].Ordem = i;
+            }
+        }
+
         Ambientes = new ObservableCollection<EnvironmentViewModel>();
         Aplicativos = new ObservableCollection<AppItemViewModel>();
         ColecoesGlobais = new ObservableCollection<ColecaoAppViewModel>();
