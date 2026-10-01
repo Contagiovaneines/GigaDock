@@ -1,34 +1,24 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dock Windows — Protótipo de Interface</title>
+  <title>Dock Windows - Protótipo Liquid Glass</title>
   <style>
     :root {
-      --bg-desktop: #1e222d;
-      --dock-bg: rgba(24, 24, 26, 0.88);
+      --bg-desktop: #111116;
+      --dock-bg: rgba(30, 30, 35, 0.45);
       --dock-border: rgba(255, 255, 255, 0.12);
-      --dock-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      --dock-specular: rgba(255, 255, 255, 0.15);
+      --dock-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
       --text-primary: #ffffff;
       --text-secondary: #9e9ea7;
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --card-hover: rgba(255, 255, 255, 0.14);
-      --accent: #0078d4;
-      --accent-hover: #2b88d8;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.16);
+      --badge-bg: #FF3B30;
+      --glass-blur: blur(25px);
     }
     
-    body.light-theme {
-      --bg-desktop: #e8ecf2;
-      --dock-bg: rgba(245, 245, 247, 0.92);
-      --dock-border: rgba(0, 0, 0, 0.1);
-      --dock-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
-      --text-primary: #1c1c1e;
-      --text-secondary: #6e6e73;
-      --card-bg: rgba(0, 0, 0, 0.04);
-      --card-hover: rgba(0, 0, 0, 0.08);
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -38,427 +28,278 @@
 
     body {
       background: var(--bg-desktop);
-      background-image: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.05), transparent 70%);
+      /* Simulando um wallpaper moderno de desktop */
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(35, 60, 150, 0.4), transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(100, 30, 100, 0.3), transparent 50%);
       color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-end;
+      align-items: center;
       overflow: hidden;
-      padding: 24px;
-      transition: background 0.3s ease, color 0.3s ease;
+      padding-bottom: 8px; /* Folga da borda inferior */
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.2);
-      padding: 12px 20px;
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
+    .desktop-hint {
+      position: absolute;
+      top: 40%;
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-weight: 300;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
     }
 
-    .badge-info {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .theme-toggle-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--dock-border);
-      color: var(--text-primary);
-      padding: 6px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 13px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .theme-toggle-btn:hover {
-      background: var(--card-hover);
-    }
-
-    /* Floating Dock */
+    /* O container principal da Dock (Liquid Glass) */
     .dock-container {
-      align-self: center;
-      margin-bottom: 24px;
-      position: relative;
-    }
-
-    .dock-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--dock-bg);
-      border: 1px solid var(--dock-border);
-      box-shadow: var(--dock-shadow);
-      backdrop-filter: blur(24px);
-      padding: 8px 14px;
-      border-radius: 20px;
-      user-select: none;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .divider {
-      width: 1px;
-      height: 30px;
-      background: var(--dock-border);
-    }
-
-    /* Environment Pills */
-    .env-group {
-      display: flex;
-      background: var(--card-bg);
-      padding: 4px;
-      border-radius: 14px;
-      gap: 4px;
-    }
-
-    .env-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      padding: 6px 12px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s ease;
+      padding: 8px 12px;
+      
+      background: var(--dock-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      
+      /* Formato Pílula estilo Apple */
+      border-radius: 100px;
+      
+      /* Efeito Specular e Bordas */
+      border: 1px solid var(--dock-border);
+      box-shadow: 
+        inset 0 1px 1px var(--dock-specular), 
+        var(--dock-shadow);
+        
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 9999;
     }
 
-    .env-btn:hover {
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.06);
+    .dock-container:hover {
+      transform: translateY(-2px);
     }
 
-    .env-btn.active {
-      background: var(--accent);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(0, 120, 212, 0.35);
-    }
-
-    /* Items */
-    .items-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    /* Itens Individuais (Ícones) */
     .dock-item {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: var(--card-bg);
-      border: 1px solid transparent;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px; /* Squircle base */
       cursor: pointer;
-      position: relative;
-      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, border-color 0.15s ease;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .dock-item:hover {
-      transform: translateY(-6px) scale(1.1);
       background: var(--card-hover);
-      border-color: var(--dock-border);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      transform: scale(1.15);
+      z-index: 10;
     }
-
+    
     .dock-item:active {
-      transform: translateY(-2px) scale(0.98);
+      transform: scale(0.95);
     }
 
-    .dock-item svg {
-      width: 22px;
-      height: 22px;
-      fill: currentColor;
+    /* Efeito de Squircle nas imagens dos ícones */
+    .dock-item img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      border-radius: 20%; /* Simulando GeometryClip Squircle */
+      transition: transform 0.2s;
     }
 
-    .item-tooltip {
+    /* Indicador de App Aberto (Ponto cinza) */
+    .active-dot {
+      width: 4px;
+      height: 4px;
+      background-color: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 2px;
+    }
+
+    /* Badge Numérico Estilo iOS */
+    .badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: var(--badge-bg);
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      height: 18px;
+      min-width: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      border: 1.5px solid rgba(255,255,255,0.2);
+    }
+
+    /* Separador Vertical */
+    .divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      margin: 0 4px;
+    }
+
+    /* Widget de Clima Inline */
+    .weather-widget {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(84, 160, 255, 0.2), rgba(46, 134, 222, 0.4));
+      border-radius: 100px;
+      padding: 0 16px;
+      height: 40px;
+      margin: 0 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .weather-widget:hover {
+      background: linear-gradient(135deg, rgba(84, 160, 255, 0.3), rgba(46, 134, 222, 0.5));
+      transform: scale(1.05);
+    }
+
+    .weather-icon {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+
+    .weather-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.1;
+    }
+
+    .weather-top {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .weather-temp {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .weather-cond {
+      font-size: 11px;
+      color: #e0e0e0;
+      margin-bottom: 1px;
+    }
+
+    .weather-loc {
+      font-size: 10px;
+      color: #a0c0e0;
+    }
+
+    /* Tooltips */
+    .dock-item::before {
+      content: attr(data-tooltip);
       position: absolute;
       top: -36px;
-      background: rgba(15, 15, 17, 0.95);
-      color: #fff;
-      font-size: 11px;
-      padding: 4px 8px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 6px 12px;
       border-radius: 6px;
-      white-space: nowrap;
-      pointer-events: none;
+      font-size: 12px;
+      font-weight: 500;
       opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.15s ease, transform 0.15s ease;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    .dock-item:hover .item-tooltip {
+    .dock-item:hover::before {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Widgets */
-    .widget-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* Ícones genéricos baseados em emojis/texto para o protótipo não depender de assets externos */
+    .icon-placeholder {
+      font-size: 24px;
+      line-height: 1;
     }
-
-    .widget-pill {
-      background: var(--card-bg);
-      border: 1px solid var(--dock-border);
-      padding: 6px 12px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .widget-pill:hover {
-      background: var(--card-hover);
-    }
-
-    .clock-time {
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .pomodoro-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 600;
-      color: #ff9f0a;
-    }
-
-    .pomo-btn {
-      background: rgba(255, 159, 10, 0.2);
-      border: none;
-      color: #ff9f0a;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-    }
-
-    .pomo-btn:hover {
-      background: rgba(255, 159, 10, 0.4);
-    }
-
-    /* Actions */
-    .action-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: var(--card-bg);
-      border: 1px solid var(--dock-border);
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .action-btn:hover {
-      background: var(--card-hover);
-      color: var(--text-primary);
-    }
-
-    .demo-info {
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 13px;
-      line-height: 1.5;
-    }
+    
   </style>
 </head>
 <body>
 
-  <header>
-    <div>
-      <strong>Dock Windows</strong> — Protótipo de Conceito Visual
-      <span class="badge-info">(Etapa 02: Design da Interface)</span>
-    </div>
-    <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">
-      🌙 Alternar Tema (Claro / Escuro)
-    </button>
-  </header>
-
-  <div class="demo-info">
-    <p>Experimente alternar entre os ambientes abaixo para visualizar as cores de acento e itens dedicados.</p>
-    <p>Passe o mouse sobre os itens para conferir o feedback tátil, sombras e elevações.</p>
+  <div class="desktop-hint">
+    Demonstração: Novo Design Liquid Glass (Dock Windows v1.6.3)
   </div>
 
   <div class="dock-container">
-    <div class="dock-bar" role="toolbar" aria-label="Dock Windows">
-      
-      <!-- Seletor de Ambientes -->
-      <div class="env-group" role="tablist">
-        <button class="env-btn active" id="env-work" onclick="setEnvironment('work', '#0078d4', 'Trabalho')">
-          💼 Trabalho
-        </button>
-        <button class="env-btn" id="env-study" onclick="setEnvironment('study', '#107c41', 'Estudos')">
-          📚 Estudos
-        </button>
-        <button class="env-btn" id="env-personal" onclick="setEnvironment('personal', '#8764b8', 'Pessoal')">
-          🎮 Pessoal
-        </button>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Itens Fixados Dinâmicos -->
-      <div class="items-group" id="itemsList">
-        <!-- Renderizado via script -->
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Widgets -->
-      <div class="widget-group">
-        <!-- Relógio -->
-        <div class="widget-pill" title="Clique para ver o calendário">
-          <span>🕒</span>
-          <span class="clock-time" id="clockDisplay">19:45</span>
-        </div>
-
-        <!-- Pomodoro -->
-        <div class="widget-pill" title="Pomodoro de Foco">
-          <div class="pomodoro-badge">
-            <span>⏱️</span>
-            <span id="pomoTime">25:00</span>
-          </div>
-          <button class="pomo-btn" id="pomoPlayBtn" onclick="togglePomodoro()">▶</button>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- Ações -->
-      <div style="display: flex; gap: 6px;">
-        <button class="action-btn" title="Adicionar Novo Item Fixado" onclick="alert('Diálogo para fixar aplicativo, arquivo, pasta ou URL')">➕</button>
-        <button class="action-btn" title="Configurações da Dock" onclick="alert('Abre Janela de Configurações em pt-BR')">⚙️</button>
-      </div>
-
+    
+    <!-- Launchpad / Windows -->
+    <div class="dock-item" data-tooltip="Iniciar (Launchpad)">
+      <div class="icon-placeholder">🪟</div>
     </div>
+
+    <div class="divider"></div>
+
+    <!-- Apps Fixados -->
+    <div class="dock-item" data-tooltip="Google Chrome">
+      <div class="icon-placeholder">🌐</div>
+      <div class="active-dot"></div>
+    </div>
+    
+    <div class="dock-item" data-tooltip="Visual Studio Code">
+      <div class="icon-placeholder">💻</div>
+      <div class="active-dot"></div>
+    </div>
+
+    <div class="dock-item" data-tooltip="Discord">
+      <div class="icon-placeholder">💬</div>
+      <div class="badge">3</div>
+    </div>
+
+    <div class="dock-item" data-tooltip="Spotify">
+      <div class="icon-placeholder">🎵</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Widget de Clima Inline -->
+    <div class="weather-widget">
+      <div class="weather-icon">⛅</div>
+      <div class="weather-info">
+        <div class="weather-top">
+          <span class="weather-temp">16°</span>
+          <span class="weather-cond">Limpo</span>
+        </div>
+        <span class="weather-loc">São Paulo</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Ações e Configurações -->
+    <div class="dock-item" data-tooltip="Adicionar Item">
+      <div class="icon-placeholder" style="color: #bbb; font-weight: 300;">+</div>
+    </div>
+    
+    <div class="dock-item" data-tooltip="Ajustes da Dock">
+      <div class="icon-placeholder" style="color: #bbb;">⚙️</div>
+    </div>
+
   </div>
 
-  <script>
-    const environmentsData = {
-      work: {
-        accent: '#0078d4',
-        items: [
-          { name: 'Navegador Web', icon: '🌐', path: 'https://google.com' },
-          { name: 'Editor de Código', icon: '💻', path: 'code.exe' },
-          { name: 'Documentos do Trabalho', icon: '📁', path: 'C:\\Projetos' },
-          { name: 'Terminal PowerShell', icon: '⚡', path: 'powershell.exe' }
-        ]
-      },
-      study: {
-        accent: '#107c41',
-        items: [
-          { name: 'Livros e PDFs', icon: '📖', path: 'C:\\Estudos\\Livros' },
-          { name: 'Anotações & Notas', icon: '📝', path: 'notepad.exe' },
-          { name: 'Calculadora Científica', icon: '🧮', path: 'calc.exe' },
-          { name: 'Plataforma de Cursos', icon: '🎓', path: 'https://coursera.org' }
-        ]
-      },
-      personal: {
-        accent: '#8764b8',
-        items: [
-          { name: 'Música & Áudio', icon: '🎵', path: 'spotify.exe' },
-          { name: 'Galeria de Fotos', icon: '🖼️', path: 'C:\\Fotos' },
-          { name: 'Jogos & Lazer', icon: '🎮', path: 'steam.exe' },
-          { name: 'Vídeos & Streaming', icon: '🍿', path: 'https://youtube.com' }
-        ]
-      }
-    };
-
-    let currentEnv = 'work';
-
-    function setEnvironment(key, color, label) {
-      currentEnv = key;
-      document.documentElement.style.setProperty('--accent', color);
-      
-      document.querySelectorAll('.env-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById('env-' + key).classList.add('active');
-
-      renderItems();
-    }
-
-    function renderItems() {
-      const container = document.getElementById('itemsList');
-      container.innerHTML = '';
-      const data = environmentsData[currentEnv];
-      data.items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'dock-item';
-        div.innerHTML = `
-          <span style="font-size: 20px;">${item.icon}</span>
-          <span class="item-tooltip">${item.name} (${item.path})</span>
-        `;
-        div.onclick = () => alert(`Lançando: ${item.name}\nDestino: ${item.path}`);
-        container.appendChild(div);
-      });
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle('light-theme');
-      const isLight = document.body.classList.contains('light-theme');
-      document.getElementById('themeToggle').textContent = isLight ? '☀️ Modo Claro Ativo' : '🌙 Modo Escuro Ativo';
-    }
-
-    // Relógio
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('clockDisplay').textContent = `${hours}:${minutes}`;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Pomodoro simples
-    let pomoSeconds = 25 * 60;
-    let pomoTimer = null;
-    function togglePomodoro() {
-      const btn = document.getElementById('pomoPlayBtn');
-      if (pomoTimer) {
-        clearInterval(pomoTimer);
-        pomoTimer = null;
-        btn.textContent = '▶';
-      } else {
-        btn.textContent = '⏸';
-        pomoTimer = setInterval(() => {
-          if (pomoSeconds > 0) {
-            pomoSeconds--;
-            const m = String(Math.floor(pomoSeconds / 60)).padStart(2, '0');
-            const s = String(pomoSeconds % 60).padStart(2, '0');
-            document.getElementById('pomoTime').textContent = `${m}:${s}`;
-          } else {
-            clearInterval(pomoTimer);
-            pomoTimer = null;
-            btn.textContent = '▶';
-            alert('Ciclo de Pomodoro Concluído!');
-          }
-        }, 1000);
-      }
-    }
-
-    renderItems();
-  </script>
 </body>
 </html>
