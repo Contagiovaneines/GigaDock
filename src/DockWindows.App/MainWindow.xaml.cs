@@ -79,6 +79,11 @@ public partial class MainWindow : Window
             System.Windows.MessageBox.Show(this, msg, titulo, MessageBoxButton.OK, MessageBoxImage.Information);
         };
 
+        _viewModel.AtivarJanelaPrincipal = () =>
+        {
+            this.Activate();
+        };
+
         _viewModel.PedirTexto = (titulo, prompt) =>
         {
             var dialog = new InputPromptDialog(titulo, prompt) { Owner = this };

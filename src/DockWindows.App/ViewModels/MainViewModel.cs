@@ -103,6 +103,7 @@ public class MainViewModel : ObservableObject
                 {
                     DockVisivel = true;
                 }
+                AtivarJanelaPrincipal?.Invoke();
                 AbrirMenuIniciar();
             });
         };
@@ -537,6 +538,7 @@ public class MainViewModel : ObservableObject
     public ICommand SairCommand { get; }
 
     public Action? FocarBuscaLaunchpad;
+    public Action? AtivarJanelaPrincipal;
 
     private bool _menuIniciarAberto;
     public bool MenuIniciarAberto
@@ -613,8 +615,11 @@ public class MainViewModel : ObservableObject
     public void AbrirIniciarNativoWindows()
     {
         MenuIniciarAberto = false;
-        keybd_event(0x5B, 0, 0, 0);
-        keybd_event(0x5B, 0, 2, 0);
+        // Envia Ctrl + Esc para abrir o menu Iniciar nativo (não interceptado pelo hook)
+        keybd_event(0x11, 0, 0, 0); // Ctrl Down
+        keybd_event(0x1B, 0, 0, 0); // Esc Down
+        keybd_event(0x1B, 0, 2, 0); // Esc Up
+        keybd_event(0x11, 0, 2, 0); // Ctrl Up
     }
 
     public void AbrirExplorador()
