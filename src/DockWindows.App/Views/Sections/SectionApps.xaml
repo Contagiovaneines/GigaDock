@@ -46,11 +46,11 @@
                         <Button Command="{Binding ClicarCommand}"
                                 ContextMenu="{StaticResource AppContextMenu}"
                                 ToolTip="{Binding TextoDica}"
-                                Padding="3,2,3,2"
+                                Padding="0"
                                 Cursor="Hand">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border x:Name="BtnBorder" CornerRadius="10" Padding="{TemplateBinding Padding}" Background="Transparent">
+                                    <Border x:Name="BtnBorder" CornerRadius="10" Padding="0" Background="Transparent">
                                         <Grid>
                                             <!-- Layout Vertical: Ícone no Centro, Indicador embaixo -->
                                             <Grid.RowDefinitions>
@@ -93,7 +93,7 @@
                                             </Grid>
 
                                             <!-- Indicador de Janela Aberta / Ativa consolidado para bolinha cinza discreta do protótipo -->
-                                            <Grid Grid.Row="1" Margin="0,3,0,0" Height="6" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Grid Grid.Row="1" Margin="0,2,0,0" Height="4" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 <Border Width="4" Height="4" CornerRadius="2" Background="#8E8E93"
                                                         Visibility="{Binding EstaAberto, Converter={StaticResource BoolToVis}}">
                                                     <Border.Style>

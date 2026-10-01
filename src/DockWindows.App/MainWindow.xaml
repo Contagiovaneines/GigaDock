@@ -25,7 +25,7 @@
         <Style x:Key="DockItemButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="3,2"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="2,0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FocusVisualStyle">
@@ -194,7 +194,7 @@
                 </Border>
 
                 <!-- Conteúdo da barra -->
-                <Grid x:Name="DockContentGrid" Margin="10,2,10,2" VerticalAlignment="Center">
+                <Grid x:Name="DockContentGrid" Margin="10,0,10,0" VerticalAlignment="Center">
                     <Grid.RenderTransform>
                         <TranslateTransform x:Name="ContentTransform" X="0" Y="0"/>
                     </Grid.RenderTransform>
