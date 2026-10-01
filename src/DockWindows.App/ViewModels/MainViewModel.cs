@@ -678,6 +678,7 @@ public class MainViewModel : ObservableObject
         CarregarAplicativos();
 
         Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
+        Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
 
         AmbienteAtivo = Ambientes.FirstOrDefault(a => a.Id == _preferencias.AmbienteAtivoId)
                      ?? Ambientes.FirstOrDefault();
@@ -773,6 +774,7 @@ public class MainViewModel : ObservableObject
             Calendario.Formato = wCalendario.Formato;
         }
         Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
+        Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
     }
 
     private void CarregarOrdemSecoes()

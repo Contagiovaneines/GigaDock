@@ -37,6 +37,7 @@ public class Preferencias
     public List<ColecaoApp> ColecoesGlobais { get; set; } = CriarColecoesGlobaisPadrao();
     public List<EspacadorConfig> Espacadores { get; set; } = CriarEspacadoresPadrao();
     public List<CompromissoLocal> CompromissosLocais { get; set; } = CriarCompromissosPadrao();
+    public string UrlIcal { get; set; } = string.Empty;
     public List<WidgetInstanceConfig> WidgetsGlobais { get; set; } = CriarWidgetsPadrao();
 
     public Preferencias Clonar()

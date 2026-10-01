@@ -84,6 +84,10 @@ public class CalendarioWidgetViewModel : ObservableObject
     }
 
     public ObservableCollection<CompromissoLocal> Compromissos { get; }
+    private readonly System.Collections.Generic.List<CompromissoLocal> _eventosIcal = new();
+
+    public System.Collections.Generic.IEnumerable<CompromissoLocal> TodosCompromissos => 
+        Compromissos.Concat(_eventosIcal).OrderBy(c => c.DataHora);
 
     public CompromissoLocal? ProximoCompromisso
     {
@@ -91,12 +95,89 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             var agora = DateTime.Now;
             // Próximo compromisso a partir de hoje
-            return Compromissos
+            return TodosCompromissos
                 .Where(c => c.DataHora >= agora.AddMinutes(-30))
-                .OrderBy(c => c.DataHora)
                 .FirstOrDefault()
-                ?? Compromissos.OrderBy(c => c.DataHora).FirstOrDefault();
+                ?? TodosCompromissos.FirstOrDefault();
         }
+    }
+
+    private string _urlIcal = string.Empty;
+
+    public void SincronizarUrlIcal(string url)
+    {
+        _urlIcal = url ?? string.Empty;
+        _ = AtualizarDoIcalAsync();
+    }
+
+    private async System.Threading.Tasks.Task AtualizarDoIcalAsync()
+    {
+        _eventosIcal.Clear();
+
+        if (!string.IsNullOrWhiteSpace(_urlIcal))
+        {
+            try
+            {
+                using var client = new System.Net.Http.HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(10);
+                var icalData = await client.GetStringAsync(_urlIcal);
+
+                var linhas = icalData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                bool inEvent = false;
+                string titulo = "Evento Importado";
+                DateTime? dataHora = null;
+
+                foreach (var linha in linhas)
+                {
+                    if (linha.StartsWith("BEGIN:VEVENT"))
+                    {
+                        inEvent = true;
+                        titulo = "Evento Importado";
+                        dataHora = null;
+                    }
+                    else if (linha.StartsWith("END:VEVENT"))
+                    {
+                        inEvent = false;
+                        if (dataHora.HasValue && dataHora.Value > DateTime.Now.AddDays(-1) && dataHora.Value < DateTime.Now.AddDays(30))
+                        {
+                            _eventosIcal.Add(new CompromissoLocal
+                            {
+                                Titulo = titulo,
+                                DataHora = dataHora.Value
+                            });
+                        }
+                    }
+                    else if (inEvent)
+                    {
+                        if (linha.StartsWith("SUMMARY:"))
+                        {
+                            titulo = linha.Substring(8).Trim();
+                        }
+                        else if (linha.StartsWith("DTSTART;") || linha.StartsWith("DTSTART:"))
+                        {
+                            var parts = linha.Split(':');
+                            if (parts.Length == 2)
+                            {
+                                var val = parts[1].Replace("Z", "");
+                                if (DateTime.TryParseExact(val, "yyyyMMdd'T'HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
+                                {
+                                    // Se for UTC, ajustar para local
+                                    if (linha.Contains("Z")) dt = dt.ToLocalTime();
+                                    dataHora = dt;
+                                }
+                                else if (DateTime.TryParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtDia))
+                                {
+                                    dataHora = dtDia;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        System.Windows.Application.Current?.Dispatcher?.InvokeAsync(AtualizarDataECompromisso);
     }
 
     public bool TemCompromissos => ProximoCompromisso != null;

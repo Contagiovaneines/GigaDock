@@ -212,7 +212,7 @@
                     <TextBlock Text="PRÓXIMOS EVENTOS" FontSize="10" FontWeight="Bold" Foreground="#8E8E93" Margin="0,4,0,4"/>
 
                     <!-- Se houver eventos configurados -->
-                    <ItemsControl ItemsSource="{Binding Calendario.Compromissos}"
+                    <ItemsControl ItemsSource="{Binding Calendario.TodosCompromissos}"
                                   Visibility="{Binding Calendario.TemCompromissos, Converter={StaticResource BoolToVis}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>

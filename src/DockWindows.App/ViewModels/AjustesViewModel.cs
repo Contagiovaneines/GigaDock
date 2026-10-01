@@ -488,6 +488,21 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    public string UrlIcal
+    {
+        get => _mainVm.Preferencias.UrlIcal;
+        set
+        {
+            if (_mainVm.Preferencias.UrlIcal != value)
+            {
+                _mainVm.Preferencias.UrlIcal = value;
+                OnPropertyChanged();
+                _mainVm.SalvarPreferencias();
+                _mainVm.Calendario.SincronizarUrlIcal(value);
+            }
+        }
+    }
+
     public bool ExibirBotoesAcao
     {
         get => _mainVm.ExibirBotoesAcao;
