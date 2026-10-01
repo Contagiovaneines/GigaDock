@@ -72,7 +72,8 @@ public class MidiaWidgetViewModel : ObservableObject
             if (_sessionManager != null)
             {
                 _sessionManager.CurrentSessionChanged += SessionManager_CurrentSessionChanged;
-                UpdateCurrentSession(_sessionManager.GetCurrentSession());
+                _sessionManager.SessionsChanged += SessionManager_SessionsChanged;
+                UpdateCurrentSession(GetBestSession());
             }
         }
         catch
@@ -81,12 +82,55 @@ public class MidiaWidgetViewModel : ObservableObject
         }
     }
 
-    private void SessionManager_CurrentSessionChanged(GlobalSystemMediaTransportControlsSessionManager sender, CurrentSessionChangedEventArgs args)
+    private GlobalSystemMediaTransportControlsSession? GetBestSession()
     {
-        UpdateCurrentSession(sender.GetCurrentSession());
+        if (_sessionManager == null) return null;
+
+        var sessions = _sessionManager.GetSessions();
+        if (sessions == null || sessions.Count == 0) return null;
+
+        // 1. Preferir Spotify sempre (mesmo pausado)
+        foreach (var s in sessions)
+        {
+            if (s.SourceAppUserModelId.Contains("Spotify", StringComparison.OrdinalIgnoreCase))
+                return s;
+        }
+
+        // 2. Preferir algo que esteja tocando agora
+        foreach (var s in sessions)
+        {
+            if (s.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+                return s;
+        }
+
+        // 3. Pegar a sessão atual do Windows, mas IGNORAR navegadores pausados (para a dock esconder)
+        var atual = _sessionManager.GetCurrentSession();
+        if (atual != null)
+        {
+            var id = atual.SourceAppUserModelId.ToLower();
+            bool isBrowser = id.Contains("chrome") || id.Contains("msedge") || id.Contains("brave") || id.Contains("firefox") || id.Contains("opera");
+            var status = atual.GetPlaybackInfo()?.PlaybackStatus;
+            
+            if (isBrowser && status != GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+            {
+                return null;
+            }
+        }
+
+        return atual;
     }
 
-    private void UpdateCurrentSession(GlobalSystemMediaTransportControlsSession session)
+    private void SessionManager_SessionsChanged(GlobalSystemMediaTransportControlsSessionManager sender, SessionsChangedEventArgs args)
+    {
+        UpdateCurrentSession(GetBestSession());
+    }
+
+    private void SessionManager_CurrentSessionChanged(GlobalSystemMediaTransportControlsSessionManager sender, CurrentSessionChangedEventArgs args)
+    {
+        UpdateCurrentSession(GetBestSession());
+    }
+
+    private void UpdateCurrentSession(GlobalSystemMediaTransportControlsSession? session)
     {
         if (_currentSession != null)
         {
