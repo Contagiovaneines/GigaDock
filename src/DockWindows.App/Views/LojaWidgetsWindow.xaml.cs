@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using DockWindows.Core.Models;
@@ -9,10 +11,15 @@ namespace DockWindows.App.Views;
 public partial class LojaWidgetsWindow : Window
 {
     public WidgetInstanceConfig? WidgetSelecionado { get; private set; }
+    public TipoWidget? WidgetParaRemover { get; private set; }
+    public bool Removeu { get; private set; }
 
-    public LojaWidgetsWindow()
+    private readonly List<TipoWidget> _tiposJaAdicionados;
+
+    public LojaWidgetsWindow(IEnumerable<TipoWidget>? tiposJaAdicionados = null)
     {
         InitializeComponent();
+        _tiposJaAdicionados = tiposJaAdicionados?.ToList() ?? new List<TipoWidget>();
         CarregarLoja();
     }
 
@@ -58,6 +65,12 @@ public partial class LojaWidgetsWindow : Window
             }
         };
 
+        // Marca quais já estão adicionados
+        foreach (var item in catalogo)
+        {
+            item.JaAdicionado = _tiposJaAdicionados.Contains(item.Tipo);
+        }
+
         ListaLoja.ItemsSource = catalogo;
     }
 
@@ -71,6 +84,17 @@ public partial class LojaWidgetsWindow : Window
                 return;
             }
 
+            if (item.JaAdicionado)
+            {
+                // Remover
+                WidgetParaRemover = item.Tipo;
+                Removeu = true;
+                DialogResult = true;
+                Close();
+                return;
+            }
+
+            // Adicionar
             WidgetSelecionado = new WidgetInstanceConfig
             {
                 Id = "wgt-" + Guid.NewGuid().ToString().Substring(0, 8),
@@ -93,5 +117,7 @@ public class ItemLoja
     public string Nome { get; set; } = string.Empty;
     public string Icone { get; set; } = string.Empty;
     public string Descricao { get; set; } = string.Empty;
+    public bool JaAdicionado { get; set; }
+    public string TextoBotao => JaAdicionado ? "Remover" : "Adicionar";
+    public string CorBotao => JaAdicionado ? "#EF4444" : "#0A84FF";
 }
-

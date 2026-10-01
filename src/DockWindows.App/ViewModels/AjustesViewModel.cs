@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -81,6 +81,7 @@ public class AjustesViewModel : ObservableObject
         RemoverItemColecaoCommand = new RelayCommand<ItemFixado>(RemoverItemColecao);
 
         // Comandos de Widgets
+                RemoverWidgetCommand = new RelayCommand(RemoverWidget, () => WidgetSelecionado != null);
         MoverWidgetCimaCommand = new RelayCommand(MoverWidgetCima, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) > 0);
         MoverWidgetBaixoCommand = new RelayCommand(MoverWidgetBaixo, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) < WidgetsAmbiente.Count - 1);
         AlternarFormatoWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarFormatoWidget);
@@ -708,6 +709,7 @@ public class AjustesViewModel : ObservableObject
     public ICommand RemoverCompromissoCommand { get; }
     public ICommand ProcurarArquivoIcsCommand { get; }
     public ICommand AbrirLojaWidgetsCommand { get; }
+    public ICommand RemoverWidgetCommand { get; }
 
     public ICommand NovoEspacadorCommand { get; }
     public ICommand RemoverEspacadorCommand { get; }
@@ -1264,25 +1266,57 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+        private void RemoverWidget()
+    {
+        if (AmbienteSelecionado == null || WidgetSelecionado == null) return;
+        
+        // Remove do ViewModel Principal se estiver visível
+        WidgetSelecionado.Visivel = false;
+        AlternarVisibilidadeWidget(WidgetSelecionado);
+        
+        AmbienteSelecionado.WidgetsInstalados.Remove(WidgetSelecionado);
+        WidgetsAmbiente.Remove(WidgetSelecionado);
+        
+        for (int i = 0; i < WidgetsAmbiente.Count; i++) WidgetsAmbiente[i].Ordem = i;
+        _mainVm.SalvarPreferencias();
+        WidgetSelecionado = WidgetsAmbiente.FirstOrDefault();
+    }
+
     private void AbrirLojaWidgets()
     {
         if (AmbienteSelecionado == null) return;
         
-        var janelaLoja = new Views.LojaWidgetsWindow();
+        // Passa os tipos já instalados para a loja saber o que mostrar como "Remover"
+        var tiposJaInstalados = WidgetsAmbiente.Select(w => w.Tipo).ToList();
+        var janelaLoja = new Views.LojaWidgetsWindow(tiposJaInstalados);
         janelaLoja.Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(w => w.GetType().Name == "AjustesWindow") ?? System.Windows.Application.Current.MainWindow;
         janelaLoja.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
-        if (janelaLoja.ShowDialog() == true && janelaLoja.WidgetSelecionado != null)
+        if (janelaLoja.ShowDialog() == true)
         {
-            var novoWidget = janelaLoja.WidgetSelecionado;
-            novoWidget.Ordem = WidgetsAmbiente.Count;
-            
-                            WidgetsAmbiente.Add(novoWidget);
+            if (janelaLoja.Removeu && janelaLoja.WidgetParaRemover != null)
+            {
+                // Remover widget do tipo especificado
+                var wgtRemover = WidgetsAmbiente.FirstOrDefault(w => w.Tipo == janelaLoja.WidgetParaRemover);
+                if (wgtRemover != null)
+                {
+                    WidgetsAmbiente.Remove(wgtRemover);
+                    AmbienteSelecionado.WidgetsInstalados.Remove(wgtRemover);
+                    AlternarVisibilidadeWidget(wgtRemover); // Disable in MainVM
+                    _mainVm.SalvarPreferencias();
+                    WidgetSelecionado = WidgetsAmbiente.FirstOrDefault();
+                }
+            }
+            else if (janelaLoja.WidgetSelecionado != null)
+            {
+                // Adicionar novo widget
+                var novoWidget = janelaLoja.WidgetSelecionado;
+                novoWidget.Ordem = WidgetsAmbiente.Count;
+                WidgetsAmbiente.Add(novoWidget);
                 AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
-                
                 AlternarVisibilidadeWidget(novoWidget); // Enable in MainVM immediately
-                
                 _mainVm.SalvarPreferencias();
-            WidgetSelecionado = novoWidget;
+                WidgetSelecionado = novoWidget;
+            }
         }
     }
 
@@ -1508,6 +1542,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 
