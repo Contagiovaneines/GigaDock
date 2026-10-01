@@ -395,7 +395,9 @@
                                     <TextBlock Text="{Binding Formato}" FontSize="11" Foreground="#8E8E93"/>
                                 </StackPanel>
 
-                                <CheckBox Grid.Column="2" IsChecked="{Binding Visivel}" VerticalAlignment="Center" ToolTip="Exibir na barra"/>
+                                <CheckBox Grid.Column="2" IsChecked="{Binding Visivel}" VerticalAlignment="Center" ToolTip="Exibir na barra"
+                                          Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                          CommandParameter="{Binding}"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

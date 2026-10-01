@@ -58,3 +58,14 @@
   - **Mídia e Clima Inline:** Criada a infraestrutura das seções SectionMidiaInline e SectionClimaInline, seus ViewModels Mock, e registrados na pipeline do MainWindow.
 - **Testes:** Compilação 0 erros. Suíte de testes rodada.
 - **Próximos Passos:** Conectar os mocks do Clima a alguma API real de Weather e a Mídia à API do Windows (Windows.Media.Control) para o NowPlaying real no futuro.
+
+### Etapa 17 (v1.6.1) - Sincronização iCal, Correção de Foco e Clima Local
+- **Objetivo:** Resolver bugs críticos no Launchpad (foco de teclado, ação de clique incorreta, e disparo via Enter vazio), substituir API mockada de clima por local real, e integrar parsing de ICS/iCal no calendário.
+- **Implementação:**
+  - Foco via Win32 API (SetForegroundWindow) garantido ao abrir Launchpad.
+  - Evitado toggle minimize em apps ao clicar no Launchpad (força ativação).
+  - Prevenção do Launchpad abrir aplicativos aleatórios com Enter em caixa de busca vazia.
+  - Sincronização e parsing real de arquivos .ics online introduzidos na Central de Ajustes.
+  - Adicionada automação via IP para Clima Real do usuário (usando a wttr.in) junto com as opções de ExibirClima e ExibirBotoesAcao.
+- **Testes:** Compilação 0 erros.
+- **Próximos Passos:** Finalizar suporte a controles de mídia avançados e validações de thumbnail DWM.

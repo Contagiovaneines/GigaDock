@@ -1209,7 +1209,8 @@ public class AjustesViewModel : ObservableObject
     {
         if (wgt != null)
         {
-            wgt.Visivel = !wgt.Visivel;
+            // Note: O CheckBox (Mode=TwoWay) já alterou wgt.Visivel para o novo valor.
+            // Apenas aplicamos a alteração à dock.
             if (wgt.Tipo == TipoWidget.Relogio) _mainVm.Clock.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.Pomodoro) _mainVm.Pomodoro.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.CalendarioCompromissos) _mainVm.Calendario.Habilitado = wgt.Visivel;
