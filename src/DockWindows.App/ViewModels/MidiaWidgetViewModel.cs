@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -6,6 +6,8 @@ using System.Windows.Input;
 using Windows.Media.Control;
 using Windows.Storage.Streams;
 using DockWindows.App.Common;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace DockWindows.App.ViewModels;
 
@@ -55,11 +57,20 @@ public class MidiaWidgetViewModel : ObservableObject
     public ICommand AnteriorCommand { get; }
     public ICommand ProximoCommand { get; }
 
+        [DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    public ICommand AbrirPlayerCommand { get; }
+
     public MidiaWidgetViewModel()
     {
         PlayPauseCommand = new RelayCommand(() => _ = TogglePlayPauseAsync());
         AnteriorCommand = new RelayCommand(() => _ = SkipPreviousAsync());
-        ProximoCommand = new RelayCommand(() => _ = SkipNextAsync());
+                ProximoCommand = new RelayCommand(() => _ = SkipNextAsync());
+        AbrirPlayerCommand = new RelayCommand(AbrirPlayer);
 
         _ = InitializeAsync();
     }
@@ -283,6 +294,33 @@ public class MidiaWidgetViewModel : ObservableObject
         }
     }
 
+        private void AbrirPlayer()
+    {
+        string sourceId = _currentSession?.SourceAppUserModelId?.ToLower() ?? "";
+        string procName = "";
+
+        if (sourceId.Contains("spotify")) procName = "Spotify";
+        else if (sourceId.Contains("chrome")) procName = "chrome";
+        else if (sourceId.Contains("edge")) procName = "msedge";
+        else if (sourceId.Contains("brave")) procName = "brave";
+        else if (sourceId.Contains("firefox")) procName = "firefox";
+        else if (sourceId.Contains("opera")) procName = "opera";
+        else if (sourceId.Contains("vlc")) procName = "vlc";
+        
+        if (string.IsNullOrEmpty(procName)) return;
+
+        var procs = Process.GetProcessesByName(procName);
+        foreach (var p in procs)
+        {
+            if (p.MainWindowHandle != IntPtr.Zero)
+            {
+                ShowWindow(p.MainWindowHandle, 9); // SW_RESTORE = 9
+                SetForegroundWindow(p.MainWindowHandle);
+                return;
+            }
+        }
+    }
+
     private async Task TogglePlayPauseAsync()
     {
         if (_currentSession != null)
@@ -318,3 +356,4 @@ public class MidiaWidgetViewModel : ObservableObject
         return Task.CompletedTask;
     }
 }
+
