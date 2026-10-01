@@ -588,7 +588,7 @@
                 <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
                     <Border CornerRadius="8" Padding="12" Background="#202026" BorderBrush="#32323C" BorderThickness="1">
                         <StackPanel>
-                            <TextBlock Text="Dock Windows 1.4.0" FontSize="14" FontWeight="Bold" Foreground="#0A84FF"/>
+                            <TextBlock Text="Dock Windows 2.0.0" FontSize="14" FontWeight="Bold" Foreground="#0A84FF"/>
                             <TextBlock Text="Aplicativo desktop nativo para Windows 10 e 11." FontSize="11" Foreground="#C8C8CE" Margin="0,4,0,0"/>
                             <TextBlock Text="100% local, sem telemetria, sem contas e sem nuvem." FontSize="11" Foreground="#30D158" Margin="0,4,0,0"/>
                         </StackPanel>
@@ -1083,5 +1083,6 @@
         </Border>
     </Grid>
 </Window>
+
 
 

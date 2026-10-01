@@ -145,7 +145,7 @@ public class InstallService
             FecharProcessosDock(pastaDestino);
 
             // 3. Preparar diretório e extrair arquivos (substituição limpa)
-            notificarProgresso(ehAtualizacao ? "Atualizando arquivos do aplicativo para a versão 1.4.0..." : "Copiando e descompactando arquivos do aplicativo...");
+            notificarProgresso(ehAtualizacao ? "Atualizando arquivos do aplicativo para a versão 2.0.0..." : "Copiando e descompactando arquivos do aplicativo...");
             Directory.CreateDirectory(pastaDestino);
             ExtrairArquivosAplicativo(pastaDestino);
 
@@ -185,7 +185,7 @@ public class InstallService
             notificarProgresso("Configurando inicialização automática...");
             ConfigurarInicializacao(exePrincipal, iniciarComWindows);
 
-            // 7. Atualizar registro do painel de controle (versão 1.4.0)
+            // 7. Atualizar registro do painel de controle (versão 2.0.0)
             notificarProgresso("Atualizando registro do sistema...");
             RegistrarNoPainelControle(pastaDestino, exePrincipal);
 
@@ -558,4 +558,5 @@ public class InstallService
         catch { }
     }
 }
+
 
