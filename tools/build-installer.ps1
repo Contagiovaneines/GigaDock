@@ -1,4 +1,4 @@
-# Script para empacotar e compilar o instalador oficial do Dock Windows (x64)
+﻿# Script para empacotar e compilar o instalador oficial do Dock Windows (x64)
 $ErrorActionPreference = "Stop"
 
 Write-Host "==========================================================" -ForegroundColor Cyan
@@ -24,7 +24,7 @@ New-Item -ItemType Directory -Path $resourcesDir -Force | Out-Null
 
 # 1. Publicar DockWindows.App (win-x64)
 Write-Host "`n[1/4] Publicando DockWindows.App para win-x64..." -ForegroundColor Yellow
-dotnet publish $appProj -c Release -r win-x64 --self-contained false -o $appDistDir
+dotnet publish $appProj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained false -o $appDistDir
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Falha ao publicar DockWindows.App."
 }
@@ -52,3 +52,4 @@ $setupSize = (Get-Item $finalSetupExe).Length / 1MB
 Write-Host "Local: $finalSetupExe" -ForegroundColor White
 Write-Host ("Tamanho do Instalador: {0:N2} MB" -f $setupSize) -ForegroundColor White
 Write-Host "==========================================================" -ForegroundColor Cyan
+
