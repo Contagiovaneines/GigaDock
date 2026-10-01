@@ -191,13 +191,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private void OnForegroundChanged(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
         if (idObject != 0 || hwnd == IntPtr.Zero) return;
-
-        if (_ultimaJanelaAtiva != hwnd)
-        {
-            _ultimaJanelaAtiva = hwnd;
-            JanelaAtivada?.Invoke(hwnd);
-            JanelasAlteradas?.Invoke();
-        }
+        ProcessarNovoForeground(hwnd);
     }
 
     private void OnWindowChanged(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
@@ -211,23 +205,35 @@ public class Win32WindowTrackingService : IWindowTrackingService
         try
         {
             var foreground = GetForegroundWindow();
-            if (foreground != _ultimaJanelaAtiva)
-            {
-                _ultimaJanelaAtiva = foreground;
-                JanelaAtivada?.Invoke(foreground);
-                JanelasAlteradas?.Invoke();
-            }
-            else
-            {
-                JanelasAlteradas?.Invoke();
-            }
+            ProcessarNovoForeground(foreground);
         }
         catch { }
     }
 
+    private void ProcessarNovoForeground(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero) return;
+
+        GetWindowThreadProcessId(hwnd, out uint pid);
+        if (pid == Environment.ProcessId)
+        {
+            // Ignora se o usuário clicou na própria Dock. Isso mantém a _ultimaJanelaAtiva 
+            // apontando para o app real, permitindo que a ação de "Minimizar" funcione
+            return;
+        }
+
+        if (_ultimaJanelaAtiva != hwnd)
+        {
+            _ultimaJanelaAtiva = hwnd;
+            JanelaAtivada?.Invoke(hwnd);
+            JanelasAlteradas?.Invoke();
+        }
+    }
+
     public IntPtr ObterJanelaAtiva()
     {
-        return GetForegroundWindow();
+        // Em vez de chamar GetForegroundWindow() agora, retorna o último que rastreamos (ignora a Dock)
+        return _ultimaJanelaAtiva;
     }
 
     public IReadOnlyList<JanelaInfo> ObterJanelasAbertas()
