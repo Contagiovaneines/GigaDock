@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,8 +12,9 @@ namespace DockWindows.Infrastructure.Windows;
 
 public class Win32WindowTrackingService : IWindowTrackingService
 {
-    public event Action? JanelasAlteradas;
+        public event Action? JanelasAlteradas;
     public event Action<IntPtr>? JanelaAtivada;
+    public event Action<bool>? TelaCheiaAlterada;
 
     private readonly System.Timers.Timer _pollTimer;
     private IntPtr _hHookForeground = IntPtr.Zero;
@@ -22,6 +23,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private WinEventDelegate? _procWindow;
     private bool _isDisposed;
     private IntPtr _ultimaJanelaAtiva = IntPtr.Zero;
+    private bool _ultimoEstadoTelaCheia = false;
     private readonly object _lock = new();
 
     private delegate void WinEventDelegate(
@@ -67,8 +69,33 @@ public class Win32WindowTrackingService : IWindowTrackingService
     [DllImport("user32.dll")]
     private static extern int GetWindowTextLength(IntPtr hWnd);
 
+        [DllImport("user32.dll")]
+    private static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+
     [DllImport("user32.dll")]
-    private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+    private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+
+    [DllImport("user32.dll")]
+    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left, Top, Right, Bottom;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct MONITORINFO
+    {
+        public int cbSize;
+        public RECT rcMonitor;
+        public RECT rcWork;
+        public uint dwFlags;
+    }
+
+    private const uint MONITOR_DEFAULTTONEAREST = 2;
+
+    [DllImport("user32.dll")]    private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
     [DllImport("user32.dll")]
     private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
@@ -210,15 +237,13 @@ public class Win32WindowTrackingService : IWindowTrackingService
         catch { }
     }
 
-    private void ProcessarNovoForeground(IntPtr hwnd)
+        private void ProcessarNovoForeground(IntPtr hwnd)
     {
         if (hwnd == IntPtr.Zero) return;
 
         GetWindowThreadProcessId(hwnd, out uint pid);
         if (pid == Environment.ProcessId)
         {
-            // Ignora se o usuário clicou na própria Dock. Isso mantém a _ultimaJanelaAtiva 
-            // apontando para o app real, permitindo que a ação de "Minimizar" funcione
             return;
         }
 
@@ -228,11 +253,48 @@ public class Win32WindowTrackingService : IWindowTrackingService
             JanelaAtivada?.Invoke(hwnd);
             JanelasAlteradas?.Invoke();
         }
+
+        bool ehTelaCheia = false;
+        try
+        {
+            if (GetWindowRect(hwnd, out RECT rect))
+            {
+                IntPtr hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+                if (hMonitor != IntPtr.Zero)
+                {
+                    MONITORINFO mi = new MONITORINFO();
+                    mi.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(typeof(MONITORINFO));
+                    if (GetMonitorInfo(hMonitor, ref mi))
+                    {
+                        if (rect.Left <= mi.rcMonitor.Left &&
+                            rect.Top <= mi.rcMonitor.Top &&
+                            rect.Right >= mi.rcMonitor.Right &&
+                            rect.Bottom >= mi.rcMonitor.Bottom)
+                        {
+                            var sb = new System.Text.StringBuilder(256);
+                            GetClassName(hwnd, sb, sb.Capacity);
+                            string className = sb.ToString();
+                            if (className != "WorkerW" && className != "Progman")
+                            {
+                                ehTelaCheia = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch { }
+
+        if (_ultimoEstadoTelaCheia != ehTelaCheia)
+        {
+            _ultimoEstadoTelaCheia = ehTelaCheia;
+            TelaCheiaAlterada?.Invoke(ehTelaCheia);
+        }
     }
 
     public IntPtr ObterJanelaAtiva()
     {
-        // Em vez de chamar GetForegroundWindow() agora, retorna o último que rastreamos (ignora a Dock)
+        // Em vez de chamar GetForegroundWindow() agora, retorna o Ãºltimo que rastreamos (ignora a Dock)
         return _ultimaJanelaAtiva;
     }
 
@@ -285,12 +347,12 @@ public class Win32WindowTrackingService : IWindowTrackingService
     {
         if (!IsWindowVisible(hWnd)) return false;
 
-        // Verifica se a janela está oculta/suspensa pelo DWM (Windows 10/11)
+        // Verifica se a janela estÃ¡ oculta/suspensa pelo DWM (Windows 10/11)
         int cloaked = 0;
         DwmGetWindowAttribute(hWnd, DWMWA_CLOAKED, out cloaked, sizeof(int));
         if (cloaked != 0) return false;
 
-        // Ignora a nossa própria aplicação Dock Windows
+        // Ignora a nossa prÃ³pria aplicaÃ§Ã£o Dock Windows
         GetWindowThreadProcessId(hWnd, out uint pid);
         if (pid == meuPid) return false;
 
@@ -301,7 +363,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
             return false;
         }
 
-        // Janela proprietária (owned) geralmente não é janela de aplicativo de topo
+        // Janela proprietÃ¡ria (owned) geralmente nÃ£o Ã© janela de aplicativo de topo
         var owner = GetWindow(hWnd, GW_OWNER);
         if (owner != IntPtr.Zero && (exStyle & WS_EX_APPWINDOW) == 0)
         {
@@ -379,7 +441,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
                 ShowWindow(hWnd, SW_SHOW);
             }
 
-            // Simula toque no teclado para liberar restrição de primeiro plano do Windows
+            // Simula toque no teclado para liberar restriÃ§Ã£o de primeiro plano do Windows
             keybd_event(0, 0, 0, 0);
             return SetForegroundWindow(hWnd);
         }
@@ -424,3 +486,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
         GC.SuppressFinalize(this);
     }
 }
+
+
+
+
+

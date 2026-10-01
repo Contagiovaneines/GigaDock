@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -183,9 +183,9 @@ public partial class MainWindow : Window
 
         _viewModel.PropertyChanged += (s, e) =>
         {
-            if (e.PropertyName == nameof(_viewModel.DockVisivel))
+            if (e.PropertyName == nameof(_viewModel.DockVisivel) || e.PropertyName == nameof(_viewModel.OcultoPorTelaCheia))
             {
-                if (_viewModel.DockVisivel)
+                if (_viewModel.DockVisivel && !_viewModel.OcultoPorTelaCheia)
                 {
                     Show();
                     WindowState = WindowState.Normal;
@@ -240,7 +240,7 @@ public partial class MainWindow : Window
                 Dispatcher.Invoke(() => _viewModel.AlternarVisibilidade());
             });
 
-            // Atalhos rápidos para alternar ambientes: Ctrl+Alt+1, Ctrl+Alt+2, Ctrl+Alt+3
+            // Atalhos rÃ¡pidos para alternar ambientes: Ctrl+Alt+1, Ctrl+Alt+2, Ctrl+Alt+3
             _hotkeyService.Registrar(101, new AtalhoConfig { Control = true, Alt = true, Tecla = "1" }, () =>
             {
                 Dispatcher.Invoke(() => AlternarAmbientePorIndice(0));
@@ -273,7 +273,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            _trayService = new Win32TrayService(hwnd, "Dock Windows — Produtividade");
+            _trayService = new Win32TrayService(hwnd, "Dock Windows â€” Produtividade");
             _trayService.DuploClique += () =>
             {
                 Dispatcher.Invoke(() => _viewModel.AlternarVisibilidade());
@@ -297,7 +297,7 @@ public partial class MainWindow : Window
 
         var itemVisibilidade = new MenuItem
         {
-            Header = _viewModel.DockVisivel ? "🔽 Ocultar Dock" : "🔼 Exibir Dock",
+            Header = _viewModel.DockVisivel ? "ðŸ”½ Ocultar Dock" : "ðŸ”¼ Exibir Dock",
             FontWeight = FontWeights.Bold
         };
         itemVisibilidade.Click += (s, e) => _viewModel.AlternarVisibilidade();
@@ -306,7 +306,7 @@ public partial class MainWindow : Window
         menu.Items.Add(new Separator());
 
         // Submenu de ambientes
-        var menuAmbientes = new MenuItem { Header = "💼 Ambientes" };
+        var menuAmbientes = new MenuItem { Header = "ðŸ’¼ Ambientes" };
         foreach (var amb in _viewModel.Ambientes)
         {
             var itemAmb = new MenuItem
@@ -322,17 +322,17 @@ public partial class MainWindow : Window
 
         menu.Items.Add(new Separator());
 
-        var itemAjustes = new MenuItem { Header = "⚙️ Ajustes e Personalização...", FontWeight = FontWeights.SemiBold };
+        var itemAjustes = new MenuItem { Header = "âš™ï¸ Ajustes e PersonalizaÃ§Ã£o...", FontWeight = FontWeights.SemiBold };
         itemAjustes.Click += (s, e) => _viewModel.AbrirAjustesCommand.Execute(null);
         menu.Items.Add(itemAjustes);
 
-        var itemRestaurar = new MenuItem { Header = "🔄 Restaurar Barra do Windows" };
+        var itemRestaurar = new MenuItem { Header = "ðŸ”„ Restaurar Barra do Windows" };
         itemRestaurar.Click += (s, e) => _viewModel.RestaurarBarraWindowsCommand.Execute(null);
         menu.Items.Add(itemRestaurar);
 
         menu.Items.Add(new Separator());
 
-        var itemSair = new MenuItem { Header = "🚪 Sair do Dock Windows" };
+        var itemSair = new MenuItem { Header = "ðŸšª Sair do Dock Windows" };
         itemSair.Click += (s, e) => Application.Current.Shutdown();
         menu.Items.Add(itemSair);
 

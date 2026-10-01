@@ -24,7 +24,14 @@ public class MainViewModel : ObservableObject
 
     private Preferencias _preferencias;
     private EnvironmentViewModel? _ambienteAtivo;
-    private bool _dockVisivel = true;
+        private bool _dockVisivel = true;
+    private bool _ocultoPorTelaCheia = false;
+
+    public bool OcultoPorTelaCheia
+    {
+        get => _ocultoPorTelaCheia;
+        set => SetProperty(ref _ocultoPorTelaCheia, value);
+    }
 
     [DllImport("user32.dll")]
     private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
@@ -117,9 +124,16 @@ public class MainViewModel : ObservableObject
         {
             Application.Current?.Dispatcher?.InvokeAsync(AtualizarAplicativosAbertos);
         };
-        _windowTrackingService.JanelaAtivada += hwnd =>
+                _windowTrackingService.JanelaAtivada += hwnd =>
         {
             Application.Current?.Dispatcher?.InvokeAsync(AtualizarAplicativosAbertos);
+        };
+        _windowTrackingService.TelaCheiaAlterada += (ehTelaCheia) =>
+        {
+            Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                OcultoPorTelaCheia = ehTelaCheia;
+            });
         };
 
         CarregarDados();
@@ -1412,4 +1426,5 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
 

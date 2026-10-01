@@ -8,6 +8,7 @@ public interface IWindowTrackingService : IDisposable
 {
     event Action? JanelasAlteradas;
     event Action<IntPtr>? JanelaAtivada;
+    event Action<bool>? TelaCheiaAlterada;
 
     IReadOnlyList<JanelaInfo> ObterJanelasAbertas();
     IntPtr ObterJanelaAtiva();
