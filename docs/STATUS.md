@@ -91,3 +91,7 @@
 - **Objetivo:** Auditar o código contra injeções de comando e escalonamento de privilégios.
 - **Resultado:** A validação estrita em ItemValidator.cs (restrição absoluta de protocolos em URLs para HTTP/HTTPS) e a desserialização limpa no WPF bloqueiam 100% de ataques RCE via atalhos e evitam XSS/Injection. Nenhuma telemetria na rede. Aplicativo extremamente isolado.
 - **Status:** Sem falhas de segurança detectadas. Instalador regenerado e verificado.
+
+### Etapa 21 (v1.6.5) - Hotfix Encodings
+- **Problema:** Textos e ícones renderizando com bugs visuais no AjustesWindow.xaml
+- **Resolução:** Restaurados os encodings UTF-8 corrompidos por manipulação via PowerShell ANSI e recompilado o instalador.

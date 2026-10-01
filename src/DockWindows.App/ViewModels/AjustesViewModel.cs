@@ -88,6 +88,7 @@ public class AjustesViewModel : ObservableObject
         NovoCompromissoCommand = new RelayCommand(NovoCompromisso);
         RemoverCompromissoCommand = new RelayCommand(RemoverCompromisso, () => CompromissoSelecionado != null);
         ProcurarArquivoIcsCommand = new RelayCommand(ProcurarArquivoIcs);
+        AbrirLojaWidgetsCommand = new RelayCommand(AbrirLojaWidgets);
 
         // Comandos de Espaçadores
         NovoEspacadorCommand = new RelayCommand(NovoEspacador);
@@ -676,6 +677,7 @@ public class AjustesViewModel : ObservableObject
     public ICommand NovoCompromissoCommand { get; }
     public ICommand RemoverCompromissoCommand { get; }
     public ICommand ProcurarArquivoIcsCommand { get; }
+    public ICommand AbrirLojaWidgetsCommand { get; }
 
     public ICommand NovoEspacadorCommand { get; }
     public ICommand RemoverEspacadorCommand { get; }
@@ -1230,6 +1232,24 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    private void AbrirLojaWidgets()
+    {
+        if (AmbienteSelecionado == null) return;
+        
+        var janelaLoja = new Views.LojaWidgetsWindow();
+        if (janelaLoja.ShowDialog() == true && janelaLoja.WidgetSelecionado != null)
+        {
+            var novoWidget = janelaLoja.WidgetSelecionado;
+            novoWidget.Ordem = WidgetsAmbiente.Count;
+            
+            WidgetsAmbiente.Add(novoWidget);
+            AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
+            
+            _mainVm.SalvarPreferencias();
+            WidgetSelecionado = novoWidget;
+        }
+    }
+
     private void ProcurarArquivoIcs()
     {
         var dlg = new Microsoft.Win32.OpenFileDialog
@@ -1452,3 +1472,4 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+

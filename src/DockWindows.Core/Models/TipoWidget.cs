@@ -1,8 +1,11 @@
-namespace DockWindows.Core.Models;
+﻿namespace DockWindows.Core.Models;
 
 public enum TipoWidget
 {
     Relogio = 0,
     Pomodoro = 1,
-    CalendarioCompromissos = 2
+    CalendarioCompromissos = 2,
+    Notas = 3,
+    MonitorSistema = 4,
+    CotacaoMoedas = 5
 }

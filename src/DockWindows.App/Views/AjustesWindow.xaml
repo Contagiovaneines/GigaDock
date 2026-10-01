@@ -354,10 +354,14 @@
                     </Border>
                 </StackPanel>
 
-                <ListBox Grid.Row="1" ItemsSource="{Binding WidgetsAmbiente}"
-                         SelectedItem="{Binding WidgetSelecionado, Mode=TwoWay}"
-                         Background="Transparent" BorderThickness="0"
-                         Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
+                <Grid Grid.Row="1" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListBox Grid.Row="0" ItemsSource="{Binding WidgetsAmbiente}"
+                             SelectedItem="{Binding WidgetSelecionado, Mode=TwoWay}"
+                             Background="Transparent" BorderThickness="0">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Padding" Value="0"/>
@@ -402,6 +406,8 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <Button Grid.Row="1" Style="{StaticResource PrimaryButtonStyle}" Content="Adicionar Novo Widget" Command="{Binding AbrirLojaWidgetsCommand}" Margin="0,10,0,0"/>
+                </Grid>
 
                 <!-- 3. ESPAÇADORES -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoEspacadores, Converter={StaticResource BoolToVis}}">
@@ -1077,3 +1083,4 @@
         </Border>
     </Grid>
 </Window>
+

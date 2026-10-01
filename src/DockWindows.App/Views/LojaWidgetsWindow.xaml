@@ -1,0 +1,53 @@
+﻿<Window x:Class="DockWindows.App.Views.LojaWidgetsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Loja de Widgets" Height="600" Width="700"
+        WindowStartupLocation="CenterOwner"
+        Background="#111116"
+        Foreground="#FFFFFF"
+        WindowStyle="ToolWindow">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="0,0,0,1" Padding="20">
+            <StackPanel>
+                <TextBlock Text="🛍️ Galeria de Widgets" FontSize="22" FontWeight="Bold"/>
+                <TextBlock Text="Adicione novas funcionalidades à sua Dock Windows." Foreground="#8E8E93" FontSize="12" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Lista de Widgets -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="20">
+            <ItemsControl x:Name="ListaLoja">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,0,0,15">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Grid.Column="0" Text="{Binding Icone}" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
+                                    <TextBlock Text="{Binding Nome}" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    <TextBlock Text="{Binding Descricao}" FontSize="12" Foreground="#8E8E93" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                </StackPanel>
+                                
+                                <Button Grid.Column="2" Content="Adicionar" Width="90" Height="30" VerticalAlignment="Center"
+                                        Background="#0A84FF" Foreground="White" BorderThickness="0" FontWeight="Bold"
+                                        Cursor="Hand" Click="BtnAdicionar_Click" Tag="{Binding}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>
