@@ -1,30 +1,45 @@
 using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using Windows.Media.Control;
+using Windows.Storage.Streams;
 using DockWindows.App.Common;
-using DockWindows.Core.Models;
 
 namespace DockWindows.App.ViewModels;
 
 public class MidiaWidgetViewModel : ObservableObject
 {
-    private string _titulo = "Mulberry Street";
-    private string _artista = "Twenty One Pilots";
-    private string _capaAlbumUrl = "https://picsum.photos/300/100"; // Mock album art
-    private bool _estaTocando = true;
+    private string? _titulo = string.Empty;
+    private string? _artista = string.Empty;
+    private string? _capaAlbumUrl = string.Empty;
+    private bool _estaTocando;
     
-    public string Titulo
+    private GlobalSystemMediaTransportControlsSessionManager? _sessionManager;
+    private GlobalSystemMediaTransportControlsSession? _currentSession;
+
+    public string? Titulo
     {
         get => _titulo;
-        set => SetProperty(ref _titulo, value);
+        set
+        {
+            if (SetProperty(ref _titulo, value))
+            {
+                OnPropertyChanged(nameof(TemMidia));
+            }
+        }
     }
     
-    public string Artista
+    public bool TemMidia => !string.IsNullOrEmpty(_titulo);
+    
+    public string? Artista
     {
         get => _artista;
         set => SetProperty(ref _artista, value);
     }
     
-    public string CapaAlbumUrl
+    public string? CapaAlbumUrl
     {
         get => _capaAlbumUrl;
         set => SetProperty(ref _capaAlbumUrl, value);
@@ -42,8 +57,159 @@ public class MidiaWidgetViewModel : ObservableObject
 
     public MidiaWidgetViewModel()
     {
-        PlayPauseCommand = new RelayCommand(() => EstaTocando = !EstaTocando);
-        AnteriorCommand = new RelayCommand(() => Titulo = "Música Anterior");
-        ProximoCommand = new RelayCommand(() => Titulo = "Próxima Música");
+        PlayPauseCommand = new RelayCommand(() => _ = TogglePlayPauseAsync());
+        AnteriorCommand = new RelayCommand(() => _ = SkipPreviousAsync());
+        ProximoCommand = new RelayCommand(() => _ = SkipNextAsync());
+
+        _ = InitializeAsync();
+    }
+
+    private async Task InitializeAsync()
+    {
+        try
+        {
+            _sessionManager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+            if (_sessionManager != null)
+            {
+                _sessionManager.CurrentSessionChanged += SessionManager_CurrentSessionChanged;
+                UpdateCurrentSession(_sessionManager.GetCurrentSession());
+            }
+        }
+        catch
+        {
+            // Ignorar erros de inicialização caso a API não esteja disponível ou haja erro de permissão
+        }
+    }
+
+    private void SessionManager_CurrentSessionChanged(GlobalSystemMediaTransportControlsSessionManager sender, CurrentSessionChangedEventArgs args)
+    {
+        UpdateCurrentSession(sender.GetCurrentSession());
+    }
+
+    private void UpdateCurrentSession(GlobalSystemMediaTransportControlsSession session)
+    {
+        if (_currentSession != null)
+        {
+            _currentSession.MediaPropertiesChanged -= Session_MediaPropertiesChanged;
+            _currentSession.PlaybackInfoChanged -= Session_PlaybackInfoChanged;
+        }
+
+        _currentSession = session;
+
+        if (_currentSession != null)
+        {
+            _currentSession.MediaPropertiesChanged += Session_MediaPropertiesChanged;
+            _currentSession.PlaybackInfoChanged += Session_PlaybackInfoChanged;
+        }
+
+        _ = UpdateMediaPropertiesAsync();
+    }
+
+    private void Session_PlaybackInfoChanged(GlobalSystemMediaTransportControlsSession sender, PlaybackInfoChangedEventArgs args)
+    {
+        _ = UpdateMediaPropertiesAsync();
+    }
+
+    private void Session_MediaPropertiesChanged(GlobalSystemMediaTransportControlsSession sender, MediaPropertiesChangedEventArgs args)
+    {
+        _ = UpdateMediaPropertiesAsync();
+    }
+
+    private async Task UpdateMediaPropertiesAsync()
+    {
+        if (_currentSession == null)
+        {
+            await RunOnUiAsync(() =>
+            {
+                Titulo = string.Empty;
+                Artista = string.Empty;
+                CapaAlbumUrl = string.Empty;
+                EstaTocando = false;
+            });
+            return;
+        }
+
+        try
+        {
+            var properties = await _currentSession.TryGetMediaPropertiesAsync();
+            var playbackInfo = _currentSession.GetPlaybackInfo();
+
+            string titulo = properties?.Title ?? string.Empty;
+            string artista = properties?.Artist ?? string.Empty;
+            bool estaTocando = playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+            string capaPath = string.Empty;
+
+            if (properties?.Thumbnail != null)
+            {
+                try
+                {
+                    using var stream = await properties.Thumbnail.OpenReadAsync();
+                    if (stream != null)
+                    {
+                        capaPath = Path.Combine(Path.GetTempPath(), $"dockwindows_media_thumb_{Guid.NewGuid():N}.jpg");
+                        using var fileStream = File.Create(capaPath);
+                        using var netStream = stream.AsStreamForRead();
+                        await netStream.CopyToAsync(fileStream);
+                    }
+                }
+                catch
+                {
+                    // Falha ao carregar thumbnail, manter em branco
+                }
+            }
+
+            await RunOnUiAsync(() =>
+            {
+                Titulo = titulo;
+                Artista = artista;
+                CapaAlbumUrl = capaPath;
+                EstaTocando = estaTocando;
+            });
+        }
+        catch
+        {
+            await RunOnUiAsync(() =>
+            {
+                Titulo = string.Empty;
+                Artista = string.Empty;
+                CapaAlbumUrl = string.Empty;
+                EstaTocando = false;
+            });
+        }
+    }
+
+    private async Task TogglePlayPauseAsync()
+    {
+        if (_currentSession != null)
+        {
+            await _currentSession.TryTogglePlayPauseAsync();
+        }
+    }
+
+    private async Task SkipPreviousAsync()
+    {
+        if (_currentSession != null)
+        {
+            await _currentSession.TrySkipPreviousAsync();
+        }
+    }
+
+    private async Task SkipNextAsync()
+    {
+        if (_currentSession != null)
+        {
+            await _currentSession.TrySkipNextAsync();
+        }
+    }
+
+    private Task RunOnUiAsync(Action action)
+    {
+        if (Application.Current?.Dispatcher != null)
+        {
+            return Application.Current.Dispatcher.InvokeAsync(action).Task;
+        }
+        
+        action();
+        return Task.CompletedTask;
     }
 }
