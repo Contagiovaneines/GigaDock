@@ -1,4 +1,4 @@
-<UserControl x:Class="DockWindows.App.Views.Sections.SectionRelogioControles"
+﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionRelogioControles"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:DockWindows.App.Converters">
@@ -89,6 +89,28 @@
         <!-- AÇÕES RÁPIDAS -->
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                     Visibility="{Binding ExibirBotoesAcao, Converter={StaticResource BoolToVis}}">
+            
+            <!-- Mostrar/Esconder Barra do Windows (Bandeja) -->
+            <Button Command="{Binding ToggleBarraNativaCommand}"
+                    Visibility="{Binding UsarComoBarraPrincipal, Converter={StaticResource BoolToVis}}"
+                    Width="30" Height="30" Margin="2,0"
+                    Background="#18FFFFFF" BorderThickness="0"
+                    Foreground="#FFFFFF" Content="^" FontSize="14" FontWeight="Bold"
+                    Cursor="Hand" ToolTip="Mostrar/Esconder Barra do Windows (Bandeja do Sistema)"
+                    AutomationProperties.Name="Mostrar Barra do Windows">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="8" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,3,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#30FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
             <!-- Adicionar Item -->
             <Button Command="{Binding AdicionarItemCommand}"
                     Width="30" Height="30" Margin="2,0"
@@ -133,3 +155,4 @@
         </StackPanel>
     </StackPanel>
 </UserControl>
+

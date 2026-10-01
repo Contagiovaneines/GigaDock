@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace DockWindows.Core.Models;
 
@@ -26,6 +26,7 @@ public class Preferencias
     public bool ExibirItensFixados { get; set; } = true;
     public bool ExibirBotoesAcao { get; set; } = false;
     public bool ExibirClima { get; set; } = true;
+    public bool ExibirMidia { get; set; } = true;
     public string LocalizacaoClima { get; set; } = string.Empty;
     public bool DesativarAnimacoes { get; set; } = false;
     public int EspacamentoItens { get; set; } = 6;
@@ -123,6 +124,7 @@ public class Preferencias
             ExibirItensFixados = true,
             ExibirBotoesAcao = false,
             ExibirClima = true,
+            ExibirMidia = true,
             DesativarAnimacoes = false,
             EspacamentoItens = 6,
             AppsFixadosGlobais = true,
@@ -234,3 +236,4 @@ public class Preferencias
         ambiente.Itens = padrao.Itens;
     }
 }
+

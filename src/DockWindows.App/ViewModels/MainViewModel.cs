@@ -96,7 +96,8 @@ public class MainViewModel : ObservableObject
         AbrirConfiguracoesCommand = new RelayCommand(() => AbrirAjustes("Geral"));
         AbrirPersonalizarCommand = new RelayCommand(() => AbrirAjustes("Aparencia"));
         AbrirAjustesCommand = new RelayCommand<string>(AbrirAjustes);
-        RestaurarBarraWindowsCommand = new RelayCommand(RestaurarBarraWindows);
+                RestaurarBarraWindowsCommand = new RelayCommand(RestaurarBarraWindows);
+        ToggleBarraNativaCommand = new RelayCommand(ToggleBarraNativa);
         AbrirMenuIniciarCommand = new RelayCommand(AbrirMenuIniciar);
         AbrirIniciarNativoWindowsCommand = new RelayCommand(AbrirIniciarNativoWindows);
         AbrirPesquisaCommand = new RelayCommand(AbrirPesquisa);
@@ -458,6 +459,21 @@ public class MainViewModel : ObservableObject
         }
     }
 
+        public bool ExibirMidia
+    {
+        get => _preferencias.ExibirMidia;
+        set
+        {
+            if (_preferencias.ExibirMidia != value)
+            {
+                _preferencias.ExibirMidia = value;
+                Midia.Habilitado = value;
+                SalvarPreferencias();
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public bool ExibirClima
     {
         get => _preferencias.ExibirClima;
@@ -578,7 +594,8 @@ public class MainViewModel : ObservableObject
     public ICommand AbrirConfiguracoesCommand { get; }
     public ICommand AbrirPersonalizarCommand { get; }
     public ICommand AbrirAjustesCommand { get; }
-    public ICommand RestaurarBarraWindowsCommand { get; }
+        public ICommand RestaurarBarraWindowsCommand { get; }
+    public ICommand ToggleBarraNativaCommand { get; }
     public ICommand AbrirMenuIniciarCommand { get; }
     public ICommand AbrirIniciarNativoWindowsCommand { get; }
     public ICommand AbrirPesquisaCommand { get; }
@@ -637,6 +654,22 @@ public class MainViewModel : ObservableObject
     public void AlternarVisibilidade()
     {
         DockVisivel = !DockVisivel;
+    }
+
+        private bool _barraNativaVisivelTemporariamente = false;
+    public void ToggleBarraNativa()
+    {
+        if (!_preferencias.UsarComoBarraPrincipal) return;
+
+        _barraNativaVisivelTemporariamente = !_barraNativaVisivelTemporariamente;
+        if (_barraNativaVisivelTemporariamente)
+        {
+            _taskbarService.RestaurarBarraNativa(_preferencias.EstadoAnteriorBarraTarefas);
+        }
+        else
+        {
+            _taskbarService.OcultarBarraNativa(out var ignoreState);
+        }
     }
 
     public void RestaurarBarraWindows()
@@ -1444,6 +1477,11 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
+
+
+
 
 
 

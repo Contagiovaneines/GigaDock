@@ -17,6 +17,7 @@ public class MidiaWidgetViewModel : ObservableObject
     private string? _artista = string.Empty;
     private string? _capaAlbumUrl = string.Empty;
     private bool _estaTocando;
+    private bool _habilitado = true;
     
     private GlobalSystemMediaTransportControlsSessionManager? _sessionManager;
     private GlobalSystemMediaTransportControlsSession? _currentSession;
@@ -33,7 +34,19 @@ public class MidiaWidgetViewModel : ObservableObject
         }
     }
     
-    public bool TemMidia => !string.IsNullOrEmpty(_titulo);
+        public bool Habilitado
+    {
+        get => _habilitado;
+        set
+        {
+            if (SetProperty(ref _habilitado, value))
+            {
+                OnPropertyChanged(nameof(TemMidia));
+            }
+        }
+    }
+
+    public bool TemMidia => !string.IsNullOrEmpty(_titulo) && _habilitado;
     
     public string? Artista
     {
@@ -356,4 +369,5 @@ public class MidiaWidgetViewModel : ObservableObject
         return Task.CompletedTask;
     }
 }
+
 

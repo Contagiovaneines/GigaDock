@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -511,6 +511,16 @@ public class AjustesViewModel : ObservableObject
         set
         {
             _mainVm.ExibirBotoesAcao = value;
+            OnPropertyChanged();
+        }
+    }
+
+        public bool ExibirMidia
+    {
+        get => _mainVm.ExibirMidia;
+        set
+        {
+            _mainVm.ExibirMidia = value;
             OnPropertyChanged();
         }
     }
@@ -1472,4 +1482,5 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
