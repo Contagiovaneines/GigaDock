@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -51,7 +51,7 @@ public class AjustesViewModel : ObservableObject
         TemaSelecionado = TemasPredefinidos.FirstOrDefault(t => t.Estilo == _mainVm.EstiloTema) ?? TemasPredefinidos.FirstOrDefault();
         EspacadorSelecionado = Espacadores.FirstOrDefault();
 
-        // Comandos de NavegaÃ§Ã£o
+        // Comandos de Navegação
         NavegarCommand = new RelayCommand<string>(NavegarPara);
 
         // Comandos de Ambientes
@@ -74,7 +74,7 @@ public class AjustesViewModel : ObservableObject
         MoverItemBaixoCommand = new RelayCommand(MoverItemBaixo, () => ItemSelecionado != null && ItensAmbiente.IndexOf(ItemSelecionado) < ItensAmbiente.Count - 1);
         AlternarEscopoItemCommand = new RelayCommand(AlternarEscopoItem, () => ItemSelecionado != null);
 
-        // Comandos de ColeÃ§Ãµes
+        // Comandos de Coleções
         NovaColecaoCommand = new RelayCommand(NovaColecao);
         ExcluirColecaoCommand = new RelayCommand(ExcluirColecao, () => ColecaoSelecionada != null);
         AdicionarItemColecaoCommand = new RelayCommand(AdicionarItemColecao, () => ColecaoSelecionada != null);
@@ -84,21 +84,21 @@ public class AjustesViewModel : ObservableObject
         MoverWidgetCimaCommand = new RelayCommand(MoverWidgetCima, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) > 0);
         MoverWidgetBaixoCommand = new RelayCommand(MoverWidgetBaixo, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) < WidgetsAmbiente.Count - 1);
         AlternarFormatoWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarFormatoWidget);
-                AlternarVisibilidadeWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarVisibilidadeWidget);
+        AlternarVisibilidadeWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarVisibilidadeWidget);
         NovoCompromissoCommand = new RelayCommand(NovoCompromisso);
         RemoverCompromissoCommand = new RelayCommand(RemoverCompromisso, () => CompromissoSelecionado != null);
         ProcurarArquivoIcsCommand = new RelayCommand(ProcurarArquivoIcs);
 
-        // Comandos de EspaÃ§adores
+        // Comandos de Espaçadores
         NovoEspacadorCommand = new RelayCommand(NovoEspacador);
         RemoverEspacadorCommand = new RelayCommand(RemoverEspacador, () => EspacadorSelecionado != null);
         MoverEspacadorCimaCommand = new RelayCommand(MoverEspacadorCima, () => EspacadorSelecionado != null && Espacadores.IndexOf(EspacadorSelecionado) > 0);
         MoverEspacadorBaixoCommand = new RelayCommand(MoverEspacadorBaixo, () => EspacadorSelecionado != null && Espacadores.IndexOf(EspacadorSelecionado) < Espacadores.Count - 1);
 
-        // Comandos de AparÃªncia
+        // Comandos de Aparência
         SelecionarTemaCommand = new RelayCommand<TemaDefinicao>(SelecionarTema);
 
-        // Comandos de UtilitÃ¡rios
+        // Comandos de Utilitários
         ExportarBackupCommand = new RelayCommand(ExportarBackup);
         ImportarBackupCommand = new RelayCommand(ImportarBackup);
         RestaurarPadroesFabricaCommand = new RelayCommand(RestaurarPadroesFabrica);
@@ -269,7 +269,7 @@ public class AjustesViewModel : ObservableObject
         set => SetProperty(ref _categoriaUtilSelecionada, value);
     }
 
-    // Campos EditÃ¡veis do Ambiente Selecionado
+    // Campos Editáveis do Ambiente Selecionado
     public string NomeAmbienteEditavel
     {
         get => AmbienteSelecionado?.Nome ?? string.Empty;
@@ -304,7 +304,7 @@ public class AjustesViewModel : ObservableObject
 
     public string IconeAmbienteEditavel
     {
-        get => AmbienteSelecionado?.Icone ?? "ðŸ’¼";
+        get => AmbienteSelecionado?.Icone ?? "💼";
         set
         {
             if (AmbienteSelecionado != null && !string.IsNullOrWhiteSpace(value) && AmbienteSelecionado.Icone != value)
@@ -403,7 +403,7 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    // ConfiguraÃ§Ãµes Gerais
+    // Configurações Gerais
     public bool IniciarComWindows
     {
         get => _mainVm.Preferencias.IniciarComWindows;
@@ -534,7 +534,7 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    // AparÃªncia
+    // Aparência
     public EstiloTema EstiloTema
     {
         get => _mainVm.EstiloTema;
@@ -746,7 +746,7 @@ public class AjustesViewModel : ObservableObject
             Id = "amb-" + Guid.NewGuid().ToString("N")[..8],
             Nome = nome.Trim(),
             CorHex = "#0078D4",
-            Icone = "ðŸ’¼",
+            Icone = "💼",
             CorIndicadorApps = "#0A84FF",
             EstiloIndicadorApps = "Barra",
             Widgets = new WidgetConfig(),
@@ -778,13 +778,13 @@ public class AjustesViewModel : ObservableObject
 
         if (Ambientes.Count <= 1)
         {
-            MostrarAlerta?.Invoke("AÃ§Ã£o nÃ£o permitida", "NÃ£o Ã© possÃ­vel excluir o Ãºnico ambiente do aplicativo.");
+            MostrarAlerta?.Invoke("Ação não permitida", "Não é possível excluir o único ambiente do aplicativo.");
             return;
         }
 
         bool confirmar = ConfirmarAcao?.Invoke(
-            "Confirmar ExclusÃ£o de Ambiente",
-            $"Tem certeza que deseja excluir o ambiente '{AmbienteSelecionado.Nome}'? Todos os seus itens e configuraÃ§Ãµes serÃ£o removidos permanentemente.") ?? true;
+            "Confirmar Exclusão de Ambiente",
+            $"Tem certeza que deseja excluir o ambiente '{AmbienteSelecionado.Nome}'? Todos os seus itens e configurações serão removidos permanentemente.") ?? true;
         if (!confirmar) return;
 
         var ambVm = Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado.Id);
@@ -853,7 +853,7 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    // AdiÃ§Ã£o de itens de diferentes tipos
+    // Adição de itens de diferentes tipos
     private void AdicionarAppExecutavel()
     {
         if (AmbienteSelecionado == null) return;
@@ -957,7 +957,7 @@ public class AjustesViewModel : ObservableObject
     {
         if (AmbienteSelecionado == null) return;
 
-        var url = PedirTexto?.Invoke("Adicionar Site / URL", "Digite o endereÃ§o web (ex: https://github.com):");
+        var url = PedirTexto?.Invoke("Adicionar Site / URL", "Digite o endereço web (ex: https://github.com):");
         if (string.IsNullOrWhiteSpace(url)) return;
 
         url = url.Trim();
@@ -969,11 +969,11 @@ public class AjustesViewModel : ObservableObject
 
         if (!Uri.TryCreate(url, UriKind.Absolute, out _))
         {
-            MostrarAlerta?.Invoke("URL InvÃ¡lida", "Por favor, digite um endereÃ§o de site vÃ¡lido.");
+            MostrarAlerta?.Invoke("URL Inválida", "Por favor, digite um endereço de site válido.");
             return;
         }
 
-        var titulo = PedirTexto?.Invoke("Nome do Site", "Digite o nome de exibiÃ§Ã£o:");
+        var titulo = PedirTexto?.Invoke("Nome do Site", "Digite o nome de exibição:");
         if (string.IsNullOrWhiteSpace(titulo))
         {
             titulo = new Uri(url).Host;
@@ -1000,14 +1000,14 @@ public class AjustesViewModel : ObservableObject
     {
         if (AmbienteSelecionado == null) return;
 
-        var nome = PedirTexto?.Invoke("Nova ColeÃ§Ã£o no Ambiente", "Digite o nome da coleÃ§Ã£o:");
+        var nome = PedirTexto?.Invoke("Nova Coleção no Ambiente", "Digite o nome da coleção:");
         if (string.IsNullOrWhiteSpace(nome)) return;
 
         var nova = new ColecaoApp
         {
             Id = "col-" + Guid.NewGuid().ToString("N")[..8],
             Nome = nome.Trim(),
-            Icone = "ðŸ“",
+            Icone = "📁",
             EhGlobal = false,
             Ordem = AmbienteSelecionado.Colecoes.Count
         };
@@ -1042,7 +1042,7 @@ public class AjustesViewModel : ObservableObject
         if (AmbienteSelecionado == null || ItemSelecionado == null) return;
 
         bool confirmar = ConfirmarAcao?.Invoke(
-            "Confirmar RemoÃ§Ã£o",
+            "Confirmar Remoção",
             $"Deseja remover o item '{ItemSelecionado.Titulo}' deste ambiente?") ?? true;
         if (!confirmar) return;
 
@@ -1118,14 +1118,14 @@ public class AjustesViewModel : ObservableObject
 
     private void NovaColecao()
     {
-        var nome = PedirTexto?.Invoke("Nova ColeÃ§Ã£o", "Digite o nome da coleÃ§Ã£o:");
+        var nome = PedirTexto?.Invoke("Nova Coleção", "Digite o nome da coleção:");
         if (string.IsNullOrWhiteSpace(nome)) return;
 
         var nova = new ColecaoApp
         {
             Id = "col-" + Guid.NewGuid().ToString("N")[..8],
             Nome = nome.Trim(),
-            Icone = "ðŸ“",
+            Icone = "📁",
             EhGlobal = true,
             Ordem = _mainVm.ColecoesGlobais.Count
         };
@@ -1140,7 +1140,7 @@ public class AjustesViewModel : ObservableObject
     {
         if (ColecaoSelecionada == null) return;
 
-        bool confirmar = ConfirmarAcao?.Invoke("Excluir ColeÃ§Ã£o", $"Deseja remover a coleÃ§Ã£o '{ColecaoSelecionada.Nome}'?") ?? true;
+        bool confirmar = ConfirmarAcao?.Invoke("Excluir Coleção", $"Deseja remover a coleção '{ColecaoSelecionada.Nome}'?") ?? true;
         if (!confirmar) return;
 
         _mainVm.Preferencias.ColecoesGlobais.RemoveAll(c => c.Id == ColecaoSelecionada.Id);
@@ -1221,8 +1221,8 @@ public class AjustesViewModel : ObservableObject
     {
         if (wgt != null)
         {
-            // Note: O CheckBox (Mode=TwoWay) jÃ¡ alterou wgt.Visivel para o novo valor.
-            // Apenas aplicamos a alteraÃ§Ã£o Ã  dock.
+            // Note: O CheckBox (Mode=TwoWay) já alterou wgt.Visivel para o novo valor.
+            // Apenas aplicamos a alteração à dock.
             if (wgt.Tipo == TipoWidget.Relogio) _mainVm.Clock.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.Pomodoro) _mainVm.Pomodoro.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.CalendarioCompromissos) _mainVm.Calendario.Habilitado = wgt.Visivel;
@@ -1230,7 +1230,7 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-        private void ProcurarArquivoIcs()
+    private void ProcurarArquivoIcs()
     {
         var dlg = new Microsoft.Win32.OpenFileDialog
         {
@@ -1247,7 +1247,7 @@ public class AjustesViewModel : ObservableObject
 
     private void NovoCompromisso()
     {
-        var titulo = PedirTexto?.Invoke("Novo Compromisso", "TÃ­tulo do compromisso ou evento:");
+        var titulo = PedirTexto?.Invoke("Novo Compromisso", "Título do compromisso ou evento:");
         if (string.IsNullOrWhiteSpace(titulo)) return;
 
         var novo = new CompromissoLocal
@@ -1255,7 +1255,7 @@ public class AjustesViewModel : ObservableObject
             Id = Guid.NewGuid().ToString(),
             Titulo = titulo.Trim(),
             DataHora = DateTime.Now.AddHours(1),
-            Descricao = "Lembrete configurado nas opÃ§Ãµes"
+            Descricao = "Lembrete configurado nas opções"
         };
 
         Compromissos.Add(novo);
@@ -1275,10 +1275,10 @@ public class AjustesViewModel : ObservableObject
         CompromissoSelecionado = Compromissos.FirstOrDefault();
     }
 
-    // EspaÃ§adores
+    // Espaçadores
     private void NovoEspacador()
     {
-        var nome = PedirTexto?.Invoke("Novo EspaÃ§ador", "Nome do divisor (ex: Divisor Personalizado):");
+        var nome = PedirTexto?.Invoke("Novo Espaçador", "Nome do divisor (ex: Divisor Personalizado):");
         if (string.IsNullOrWhiteSpace(nome)) nome = $"Divisor {Espacadores.Count + 1}";
 
         var novo = new EspacadorConfig
@@ -1300,7 +1300,7 @@ public class AjustesViewModel : ObservableObject
     private void RemoverEspacador()
     {
         if (EspacadorSelecionado == null) return;
-        bool confirmar = ConfirmarAcao?.Invoke("Excluir EspaÃ§ador", $"Deseja remover o divisor '{EspacadorSelecionado.Nome}'?") ?? true;
+        bool confirmar = ConfirmarAcao?.Invoke("Excluir Espaçador", $"Deseja remover o divisor '{EspacadorSelecionado.Nome}'?") ?? true;
         if (!confirmar) return;
 
         Espacadores.Remove(EspacadorSelecionado);
@@ -1348,12 +1348,12 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    // UtilitÃ¡rios
+    // Utilitários
     private void ExportarBackup()
     {
         var dlg = new SaveFileDialog
         {
-            Title = "Exportar ConfiguraÃ§Ãµes do Dock Windows",
+            Title = "Exportar Configurações do Dock Windows",
             Filter = "Arquivo JSON (*.json)|*.json",
             FileName = $"dockwindows-backup-{DateTime.Now:yyyyMMdd-HHmm}.json"
         };
@@ -1364,7 +1364,7 @@ public class AjustesViewModel : ObservableObject
             {
                 var json = JsonSerializer.Serialize(_mainVm.Preferencias, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(dlg.FileName, json);
-                MostrarAlerta?.Invoke("Backup Realizado", $"ConfiguraÃ§Ãµes exportadas com sucesso para:\n{dlg.FileName}");
+                MostrarAlerta?.Invoke("Backup Realizado", $"Configurações exportadas com sucesso para:\n{dlg.FileName}");
             }
             catch (Exception ex)
             {
@@ -1377,7 +1377,7 @@ public class AjustesViewModel : ObservableObject
     {
         var dlg = new OpenFileDialog
         {
-            Title = "Importar ConfiguraÃ§Ãµes do Dock Windows",
+            Title = "Importar Configurações do Dock Windows",
             Filter = "Arquivo JSON (*.json)|*.json",
             CheckFileExists = true
         };
@@ -1395,18 +1395,18 @@ public class AjustesViewModel : ObservableObject
                 if (prefs != null && prefs.Ambientes.Count > 0)
                 {
                     _repo.Salvar(prefs);
-                    MostrarAlerta?.Invoke("Backup Restaurado", "ConfiguraÃ§Ãµes importadas com sucesso! O aplicativo serÃ¡ reiniciado para aplicar as alteraÃ§Ãµes.");
+                    MostrarAlerta?.Invoke("Backup Restaurado", "Configurações importadas com sucesso! O aplicativo será reiniciado para aplicar as alterações.");
                     Process.Start(Environment.ProcessPath ?? "DockWindows.App.exe");
                     Application.Current.Shutdown();
                 }
                 else
                 {
-                    MostrarAlerta?.Invoke("Arquivo InvÃ¡lido", "O arquivo JSON selecionado nÃ£o contÃ©m uma configuraÃ§Ã£o vÃ¡lida do Dock Windows.");
+                    MostrarAlerta?.Invoke("Arquivo Inválido", "O arquivo JSON selecionado não contém uma configuração válida do Dock Windows.");
                 }
             }
             catch (Exception ex)
             {
-                MostrarAlerta?.Invoke("Erro na RestauraÃ§Ã£o", $"Falha ao importar configuraÃ§Ãµes: {ex.Message}");
+                MostrarAlerta?.Invoke("Erro na Restauração", $"Falha ao importar configurações: {ex.Message}");
             }
         }
     }
@@ -1414,14 +1414,14 @@ public class AjustesViewModel : ObservableObject
     private void RestaurarPadroesFabrica()
     {
         bool confirmar = ConfirmarAcao?.Invoke(
-            "Restaurar PadrÃµes de FÃ¡brica",
-            "Esta aÃ§Ã£o redefinirÃ¡ todos os ambientes (Trabalho, Estudos e Pessoal), aplicativos, temas e opÃ§Ãµes para a configuraÃ§Ã£o original de fÃ¡brica.\n\nDeseja continuar?") ?? true;
+            "Restaurar Padrões de Fábrica",
+            "Esta ação redefinirá todos os ambientes (Trabalho, Estudos e Pessoal), aplicativos, temas e opções para a configuração original de fábrica.\n\nDeseja continuar?") ?? true;
 
         if (confirmar)
         {
             var padrao = Preferencias.CriarPadrao();
             _repo.Salvar(padrao);
-            MostrarAlerta?.Invoke("RedefiniÃ§Ã£o ConcluÃ­da", "ConfiguraÃ§Ãµes restauradas com sucesso para os padrÃµes originais.");
+            MostrarAlerta?.Invoke("Redefinição Concluída", "Configurações restauradas com sucesso para os padrões originais.");
             Process.Start(Environment.ProcessPath ?? "DockWindows.App.exe");
             Application.Current.Shutdown();
         }
@@ -1452,4 +1452,3 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
-

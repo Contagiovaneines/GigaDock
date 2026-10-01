@@ -1,10 +1,10 @@
-﻿<Window x:Class="DockWindows.App.Views.AjustesWindow"
+<Window x:Class="DockWindows.App.Views.AjustesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:DockWindows.App.Converters"
         xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core"
         xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
-        Title="Dock Windows â€” Ajustes e ConfiguraÃ§Ãµes"
+        Title="Dock Windows — Ajustes e Configurações"
         Width="1080"
         Height="720"
         MinWidth="960"
@@ -20,7 +20,7 @@
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>
 
-        <!-- Estilo dos BotÃµes da Barra Lateral de NavegaÃ§Ã£o (Liquid Glass Sidebar SBR001) -->
+        <!-- Estilo dos Botões da Barra Lateral de Navegação (Liquid Glass Sidebar SBR001) -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#A0A0A8"/>
@@ -61,7 +61,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Estilo dos BotÃµes PrimÃ¡rios (Liquid Glass Button BTN003) -->
+        <!-- Estilo dos Botões Primários (Liquid Glass Button BTN003) -->
         <Style x:Key="PrimaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#0A84FF"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
@@ -95,7 +95,7 @@
             </Setter>
         </Style>
 
-        <!-- Estilo dos BotÃµes SecundÃ¡rios / Ãcones -->
+        <!-- Estilo dos Botões Secundários / Ícones -->
         <Style x:Key="SecondaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#24242A"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
@@ -144,38 +144,38 @@
     <!-- ESTRUTURA PRINCIPAL EM 3 COLUNAS -->
     <Grid>
         <Grid.ColumnDefinitions>
-            <!-- Coluna 1: NavegaÃ§Ã£o Lateral -->
+            <!-- Coluna 1: Navegação Lateral -->
             <ColumnDefinition Width="220" MinWidth="190" MaxWidth="260"/>
-            <!-- Coluna 2: Itens da SeÃ§Ã£o Selecionada -->
+            <!-- Coluna 2: Itens da Seção Selecionada -->
             <ColumnDefinition Width="310" MinWidth="260" MaxWidth="400"/>
-            <!-- Coluna 3: EdiÃ§Ã£o e Detalhes do Item Selecionado -->
+            <!-- Coluna 3: Edição e Detalhes do Item Selecionado -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- ========================================================= -->
-        <!-- COLUNA 1: NAVEGAÃ‡ÃƒO LATERAL                               -->
+        <!-- COLUNA 1: NAVEGAÇÃO LATERAL                               -->
         <!-- ========================================================= -->
         <Border Grid.Column="0" Background="#161619" BorderBrush="#26262C" BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
-                    <!-- CabeÃ§alho do App -->
+                    <!-- Cabeçalho do App -->
                     <RowDefinition Height="Auto"/>
-                    <!-- Menu de NavegaÃ§Ã£o -->
+                    <!-- Menu de Navegação -->
                     <RowDefinition Height="*"/>
-                    <!-- RodapÃ© com BotÃ£o Concluir -->
+                    <!-- Rodapé com Botão Concluir -->
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- CabeÃ§alho: Identidade do Dock Windows e Ambiente Ativo -->
+                <!-- Cabeçalho: Identidade do Dock Windows e Ambiente Ativo -->
                 <Border Grid.Row="0" Padding="14,16,14,14" BorderBrush="#26262C" BorderThickness="0,0,0,1">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Border Width="34" Height="34" CornerRadius="8" Background="#0A84FF" Margin="0,0,10,0">
-                                <TextBlock Text="ðŸš€" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="🚀" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="Dock Windows" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                <TextBlock Text="VersÃ£o 1.6.0" FontSize="11" Foreground="#8E8E93"/>
+                                <TextBlock Text="Versão 1.6.0" FontSize="11" Foreground="#8E8E93"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -191,7 +191,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Grupos de NavegaÃ§Ã£o -->
+                <!-- Grupos de Navegação -->
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="0,10">
                         <!-- GRUPO PRINCIPAL -->
@@ -199,22 +199,22 @@
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoAmbientes}" Command="{Binding NavegarCommand}" CommandParameter="Ambientes">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ðŸ’¼" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="💼" FontSize="14" Margin="0,0,9,0"/>
                                 <TextBlock Text="Ambientes"/>
                             </StackPanel>
                         </Button>
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoWidgets}" Command="{Binding NavegarCommand}" CommandParameter="Widgets">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ðŸ§©" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="🧩" FontSize="14" Margin="0,0,9,0"/>
                                 <TextBlock Text="Widgets"/>
                             </StackPanel>
                         </Button>
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoEspacadores}" Command="{Binding NavegarCommand}" CommandParameter="Espacadores">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="â†”ï¸" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="EspaÃ§adores"/>
+                                <TextBlock Text="↔️" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="Espaçadores"/>
                             </StackPanel>
                         </Button>
 
@@ -223,35 +223,35 @@
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoAparencia}" Command="{Binding NavegarCommand}" CommandParameter="Aparencia">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ðŸŽ¨" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="AparÃªncia"/>
+                                <TextBlock Text="🎨" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="Aparência"/>
                             </StackPanel>
                         </Button>
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoGeral}" Command="{Binding NavegarCommand}" CommandParameter="Geral">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="âš™ï¸" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="⚙️" FontSize="14" Margin="0,0,9,0"/>
                                 <TextBlock Text="Geral"/>
                             </StackPanel>
                         </Button>
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoUtilitarios}" Command="{Binding NavegarCommand}" CommandParameter="Utilitarios">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ðŸ› ï¸" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="UtilitÃ¡rios"/>
+                                <TextBlock Text="🛠️" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="Utilitários"/>
                             </StackPanel>
                         </Button>
 
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoSobre}" Command="{Binding NavegarCommand}" CommandParameter="Sobre">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="â„¹ï¸" FontSize="14" Margin="0,0,9,0"/>
+                                <TextBlock Text="ℹ️" FontSize="14" Margin="0,0,9,0"/>
                                 <TextBlock Text="Sobre"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
 
-                <!-- RodapÃ© -->
+                <!-- Rodapé -->
                 <Border Grid.Row="2" Padding="12" BorderBrush="#26262C" BorderThickness="0,1,0,0">
                     <Button Style="{StaticResource PrimaryButtonStyle}" Content="Concluir e Fechar" Command="{Binding ConcluirCommand}" HorizontalAlignment="Stretch"/>
                 </Border>
@@ -259,7 +259,7 @@
         </Border>
 
         <!-- ========================================================= -->
-        <!-- COLUNA 2: ITENS DA SEÃ‡ÃƒO (MASTER LIST)                    -->
+        <!-- COLUNA 2: ITENS DA SEÇÃO (MASTER LIST)                    -->
         <!-- ========================================================= -->
         <Border Grid.Column="1" Background="#19191D" BorderBrush="#282830" BorderThickness="0,0,1,0">
             <Grid Margin="12,14">
@@ -273,13 +273,13 @@
                     <TextBlock Text="Ambientes" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
                     <TextBlock Text="Selecione um ambiente para editar ou ativar" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,8"/>
 
-                    <!-- Barra de AÃ§Ãµes: + - Cima Baixo -->
+                    <!-- Barra de Ações: + - Cima Baixo -->
                     <Border Background="#202026" CornerRadius="6" Padding="4" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• Novo" Command="{Binding NovoAmbienteCommand}" Margin="2,0" ToolTip="Criar novo ambiente"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž– Excluir" Command="{Binding ExcluirAmbienteCommand}" Margin="2,0" ToolTip="Excluir ambiente selecionado"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬†ï¸" Command="{Binding MoverAmbienteCimaCommand}" Margin="2,0" ToolTip="Mover para cima"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬‡ï¸" Command="{Binding MoverAmbienteBaixoCommand}" Margin="2,0" ToolTip="Mover para baixo"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Novo" Command="{Binding NovoAmbienteCommand}" Margin="2,0" ToolTip="Criar novo ambiente"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="➖ Excluir" Command="{Binding ExcluirAmbienteCommand}" Margin="2,0" ToolTip="Excluir ambiente selecionado"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️" Command="{Binding MoverAmbienteCimaCommand}" Margin="2,0" ToolTip="Mover para cima"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️" Command="{Binding MoverAmbienteBaixoCommand}" Margin="2,0" ToolTip="Mover para baixo"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -344,12 +344,12 @@
                 <!-- 2. WIDGETS -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="Widgets" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="Widgets disponÃ­veis no ambiente ativo" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,8"/>
+                    <TextBlock Text="Widgets disponíveis no ambiente ativo" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,8"/>
 
                     <Border Background="#202026" CornerRadius="6" Padding="4" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬†ï¸ Subir" Command="{Binding MoverWidgetCimaCommand}" Margin="2,0"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬‡ï¸ Descer" Command="{Binding MoverWidgetBaixoCommand}" Margin="2,0"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️ Subir" Command="{Binding MoverWidgetCimaCommand}" Margin="2,0"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️ Descer" Command="{Binding MoverWidgetBaixoCommand}" Margin="2,0"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -388,7 +388,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="ðŸ§©" FontSize="16" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="0" Text="🧩" FontSize="16" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Text="{Binding Nome}" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
@@ -403,17 +403,17 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <!-- 3. ESPAÃ‡ADORES -->
+                <!-- 3. ESPAÇADORES -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoEspacadores, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="EspaÃ§adores" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    <TextBlock Text="Espaçadores" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
                     <TextBlock Text="Divisores visuais entre blocos do dock" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,8"/>
 
                     <Border Background="#202026" CornerRadius="6" Padding="4" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• Adicionar" Command="{Binding NovoEspacadorCommand}" Margin="2,0"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž– Remover" Command="{Binding RemoverEspacadorCommand}" Margin="2,0"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬†ï¸" Command="{Binding MoverEspacadorCimaCommand}" Margin="2,0"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬‡ï¸" Command="{Binding MoverEspacadorBaixoCommand}" Margin="2,0"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Adicionar" Command="{Binding NovoEspacadorCommand}" Margin="2,0"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="➖ Remover" Command="{Binding RemoverEspacadorCommand}" Margin="2,0"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️" Command="{Binding MoverEspacadorCimaCommand}" Margin="2,0"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️" Command="{Binding MoverEspacadorBaixoCommand}" Margin="2,0"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -452,7 +452,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="â†”ï¸" FontSize="15" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="0" Text="↔️" FontSize="15" Margin="0,0,10,0" VerticalAlignment="Center"/>
 
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Text="{Binding Nome}" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
@@ -465,7 +465,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <!-- 4. APARÃŠNCIA (TEMAS PRÃ‰-DEFINIDOS) -->
+                <!-- 4. APARÊNCIA (TEMAS PRÉ-DEFINIDOS) -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoAparencia, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="Temas Visuais" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
                     <TextBlock Text="Escolha o estilo visual para o dock" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
@@ -521,62 +521,62 @@
 
                 <!-- 5. GERAL (LISTA DE CATEGORIAS) -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="OpÃ§Ãµes Gerais" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="ConfiguraÃ§Ãµes de sistema e comportamento" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
+                    <TextBlock Text="Opções Gerais" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    <TextBlock Text="Configurações de sistema e comportamento" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}">
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
                         <StackPanel>
-                            <TextBlock Text="ðŸ–¥ï¸ Modo Barra Principal" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                            <TextBlock Text="SubstituiÃ§Ã£o da barra nativa do Windows" FontSize="11" Foreground="#8E8E93"/>
+                            <TextBlock Text="🖥️ Modo Barra Principal" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                            <TextBlock Text="Substituição da barra nativa do Windows" FontSize="11" Foreground="#8E8E93"/>
                         </StackPanel>
                     </Border>
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
                         <StackPanel>
-                            <TextBlock Text="ðŸ‘ï¸ OcultaÃ§Ã£o AutomÃ¡tica" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                            <TextBlock Text="👁️ Ocultação Automática" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
                             <TextBlock Text="Recolher quando o mouse se afasta" FontSize="11" Foreground="#8E8E93"/>
                         </StackPanel>
                     </Border>
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
                         <StackPanel>
-                            <TextBlock Text="âš¡ InicializaÃ§Ã£o do Sistema" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                            <TextBlock Text="⚡ Inicialização do Sistema" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
                             <TextBlock Text="Iniciar automaticamente com o Windows" FontSize="11" Foreground="#8E8E93"/>
                         </StackPanel>
                     </Border>
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
                         <StackPanel>
-                            <TextBlock Text="âŒ¨ï¸ Atalhos de Teclado" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                            <TextBlock Text="⌨️ Atalhos de Teclado" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
                             <TextBlock Text="Atalho global para exibir ou ocultar" FontSize="11" Foreground="#8E8E93"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
 
-                <!-- 6. UTILITÃRIOS (LISTA DE TÃ“PICOS) -->
+                <!-- 6. UTILITÁRIOS (LISTA DE TÓPICOS) -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoUtilitarios, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="UtilitÃ¡rios" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="Ferramentas de dados e manutenÃ§Ã£o" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
+                    <TextBlock Text="Utilitários" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    <TextBlock Text="Ferramentas de dados e manutenção" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoUtilitarios, Converter={StaticResource BoolToVis}}">
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="ðŸ’¾ Backup e ExportaÃ§Ã£o JSON" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="💾 Backup e Exportação JSON" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
                     </Border>
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="ðŸ“¥ Restaurar Backup JSON" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="📥 Restaurar Backup JSON" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
                     </Border>
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="ðŸ”„ Restaurar Barra do Windows" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="🔄 Restaurar Barra do Windows" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
                     </Border>
                     <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="âš ï¸ Redefinir para PadrÃµes de FÃ¡brica" FontSize="13" FontWeight="SemiBold" Foreground="#FF453A"/>
+                        <TextBlock Text="⚠️ Redefinir para Padrões de Fábrica" FontSize="13" FontWeight="SemiBold" Foreground="#FF453A"/>
                     </Border>
                 </StackPanel>
 
-                <!-- 7. SOBRE (INFORMAÃ‡Ã•ES) -->
+                <!-- 7. SOBRE (INFORMAÇÕES) -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
                     <TextBlock Text="Sobre o Aplicativo" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="InformaÃ§Ãµes de versÃ£o e sistema" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
+                    <TextBlock Text="Informações de versão e sistema" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
@@ -592,17 +592,17 @@
         </Border>
 
         <!-- ========================================================= -->
-        <!-- COLUNA 3: EDIÃ‡ÃƒO DO ITEM SELECIONADO                      -->
+        <!-- COLUNA 3: EDIÇÃO DO ITEM SELECIONADO                      -->
         <!-- ========================================================= -->
         <Border Grid.Column="2" Background="#141416">
             <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="18,16">
-                <!-- CONTEÃšDO DINÃ‚MICO CONFORME A SEÃ‡ÃƒO -->
+                <!-- CONTEÚDO DINÂMICO CONFORME A SEÇÃO -->
                 <Grid>
                     <!-- ================================================= -->
-                    <!-- 1. PAINEL DE EDIÃ‡ÃƒO DO AMBIENTE                   -->
+                    <!-- 1. PAINEL DE EDIÇÃO DO AMBIENTE                   -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoAmbientes, Converter={StaticResource BoolToVis}}">
-                        <!-- TÃ­tulo e AÃ§Ã£o de AtivaÃ§Ã£o -->
+                        <!-- Título e Ação de Ativação -->
                         <Grid Margin="0,0,0,14">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -617,7 +617,7 @@
                                     Visibility="{Binding EstaAtivoAmbienteSelecionado, Converter={StaticResource InvertBoolToVis}}"/>
                         </Grid>
 
-                        <!-- BLOCO: DADOS BÃSICOS DO AMBIENTE -->
+                        <!-- BLOCO: DADOS BÁSICOS DO AMBIENTE -->
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="IDENTIDADE VISUAL DO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
@@ -634,9 +634,9 @@
                                         <TextBox Text="{Binding NomeAmbienteEditavel, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
 
-                                    <!-- Ãcone -->
+                                    <!-- Ícone -->
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Ãcone (Emoji):" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                        <TextBlock Text="Ícone (Emoji):" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                         <TextBox Text="{Binding IconeAmbienteEditavel, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
@@ -674,7 +674,7 @@
                                                   SelectedValuePath="Content" Background="#202026" Foreground="#FFFFFF" Padding="6,4">
                                             <ComboBoxItem Content="Barra"/>
                                             <ComboBoxItem Content="Ponto"/>
-                                            <ComboBoxItem Content="PÃ­lula"/>
+                                            <ComboBoxItem Content="Pílula"/>
                                         </ComboBox>
                                     </StackPanel>
 
@@ -692,16 +692,16 @@
                             <StackPanel>
                                 <TextBlock Text="APLICATIVOS E ATALHOS DO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
 
-                                <!-- Barra com botÃµes de adicionar -->
+                                <!-- Barra com botões de adicionar -->
                                 <WrapPanel Margin="0,0,0,10">
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• App (.exe / .lnk)" Command="{Binding AdicionarAppExecutavelCommand}" Margin="0,0,6,6"/>
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• Arquivo" Command="{Binding AdicionarArquivoCommand}" Margin="0,0,6,6"/>
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• Pasta" Command="{Binding AdicionarPastaCommand}" Margin="0,0,6,6"/>
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• Site / URL" Command="{Binding AdicionarSiteUrlCommand}" Margin="0,0,6,6"/>
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="âž• ColeÃ§Ã£o" Command="{Binding AdicionarColecaoAmbienteCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ App (.exe / .lnk)" Command="{Binding AdicionarAppExecutavelCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Arquivo" Command="{Binding AdicionarArquivoCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Pasta" Command="{Binding AdicionarPastaCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Site / URL" Command="{Binding AdicionarSiteUrlCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Coleção" Command="{Binding AdicionarColecaoAmbienteCommand}" Margin="0,0,6,6"/>
                                 </WrapPanel>
 
-                                <!-- Lista de Itens Fixados com AÃ§Ãµes -->
+                                <!-- Lista de Itens Fixados com Ações -->
                                 <ListBox ItemsSource="{Binding ItensAmbiente}"
                                          SelectedItem="{Binding ItemSelecionado, Mode=TwoWay}"
                                          Background="Transparent" BorderThickness="0" MaxHeight="220">
@@ -735,7 +735,7 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <TextBlock Grid.Column="0" Text="ðŸ“Œ" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="0" Text="📌" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center"/>
 
                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding Titulo}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF"/>
@@ -766,12 +766,12 @@
                                                     ToolTip="Clique para alternar entre Global e Exclusivo deste ambiente"/>
                                         </StackPanel>
 
-                                        <!-- BotÃµes de AÃ§Ã£o do Item -->
+                                        <!-- Botões de Ação do Item -->
                                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬†ï¸" Command="{Binding MoverItemCimaCommand}" Margin="2,0"/>
-                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="â¬‡ï¸" Command="{Binding MoverItemBaixoCommand}" Margin="2,0"/>
-                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="âœï¸" Command="{Binding EditarItemAmbienteCommand}" Margin="2,0"/>
-                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="âŒ" Command="{Binding RemoverItemAmbienteCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️" Command="{Binding MoverItemCimaCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️" Command="{Binding MoverItemBaixoCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="✏️" Command="{Binding EditarItemAmbienteCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="❌" Command="{Binding RemoverItemAmbienteCommand}" Margin="2,0"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -782,19 +782,19 @@
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
                             <StackPanel>
                                 <TextBlock Text="WIDGETS HABILITADOS NO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <CheckBox Content="RelÃ³gio Digital e Controles de Sistema" IsChecked="{Binding RelogioAmbienteHabilitado}" Margin="0,0,0,8"/>
+                                <CheckBox Content="Relógio Digital e Controles de Sistema" IsChecked="{Binding RelogioAmbienteHabilitado}" Margin="0,0,0,8"/>
                                 <CheckBox Content="Pomodoro de Foco e Produtividade" IsChecked="{Binding PomodoroAmbienteHabilitado}" Margin="0,0,0,8"/>
-                                <CheckBox Content="CalendÃ¡rio e PrÃ³ximos Compromissos" IsChecked="{Binding CalendarioAmbienteHabilitado}"/>
+                                <CheckBox Content="Calendário e Próximos Compromissos" IsChecked="{Binding CalendarioAmbienteHabilitado}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 2. PAINEL DE EDIÃ‡ÃƒO DE WIDGETS                    -->
+                    <!-- 2. PAINEL DE EDIÇÃO DE WIDGETS                    -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
                         <TextBlock Text="{Binding WidgetSelecionado.Nome, StringFormat='Widget: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="Ajuste o formato e os parÃ¢metros do widget selecionado" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="Ajuste o formato e os parâmetros do widget selecionado" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,14">
                             <StackPanel>
@@ -807,7 +807,7 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- ParÃ¢metros EspecÃ­ficos do Pomodoro -->
+                        <!-- Parâmetros Específicos do Pomodoro -->
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,14"
                                 Visibility="{Binding EhWidgetPomodoro, Converter={StaticResource BoolToVis}}">
                             <StackPanel>
@@ -842,15 +842,15 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Gerenciador de Compromissos Locais do CalendÃ¡rio -->
+                        <!-- Gerenciador de Compromissos Locais do Calendário -->
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14"
                                 Visibility="{Binding EhWidgetCalendario, Converter={StaticResource BoolToVis}}">
                             <StackPanel>
                                 <TextBlock Text="COMPROMISSOS E EVENTOS LOCAIS" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <TextBlock Text="Os eventos cadastrados abaixo sÃ£o exibidos no dock quando o widget de calendÃ¡rio estÃ¡ ativo. Nenhum dado Ã© enviado para a nuvem."
+                                <TextBlock Text="Os eventos cadastrados abaixo são exibidos no dock quando o widget de calendário está ativo. Nenhum dado é enviado para a nuvem."
                                            FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="0,0,0,10"/>
 
-                                <Button Style="{StaticResource PrimaryButtonStyle}" Content="âž• Novo Compromisso" Command="{Binding NovoCompromissoCommand}" Margin="0,0,0,10" HorizontalAlignment="Left"/>
+                                <Button Style="{StaticResource PrimaryButtonStyle}" Content="➕ Novo Compromisso" Command="{Binding NovoCompromissoCommand}" Margin="0,0,0,10" HorizontalAlignment="Left"/>
 
                                 <ListBox ItemsSource="{Binding Compromissos}"
                                          SelectedItem="{Binding CompromissoSelecionado, Mode=TwoWay}"
@@ -879,11 +879,11 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- SincronizaÃ§Ã£o com Email iCal -->
+                        <!-- Sincronização com Email iCal -->
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,14,0,0"
                                 Visibility="{Binding EhWidgetCalendario, Converter={StaticResource BoolToVis}}">
                             <StackPanel>
-                                <TextBlock Text="SINCRONIZAÃ‡ÃƒO COM EMAIL (iCal / .ics)" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
+                                <TextBlock Text="SINCRONIZAÇÃO COM EMAIL (iCal / .ics)" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
                                 <TextBlock Text="Cole o Link Secreto (iCal/ICS) do seu Gmail, Outlook, Titan ou iCloud para sincronizar seus compromissos online automaticamente."
                                            FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="0,0,0,10"/>
                                 <Grid>
@@ -904,11 +904,11 @@
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 3. PAINEL DE EDIÃ‡ÃƒO DE ESPAÃ‡ADORES                -->
+                    <!-- 3. PAINEL DE EDIÇÃO DE ESPAÇADORES                -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoEspacadores, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="{Binding EspacadorSelecionado.Nome, StringFormat='EspaÃ§ador: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="Personalize a aparÃªncia dos divisores entre blocos da barra" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="{Binding EspacadorSelecionado.Nome, StringFormat='Espaçador: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Personalize a aparência dos divisores entre blocos da barra" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
                             <StackPanel>
@@ -925,22 +925,22 @@
                                     <models:EstiloEspacador>Ponto</models:EstiloEspacador>
                                 </ComboBox>
 
-                                <TextBlock Text="{Binding EspacadorSelecionado.Largura, StringFormat='EspaÃ§amento / Largura: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="{Binding EspacadorSelecionado.Largura, StringFormat='Espaçamento / Largura: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                 <Slider Minimum="4" Maximum="32" Value="{Binding EspacadorSelecionado.Largura, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="VisÃ­vel no dock" IsChecked="{Binding EspacadorSelecionado.Visivel, Mode=TwoWay}"/>
+                                <CheckBox Content="Visível no dock" IsChecked="{Binding EspacadorSelecionado.Visivel, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 4. PAINEL DE EDIÃ‡ÃƒO DE APARÃŠNCIA E TEMA           -->
+                    <!-- 4. PAINEL DE EDIÇÃO DE APARÊNCIA E TEMA           -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoAparencia, Converter={StaticResource BoolToVis}}">
                         <TextBlock Text="{Binding TemaSelecionado.Nome, StringFormat='Tema: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="PersonalizaÃ§Ã£o de geometria, transparÃªncia e velocidade" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="Personalização de geometria, transparência e velocidade" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
-                        <!-- BotÃ£o Aplicar Tema -->
+                        <!-- Botão Aplicar Tema -->
                         <Button Style="{StaticResource PrimaryButtonStyle}" Content="Aplicar este Tema no Dock"
                                 Command="{Binding SelecionarTemaCommand}" CommandParameter="{Binding TemaSelecionado}"
                                 Margin="0,0,0,14" HorizontalAlignment="Left"/>
@@ -955,28 +955,28 @@
                                 <TextBlock Text="{Binding RaioCantosDock, StringFormat='Raio dos Cantos: {0:N0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                 <Slider Minimum="0" Maximum="30" Value="{Binding RaioCantosDock, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <TextBlock Text="{Binding EspacamentoItens, StringFormat='EspaÃ§amento entre Itens: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="{Binding EspacamentoItens, StringFormat='Espaçamento entre Itens: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                 <Slider Minimum="2" Maximum="20" Value="{Binding EspacamentoItens, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Efeito translÃºcido / desfoque de fundo (AcrÃ­lico)" IsChecked="{Binding EfeitoDesfoque, Mode=TwoWay}" Margin="0,0,0,8"/>
+                                <CheckBox Content="Efeito translúcido / desfoque de fundo (Acrílico)" IsChecked="{Binding EfeitoDesfoque, Mode=TwoWay}" Margin="0,0,0,8"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 5. PAINEL DE EDIÃ‡ÃƒO GERAL                         -->
+                    <!-- 5. PAINEL DE EDIÇÃO GERAL                         -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="ConfiguraÃ§Ãµes Gerais" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="OpÃ§Ãµes de inicializaÃ§Ã£o, atalho e comportamento do sistema" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="Configurações Gerais" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Opções de inicialização, atalho e comportamento do sistema" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="COMPORTAMENTO DA BARRA" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
 
-                                <CheckBox Content="Usar como barra principal (posiciona rente Ã  borda inferior)"
+                                <CheckBox Content="Usar como barra principal (posiciona rente à borda inferior)"
                                           IsChecked="{Binding UsarComoBarraPrincipal, Mode=TwoWay}" Margin="0,0,0,8"/>
-                                <TextBlock Text="Quando ativado, o dock ocupa o espaÃ§o inferior e oculta suavemente a barra nativa do Windows sem encerrar o Explorer."
+                                <TextBlock Text="Quando ativado, o dock ocupa o espaço inferior e oculta suavemente a barra nativa do Windows sem encerrar o Explorer."
                                            FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="24,0,0,12"/>
 
                                 <CheckBox Content="Ocultar automaticamente quando o mouse se afastar"
@@ -985,20 +985,20 @@
                                 <CheckBox Content="Iniciar o Dock Windows com o Windows"
                                           IsChecked="{Binding IniciarComWindows, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Desativar animaÃ§Ãµes da interface (modo econÃ´mico)"
+                                <CheckBox Content="Desativar animações da interface (modo econômico)"
                                           IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}" Margin="0,0,0,12"/>
 
                                 <StackPanel Margin="0,0,0,12">
                                     <CheckBox Content="Exibir clima e temperatura inline na barra"
                                               IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,4"/>
                                     <StackPanel Orientation="Horizontal" Margin="24,0,0,0" Visibility="{Binding ExibirClima, Converter={StaticResource BoolToVis}}">
-                                        <TextBlock Text="LocalizaÃ§Ã£o:" VerticalAlignment="Center" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0"/>
+                                        <TextBlock Text="Localização:" VerticalAlignment="Center" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0"/>
                                         <TextBox Text="{Binding LocalizacaoClima, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="22" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="4,2"/>
-                                        <TextBlock Text="(Em branco = AutomÃ¡tico)" VerticalAlignment="Center" FontSize="10" Foreground="#666666" Margin="8,0,0,0"/>
+                                        <TextBlock Text="(Em branco = Automático)" VerticalAlignment="Center" FontSize="10" Foreground="#666666" Margin="8,0,0,0"/>
                                     </StackPanel>
                                 </StackPanel>
 
-                                <CheckBox Content="Exibir botÃµes de adiÃ§Ã£o e configuraÃ§Ãµes na barra"
+                                <CheckBox Content="Exibir botões de adição e configurações na barra"
                                           IsChecked="{Binding ExibirBotoesAcao, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
@@ -1006,7 +1006,7 @@
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
                             <StackPanel>
                                 <TextBlock Text="ATALHO DE TECLADO GLOBAL" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <TextBlock Text="Atalho padrÃ£o registrado no Windows para exibir/ocultar a barra:" FontSize="11" Foreground="#8E8E93" Margin="0,0,0,6"/>
+                                <TextBlock Text="Atalho padrão registrado no Windows para exibir/ocultar a barra:" FontSize="11" Foreground="#8E8E93" Margin="0,0,0,6"/>
                                 <Border Background="#202026" CornerRadius="6" Padding="10,6" HorizontalAlignment="Left">
                                     <TextBlock Text="Ctrl + Alt + D" FontSize="13" FontWeight="Bold" Foreground="#0A84FF"/>
                                 </Border>
@@ -1015,34 +1015,34 @@
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 6. PAINEL DE UTILITÃRIOS                          -->
+                    <!-- 6. PAINEL DE UTILITÁRIOS                          -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoUtilitarios, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="UtilitÃ¡rios e ManutenÃ§Ã£o" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="Backup, restauraÃ§Ã£o e ferramentas de emergÃªncia" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="Utilitários e Manutenção" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Backup, restauração e ferramentas de emergência" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                             <StackPanel>
-                                <TextBlock Text="BACKUP E RESTAURAÃ‡ÃƒO" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
+                                <TextBlock Text="BACKUP E RESTAURAÇÃO" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
                                 <WrapPanel>
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="ðŸ’¾ Exportar Backup (.json)" Command="{Binding ExportarBackupCommand}" Margin="0,0,8,0"/>
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="ðŸ“¥ Importar Backup (.json)" Command="{Binding ImportarBackupCommand}"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="💾 Exportar Backup (.json)" Command="{Binding ExportarBackupCommand}" Margin="0,0,8,0"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="📥 Importar Backup (.json)" Command="{Binding ImportarBackupCommand}"/>
                                 </WrapPanel>
                             </StackPanel>
                         </Border>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                             <StackPanel>
-                                <TextBlock Text="RESTAURAÃ‡ÃƒO DA BARRA DO WINDOWS" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
+                                <TextBlock Text="RESTAURAÇÃO DA BARRA DO WINDOWS" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
                                 <TextBlock Text="Restaura imediatamente a barra nativa do Windows caso esteja oculta." FontSize="11" Foreground="#8E8E93" Margin="0,0,0,8"/>
-                                <Button Style="{StaticResource PrimaryButtonStyle}" Content="ðŸ”„ Restaurar Barra Nativa Agora" Command="{Binding RestaurarBarraWindowsCommand}" HorizontalAlignment="Left"/>
+                                <Button Style="{StaticResource PrimaryButtonStyle}" Content="🔄 Restaurar Barra Nativa Agora" Command="{Binding RestaurarBarraWindowsCommand}" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </Border>
 
                         <Border Background="#2A1C1D" BorderBrush="#4A2628" BorderThickness="1" CornerRadius="8" Padding="14">
                             <StackPanel>
                                 <TextBlock Text="ZONA DE PERIGO" FontSize="11" FontWeight="Bold" Foreground="#FF453A" Margin="0,0,0,10"/>
-                                <Button Style="{StaticResource SecondaryButtonStyle}" Content="Restaurar PadrÃµes de FÃ¡brica" Command="{Binding RestaurarPadroesFabricaCommand}" Foreground="#FF453A" HorizontalAlignment="Left"/>
+                                <Button Style="{StaticResource SecondaryButtonStyle}" Content="Restaurar Padrões de Fábrica" Command="{Binding RestaurarPadroesFabricaCommand}" Foreground="#FF453A" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -1052,23 +1052,23 @@
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
                         <TextBlock Text="Sobre o Dock Windows" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="InformaÃ§Ãµes do projeto, privacidade e diagnÃ³sticos" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="Informações do projeto, privacidade e diagnósticos" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="ARQUITETURA E COMPATIBILIDADE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
-                                <TextBlock Text="â€¢ Desenvolvido em C# com .NET 10 e Windows Presentation Foundation (WPF)." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="â€¢ IntegraÃ§Ã£o com APIs Win32 oficiais e seguras (SHAppBarMessage, SetWinEventHook)." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="â€¢ Sem telemetria, contas ou dependÃªncias externas." FontSize="11" Foreground="#30D158"/>
+                                <TextBlock Text="• Desenvolvido em C# com .NET 10 e Windows Presentation Foundation (WPF)." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="• Integração com APIs Win32 oficiais e seguras (SHAppBarMessage, SetWinEventHook)." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="• Sem telemetria, contas ou dependências externas." FontSize="11" Foreground="#30D158"/>
                             </StackPanel>
                         </Border>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
                             <StackPanel>
                                 <TextBlock Text="GUIA DE ATALHOS" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
-                                <TextBlock Text="â€¢ Ctrl + Alt + D : Exibir ou ocultar a dock" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="â€¢ Ctrl + Alt + 1/2/3 : Alternar para Trabalho, Estudos ou Pessoal" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="â€¢ Esc : Fechar qualquer menu, popup ou painel suspenso" FontSize="11" Foreground="#C8C8CE"/>
+                                <TextBlock Text="• Ctrl + Alt + D : Exibir ou ocultar a dock" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="• Ctrl + Alt + 1/2/3 : Alternar para Trabalho, Estudos ou Pessoal" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="• Esc : Fechar qualquer menu, popup ou painel suspenso" FontSize="11" Foreground="#C8C8CE"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -1077,4 +1077,3 @@
         </Border>
     </Grid>
 </Window>
-

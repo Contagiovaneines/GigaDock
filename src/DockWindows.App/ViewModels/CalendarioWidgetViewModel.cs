@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
@@ -94,7 +94,7 @@ public class CalendarioWidgetViewModel : ObservableObject
         get
         {
             var agora = DateTime.Now;
-            // PrÃ³ximo compromisso a partir de hoje
+            // Próximo compromisso a partir de hoje
             return TodosCompromissos
                 .Where(c => c.DataHora >= agora.AddMinutes(-30))
                 .FirstOrDefault()
@@ -221,9 +221,9 @@ public class CalendarioWidgetViewModel : ObservableObject
             if (ProximoCompromisso != null)
             {
                 var hora = ProximoCompromisso.DataHora.ToString("HH:mm");
-                return $"{hoje} â€¢ {hora} {ProximoCompromisso.Titulo}";
+                return $"{hoje} • {hora} {ProximoCompromisso.Titulo}";
             }
-            return $"{hoje} â€¢ Sem eventos pendentes";
+            return $"{hoje} • Sem eventos pendentes";
         }
     }
 
@@ -235,9 +235,9 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             if (ProximoCompromisso != null)
             {
-                return $"PrÃ³ximo compromisso:\n{ProximoCompromisso.Titulo}\n{ProximoCompromisso.DataHora:dd/MM/yyyy HH:mm}\nClique para ver eventos";
+                return $"Próximo compromisso:\n{ProximoCompromisso.Titulo}\n{ProximoCompromisso.DataHora:dd/MM/yyyy HH:mm}\nClique para ver eventos";
             }
-            return $"{DataCompleta}\nNenhum evento configurado\nClique para abrir o calendÃ¡rio";
+            return $"{DataCompleta}\nNenhum evento configurado\nClique para abrir o calendário";
         }
     }
 
@@ -281,5 +281,3 @@ public class CalendarioWidgetViewModel : ObservableObject
         PainelAberto = false;
     }
 }
-
-
