@@ -440,6 +440,22 @@ public class MainViewModel : ObservableObject
         }
     }
 
+    public bool ExibirClima
+    {
+        get => _preferencias.ExibirClima;
+        set
+        {
+            if (_preferencias.ExibirClima != value)
+            {
+                _preferencias.ExibirClima = value;
+                OnPropertyChanged();
+                SalvarPreferencias();
+                // trigger visibility change in sections
+                CarregarOrdemSecoes();
+            }
+        }
+    }
+
     public bool DesativarAnimacoes
     {
         get => _preferencias.DesativarAnimacoes;
@@ -688,6 +704,7 @@ public class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(ExibirSeletorAmbientes));
         OnPropertyChanged(nameof(ExibirItensFixados));
         OnPropertyChanged(nameof(ExibirBotoesAcao));
+        OnPropertyChanged(nameof(ExibirClima));
         OnPropertyChanged(nameof(DesativarAnimacoes));
         OnPropertyChanged(nameof(EspacamentoItens));
         OnPropertyChanged(nameof(MargemItem));
@@ -784,6 +801,13 @@ public class MainViewModel : ObservableObject
         {
             _preferencias.OrdemSecoes = Preferencias.CriarOrdemSecoesPadrao();
         }
+        
+        var secClima = _preferencias.OrdemSecoes.FirstOrDefault(s => s.Tipo == TipoSecaoDock.ClimaInline);
+        if (secClima != null)
+        {
+            secClima.Visivel = _preferencias.ExibirClima;
+        }
+
         foreach (var s in _preferencias.OrdemSecoes.OrderBy(o => o.Ordem))
         {
             OrdemSecoes.Add(s);

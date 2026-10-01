@@ -25,6 +25,7 @@ public class Preferencias
     public bool ExibirSeletorAmbientes { get; set; } = true;
     public bool ExibirItensFixados { get; set; } = true;
     public bool ExibirBotoesAcao { get; set; } = false;
+    public bool ExibirClima { get; set; } = true;
     public bool DesativarAnimacoes { get; set; } = false;
     public int EspacamentoItens { get; set; } = 6;
 
@@ -120,6 +121,7 @@ public class Preferencias
             ExibirSeletorAmbientes = true,
             ExibirItensFixados = true,
             ExibirBotoesAcao = false,
+            ExibirClima = true,
             DesativarAnimacoes = false,
             EspacamentoItens = 6,
             AppsFixadosGlobais = true,

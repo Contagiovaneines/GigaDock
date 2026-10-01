@@ -974,7 +974,13 @@
                                           IsChecked="{Binding IniciarComWindows, Mode=TwoWay}" Margin="0,0,0,12"/>
 
                                 <CheckBox Content="Desativar animações da interface (modo econômico)"
-                                          IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}"/>
+                                          IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}" Margin="0,0,0,12"/>
+
+                                <CheckBox Content="Exibir clima e temperatura inline na barra"
+                                          IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,12"/>
+
+                                <CheckBox Content="Exibir botões de adição e configurações na barra"
+                                          IsChecked="{Binding ExibirBotoesAcao, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
 

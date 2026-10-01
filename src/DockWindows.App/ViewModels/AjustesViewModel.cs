@@ -513,6 +513,16 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    public bool ExibirClima
+    {
+        get => _mainVm.ExibirClima;
+        set
+        {
+            _mainVm.ExibirClima = value;
+            OnPropertyChanged();
+        }
+    }
+
     // Aparência
     public EstiloTema EstiloTema
     {

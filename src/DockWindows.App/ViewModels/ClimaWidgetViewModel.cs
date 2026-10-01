@@ -36,5 +36,49 @@ public class ClimaWidgetViewModel : ObservableObject
 
     public ClimaWidgetViewModel()
     {
+        _ = AtualizarClimaAsync();
+        
+        var timer = new System.Windows.Threading.DispatcherTimer
+        {
+            Interval = System.TimeSpan.FromHours(1)
+        };
+        timer.Tick += (s, e) => _ = AtualizarClimaAsync();
+        timer.Start();
+    }
+
+    private async System.Threading.Tasks.Task AtualizarClimaAsync()
+    {
+        try
+        {
+            using var client = new System.Net.Http.HttpClient();
+            client.Timeout = System.TimeSpan.FromSeconds(10);
+            // wttr.in format: condition|temp|location (e.g. Partly cloudy|+22°C|Istanbul)
+            var response = await client.GetStringAsync("https://wttr.in/?format=%C|%t|%l");
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                var parts = response.Split('|');
+                if (parts.Length >= 3)
+                {
+                    System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+                    {
+                        Condicao = parts[0].Trim();
+                        Temperatura = parts[1].Trim();
+                        Local = parts[2].Trim();
+                        
+                        var condLower = Condicao.ToLowerInvariant();
+                        if (condLower.Contains("rain") || condLower.Contains("chuva") || condLower.Contains("drizzle") || condLower.Contains("shower")) IconeEmoji = "🌧️";
+                        else if (condLower.Contains("cloud") || condLower.Contains("nublado") || condLower.Contains("overcast")) IconeEmoji = "☁️";
+                        else if (condLower.Contains("clear") || condLower.Contains("limpo") || condLower.Contains("sunny") || condLower.Contains("sol")) IconeEmoji = "☀️";
+                        else if (condLower.Contains("snow") || condLower.Contains("neve")) IconeEmoji = "❄️";
+                        else if (condLower.Contains("storm") || condLower.Contains("tempestade") || condLower.Contains("thunder")) IconeEmoji = "⛈️";
+                        else IconeEmoji = "🌤️";
+                    });
+                }
+            }
+        }
+        catch
+        {
+            // Fallback silencioso
+        }
     }
 }
