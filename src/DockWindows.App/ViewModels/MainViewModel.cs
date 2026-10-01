@@ -759,6 +759,9 @@ public class MainViewModel : ObservableObject
         CarregarEspacadores();
         CarregarAplicativos();
 
+        // Pré-carrega aplicativos instalados do sistema em background para a busca ser rápida
+        System.Threading.Tasks.Task.Run(() => DockWindows.Infrastructure.Windows.AppSearchService.BuscarAppsInstalados());
+
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
@@ -1474,16 +1477,46 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(TextoFiltroLaunchpad))
+                        if (string.IsNullOrWhiteSpace(TextoFiltroLaunchpad))
             {
                 return lista;
             }
 
             var filtro = TextoFiltroLaunchpad.Trim();
-            return lista.Where(i =>
-                i.Titulo.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                i.Subtitulo.Contains(filtro, StringComparison.OrdinalIgnoreCase) ||
-                i.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase));
+            var resultados = lista.Where(i => 
+                i.Titulo.Contains(filtro, StringComparison.OrdinalIgnoreCase) || 
+                i.Subtitulo.Contains(filtro, StringComparison.OrdinalIgnoreCase) || 
+                i.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+            // Buscar aplicativos instalados no Windows
+            var instalados = DockWindows.Infrastructure.Windows.AppSearchService.BuscarAppsInstalados();
+            var instaladosFiltrados = instalados.Where(a => a.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase));
+            
+            foreach (var app in instaladosFiltrados)
+            {
+                if (idsAdicionados.Add(app.Caminho))
+                {
+                    resultados.Add(new LaunchpadItemModel
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Titulo = app.Nome,
+                        Subtitulo = "Aplicativo",
+                        Icone = null, // Deixamos sem ícone para ser muito mais rápido ao digitar
+                        IconeTexto = "🚀",
+                        ExecutarCommand = new RelayCommand(() =>
+                        {
+                            MenuIniciarAberto = false;
+                            _launcher.ExecutarCaminho(app.Caminho);
+                        }),
+                        EstaAberto = false,
+                        EstaAtivo = false,
+                        Categoria = "Sistema"
+                    });
+                }
+            }
+
+            return resultados;
         }
     }
 }
@@ -1500,6 +1533,9 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
+
 
 
 
