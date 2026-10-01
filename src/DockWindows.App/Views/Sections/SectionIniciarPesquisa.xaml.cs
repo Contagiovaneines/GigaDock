@@ -45,12 +45,17 @@ public partial class SectionIniciarPesquisa : UserControl
         {
             if (DataContext is MainViewModel vm)
             {
-                var primeiro = vm.ItensLaunchpadFiltrados.FirstOrDefault();
-                if (primeiro != null)
+                // Só executa o Enter se o usuário realmente digitou algo para buscar!
+                // Isso evita abrir aplicativos aleatórios por esbarrar no Enter.
+                if (!string.IsNullOrWhiteSpace(vm.TextoFiltroLaunchpad))
                 {
-                    primeiro.ExecutarCommand.Execute(null);
-                    vm.MenuIniciarAberto = false;
-                    e.Handled = true;
+                    var primeiro = vm.ItensLaunchpadFiltrados.FirstOrDefault();
+                    if (primeiro != null)
+                    {
+                        primeiro.ExecutarCommand.Execute(null);
+                        vm.MenuIniciarAberto = false;
+                        e.Handled = true;
+                    }
                 }
             }
         }

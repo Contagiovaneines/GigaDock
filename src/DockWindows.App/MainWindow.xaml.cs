@@ -72,6 +72,12 @@ public partial class MainWindow : Window
         Dispatcher.Invoke(ReposicionarBarra);
     }
 
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+
     private void ConectarCallbacksViewModel()
     {
         _viewModel.MostrarAlerta = (titulo, msg) =>
@@ -81,7 +87,12 @@ public partial class MainWindow : Window
 
         _viewModel.AtivarJanelaPrincipal = () =>
         {
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            // Hack para roubar o foco no Windows: simular uma tecla
+            keybd_event(0, 0, 0, 0);
+            SetForegroundWindow(hwnd);
             this.Activate();
+            this.Focus();
         };
 
         _viewModel.PedirTexto = (titulo, prompt) =>
