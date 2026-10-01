@@ -39,6 +39,7 @@ public class ColecaoAppViewModel : ObservableObject
         FecharPainelCommand = new RelayCommand(FecharPainel);
         ExecutarItemCommand = new RelayCommand<ItemViewModel>(ExecutarItem);
         EditarColecaoCommand = new RelayCommand(EditarColecao);
+        RemoverColecaoCommand = new RelayCommand(() => onRemoverColecao?.Invoke(this));
     }
 
     public ColecaoApp Model => _model;
@@ -182,4 +183,5 @@ public class ColecaoAppViewModel : ObservableObject
         _onEditarColecao?.Invoke(this);
     }
 }
+
 
