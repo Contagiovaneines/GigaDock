@@ -68,10 +68,10 @@
                                                 </Grid.RenderTransform>
                                                 <Border Width="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
                                                         Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                        CornerRadius="10" Background="#10FFFFFF" BorderBrush="#20FFFFFF" BorderThickness="1">
+                                                        Background="Transparent">
                                                     <Image Source="{Binding Icone}"
                                                            RenderOptions.BitmapScalingMode="HighQuality"
-                                                           Margin="6"
+                                                           Margin="2"
                                                            VerticalAlignment="Center" HorizontalAlignment="Center">
                                                     </Image>
                                                 </Border>
