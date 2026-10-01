@@ -523,6 +523,16 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    public string LocalizacaoClima
+    {
+        get => _mainVm.LocalizacaoClima;
+        set
+        {
+            _mainVm.LocalizacaoClima = value;
+            OnPropertyChanged();
+        }
+    }
+
     // Aparência
     public EstiloTema EstiloTema
     {

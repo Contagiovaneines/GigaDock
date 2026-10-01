@@ -1,4 +1,4 @@
-<UserControl x:Class="DockWindows.App.Views.Sections.SectionClimaInline"
+﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionClimaInline"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,31 +7,23 @@
              Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
     
-    <Grid Width="160">
-        <Border CornerRadius="12" ClipToBounds="True">
+    <Grid Width="Auto" MinWidth="140" MaxWidth="190">
+        <Border CornerRadius="{Binding DataContext.RaioCantosDockRadius, RelativeSource={RelativeSource AncestorType=Window}}" ClipToBounds="True">
             <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#54A0FF" Offset="0.0"/>
-                    <GradientStop Color="#2E86DE" Offset="1.0"/>
-                </LinearGradientBrush>
+                <SolidColorBrush Color="#1AFFFFFF"/>
             </Border.Background>
             
-            <Grid>
-                <!-- Textos e Temperatura -->
-                <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Center">
-                    <StackPanel VerticalAlignment="Center" Width="85">
-                        <TextBlock Text="{Binding Clima.Condicao}" FontSize="11" FontWeight="Medium" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Clima.Local}" FontSize="11" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" Margin="0,1,0,0"/>
-                    </StackPanel>
-                    
-                    <TextBlock Text="{Binding Clima.Temperatura}" FontSize="28" FontWeight="Light" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,0,4"/>
-                </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="12,0" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Clima.IconeEmoji}" FontSize="22" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 
-                <!-- Ícone decorativo vazando a borda -->
-                <TextBlock Text="⛅" FontSize="44" 
-                           HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-8,-12">
-                </TextBlock>
-            </Grid>
+                <StackPanel VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <TextBlock Text="{Binding Clima.Temperatura}" FontSize="16" FontWeight="SemiBold" Foreground="#FFFFFF" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Clima.Condicao}" FontSize="11" Foreground="#E0E0E0" VerticalAlignment="Bottom" Margin="0,0,0,2" TextTrimming="CharacterEllipsis" MaxWidth="75"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding Clima.Local}" FontSize="10" Foreground="#A0C0E0" TextTrimming="CharacterEllipsis" MaxWidth="110"/>
+                </StackPanel>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>

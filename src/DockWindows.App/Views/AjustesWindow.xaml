@@ -978,8 +978,15 @@
                                 <CheckBox Content="Desativar animações da interface (modo econômico)"
                                           IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Exibir clima e temperatura inline na barra"
-                                          IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,12"/>
+                                <StackPanel Margin="0,0,0,12">
+                                    <CheckBox Content="Exibir clima e temperatura inline na barra"
+                                              IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,4"/>
+                                    <StackPanel Orientation="Horizontal" Margin="24,0,0,0" Visibility="{Binding ExibirClima, Converter={StaticResource BoolToVis}}">
+                                        <TextBlock Text="Localização:" VerticalAlignment="Center" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0"/>
+                                        <TextBox Text="{Binding LocalizacaoClima, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="22" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="4,2"/>
+                                        <TextBlock Text="(Em branco = Automático)" VerticalAlignment="Center" FontSize="10" Foreground="#666666" Margin="8,0,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
 
                                 <CheckBox Content="Exibir botões de adição e configurações na barra"
                                           IsChecked="{Binding ExibirBotoesAcao, Mode=TwoWay}"/>

@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -48,7 +48,7 @@ public class MainViewModel : ObservableObject
 
         _preferencias = _repository.Carregar();
 
-        // Garante que as novas seções de mídia e clima existam (para usuários de versões antigas)
+        // Garante que as novas seÃ§Ãµes de mÃ­dia e clima existam (para usuÃ¡rios de versÃµes antigas)
         if (_preferencias.OrdemSecoes != null)
         {
             if (!_preferencias.OrdemSecoes.Any(s => s.Tipo == TipoSecaoDock.ClimaInline))
@@ -57,7 +57,7 @@ public class MainViewModel : ObservableObject
             }
             if (!_preferencias.OrdemSecoes.Any(s => s.Tipo == TipoSecaoDock.MidiaInline))
             {
-                _preferencias.OrdemSecoes.Insert(2, new ConfigSecaoDock { Tipo = TipoSecaoDock.MidiaInline, Nome = "Mídia Inline", Visivel = true, Ordem = 2 });
+                _preferencias.OrdemSecoes.Insert(2, new ConfigSecaoDock { Tipo = TipoSecaoDock.MidiaInline, Nome = "MÃ­dia Inline", Visivel = true, Ordem = 2 });
             }
             for (int i = 0; i < _preferencias.OrdemSecoes.Count; i++)
             {
@@ -173,7 +173,7 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _dockVisivel, value);
     }
 
-    // Temas e Aparência V1.3
+    // Temas e AparÃªncia V1.3
     public EstiloTema EstiloTema
     {
         get => _preferencias.EstiloTema;
@@ -456,6 +456,21 @@ public class MainViewModel : ObservableObject
         }
     }
 
+    public string LocalizacaoClima
+    {
+        get => _preferencias.LocalizacaoClima;
+        set
+        {
+            if (_preferencias.LocalizacaoClima != value)
+            {
+                _preferencias.LocalizacaoClima = value;
+                OnPropertyChanged();
+                SalvarPreferencias();
+                Clima.SincronizarLocalizacao(value);
+            }
+        }
+    }
+
     public bool DesativarAnimacoes
     {
         get => _preferencias.DesativarAnimacoes;
@@ -525,7 +540,7 @@ public class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(ExibirSecaoRelogioControles));
     }
 
-    // Callbacks conectados à View
+    // Callbacks conectados Ã  View
     public Action<string, string>? MostrarAlerta { get; set; }
     public Func<string, string, string?>? PedirTexto { get; set; }
     public Func<ItemFixado?, ItemFixado?>? AbrirDialogoItem { get; set; }
@@ -631,7 +646,7 @@ public class MainViewModel : ObservableObject
     public void AbrirIniciarNativoWindows()
     {
         MenuIniciarAberto = false;
-        // Envia Ctrl + Esc para abrir o menu Iniciar nativo (não interceptado pelo hook)
+        // Envia Ctrl + Esc para abrir o menu Iniciar nativo (nÃ£o interceptado pelo hook)
         keybd_event(0x11, 0, 0, 0); // Ctrl Down
         keybd_event(0x1B, 0, 0, 0); // Esc Down
         keybd_event(0x1B, 0, 2, 0); // Esc Up
@@ -668,7 +683,7 @@ public class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            MostrarAlerta?.Invoke("Erro ao Salvar", $"Falha ao salvar preferências: {ex.Message}");
+            MostrarAlerta?.Invoke("Erro ao Salvar", $"Falha ao salvar preferÃªncias: {ex.Message}");
         }
     }
 
@@ -695,6 +710,7 @@ public class MainViewModel : ObservableObject
 
         Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
+        Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
 
         AmbienteAtivo = Ambientes.FirstOrDefault(a => a.Id == _preferencias.AmbienteAtivoId)
                      ?? Ambientes.FirstOrDefault();
@@ -792,6 +808,7 @@ public class MainViewModel : ObservableObject
         }
         Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
+        Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
     }
 
     private void CarregarOrdemSecoes()
@@ -873,7 +890,7 @@ public class MainViewModel : ObservableObject
             }
         }
 
-        // 2. Agrupar janelas abertas não fixadas por executável ou processo
+        // 2. Agrupar janelas abertas nÃ£o fixadas por executÃ¡vel ou processo
         var grupos = janelasNaoProcessadas
             .GroupBy(j => !string.IsNullOrEmpty(j.CaminhoExecutavel) ? j.CaminhoExecutavel.ToLowerInvariant() : j.NomeProcesso.ToLowerInvariant())
             .ToList();
@@ -899,7 +916,7 @@ public class MainViewModel : ObservableObject
             }
         }
 
-        // 3. Remover aplicativos não fixados que foram fechados
+        // 3. Remover aplicativos nÃ£o fixados que foram fechados
         foreach (var appRemover in appsNaoFixados)
         {
             Aplicativos.Remove(appRemover);
@@ -1075,7 +1092,7 @@ public class MainViewModel : ObservableObject
         var res = _launcher.ExecutarCaminho(app.CaminhoExecutavel);
         if (!res.Sucesso)
         {
-            MostrarAlerta?.Invoke("Erro ao Abrir Aplicativo", res.MensagemErro ?? "Não foi possível iniciar o aplicativo.");
+            MostrarAlerta?.Invoke("Erro ao Abrir Aplicativo", res.MensagemErro ?? "NÃ£o foi possÃ­vel iniciar o aplicativo.");
         }
     }
 
@@ -1119,7 +1136,7 @@ public class MainViewModel : ObservableObject
             Id = "amb-" + Guid.NewGuid().ToString("N")[..8],
             Nome = nome.Trim(),
             CorHex = "#0078D4",
-            Icone = "💼",
+            Icone = "ðŸ’¼",
             Widgets = new WidgetConfig(),
             WidgetsInstalados = Preferencias.CriarWidgetsPadrao(),
             Colecoes = new List<ColecaoApp>()
@@ -1146,7 +1163,7 @@ public class MainViewModel : ObservableObject
         if (amb == null) return;
         if (Ambientes.Count <= 1)
         {
-            MostrarAlerta?.Invoke("Aviso", "É necessário manter ao menos um ambiente ativo.");
+            MostrarAlerta?.Invoke("Aviso", "Ã‰ necessÃ¡rio manter ao menos um ambiente ativo.");
             return;
         }
 
@@ -1239,7 +1256,7 @@ public class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            MostrarAlerta?.Invoke("Erro ao Exportar", $"Não foi possível salvar o backup: {ex.Message}");
+            MostrarAlerta?.Invoke("Erro ao Exportar", $"NÃ£o foi possÃ­vel salvar o backup: {ex.Message}");
             return false;
         }
     }
@@ -1258,12 +1275,12 @@ public class MainViewModel : ObservableObject
                 AtualizarPreferencias(prefs);
                 return true;
             }
-            MostrarAlerta?.Invoke("Arquivo Inválido", "O arquivo JSON selecionado não contém uma configuração válida do Dock Windows.");
+            MostrarAlerta?.Invoke("Arquivo InvÃ¡lido", "O arquivo JSON selecionado nÃ£o contÃ©m uma configuraÃ§Ã£o vÃ¡lida do Dock Windows.");
             return false;
         }
         catch (Exception ex)
         {
-            MostrarAlerta?.Invoke("Erro ao Importar", $"Falha ao importar o arquivo de configuração: {ex.Message}");
+            MostrarAlerta?.Invoke("Erro ao Importar", $"Falha ao importar o arquivo de configuraÃ§Ã£o: {ex.Message}");
             return false;
         }
     }
@@ -1293,7 +1310,7 @@ public class MainViewModel : ObservableObject
                         Titulo = app.Titulo,
                         Subtitulo = app.EstaAberto ? (app.EstaAtivo ? "Janela ativa" : $"{app.QuantidadeJanelas} janela(s)") : "Fixado na barra",
                         Icone = app.Icone,
-                        IconeTexto = "✦",
+                        IconeTexto = "âœ¦",
                         ExecutarCommand = new RelayCommand(() =>
                         {
                             MenuIniciarAberto = false;
@@ -1329,9 +1346,9 @@ public class MainViewModel : ObservableObject
                         {
                             Id = item.Id,
                             Titulo = item.Titulo,
-                            Subtitulo = item.Tipo == TipoItem.WebUrl ? "Página Web" : (item.Tipo == TipoItem.Pasta ? "Pasta" : "Atalho"),
+                            Subtitulo = item.Tipo == TipoItem.WebUrl ? "PÃ¡gina Web" : (item.Tipo == TipoItem.Pasta ? "Pasta" : "Atalho"),
                             Icone = item.Icone,
-                            IconeTexto = item.Tipo == TipoItem.WebUrl ? "🌐" : (item.Tipo == TipoItem.Pasta ? "📁" : (item.Tipo == TipoItem.Arquivo ? "📄" : "🚀")),
+                            IconeTexto = item.Tipo == TipoItem.WebUrl ? "ðŸŒ" : (item.Tipo == TipoItem.Pasta ? "ðŸ“" : (item.Tipo == TipoItem.Arquivo ? "ðŸ“„" : "ðŸš€")),
                             ExecutarCommand = new RelayCommand(() =>
                             {
                                 MenuIniciarAberto = false;
@@ -1345,7 +1362,7 @@ public class MainViewModel : ObservableObject
                 }
             }
 
-            // 3. Coleções ativas
+            // 3. ColeÃ§Ãµes ativas
             foreach (var col in TodasColecoesAtivas)
             {
                 if (idsAdicionados.Add("col-" + col.Id))
@@ -1356,7 +1373,7 @@ public class MainViewModel : ObservableObject
                         Titulo = col.Nome,
                         Subtitulo = $"{col.QuantidadeItens} itens",
                         Icone = col.Miniatura1,
-                        IconeTexto = "📁",
+                        IconeTexto = "ðŸ“",
                         ExecutarCommand = new RelayCommand(() =>
                         {
                             MenuIniciarAberto = false;
@@ -1364,7 +1381,7 @@ public class MainViewModel : ObservableObject
                         }),
                         EstaAberto = false,
                         EstaAtivo = false,
-                        Categoria = "Coleções"
+                        Categoria = "ColeÃ§Ãµes"
                     });
                 }
             }
@@ -1395,3 +1412,4 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
