@@ -34,8 +34,12 @@
                             <!-- Squircle com Gradiente translúcido estilo Apple/Windows 11 -->
                             <!-- Squircle Preto com Terminal Icon -->
                             <Border CornerRadius="9" BorderThickness="1" BorderBrush="#20FFFFFF" Background="#1C1C1E">
-                                <TextBlock Text="&gt;_" Foreground="#FFFFFF" FontSize="18" FontFamily="Consolas" 
-                                           FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,4"/>
+                                <Canvas Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Rectangle Width="8" Height="8" Fill="#FFFFFF" RadiusX="1" RadiusY="1" Canvas.Left="0" Canvas.Top="0"/>
+                                    <Rectangle Width="8" Height="8" Fill="#FFFFFF" RadiusX="1" RadiusY="1" Canvas.Left="10" Canvas.Top="0"/>
+                                    <Rectangle Width="8" Height="8" Fill="#FFFFFF" RadiusX="1" RadiusY="1" Canvas.Left="0" Canvas.Top="10"/>
+                                    <Rectangle Width="8" Height="8" Fill="#FFFFFF" RadiusX="1" RadiusY="1" Canvas.Left="10" Canvas.Top="10"/>
+                                </Canvas>
                             </Border>
                         </Grid>
                     </Border>
