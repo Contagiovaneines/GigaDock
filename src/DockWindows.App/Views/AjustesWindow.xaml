@@ -995,7 +995,9 @@
                                           IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}" Margin="0,0,0,12"/>
 
                                 <StackPanel Margin="0,0,0,12">
-                                    <CheckBox Content="Exibir clima e temperatura inline na barra"
+                                                                    <CheckBox Content="Exibir contagem de itens nas Coleções (bolinha vermelha)"
+                                          IsChecked="{Binding ExibirContagemColecoes, Mode=TwoWay}" Margin="0,0,0,4"/>
+                                <CheckBox Content="Exibir clima e temperatura inline na barra"
                                               IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,4"/>
                                     <StackPanel Orientation="Horizontal" Margin="24,0,0,0" Visibility="{Binding ExibirClima, Converter={StaticResource BoolToVis}}">
                                         <TextBlock Text="Localização:" VerticalAlignment="Center" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0"/>
@@ -1083,6 +1085,7 @@
         </Border>
     </Grid>
 </Window>
+
 
 
 

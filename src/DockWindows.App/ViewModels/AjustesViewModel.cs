@@ -525,6 +525,16 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+        public bool ExibirContagemColecoes
+    {
+        get => _mainVm.ExibirContagemColecoes;
+        set
+        {
+            _mainVm.ExibirContagemColecoes = value;
+            OnPropertyChanged();
+        }
+    }
+
     public bool ExibirClima
     {
         get => _mainVm.ExibirClima;
@@ -1488,6 +1498,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

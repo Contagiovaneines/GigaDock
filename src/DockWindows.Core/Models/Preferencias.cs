@@ -25,6 +25,7 @@ public class Preferencias
     public bool ExibirSeletorAmbientes { get; set; } = true;
     public bool ExibirItensFixados { get; set; } = true;
     public bool ExibirBotoesAcao { get; set; } = false;
+    public bool ExibirContagemColecoes { get; set; } = false;
     public bool ExibirClima { get; set; } = true;
     public bool ExibirMidia { get; set; } = true;
     public string LocalizacaoClima { get; set; } = string.Empty;
@@ -236,4 +237,5 @@ public class Preferencias
         ambiente.Itens = padrao.Itens;
     }
 }
+
 

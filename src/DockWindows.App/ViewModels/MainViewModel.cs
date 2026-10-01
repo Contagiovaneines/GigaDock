@@ -446,6 +446,20 @@ public class MainViewModel : ObservableObject
         }
     }
 
+    public bool ExibirContagemColecoes
+    {
+        get => _preferencias.ExibirContagemColecoes;
+        set
+        {
+            if (_preferencias.ExibirContagemColecoes != value)
+            {
+                _preferencias.ExibirContagemColecoes = value;
+                SalvarPreferencias();
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public bool ExibirBotoesAcao
     {
         get => _preferencias.ExibirBotoesAcao;
@@ -1554,6 +1568,8 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
 
 
 
