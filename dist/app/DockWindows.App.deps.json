@@ -10,10 +10,23 @@
       "DockWindows.App/1.4.0": {
         "dependencies": {
           "DockWindows.Core": "1.4.0",
-          "DockWindows.Infrastructure": "1.4.0"
+          "DockWindows.Infrastructure": "1.4.0",
+          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.19041.57"
         },
         "runtime": {
           "DockWindows.App.dll": {}
+        }
+      },
+      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.57": {
+        "runtime": {
+          "Microsoft.Windows.SDK.NET.dll": {
+            "assemblyVersion": "10.0.19041.38",
+            "fileVersion": "10.0.19041.55"
+          },
+          "WinRT.Runtime.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.48161"
+          }
         }
       },
       "DockWindows.Core/1.4.0": {
@@ -40,6 +53,11 @@
   "libraries": {
     "DockWindows.App/1.4.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.57": {
+      "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
     },

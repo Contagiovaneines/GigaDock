@@ -24,7 +24,7 @@ public class Preferencias
     public int? EstadoAnteriorBarraTarefas { get; set; } = null;
     public bool ExibirSeletorAmbientes { get; set; } = true;
     public bool ExibirItensFixados { get; set; } = true;
-    public bool ExibirBotoesAcao { get; set; } = true;
+    public bool ExibirBotoesAcao { get; set; } = false;
     public bool DesativarAnimacoes { get; set; } = false;
     public int EspacamentoItens { get; set; } = 6;
 
@@ -118,7 +118,7 @@ public class Preferencias
             UsarComoBarraPrincipal = false,
             ExibirSeletorAmbientes = true,
             ExibirItensFixados = true,
-            ExibirBotoesAcao = true,
+            ExibirBotoesAcao = false,
             DesativarAnimacoes = false,
             EspacamentoItens = 6,
             AppsFixadosGlobais = true,

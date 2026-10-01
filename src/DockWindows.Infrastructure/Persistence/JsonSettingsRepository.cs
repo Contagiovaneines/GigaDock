@@ -245,6 +245,13 @@ public class JsonSettingsRepository : ISettingsRepository
                 }
             }
 
+            // Migração v5 -> v6
+            if (prefs.SchemaVersion < 6)
+            {
+                prefs.SchemaVersion = 6;
+                prefs.ExibirBotoesAcao = false;
+            }
+
             try
             {
                 SalvarInterno(prefs, criarBackup: true);
