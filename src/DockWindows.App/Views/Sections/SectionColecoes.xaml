@@ -21,12 +21,27 @@
                 <DataTemplate DataType="{x:Type vm:ColecaoAppViewModel}">
                     <Grid Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
                         <!-- Botão da Coleção no Dock com Magnificação no Hover -->
-                        <Button Command="{Binding AlternarPainelCommand}"
+                                                <Button Command="{Binding AlternarPainelCommand}"
                                 ToolTip="{Binding TextoDica}"
                                 Padding="3,2,3,2"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 Cursor="Hand">
+                            <Button.ContextMenu>
+                                <ContextMenu Background="#1A1A1E" Foreground="#FFFFFF" BorderBrush="#32323C">
+                                    <MenuItem Header="Editar Coleção" Command="{Binding EditarColecaoCommand}">
+                                        <MenuItem.Icon>
+                                            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE70F;" FontSize="14" Foreground="#0A84FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator Background="#32323C"/>
+                                    <MenuItem Header="Remover Coleção" Command="{Binding RemoverColecaoCommand}">
+                                        <MenuItem.Icon>
+                                            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE74D;" FontSize="14" Foreground="#EF4444" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border x:Name="ColBorder" CornerRadius="10" Background="Transparent" Padding="{TemplateBinding Padding}">
@@ -213,6 +228,7 @@
         </ItemsControl>
     </StackPanel>
 </UserControl>
+
 
 
 
