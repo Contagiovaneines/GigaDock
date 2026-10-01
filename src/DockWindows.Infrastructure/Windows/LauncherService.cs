@@ -70,7 +70,8 @@ public class LauncherService : ILauncherService
             {
                 FileName = expandido,
                 Arguments = argumentos ?? string.Empty,
-                UseShellExecute = true
+                UseShellExecute = true,
+                WindowStyle = ProcessWindowStyle.Maximized
             };
 
             // Se for arquivo em pasta específica, definir WorkingDirectory
