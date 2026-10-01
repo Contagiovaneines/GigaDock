@@ -1271,7 +1271,18 @@ public class MainViewModel : ObservableObject
                         ExecutarCommand = new RelayCommand(() =>
                         {
                             MenuIniciarAberto = false;
-                            app.ClicarCommand.Execute(null);
+                            if (app.EstaAberto)
+                            {
+                                var win = app.Janelas.FirstOrDefault();
+                                if (win != null)
+                                {
+                                    _windowTrackingService.AtivarJanela(win.Hwnd);
+                                }
+                            }
+                            else
+                            {
+                                ExecutarApp(app);
+                            }
                         }),
                         EstaAberto = app.EstaAberto,
                         EstaAtivo = app.EstaAtivo,
