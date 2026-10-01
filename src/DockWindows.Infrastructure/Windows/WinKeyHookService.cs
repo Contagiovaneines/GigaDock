@@ -22,7 +22,7 @@ public class WinKeyHookService : IWinKeyHookService
 
     private const int VK_LWIN = 0x5B;
     private const int VK_RWIN = 0x5C;
-    private const byte VK_DUMMY = 0xE8; // Tecla não atribuída para anular o Iniciar nativo do Windows
+    private const byte VK_DUMMY = 0xE8; // Unassigned key
 
     [StructLayout(LayoutKind.Sequential)]
     private struct KBDLLHOOKSTRUCT
@@ -34,7 +34,6 @@ public class WinKeyHookService : IWinKeyHookService
         public IntPtr dwExtraInfo;
     }
 
-    private const uint LLKHF_INJECTED = 0x10;
     private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
     [DllImport("user32.dll", SetLastError = true)]
@@ -91,18 +90,11 @@ public class WinKeyHookService : IWinKeyHookService
         }
     }
 
-        private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+    private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
         if (nCode >= 0)
         {
             var kbd = Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
-            
-            // Ignorar eventos injetados por nós mesmos ou por outros softwares (evita loop infinito)
-            if ((kbd.flags & LLKHF_INJECTED) != 0)
-            {
-                return CallNextHookEx(_hookId, nCode, wParam, lParam);
-            }
-
             int msg = wParam.ToInt32();
             bool isKeyDown = msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN;
             bool isKeyUp = msg == WM_KEYUP || msg == WM_SYSKEYUP;
@@ -122,28 +114,22 @@ public class WinKeyHookService : IWinKeyHookService
 
                     if (wasStandaloneTap)
                     {
-                        // Para evitar que o Menu Iniciar abra E para não deixar a tecla Win "presa", 
-                        // precisamos mascarar a tecla Win. O truque é injetar um Ctrl Down, um Win Up e um Ctrl Up.
-                        // O Windows verá "Ctrl + Win Up" e não abrirá o menu Iniciar, mas registrará que o Win foi solto.
-                        
-                        byte vkWin = (byte)kbd.vkCode;
-                        byte vkCtrl = 0x11; // VK_CONTROL
-
-                        keybd_event(vkCtrl, 0, 0, 0); // Ctrl Down
-                        keybd_event(vkWin, 0, 2, 0);  // Win Up (libera a tecla travada no sistema)
-                        keybd_event(vkCtrl, 0, 2, 0); // Ctrl Up
+                        // Injeta tecla inócua ANTES do Windows processar o Win Up,
+                        // mascarando o Win solitário e prevenindo a abertura do Menu Iniciar.
+                        keybd_event(VK_DUMMY, 0, 0, 0);
+                        keybd_event(VK_DUMMY, 0, 2, 0);
 
                         // Dispara abertura do Launchpad/Menu da Dock
                         WinKeyTapped?.Invoke();
 
-                        // Bloqueia o KEYUP original para o Windows não processá-lo isoladamente
-                        return (IntPtr)1;
+                        // NÃO RETORNAMOS 1. O Win Up DEVE passar para o SO,
+                        // caso contrário a tecla Win fica "presa" e causa bugs no teclado.
                     }
                 }
             }
-            else if (isKeyDown && _winKeyDown)
+            else if (isKeyDown && _winKeyDown && kbd.vkCode != VK_DUMMY)
             {
-                // Tecla combinada com Win (ex: Win+R, Win+D)
+                // Tecla combinada com Win (ex: Win+R, Win+D, Win+E, Win+L)
                 _otherKeyPressed = true;
             }
         }
@@ -156,5 +142,3 @@ public class WinKeyHookService : IWinKeyHookService
         Parar();
     }
 }
-
-
