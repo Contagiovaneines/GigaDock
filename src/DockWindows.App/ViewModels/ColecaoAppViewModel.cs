@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using DockWindows.App.Common;
@@ -23,7 +23,8 @@ public class ColecaoAppViewModel : ObservableObject
         ILauncherService launcher,
         IIconExtractionService iconService,
         Action<ColecaoAppViewModel>? onEditarColecao = null,
-        Action<string>? notificarErro = null)
+        Action<string>? notificarErro = null,
+        Action<ColecaoAppViewModel>? onRemoverColecao = null)
     {
         _model = model;
         _launcher = launcher;
@@ -110,6 +111,7 @@ public class ColecaoAppViewModel : ObservableObject
     public ICommand AlternarPainelCommand { get; }
     public ICommand FecharPainelCommand { get; }
     public ICommand ExecutarItemCommand { get; }
+    public ICommand RemoverColecaoCommand { get; }
     public ICommand EditarColecaoCommand { get; }
 
     public void RecarregarItens()
@@ -180,3 +182,4 @@ public class ColecaoAppViewModel : ObservableObject
         _onEditarColecao?.Invoke(this);
     }
 }
+

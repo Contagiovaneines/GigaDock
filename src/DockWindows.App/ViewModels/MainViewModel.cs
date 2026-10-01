@@ -792,7 +792,7 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         var globais = _preferencias.ColecoesGlobais ?? Preferencias.CriarColecoesGlobaisPadrao();
         foreach (var col in globais.OrderBy(c => c.Ordem))
         {
-            var vm = new ColecaoAppViewModel(col, _launcher, _iconService, onEditarColecao: c => AbrirAjustes("Ambientes"), notificarErro: msg => MostrarAlerta?.Invoke("Erro", msg));
+            var vm = new ColecaoAppViewModel(col, _launcher, _iconService, onEditarColecao: c => AbrirAjustes("Ambientes"), notificarErro: msg => MostrarAlerta?.Invoke("Erro", msg), onRemoverColecao: RemoverColecao);
             ColecoesGlobais.Add(vm);
         }
         RecarregarTodasColecoes();
@@ -1173,7 +1173,30 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             onMoverDireita: MoverItemDireita,
             notificarErro: msg => MostrarAlerta?.Invoke("Erro ao Executar", msg),
             onMoverParaGlobal: MoverItemParaGlobal,
-            onEditarColecao: col => AbrirAjustes("Ambientes"));
+            onEditarColecao: col => AbrirAjustes("Ambientes"),
+            onRemoverColecao: RemoverColecao);
+    }
+
+        private void RemoverColecao(ColecaoAppViewModel vm)
+    {
+        // Se for global
+        if (ColecoesGlobais.Contains(vm))
+        {
+            ColecoesGlobais.Remove(vm);
+            _preferencias.ColecoesGlobais?.Remove(vm.Model);
+            SalvarPreferencias();
+            RecarregarTodasColecoes();
+            return;
+        }
+
+        // Se for do ambiente ativo
+        if (AmbienteAtivo != null && AmbienteAtivo.Colecoes.Contains(vm))
+        {
+            AmbienteAtivo.Colecoes.Remove(vm);
+            AmbienteAtivo.Model.Colecoes.Remove(vm.Model);
+            SalvarPreferencias();
+            RecarregarTodasColecoes();
+        }
     }
 
     private void TrocarAmbiente(EnvironmentViewModel? amb)
@@ -1477,6 +1500,8 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
 
 
 

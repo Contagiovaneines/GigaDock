@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using DockWindows.App.Common;
 using DockWindows.Core.Models;
@@ -19,6 +19,7 @@ public class EnvironmentViewModel : ObservableObject
     private readonly Action<string> _notificarErro;
     private readonly Action<ItemViewModel>? _onMoverParaGlobal;
     private readonly Action<ColecaoAppViewModel>? _onEditarColecao;
+    private readonly Action<ColecaoAppViewModel>? _onRemoverColecao;
 
     private bool _estaAtivo;
 
@@ -32,7 +33,7 @@ public class EnvironmentViewModel : ObservableObject
         Action<ItemViewModel> onMoverDireita,
         Action<string> notificarErro,
         Action<ItemViewModel>? onMoverParaGlobal = null,
-        Action<ColecaoAppViewModel>? onEditarColecao = null)
+        Action<ColecaoAppViewModel>? onEditarColecao = null, Action<ColecaoAppViewModel>? onRemoverColecao = null)
     {
         _model = model;
         _launcher = launcher;
@@ -44,6 +45,7 @@ public class EnvironmentViewModel : ObservableObject
         _notificarErro = notificarErro;
         _onMoverParaGlobal = onMoverParaGlobal;
         _onEditarColecao = onEditarColecao;
+        _onRemoverColecao = onRemoverColecao;
 
         Itens = new ObservableCollection<ItemViewModel>();
         Colecoes = new ObservableCollection<ColecaoAppViewModel>();
@@ -160,7 +162,7 @@ public class EnvironmentViewModel : ObservableObject
         Colecoes.Clear();
         foreach (var col in _model.Colecoes.OrderBy(c => c.Ordem))
         {
-            var colVm = new ColecaoAppViewModel(col, _launcher, _iconService, _onEditarColecao, _notificarErro);
+            var colVm = new ColecaoAppViewModel(col, _launcher, _iconService, _onEditarColecao, _notificarErro, _onRemoverColecao);
             Colecoes.Add(colVm);
         }
     }
@@ -183,3 +185,4 @@ public class EnvironmentViewModel : ObservableObject
         _model.Colecoes = Colecoes.Select(vm => vm.Model).ToList();
     }
 }
+
