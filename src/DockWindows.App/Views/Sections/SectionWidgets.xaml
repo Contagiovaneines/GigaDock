@@ -1,7 +1,8 @@
-<UserControl x:Class="DockWindows.App.Views.Sections.SectionWidgets"
+﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionWidgets"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:conv="clr-namespace:DockWindows.App.Converters">
+             xmlns:conv="clr-namespace:DockWindows.App.Converters"
+             xmlns:local="clr-namespace:DockWindows.App.Views.Sections">
 
     <UserControl.Resources>
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -248,5 +249,11 @@
             </Border>
         </Popup>
 
+            <!-- WIDGET: NOTAS -->
+        <local:SectionNotasInline Visibility="{Binding Notas.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>
+        
+        <!-- WIDGET: MONITOR -->
+        <local:SectionMonitorInline Visibility="{Binding MonitorSistema.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>
     </StackPanel>
 </UserControl>
+

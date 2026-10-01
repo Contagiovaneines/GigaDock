@@ -82,6 +82,8 @@ public class MainViewModel : ObservableObject
         Pomodoro = new PomodoroWidgetViewModel();
         Calendario = new CalendarioWidgetViewModel(onAbrirAjustes: () => AbrirAjustes("Widgets"));
         Midia = new MidiaWidgetViewModel();
+        Notas = new NotasWidgetViewModel();
+        MonitorSistema = new MonitorSistemaViewModel();
         Clima = new ClimaWidgetViewModel();
 
         TrocarAmbienteCommand = new RelayCommand<EnvironmentViewModel>(TrocarAmbiente);
@@ -151,6 +153,8 @@ public class MainViewModel : ObservableObject
     public PomodoroWidgetViewModel Pomodoro { get; }
     public CalendarioWidgetViewModel Calendario { get; }
     public MidiaWidgetViewModel Midia { get; }
+    public NotasWidgetViewModel Notas { get; }
+    public MonitorSistemaViewModel MonitorSistema { get; }
     public ClimaWidgetViewModel Clima { get; }
     public ITaskbarService TaskbarService => _taskbarService;
     public IWindowTrackingService WindowTrackingService => _windowTrackingService;
@@ -300,7 +304,7 @@ public class MainViewModel : ObservableObject
     public bool EhVidroLiquido => EstiloTema == EstiloTema.VidroLiquido;
     public bool TemEfeitoVidro => EstiloTema == EstiloTema.VidroLiquido || EstiloTema == EstiloTema.ComBrilho;
 
-    public bool WidgetsHabilitados => Clock.Habilitado || Pomodoro.Habilitado || Calendario.Habilitado;
+    public bool WidgetsHabilitados => Clock.Habilitado || Pomodoro.Habilitado || Calendario.Habilitado || Notas.Habilitado || MonitorSistema.Habilitado;
 
     public void AtualizarCoresTema()
     {
@@ -722,7 +726,7 @@ public class MainViewModel : ObservableObject
         CarregarEspacadores();
         CarregarAplicativos();
 
-        Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
+Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
 
@@ -820,7 +824,21 @@ public class MainViewModel : ObservableObject
             Calendario.Habilitado = wCalendario.Visivel;
             Calendario.Formato = wCalendario.Formato;
         }
-        Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
+
+        var wNotas = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Notas);
+        if (wNotas != null)
+        {
+            Notas.Habilitado = wNotas.Visivel;
+            Notas.Formato = wNotas.Formato;
+        }
+
+        var wMonitor = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.MonitorSistema);
+        if (wMonitor != null)
+        {
+            MonitorSistema.Habilitado = wMonitor.Visivel;
+            MonitorSistema.Formato = wMonitor.Formato;
+        }
+Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
     }
@@ -1426,5 +1444,9 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
+
+
 
 

@@ -11,69 +11,109 @@
     
     <UserControl.Resources>
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <!-- Estilo dos botões de controle -->
+        <Style x:Key="MediaBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#CCFFFFFF"/>
+            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#55FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     
-    <Grid Width="200">
-        <Border CornerRadius="12" Background="#18181A" ClipToBounds="True">
+    <Grid Width="220">
+        <Border CornerRadius="12" ClipToBounds="True">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2A2A30" Offset="0.0"/>
+                    <GradientStop Color="#1A1A1E" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            
             <Grid>
-                <!-- Fundo Capa do Álbum com Efeito -->
-                <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill" Opacity="0.4"/>
-                <Border>
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#CC000000" Offset="0.0"/>
-                            <GradientStop Color="#44000000" Offset="1.0"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                </Border>
-
-                <!-- Conteúdo -->
-                <Grid Margin="12,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <!-- Capa de fundo com blur suave -->
+                <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill" Opacity="0.15"/>
+                
+                <Grid Margin="8,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,4,0,0">
-                        <TextBlock Text="{Binding Midia.Titulo}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="95"/>
-                        <TextBlock Text="{Binding Midia.Artista}" FontSize="12" Foreground="#B3B3B3" TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="70"/>
-                    </StackPanel>
-
-                    <!-- Controles -->
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
-                        <TextBlock Text="🔀" FontSize="11" Foreground="#B3B3B3" Margin="0,0,10,0"/>
-                        <Button Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" Padding="0" Margin="0,0,10,0"
-                                Command="{Binding Midia.AnteriorCommand}" Cursor="Hand">
-                            <TextBlock Text="⏮" FontSize="11"/>
-                        </Button>
-                        <Button Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" Padding="0" Margin="0,0,10,0"
-                                Command="{Binding Midia.PlayPauseCommand}" Cursor="Hand">
-                            <TextBlock FontSize="11">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="▶"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Midia.EstaTocando}" Value="True">
-                                                <Setter Property="Text" Value="⏸"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </Button>
-                        <Button Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" Padding="0" Margin="0,0,10,0"
-                                Command="{Binding Midia.ProximoCommand}" Cursor="Hand">
-                            <TextBlock Text="⏭" FontSize="11"/>
-                        </Button>
-                        <TextBlock Text="🤍" FontSize="11" Foreground="#B3B3B3"/>
-                    </StackPanel>
+                    <!-- Capa do Álbum (miniatura quadrada) -->
+                    <Border Grid.Column="0" Width="36" Height="36" CornerRadius="6" ClipToBounds="True" 
+                            VerticalAlignment="Center" Margin="0,0,8,0">
+                        <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill"/>
+                    </Border>
+                    
+                    <!-- Info + Controles -->
+                    <Grid Grid.Column="1" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Título e Artista -->
+                        <StackPanel Grid.Row="0" Margin="0,0,0,2">
+                            <TextBlock Text="{Binding Midia.Titulo}" FontSize="11" FontWeight="Bold" 
+                                       Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="140"/>
+                            <TextBlock Text="{Binding Midia.Artista}" FontSize="10" 
+                                       Foreground="#99FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="140"/>
+                        </StackPanel>
+                        
+                        <!-- Botões de Controle -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,2,0,0">
+                            <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.AnteriorCommand}">
+                                <TextBlock Text="⏮" FontSize="10"/>
+                            </Button>
+                            <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.PlayPauseCommand}" Margin="4,0">
+                                <TextBlock FontSize="12">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="▶"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Midia.EstaTocando}" Value="True">
+                                                    <Setter Property="Text" Value="⏸"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Button>
+                            <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.ProximoCommand}">
+                                <TextBlock Text="⏭" FontSize="10"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </Grid>
         </Border>
-
-        <!-- Ícone Spotify flutuando pra fora -->
-        <Border Background="#1DB954" Width="18" Height="18" CornerRadius="9" BorderThickness="1.5" BorderBrush="#25252A"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-6,-6,0">
+        
+        <!-- Badge Fonte App -->
+        <Border Background="{Binding Midia.FonteCor, FallbackValue='#1DB954'}" 
+                Width="16" Height="16" CornerRadius="8" 
+                BorderThickness="1.5" BorderBrush="#1A1A1E"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-5,0"
+                ToolTip="{Binding Midia.FonteNome}">
+            <TextBlock Text="{Binding Midia.FonteIcone, FallbackValue='♫'}" FontSize="8" Foreground="White" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
     </Grid>
 </UserControl>

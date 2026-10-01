@@ -159,6 +159,28 @@ public class MidiaWidgetViewModel : ObservableObject
         _ = UpdateMediaPropertiesAsync();
     }
 
+    private string? _fonteNome = string.Empty;
+    private string? _fonteCor = "#1DB954";
+    private string? _fonteIcone = "♫";
+
+    public string? FonteNome
+    {
+        get => _fonteNome;
+        set => SetProperty(ref _fonteNome, value);
+    }
+
+    public string? FonteCor
+    {
+        get => _fonteCor;
+        set => SetProperty(ref _fonteCor, value);
+    }
+
+    public string? FonteIcone
+    {
+        get => _fonteIcone;
+        set => SetProperty(ref _fonteIcone, value);
+    }
+
     private async Task UpdateMediaPropertiesAsync()
     {
         if (_currentSession == null)
@@ -169,6 +191,7 @@ public class MidiaWidgetViewModel : ObservableObject
                 Artista = string.Empty;
                 CapaAlbumUrl = string.Empty;
                 EstaTocando = false;
+                FonteNome = string.Empty;
             });
             return;
         }
@@ -177,11 +200,45 @@ public class MidiaWidgetViewModel : ObservableObject
         {
             var properties = await _currentSession.TryGetMediaPropertiesAsync();
             var playbackInfo = _currentSession.GetPlaybackInfo();
+            string sourceId = _currentSession.SourceAppUserModelId?.ToLower() ?? "";
 
             string titulo = properties?.Title ?? string.Empty;
             string artista = properties?.Artist ?? string.Empty;
             bool estaTocando = playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
             string capaPath = string.Empty;
+            
+            string cor = "#555555";
+            string icone = "♫";
+            string nome = sourceId;
+
+            if (sourceId.Contains("spotify"))
+            {
+                cor = "#1DB954";
+                icone = "♫";
+                nome = "Spotify";
+            }
+            else if (sourceId.Contains("chrome") || sourceId.Contains("edge") || sourceId.Contains("brave") || sourceId.Contains("firefox"))
+            {
+                cor = "#FF0000";
+                icone = "▶";
+                nome = "Navegador";
+                if (titulo.Contains("YouTube", StringComparison.OrdinalIgnoreCase) || artista.Contains("YouTube", StringComparison.OrdinalIgnoreCase))
+                {
+                    nome = "YouTube";
+                }
+            }
+            else if (sourceId.Contains("vlc"))
+            {
+                cor = "#FF8800";
+                icone = "▶";
+                nome = "VLC";
+            }
+            else if (sourceId.Contains("netflix"))
+            {
+                cor = "#E50914";
+                icone = "N";
+                nome = "Netflix";
+            }
 
             if (properties?.Thumbnail != null)
             {
@@ -208,6 +265,9 @@ public class MidiaWidgetViewModel : ObservableObject
                 Artista = artista;
                 CapaAlbumUrl = capaPath;
                 EstaTocando = estaTocando;
+                FonteCor = cor;
+                FonteIcone = icone;
+                FonteNome = nome;
             });
         }
         catch
@@ -218,6 +278,7 @@ public class MidiaWidgetViewModel : ObservableObject
                 Artista = string.Empty;
                 CapaAlbumUrl = string.Empty;
                 EstaTocando = false;
+                FonteNome = string.Empty;
             });
         }
     }
