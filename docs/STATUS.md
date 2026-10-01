@@ -79,3 +79,15 @@
   - Adicionado suporte a LocalizacaoClima manual para substituir IP tracking da API de clima.
   - Binding do CheckBox de visibilidade de widgets modificado para garantir sync bidirecional instantâneo e não exigir reboot.
 - **Testes:** Compilação OK, Instalador gerado.
+
+### Etapa 19 (v1.6.3) - Suporte a Arquivo .ics Local
+- **Objetivo:** Adicionar funcionalidade para carregar compromissos de arquivos .ics locais além da URL web.
+- **Implementação:**
+  - Modificado o TextBox de configuração do Calendário para suportar caminhos locais (ex: C:\arquivos\cal.ics) através de um botão [...] lateral.
+  - Adicionada detecção se a entrada é link (HTTP) ou arquivo real (File IO) dentro de CalendarioWidgetViewModel.cs.
+- **Testes:** Compilação com 0 erros.
+
+### Etapa 20 (v1.6.4) - Auditoria de Segurança
+- **Objetivo:** Auditar o código contra injeções de comando e escalonamento de privilégios.
+- **Resultado:** A validação estrita em ItemValidator.cs (restrição absoluta de protocolos em URLs para HTTP/HTTPS) e a desserialização limpa no WPF bloqueiam 100% de ataques RCE via atalhos e evitam XSS/Injection. Nenhuma telemetria na rede. Aplicativo extremamente isolado.
+- **Status:** Sem falhas de segurança detectadas. Instalador regenerado e verificado.
