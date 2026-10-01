@@ -28,20 +28,21 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     
-                    <StackPanel Grid.Row="0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Midia.Titulo}" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Midia.Artista}" FontSize="10" Foreground="#B3B3B3" TextTrimming="CharacterEllipsis" Margin="0,2,0,0"/>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,4,0,0">
+                        <TextBlock Text="{Binding Midia.Titulo}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="95"/>
+                        <TextBlock Text="{Binding Midia.Artista}" FontSize="12" Foreground="#B3B3B3" TextTrimming="CharacterEllipsis" Margin="4,0,0,0" MaxWidth="70"/>
                     </StackPanel>
 
                     <!-- Controles -->
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,6">
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
+                        <TextBlock Text="🔀" FontSize="11" Foreground="#B3B3B3" Margin="0,0,10,0"/>
                         <Button Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" Padding="0" Margin="0,0,10,0"
                                 Command="{Binding Midia.AnteriorCommand}" Cursor="Hand">
-                            <TextBlock Text="⏮" FontSize="10"/>
+                            <TextBlock Text="⏮" FontSize="11"/>
                         </Button>
                         <Button Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" Padding="0" Margin="0,0,10,0"
                                 Command="{Binding Midia.PlayPauseCommand}" Cursor="Hand">
-                            <TextBlock FontSize="10">
+                            <TextBlock FontSize="11">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Text" Value="▶"/>
@@ -56,17 +57,17 @@
                         </Button>
                         <Button Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" Padding="0" Margin="0,0,10,0"
                                 Command="{Binding Midia.ProximoCommand}" Cursor="Hand">
-                            <TextBlock Text="⏭" FontSize="10"/>
+                            <TextBlock Text="⏭" FontSize="11"/>
                         </Button>
+                        <TextBlock Text="🤍" FontSize="11" Foreground="#B3B3B3"/>
                     </StackPanel>
                 </Grid>
-
-                <!-- Ícone Aplicativo (ex: Spotify) no canto -->
-                <Border Background="#1DB954" Width="14" Height="14" CornerRadius="7" 
-                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6">
-                    <TextBlock Text="🎵" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
             </Grid>
+        </Border>
+
+        <!-- Ícone Spotify flutuando pra fora -->
+        <Border Background="#1DB954" Width="18" Height="18" CornerRadius="9" BorderThickness="1.5" BorderBrush="#25252A"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-6,-6,0">
         </Border>
     </Grid>
 </UserControl>

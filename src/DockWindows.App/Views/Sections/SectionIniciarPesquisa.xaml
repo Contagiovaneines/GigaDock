@@ -32,20 +32,10 @@
                             </Grid.RenderTransform>
 
                             <!-- Squircle com Gradiente translúcido estilo Apple/Windows 11 -->
-                            <Border CornerRadius="9" BorderThickness="1" BorderBrush="#50FFFFFF">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                        <GradientStop Color="#4038BDF8" Offset="0.0"/>
-                                        <GradientStop Color="#250284C7" Offset="1.0"/>
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                                <!-- Ícone de Grade / Launchpad de 4 blocos arredondados -->
-                                <UniformGrid Columns="2" Rows="2" Margin="7" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Border Width="6" Height="6" CornerRadius="2" Background="#FFFFFF" Margin="1.5"/>
-                                    <Border Width="6" Height="6" CornerRadius="2" Background="#BAE6FD" Margin="1.5"/>
-                                    <Border Width="6" Height="6" CornerRadius="2" Background="#BAE6FD" Margin="1.5"/>
-                                    <Border Width="6" Height="6" CornerRadius="2" Background="#FFFFFF" Margin="1.5"/>
-                                </UniformGrid>
+                            <!-- Squircle Preto com Terminal Icon -->
+                            <Border CornerRadius="9" BorderThickness="1" BorderBrush="#20FFFFFF" Background="#1C1C1E">
+                                <TextBlock Text="&gt;_" Foreground="#FFFFFF" FontSize="18" FontFamily="Consolas" 
+                                           FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,4"/>
                             </Border>
                         </Grid>
                     </Border>

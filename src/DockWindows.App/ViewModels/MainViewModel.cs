@@ -209,7 +209,7 @@ public class MainViewModel : ObservableObject
         }
     }
 
-    public CornerRadius RaioCantosDockRadius => new(100);
+    public CornerRadius RaioCantosDockRadius => new(24);
 
     public bool EfeitoDesfoque
     {

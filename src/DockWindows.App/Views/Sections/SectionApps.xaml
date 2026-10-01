@@ -71,10 +71,8 @@
                                                         CornerRadius="10" Background="#10FFFFFF" BorderBrush="#20FFFFFF" BorderThickness="1">
                                                     <Image Source="{Binding Icone}"
                                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                                           Margin="6"
                                                            VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                        <Image.Clip>
-                                                            <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,100,100" />
-                                                        </Image.Clip>
                                                     </Image>
                                                 </Border>
 

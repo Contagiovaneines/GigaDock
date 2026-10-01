@@ -446,18 +446,13 @@ public partial class MainWindow : Window
 
             case EstiloEspacador.Linha:
             default:
-                var sep = new System.Windows.Shapes.Rectangle
+                var sep = new Border
                 {
-                    Width = 1,
-                    Height = 20,
-                    Margin = new Thickness(halfMargem, 0, halfMargem, 0),
+                    Width = Math.Max(2, largura),
+                    Height = 24,
+                    Background = Brushes.Transparent,
                     VerticalAlignment = VerticalAlignment.Center
                 };
-                sep.SetBinding(System.Windows.Shapes.Shape.FillProperty, new System.Windows.Data.Binding(nameof(_viewModel.SeparadorColor))
-                {
-                    Source = _viewModel,
-                    Converter = (System.Windows.Data.IValueConverter)Application.Current.FindResource("ColorToBrushConverter")
-                });
                 return sep;
         }
     }

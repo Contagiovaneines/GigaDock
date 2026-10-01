@@ -17,22 +17,19 @@
             </Border.Background>
             
             <Grid>
-                <!-- Textos -->
-                <StackPanel VerticalAlignment="Center" Margin="12,0,50,0">
-                    <TextBlock Text="{Binding Clima.Condicao}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="{Binding Clima.Local}" FontSize="10" Foreground="#E0F7FA" TextTrimming="CharacterEllipsis" Margin="0,2,0,0"/>
+                <!-- Textos e Temperatura -->
+                <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Center">
+                    <StackPanel VerticalAlignment="Center" Width="85">
+                        <TextBlock Text="{Binding Clima.Condicao}" FontSize="11" FontWeight="Medium" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Clima.Local}" FontSize="11" Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" Margin="0,1,0,0"/>
+                    </StackPanel>
+                    
+                    <TextBlock Text="{Binding Clima.Temperatura}" FontSize="28" FontWeight="Light" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,0,4"/>
                 </StackPanel>
                 
-                <!-- Temperatura -->
-                <TextBlock Text="{Binding Clima.Temperatura}" FontSize="24" FontWeight="Light" Foreground="#FFFFFF" 
-                           HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                
-                <!-- Ícone decorativo (protótipo tem um ícone de sol sobre a nuvem) -->
-                <TextBlock Text="{Binding Clima.IconeEmoji}" FontSize="32" 
-                           HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-4,-10">
-                    <TextBlock.RenderTransform>
-                        <TranslateTransform Y="4"/>
-                    </TextBlock.RenderTransform>
+                <!-- Ícone decorativo vazando a borda -->
+                <TextBlock Text="⛅" FontSize="44" 
+                           HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-8,-12">
                 </TextBlock>
             </Grid>
         </Border>
