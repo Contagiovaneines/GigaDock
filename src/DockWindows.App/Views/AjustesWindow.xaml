@@ -248,55 +248,46 @@
                         <!-- GRUPO PRINCIPAL -->
                         <TextBlock Text="PRINCIPAL" FontSize="10" FontWeight="Bold" Foreground="#71717A" Margin="16,8,0,4"/>
 
-                        <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoAmbientes}" Command="{Binding NavegarCommand}" CommandParameter="Ambientes">
+                                                <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoAmbientes}" Command="{Binding NavegarCommand}" CommandParameter="Ambientes">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="💼" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Ambientes"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7F4;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#0A84FF"/>
+                                <TextBlock Text="Ambientes" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoWidgets}" Command="{Binding NavegarCommand}" CommandParameter="Widgets">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🧩" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Widgets"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE74C;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#FF9F0A"/>
+                                <TextBlock Text="Widgets" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoEspacadores}" Command="{Binding NavegarCommand}" CommandParameter="Espacadores">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="↔️" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Espaçadores"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE76F;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#32D74B"/>
+                                <TextBlock Text="Divisores" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
-                        <!-- GRUPO AJUSTES -->
-                        <TextBlock Text="AJUSTES" FontSize="10" FontWeight="Bold" Foreground="#71717A" Margin="16,16,0,4"/>
-
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoAparencia}" Command="{Binding NavegarCommand}" CommandParameter="Aparencia">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🎨" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Aparência"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE790;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#BF5AF2"/>
+                                <TextBlock Text="Aparência" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoGeral}" Command="{Binding NavegarCommand}" CommandParameter="Geral">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="⚙️" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Geral"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE713;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#64D2FF"/>
+                                <TextBlock Text="Geral" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoUtilitarios}" Command="{Binding NavegarCommand}" CommandParameter="Utilitarios">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="🛠️" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Utilitários"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE90F;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#FF453A"/>
+                                <TextBlock Text="Utilitários" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoSobre}" Command="{Binding NavegarCommand}" CommandParameter="Sobre">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ℹ️" FontSize="14" Margin="0,0,9,0"/>
-                                <TextBlock Text="Sobre"/>
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE946;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#94A3B8"/>
+                                <TextBlock Text="Sobre" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -1138,6 +1129,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 
