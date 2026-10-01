@@ -15,8 +15,8 @@
         <Style x:Key="MediaBtnStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="#CCFFFFFF"/>
-            <Setter Property="Padding" Value="4,2"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="Padding" Value="6,4"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -26,10 +26,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bg" Property="Background" Value="#33FFFFFF"/>
+                                <Setter TargetName="Bg" Property="Background" Value="#25FFFFFF"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Bg" Property="Background" Value="#55FFFFFF"/>
+                                <Setter TargetName="Bg" Property="Background" Value="#40FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -38,82 +39,82 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid Width="220">
-        <Border CornerRadius="12" ClipToBounds="True">
+    <Grid Width="240">
+        <Border CornerRadius="12" ClipToBounds="True" BorderThickness="1" BorderBrush="#15FFFFFF">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#2A2A30" Offset="0.0"/>
-                    <GradientStop Color="#1A1A1E" Offset="1.0"/>
+                    <GradientStop Color="#402A2A30" Offset="0.0"/>
+                    <GradientStop Color="#401A1A1E" Offset="1.0"/>
                 </LinearGradientBrush>
             </Border.Background>
             
             <Grid>
                 <!-- Capa de fundo com blur suave -->
-                <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill" Opacity="0.15"/>
+                <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill" Opacity="0.12"/>
                 
-                <Grid Margin="8,0">
+                <Grid Margin="6,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     
                     <!-- Capa do Álbum (miniatura quadrada) -->
-                    <Border Grid.Column="0" Width="36" Height="36" CornerRadius="6" ClipToBounds="True" 
-                            VerticalAlignment="Center" Margin="0,0,8,0">
+                    <Border Grid.Column="0" Width="30" Height="30" CornerRadius="6" ClipToBounds="True" 
+                            VerticalAlignment="Center">
                         <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill"/>
                     </Border>
                     
-                    <!-- Info + Controles -->
-                    <Grid Grid.Column="1" VerticalAlignment="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                    <!-- Título e Artista -->
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,0,0">
+                        <TextBlock Text="{Binding Midia.Titulo}" FontSize="11" FontWeight="SemiBold" 
+                                   Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="110"/>
+                        <TextBlock Text="{Binding Midia.Artista}" FontSize="10" 
+                                   Foreground="#A0A0A0" TextTrimming="CharacterEllipsis" MaxWidth="110" Margin="0,-1,0,0"/>
+                    </StackPanel>
                         
-                        <!-- Título e Artista -->
-                        <StackPanel Grid.Row="0" Margin="0,0,0,2">
-                            <TextBlock Text="{Binding Midia.Titulo}" FontSize="11" FontWeight="Bold" 
-                                       Foreground="#FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="140"/>
-                            <TextBlock Text="{Binding Midia.Artista}" FontSize="10" 
-                                       Foreground="#99FFFFFF" TextTrimming="CharacterEllipsis" MaxWidth="140"/>
-                        </StackPanel>
+                    <!-- Botões de Controle na Direita -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,2,0">
+                        <!-- Anterior -->
+                        <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.AnteriorCommand}">
+                            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE892;" FontSize="11"/>
+                        </Button>
                         
-                        <!-- Botões de Controle -->
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,2,0,0">
-                            <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.AnteriorCommand}">
-                                <TextBlock Text="⏮" FontSize="10"/>
-                            </Button>
-                            <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.PlayPauseCommand}" Margin="4,0">
-                                <TextBlock FontSize="12">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="▶"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Midia.EstaTocando}" Value="True">
-                                                    <Setter Property="Text" Value="⏸"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </Button>
-                            <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.ProximoCommand}">
-                                <TextBlock Text="⏭" FontSize="10"/>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                        <!-- Play/Pause -->
+                        <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.PlayPauseCommand}" Margin="2,0">
+                            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <!-- Play icon -->
+                                        <Setter Property="Text" Value="&#xE768;"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Midia.EstaTocando}" Value="True">
+                                                <!-- Pause icon -->
+                                                <Setter Property="Text" Value="&#xE769;"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Button>
+                        
+                        <!-- Próximo -->
+                        <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.ProximoCommand}">
+                            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE893;" FontSize="11"/>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Border>
         
         <!-- Badge Fonte App -->
         <Border Background="{Binding Midia.FonteCor, FallbackValue='#1DB954'}" 
-                Width="16" Height="16" CornerRadius="8" 
+                Width="14" Height="14" CornerRadius="7" 
                 BorderThickness="1.5" BorderBrush="#1A1A1E"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-5,0"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,-4,0"
                 ToolTip="{Binding Midia.FonteNome}">
-            <TextBlock Text="{Binding Midia.FonteIcone, FallbackValue='♫'}" FontSize="8" Foreground="White" 
-                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Midia.FonteIcone, FallbackValue='♪'}" FontSize="8" Foreground="White" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0"/>
         </Border>
     </Grid>
 </UserControl>
