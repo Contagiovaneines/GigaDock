@@ -515,7 +515,17 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-        public bool ExibirMidia
+        public bool AbrirPlayerAoDuploClique
+    {
+        get => _mainVm.AbrirPlayerAoDuploClique;
+        set
+        {
+            _mainVm.AbrirPlayerAoDuploClique = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool ExibirMidia
     {
         get => _mainVm.ExibirMidia;
         set
@@ -1498,6 +1508,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

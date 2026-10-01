@@ -81,7 +81,7 @@ public class MainViewModel : ObservableObject
         Clock = new ClockWidgetViewModel();
         Pomodoro = new PomodoroWidgetViewModel();
         Calendario = new CalendarioWidgetViewModel(onAbrirAjustes: () => AbrirAjustes("Widgets"));
-        Midia = new MidiaWidgetViewModel();
+        Midia = new MidiaWidgetViewModel(() => _preferencias.AbrirPlayerAoDuploClique);
         Notas = new NotasWidgetViewModel();
         MonitorSistema = new MonitorSistemaViewModel();
         Clima = new ClimaWidgetViewModel();
@@ -474,7 +474,21 @@ public class MainViewModel : ObservableObject
         }
     }
 
-        public bool ExibirMidia
+        public bool AbrirPlayerAoDuploClique
+    {
+        get => _preferencias.AbrirPlayerAoDuploClique;
+        set
+        {
+            if (_preferencias.AbrirPlayerAoDuploClique != value)
+            {
+                _preferencias.AbrirPlayerAoDuploClique = value;
+                SalvarPreferencias();
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public bool ExibirMidia
     {
         get => _preferencias.ExibirMidia;
         set
@@ -1568,6 +1582,8 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
 
 
 

@@ -16,6 +16,57 @@
         ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
+        <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <Grid Width="36" Height="20" VerticalAlignment="Center">
+                                <Border x:Name="BgBorder" CornerRadius="10" Background="#32323C" BorderBrush="#4A4A55" BorderThickness="1"/>
+                                <Border x:Name="Knob" Width="14" Height="14" CornerRadius="7" Background="#94A3B8" HorizontalAlignment="Left" Margin="3,0,0,0">
+                                    <Border.RenderTransform>
+                                        <TranslateTransform X="0" />
+                                    </Border.RenderTransform>
+                                </Border>
+                            </Grid>
+                            <ContentPresenter VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="BgBorder" Property="Background" Value="#0A84FF"/>
+                                <Setter TargetName="BgBorder" Property="BorderBrush" Value="#0A84FF"/>
+                                <Setter TargetName="Knob" Property="Background" Value="#FFFFFF"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Knob" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="16" Duration="0:0:0.15">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Knob" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>
@@ -399,7 +450,7 @@
                                     <TextBlock Text="{Binding Formato}" FontSize="11" Foreground="#8E8E93"/>
                                 </StackPanel>
 
-                                <CheckBox Grid.Column="2" IsChecked="{Binding Visivel}" VerticalAlignment="Center" ToolTip="Exibir na barra"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Grid.Column="2" IsChecked="{Binding Visivel}" VerticalAlignment="Center" ToolTip="Exibir na barra"
                                           Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                           CommandParameter="{Binding}"/>
                             </Grid>
@@ -788,9 +839,9 @@
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
                             <StackPanel>
                                 <TextBlock Text="WIDGETS HABILITADOS NO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <CheckBox Content="Relógio Digital e Controles de Sistema" IsChecked="{Binding RelogioAmbienteHabilitado}" Margin="0,0,0,8"/>
-                                <CheckBox Content="Pomodoro de Foco e Produtividade" IsChecked="{Binding PomodoroAmbienteHabilitado}" Margin="0,0,0,8"/>
-                                <CheckBox Content="Calendário e Próximos Compromissos" IsChecked="{Binding CalendarioAmbienteHabilitado}"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Relógio Digital e Controles de Sistema" IsChecked="{Binding RelogioAmbienteHabilitado}" Margin="0,0,0,8"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Pomodoro de Foco e Produtividade" IsChecked="{Binding PomodoroAmbienteHabilitado}" Margin="0,0,0,8"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Calendário e Próximos Compromissos" IsChecked="{Binding CalendarioAmbienteHabilitado}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -934,7 +985,7 @@
                                 <TextBlock Text="{Binding EspacadorSelecionado.Largura, StringFormat='Espaçamento / Largura: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                 <Slider Minimum="4" Maximum="32" Value="{Binding EspacadorSelecionado.Largura, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Visível no dock" IsChecked="{Binding EspacadorSelecionado.Visivel, Mode=TwoWay}"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Visível no dock" IsChecked="{Binding EspacadorSelecionado.Visivel, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -964,7 +1015,7 @@
                                 <TextBlock Text="{Binding EspacamentoItens, StringFormat='Espaçamento entre Itens: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                 <Slider Minimum="2" Maximum="20" Value="{Binding EspacamentoItens, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Efeito translúcido / desfoque de fundo (Acrílico)" IsChecked="{Binding EfeitoDesfoque, Mode=TwoWay}" Margin="0,0,0,8"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Efeito translúcido / desfoque de fundo (Acrílico)" IsChecked="{Binding EfeitoDesfoque, Mode=TwoWay}" Margin="0,0,0,8"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -980,24 +1031,24 @@
                             <StackPanel>
                                 <TextBlock Text="COMPORTAMENTO DA BARRA" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
 
-                                <CheckBox Content="Usar como barra principal (posiciona rente à borda inferior)"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Usar como barra principal (posiciona rente à borda inferior)"
                                           IsChecked="{Binding UsarComoBarraPrincipal, Mode=TwoWay}" Margin="0,0,0,8"/>
                                 <TextBlock Text="Quando ativado, o dock ocupa o espaço inferior e oculta suavemente a barra nativa do Windows sem encerrar o Explorer."
                                            FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="24,0,0,12"/>
 
-                                <CheckBox Content="Ocultar automaticamente quando o mouse se afastar"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Ocultar automaticamente quando o mouse se afastar"
                                           IsChecked="{Binding OcultarAutomaticamente, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Iniciar o Dock Windows com o Windows"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Iniciar o Dock Windows com o Windows"
                                           IsChecked="{Binding IniciarComWindows, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Content="Desativar animações da interface (modo econômico)"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Desativar animações da interface (modo econômico)"
                                           IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}" Margin="0,0,0,12"/>
 
                                 <StackPanel Margin="0,0,0,12">
-                                                                    <CheckBox Content="Exibir contagem de itens nas Coleções (bolinha vermelha)"
+                                                                    <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Exibir contagem de itens nas Coleções (bolinha vermelha)"
                                           IsChecked="{Binding ExibirContagemColecoes, Mode=TwoWay}" Margin="0,0,0,4"/>
-                                <CheckBox Content="Exibir clima e temperatura inline na barra"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Exibir clima e temperatura inline na barra"
                                               IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,4"/>
                                     <StackPanel Orientation="Horizontal" Margin="24,0,0,0" Visibility="{Binding ExibirClima, Converter={StaticResource BoolToVis}}">
                                         <TextBlock Text="Localização:" VerticalAlignment="Center" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0"/>
@@ -1006,7 +1057,9 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <CheckBox Content="Exibir botões de adição e configurações na barra"
+                                                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Abrir o player original ao dar duplo clique no widget de Mídia"
+                                          IsChecked="{Binding AbrirPlayerAoDuploClique, Mode=TwoWay}" Margin="0,0,0,4"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Exibir botões de adição e configurações na barra"
                                           IsChecked="{Binding ExibirBotoesAcao, Mode=TwoWay}"/>
                             </StackPanel>
                         </Border>
@@ -1085,6 +1138,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 

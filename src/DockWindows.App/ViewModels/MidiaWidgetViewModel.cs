@@ -78,8 +78,10 @@ public class MidiaWidgetViewModel : ObservableObject
 
     public ICommand AbrirPlayerCommand { get; }
 
-    public MidiaWidgetViewModel()
+    private readonly Func<bool> _canOpenPlayer;
+    public MidiaWidgetViewModel(Func<bool> canOpenPlayer = null)
     {
+        _canOpenPlayer = canOpenPlayer ?? (() => true);
         PlayPauseCommand = new RelayCommand(() => _ = TogglePlayPauseAsync());
         AnteriorCommand = new RelayCommand(() => _ = SkipPreviousAsync());
                 ProximoCommand = new RelayCommand(() => _ = SkipNextAsync());
@@ -369,5 +371,8 @@ public class MidiaWidgetViewModel : ObservableObject
         return Task.CompletedTask;
     }
 }
+
+
+
 
 
