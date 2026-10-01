@@ -1229,15 +1229,17 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    private void AlternarVisibilidadeWidget(WidgetInstanceConfig? wgt)
+        private void AlternarVisibilidadeWidget(WidgetInstanceConfig? wgt)
     {
         if (wgt != null)
         {
-            // Note: O CheckBox (Mode=TwoWay) já alterou wgt.Visivel para o novo valor.
-            // Apenas aplicamos a alteração à dock.
             if (wgt.Tipo == TipoWidget.Relogio) _mainVm.Clock.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.Pomodoro) _mainVm.Pomodoro.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.CalendarioCompromissos) _mainVm.Calendario.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.Notas) _mainVm.Notas.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.MonitorSistema) _mainVm.MonitorSistema.Habilitado = wgt.Visivel;
+            
+            _mainVm.AtualizarCoresTema(); // Update visibility states in UI
             _mainVm.SalvarPreferencias();
         }
     }
@@ -1247,15 +1249,19 @@ public class AjustesViewModel : ObservableObject
         if (AmbienteSelecionado == null) return;
         
         var janelaLoja = new Views.LojaWidgetsWindow();
+        janelaLoja.Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(w => w.GetType().Name == "AjustesWindow") ?? System.Windows.Application.Current.MainWindow;
+        janelaLoja.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
         if (janelaLoja.ShowDialog() == true && janelaLoja.WidgetSelecionado != null)
         {
             var novoWidget = janelaLoja.WidgetSelecionado;
             novoWidget.Ordem = WidgetsAmbiente.Count;
             
-            WidgetsAmbiente.Add(novoWidget);
-            AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
-            
-            _mainVm.SalvarPreferencias();
+                            WidgetsAmbiente.Add(novoWidget);
+                AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
+                
+                AlternarVisibilidadeWidget(novoWidget); // Enable in MainVM immediately
+                
+                _mainVm.SalvarPreferencias();
             WidgetSelecionado = novoWidget;
         }
     }
@@ -1482,5 +1488,8 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
+
+
 
 
