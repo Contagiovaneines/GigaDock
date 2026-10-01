@@ -40,13 +40,13 @@ public partial class LojaWidgetsWindow : Window
             },
             new ItemLoja { 
                 Tipo = TipoWidget.Notas, 
-                Nome = "Bloco de Notas (Em Breve)", 
+                Nome = "Bloco de Notas", 
                 Icone = "📝", 
                 Descricao = "Escreva lembretes rápidos ou anotações diretamente na barra." 
             },
             new ItemLoja { 
                 Tipo = TipoWidget.MonitorSistema, 
-                Nome = "Monitor de Sistema (Em Breve)", 
+                Nome = "Monitor de Sistema", 
                 Icone = "💻", 
                 Descricao = "Acompanhe o uso de CPU e RAM em tempo real sem abrir o gerenciador de tarefas." 
             },
@@ -94,3 +94,4 @@ public class ItemLoja
     public string Icone { get; set; } = string.Empty;
     public string Descricao { get; set; } = string.Empty;
 }
+
