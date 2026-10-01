@@ -309,18 +309,37 @@ public class MidiaWidgetViewModel : ObservableObject
         }
     }
 
-        private void AbrirPlayer()
+            private void AbrirPlayer()
     {
-        string sourceId = _currentSession?.SourceAppUserModelId?.ToLower() ?? "";
+        if (!_canOpenPlayer()) return;
+
+        string sourceId = _currentSession?.SourceAppUserModelId ?? "";
+        if (string.IsNullOrEmpty(sourceId)) return;
+
+        try
+        {
+            // Tenta abrir/restaurar via esquema URI ou AUMID (funciona perfeito para Spotify Store e UWP)
+            if (sourceId.ToLower().Contains("spotify"))
+            {
+                Process.Start(new ProcessStartInfo("spotify:") { UseShellExecute = true });
+                return;
+            }
+            
+            Process.Start(new ProcessStartInfo($"shell:AppsFolder\\{sourceId}") { UseShellExecute = true });
+        }
+        catch { }
+
+        // Fallback Win32 caso a tentativa UWP/URI falhe
+        string lowerId = sourceId.ToLower();
         string procName = "";
 
-        if (sourceId.Contains("spotify")) procName = "Spotify";
-        else if (sourceId.Contains("chrome")) procName = "chrome";
-        else if (sourceId.Contains("edge")) procName = "msedge";
-        else if (sourceId.Contains("brave")) procName = "brave";
-        else if (sourceId.Contains("firefox")) procName = "firefox";
-        else if (sourceId.Contains("opera")) procName = "opera";
-        else if (sourceId.Contains("vlc")) procName = "vlc";
+        if (lowerId.Contains("spotify")) procName = "Spotify";
+        else if (lowerId.Contains("chrome")) procName = "chrome";
+        else if (lowerId.Contains("edge")) procName = "msedge";
+        else if (lowerId.Contains("brave")) procName = "brave";
+        else if (lowerId.Contains("firefox")) procName = "firefox";
+        else if (lowerId.Contains("opera")) procName = "opera";
+        else if (lowerId.Contains("vlc")) procName = "vlc";
         
         if (string.IsNullOrEmpty(procName)) return;
 
@@ -335,6 +354,8 @@ public class MidiaWidgetViewModel : ObservableObject
             }
         }
     }
+
+
 
     private async Task TogglePlayPauseAsync()
     {
@@ -371,6 +392,7 @@ public class MidiaWidgetViewModel : ObservableObject
         return Task.CompletedTask;
     }
 }
+
 
 
 
