@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
@@ -94,7 +94,7 @@ public class CalendarioWidgetViewModel : ObservableObject
         get
         {
             var agora = DateTime.Now;
-            // Próximo compromisso a partir de hoje
+            // PrÃ³ximo compromisso a partir de hoje
             return TodosCompromissos
                 .Where(c => c.DataHora >= agora.AddMinutes(-30))
                 .FirstOrDefault()
@@ -118,9 +118,19 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             try
             {
-                using var client = new System.Net.Http.HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(10);
-                var icalData = await client.GetStringAsync(_urlIcal);
+                string icalData = string.Empty;
+                if (_urlIcal.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                {
+                    using var client = new System.Net.Http.HttpClient();
+                    client.Timeout = TimeSpan.FromSeconds(15);
+                    icalData = await client.GetStringAsync(_urlIcal);
+                }
+                else if (System.IO.File.Exists(_urlIcal))
+                {
+                    icalData = await System.IO.File.ReadAllTextAsync(_urlIcal);
+                }
+
+                if (string.IsNullOrWhiteSpace(icalData)) return;
 
                 var linhas = icalData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                 bool inEvent = false;
@@ -211,9 +221,9 @@ public class CalendarioWidgetViewModel : ObservableObject
             if (ProximoCompromisso != null)
             {
                 var hora = ProximoCompromisso.DataHora.ToString("HH:mm");
-                return $"{hoje} • {hora} {ProximoCompromisso.Titulo}";
+                return $"{hoje} â€¢ {hora} {ProximoCompromisso.Titulo}";
             }
-            return $"{hoje} • Sem eventos pendentes";
+            return $"{hoje} â€¢ Sem eventos pendentes";
         }
     }
 
@@ -225,9 +235,9 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             if (ProximoCompromisso != null)
             {
-                return $"Próximo compromisso:\n{ProximoCompromisso.Titulo}\n{ProximoCompromisso.DataHora:dd/MM/yyyy HH:mm}\nClique para ver eventos";
+                return $"PrÃ³ximo compromisso:\n{ProximoCompromisso.Titulo}\n{ProximoCompromisso.DataHora:dd/MM/yyyy HH:mm}\nClique para ver eventos";
             }
-            return $"{DataCompleta}\nNenhum evento configurado\nClique para abrir o calendário";
+            return $"{DataCompleta}\nNenhum evento configurado\nClique para abrir o calendÃ¡rio";
         }
     }
 
@@ -271,3 +281,5 @@ public class CalendarioWidgetViewModel : ObservableObject
         PainelAberto = false;
     }
 }
+
+

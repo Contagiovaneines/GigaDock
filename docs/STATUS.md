@@ -69,3 +69,13 @@
   - Adicionada automação via IP para Clima Real do usuário (usando a wttr.in) junto com as opções de ExibirClima e ExibirBotoesAcao.
 - **Testes:** Compilação 0 erros.
 - **Próximos Passos:** Finalizar suporte a controles de mídia avançados e validações de thumbnail DWM.
+
+### Etapa 18 (v1.6.2) - Detecção de Tela Cheia e Redesign Clima
+- **Objetivo:** Adicionar detecção automática de tela cheia (jogos, vídeos) para auto-ocultar a Dock e melhorar visual do Clima.
+- **Implementação:**
+  - Win32WindowTrackingService agora implementa hook MonitorFromWindow e GetMonitorInfo na janela em primeiro plano.
+  - Variável de estado atada ao viewmodel OcultoPorTelaCheia que manipula o Hide() na WPF.
+  - Correção de design em SectionClimaInline.xaml (mudança do stack vertical pra horizontal para evitar sobreposição de fonte).
+  - Adicionado suporte a LocalizacaoClima manual para substituir IP tracking da API de clima.
+  - Binding do CheckBox de visibilidade de widgets modificado para garantir sync bidirecional instantâneo e não exigir reboot.
+- **Testes:** Compilação OK, Instalador gerado.
