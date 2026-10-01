@@ -149,7 +149,8 @@
                 <ContextMenu Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
                     <MenuItem Header="🚀 Menu Iniciar (Win)" Command="{Binding AbrirMenuIniciarCommand}"/>
                     <Separator Background="#33333A"/>
-                    <MenuItem Header="➕ Adicionar Novo Item..." Command="{Binding AdicionarItemCommand}"/>
+                                        <MenuItem Header="✨ Adicionar Novo Item..." Command="{Binding AdicionarItemCommand}"/>
+                    <MenuItem Header="📁 Adicionar Nova Coleção..." Command="{Binding AdicionarColecaoGlobalCommand}"/>
                     <MenuItem Header="💼 Mudar de Ambiente" ItemsSource="{Binding Ambientes}">
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">
@@ -208,5 +209,7 @@
 
     </Grid>
 </Window>
+
+
 
 

@@ -91,7 +91,8 @@ public class MainViewModel : ObservableObject
         RenomearAmbienteCommand = new RelayCommand<EnvironmentViewModel>(RenomearAmbiente);
         ExcluirAmbienteCommand = new RelayCommand<EnvironmentViewModel>(ExcluirAmbiente);
 
-        AdicionarItemCommand = new RelayCommand(AdicionarItem);
+                AdicionarItemCommand = new RelayCommand(AdicionarItem);
+        AdicionarColecaoGlobalCommand = new RelayCommand(AdicionarColecaoGlobal);
         AdicionarAppPermanenteCommand = new RelayCommand(AdicionarAppPermanentePrompt);
         AbrirConfiguracoesCommand = new RelayCommand(() => AbrirAjustes("Geral"));
         AbrirPersonalizarCommand = new RelayCommand(() => AbrirAjustes("Aparencia"));
@@ -589,7 +590,8 @@ public class MainViewModel : ObservableObject
     public ICommand NovoAmbienteCommand { get; }
     public ICommand RenomearAmbienteCommand { get; }
     public ICommand ExcluirAmbienteCommand { get; }
-    public ICommand AdicionarItemCommand { get; }
+        public ICommand AdicionarItemCommand { get; }
+    public ICommand AdicionarColecaoGlobalCommand { get; }
     public ICommand AdicionarAppPermanenteCommand { get; }
     public ICommand AbrirConfiguracoesCommand { get; }
     public ICommand AbrirPersonalizarCommand { get; }
@@ -1280,6 +1282,25 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         }
     }
 
+        public void AdicionarColecaoGlobal()
+    {
+        var nome = PedirTexto?.Invoke("Nova Coleção", "Digite o nome da nova coleção:");
+        if (string.IsNullOrWhiteSpace(nome)) return;
+
+        var novaCol = new DockWindows.Core.Models.ColecaoApp
+        {
+            Nome = nome.Trim(),
+            EhGlobal = true,
+            Ordem = _preferencias.ColecoesGlobais?.Count ?? 0
+        };
+
+        _preferencias.ColecoesGlobais ??= new List<DockWindows.Core.Models.ColecaoApp>();
+        _preferencias.ColecoesGlobais.Add(novaCol);
+        
+        SalvarPreferencias();
+        RecarregarTodasColecoes();
+    }
+
     public void AdicionarItemDireto(ItemFixado item)
     {
         if (AmbienteAtivo == null) return;
@@ -1533,6 +1554,8 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
 
 
 
