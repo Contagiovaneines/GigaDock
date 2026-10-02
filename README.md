@@ -69,4 +69,6 @@ O GigaDock está em constante evolução! Aqui estão algumas das funcionalidade
 - **Marketplace de Temas:** Uma forma de exportar e compartilhar as customizações de Cores, Sombras e Ícones com a comunidade e importar com apenas um clique.
 - **Caixa de Entrada Inteligente:** Widget para Gmail/Outlook mostrando um resumo (assunto) dos últimos 3 e-mails recebidos.
 - **Integração com Spotify/Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
+- **Assistente Virtual Flutuante (IA Mascot):** Um mascote de tela transparente e always-on-top, estilo "Clippy" moderno, integrado à API do Gemini. Ele pode flutuar pela tela, ser ativado/desativado via dock e, ao ser clicado, realiza uma captura de tela invisível (screenshot) para analisar o que você está vendo e oferecer ajuda contextual./Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
+
 
