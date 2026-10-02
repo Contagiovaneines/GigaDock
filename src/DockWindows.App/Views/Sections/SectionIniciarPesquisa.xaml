@@ -322,7 +322,7 @@
                                         Background="#12FFFFFF" Foreground="#94A3B8" FontSize="11"
                                         BorderThickness="0" Cursor="Hand">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE782;" Margin="0,0,6,0" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE80F;" Margin="0,0,6,0" FontSize="12" VerticalAlignment="Center"/>
                                         <TextBlock Text="Iniciar Nativo" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <Button.Template>
@@ -451,6 +451,7 @@
         </Button>
     </StackPanel>
 </UserControl>
+
 
 
 
