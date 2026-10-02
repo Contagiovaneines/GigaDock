@@ -198,7 +198,7 @@
             <!-- Coluna 1: Navegação Lateral -->
             <ColumnDefinition Width="220" MinWidth="190" MaxWidth="260"/>
             <!-- Coluna 2: Itens da Seção Selecionada -->
-            <ColumnDefinition Width="310" MinWidth="260" MaxWidth="400"/>
+            <ColumnDefinition Width="360" MinWidth="300" MaxWidth="500"/>
             <!-- Coluna 3: Edição e Detalhes do Item Selecionado -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -383,52 +383,28 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                                <!-- 2. WIDGETS -->
+                                                                                                <!-- 2. WIDGETS -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
-                    <Grid Margin="0,0,0,16">
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                                <Border Background="#0A84FF" CornerRadius="8" Padding="6,4" Margin="0,0,12,0">
-                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="16" Foreground="#FFFFFF" VerticalAlignment="Center"/>
-                                </Border>
-                                <TextBlock Text="Widgets" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <TextBlock Text="Gerencie, reordene e personalize os widgets ativos exibidos na barra principal da dock." FontSize="12" Foreground="#8E8E93"/>
-                        </StackPanel>
-                        <Border Background="#21212B" CornerRadius="12" Padding="12,6" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="#2C2C36" BorderThickness="1">
-                            <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="8" Height="8" Fill="#636366" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding WidgetsAmbiente.Count, StringFormat='{}{0} de 9 widgets ativos na dock'}" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
+                    <StackPanel Margin="0,0,0,16">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4" VerticalAlignment="Center">
+                            <Border Background="#0A84FF" CornerRadius="8" Padding="6,4" Margin="0,0,12,0">
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="16" Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Widgets" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            
+                            <Border Background="#21212B" CornerRadius="12" Padding="12,6" BorderBrush="#2C2C36" BorderThickness="1" VerticalAlignment="Center" Margin="0,0,12,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="8" Height="8" Fill="#636366" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding WidgetsAmbiente.Count, StringFormat='{}{0} de 9 ativos'}" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
 
-                    <Grid Margin="0,0,0,16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Border Grid.Column="0" Background="#111115" CornerRadius="8" Padding="12,8" BorderBrush="#1C1C22" BorderThickness="1" Margin="0,0,16,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="12" Foreground="#5C5C66" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="Filtrar configurações de widgets..." FontSize="12" Foreground="#5C5C66" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Border Background="#0A84FF" CornerRadius="12" Padding="16,6" Margin="0,0,8,0">
-                                <TextBlock Text="Todos (9)" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF"/>
-                            </Border>
-                            <Border Background="#1C1C22" CornerRadius="12" Padding="16,6" Margin="0,0,8,0">
-                                <TextBlock Text="Ativos (6)" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
-                            </Border>
-                            <Border Background="#1C1C22" CornerRadius="12" Padding="16,6" Margin="0,0,8,0">
-                                <TextBlock Text="Sistema &amp; Produtividade (5)" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
-                            </Border>
-                            <Border Background="#1C1C22" CornerRadius="12" Padding="16,6">
-                                <TextBlock Text="Comunicação (4)" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
-                            </Border>
+                            <Button Content="+ Loja de Widgets" Background="#0A84FF" Foreground="#FFFFFF" BorderThickness="0" FontSize="11" FontWeight="Bold" Padding="12,6" Command="{Binding AbrirLojaWidgetsCommand}" Cursor="Hand" VerticalAlignment="Center">
+                                <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="12"/></Style></Button.Resources>
+                            </Button>
                         </StackPanel>
-                    </Grid>
+                        <TextBlock Text="Gerencie, reordene e personalize os widgets ativos exibidos na barra principal da dock." FontSize="12" Foreground="#8E8E93" TextWrapping="Wrap"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <Grid Grid.Row="1" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
@@ -559,23 +535,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     
-                    <!-- Bottom Action Bar -->
-                    <Border Grid.Row="1" Background="#111115" BorderBrush="#1C1C22" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,16,0,0">
-                        <Grid>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE777;" FontSize="12" Foreground="#8E8E93" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="Restaurar ordem padrão" FontSize="11" Foreground="#8E8E93" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Content="+ Adicionar Novo Widget" Background="#1C1C22" Foreground="#FFFFFF" BorderBrush="#2C2C36" BorderThickness="1" FontSize="11" FontWeight="Bold" Padding="16,8" Margin="0,0,12,0" Command="{Binding AbrirLojaWidgetsCommand}" Cursor="Hand">
-                                    <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="16"/></Style></Button.Resources>
-                                </Button>
-                                <Button Content="Concluir e Fechar" Command="{Binding ConcluirCommand}" Background="#0A84FF" Foreground="#FFFFFF" BorderThickness="0" FontSize="11" FontWeight="Bold" Padding="16,8" Cursor="Hand">
-                                    <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="16"/></Style></Button.Resources>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                    
                 </Grid>
 
                 <!-- 3. ESPAÇADORES -->
@@ -1404,6 +1364,11 @@
         </Border>
     </Grid>
 </Window>
+
+
+
+
+
 
 
 
