@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -124,11 +124,14 @@ public class GitHubWidgetViewModel : ObservableObject
                 dias.Add(new ContribuicaoDia { Data = date, Nivel = level });
             }
 
-            // Try to get total from page text
-            var totalMatch = Regex.Match(html, @"([\d,]+)\s+contributions?\s+in the last year");
-            if (totalMatch.Success)
+                        // Tenta obter o total pelas tooltips
+            var matchesTooltip = Regex.Matches(html, @"(\d+)\s+contributions?\s+on");
+            if (matchesTooltip.Count > 0)
             {
-                total = int.Parse(totalMatch.Groups[1].Value.Replace(",", "").Replace(".", ""));
+                foreach (Match mt in matchesTooltip)
+                {
+                    total += int.Parse(mt.Groups[1].Value);
+                }
             }
             else
             {
@@ -173,3 +176,4 @@ public class ContribuicaoDia
         _ => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22))
     };
 }
+
