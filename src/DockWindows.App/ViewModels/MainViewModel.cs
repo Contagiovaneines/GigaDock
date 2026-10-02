@@ -375,13 +375,19 @@ public class MainViewModel : ObservableObject
 
     public double TamanhoIconeNumerico => (double)TamanhoIcones;
 
-    public double AlturaBarra => TamanhoIcones switch
+        public double AlturaBarra
     {
-        TamanhoIcone.Pequeno => 46.0,
-        TamanhoIcone.Medio => 52.0,
-        TamanhoIcone.Grande => 60.0,
-        _ => 52.0
-    };
+        get => _preferencias.AlturaBarra;
+        set
+        {
+            if (_preferencias.AlturaBarra != value)
+            {
+                _preferencias.AlturaBarra = value;
+                OnPropertyChanged();
+                SalvarPreferencias();
+            }
+        }
+    }
 
     public double OpacidadeDock
     {
@@ -1689,6 +1695,7 @@ public class LaunchpadItemModel
 
 
 }
+
 
 
 

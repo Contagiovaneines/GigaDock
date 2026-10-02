@@ -609,12 +609,22 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    public double RaioCantosDock
+        public double RaioCantosDock
     {
-        get => _mainVm.RaioCantosDock;
+        get => _mainVm.Preferencias.RaioCantosDock;
         set
         {
             _mainVm.RaioCantosDock = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public double AlturaBarra
+    {
+        get => _mainVm.Preferencias.AlturaBarra;
+        set
+        {
+            _mainVm.AlturaBarra = value;
             OnPropertyChanged();
         }
     }
@@ -1570,6 +1580,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

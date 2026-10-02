@@ -141,7 +141,7 @@
                 CornerRadius="22"
                 BorderThickness="1"
                 Padding="0"
-                Height="72"
+                Height="{Binding AlturaBarra}"
                 Opacity="{Binding OpacidadeDock}">
             <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -193,6 +193,7 @@
 
     </Grid>
 </Window>
+
 
 
 

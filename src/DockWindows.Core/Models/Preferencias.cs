@@ -9,6 +9,7 @@ public class Preferencias
     public TemaModo Tema { get; set; } = TemaModo.Escuro;
     public EstiloTema EstiloTema { get; set; } = EstiloTema.Escuro;
     public TamanhoIcone TamanhoIcones { get; set; } = TamanhoIcone.Medio;
+    public double AlturaBarra { get; set; } = 64.0;
     public double OpacidadeDock { get; set; } = 0.92;
     public double RaioCantosDock { get; set; } = 20.0;
     public bool EfeitoDesfoque { get; set; } = true;
@@ -120,6 +121,7 @@ public class Preferencias
             Tema = TemaModo.Escuro,
             EstiloTema = EstiloTema.Escuro,
             TamanhoIcones = TamanhoIcone.Medio,
+            AlturaBarra = 64.0,
             OpacidadeDock = 0.92,
             RaioCantosDock = 20.0,
             EfeitoDesfoque = true,
@@ -244,6 +246,7 @@ public class Preferencias
         ambiente.Itens = padrao.Itens;
     }
 }
+
 
 
 
