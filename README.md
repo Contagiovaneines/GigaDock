@@ -1,8 +1,33 @@
-﻿# 🚀 GigaDock 3.0
+# 🚀 GigaDock 3.1
 
 O **GigaDock** é um dock moderno, nativo e ultra-leve para Windows 10/11 que traz produtividade, fluidez e organização para sua área de trabalho. Criado para quem deseja uma interface limpa, inspirada no macOS, sem perder a performance.
 
 ![GigaDock Preview](docs/dock-apps-preview.jpg)
+
+## 🆕 O que há de novo na V3.1
+
+### 🔔 Notificações de Mensagem nos Ícones de App
+Quando um aplicativo (Teams, Discord, WhatsApp, etc.) recebe uma mensagem e começa a piscar na barra de tarefas do Windows, o GigaDock agora intercepta esse sinal nativamente via `HSHELL_FLASH` e exibe um **badge translúcido vermelho piscante** sobre o ícone do app na dock. Assim que você clica no app e ele ganha foco, o badge desaparece automaticamente.
+
+### 📞 Widget do Teams com Status e Sala Ativa
+O widget inline do Microsoft Teams agora exibe estados ricos em tempo real:
+- **Disponível / Ocupado** — com bolinha colorida de status.
+- **Em chamada** — mostra o nome da sala em que você está.
+- **Nova mensagem** — exibe quem te mandou mensagem, com destaque neon roxo pulsando na dock.
+
+### 🎨 Painéis de Ajustes com Visual Moderno (Wide Layout)
+A janela de Ajustes foi refatorada para eliminar a coluna do meio redundante. Agora as telas de **Geral**, **Aparência**, **Widgets**, **Utilitários** e **Sobre** ocupam toda a largura disponível, igual ao estilo do Widget Store — limpo, espaçoso e sem elementos duplicados.
+
+### 🗑️ Lixeira Funcional na Dock
+Novo toggle em **Ajustes → Geral → Elementos da Barra**. Ao ativar *"Mostrar Lixeira"*, um ícone de Lixeira aparece no final da dock ao lado do relógio. Clicar nele abre a Lixeira do Windows diretamente.
+
+### 📐 Sliders de Dimensão e Aparência
+Em **Ajustes → Aparência**, novo bloco *"Dimensões da Barra"* com três sliders que se aplicam em tempo real:
+- **Altura da Barra** (48–120 px) — controla quão alto o dock é.
+- **Opacidade do Dock** (30%–100%) — ajusta a transparência do fundo.
+- **Raio dos Cantos** (0–40) — arredonda ou deixa reto as bordas do dock.
+
+---
 
 ## 🌟 O que há de novo na V3.0
 - **Loja de Widgets Visual (Estilo Mac):** Escolha livremente entre aparências *Compactas* (Apenas Ícone) ou *Expandidas* (Detalhadas) para cada widget.
