@@ -516,15 +516,25 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-        public bool AbrirPlayerAoDuploClique
-    {
-        get => _mainVm.AbrirPlayerAoDuploClique;
-        set
+                public bool AbrirPlayerAoDuploClique
         {
-            _mainVm.AbrirPlayerAoDuploClique = value;
-            OnPropertyChanged();
+            get => _mainVm.AbrirPlayerAoDuploClique;
+            set
+            {
+                _mainVm.AbrirPlayerAoDuploClique = value;
+                OnPropertyChanged();
+            }
         }
-    }
+
+        public string GitHubUsuario
+        {
+            get => _mainVm.GitHubUsuario;
+            set
+            {
+                _mainVm.GitHubUsuario = value;
+                OnPropertyChanged();
+            }
+        }
 
     public bool ExibirMidia
     {
@@ -1543,6 +1553,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

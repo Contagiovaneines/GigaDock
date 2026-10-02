@@ -85,6 +85,7 @@ public class MainViewModel : ObservableObject
         Notas = new NotasWidgetViewModel();
         MonitorSistema = new MonitorSistemaViewModel();
         GitHub = new GitHubWidgetViewModel();
+        GitHub.SincronizarUsuario(_preferencias.GitHubUsuario);
         Clima = new ClimaWidgetViewModel();
 
         TrocarAmbienteCommand = new RelayCommand<EnvironmentViewModel>(TrocarAmbiente);
@@ -476,19 +477,34 @@ public class MainViewModel : ObservableObject
         }
     }
 
-        public bool AbrirPlayerAoDuploClique
-    {
-        get => _preferencias.AbrirPlayerAoDuploClique;
-        set
+                public bool AbrirPlayerAoDuploClique
         {
-            if (_preferencias.AbrirPlayerAoDuploClique != value)
+            get => _preferencias.AbrirPlayerAoDuploClique;
+            set
             {
-                _preferencias.AbrirPlayerAoDuploClique = value;
-                SalvarPreferencias();
-                OnPropertyChanged();
+                if (_preferencias.AbrirPlayerAoDuploClique != value)
+                {
+                    _preferencias.AbrirPlayerAoDuploClique = value;
+                    SalvarPreferencias();
+                    OnPropertyChanged();
+                }
             }
         }
-    }
+
+        public string GitHubUsuario
+        {
+            get => _preferencias.GitHubUsuario;
+            set
+            {
+                if (_preferencias.GitHubUsuario != value)
+                {
+                    _preferencias.GitHubUsuario = value;
+                    SalvarPreferencias();
+                    OnPropertyChanged();
+                    GitHub.SincronizarUsuario(value);
+                }
+            }
+        }
 
     public bool ExibirMidia
     {
@@ -1584,6 +1600,8 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
 
 
 

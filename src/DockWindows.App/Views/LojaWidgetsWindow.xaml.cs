@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -51,11 +51,17 @@ public partial class LojaWidgetsWindow : Window
                 Icone = "📝", 
                 Descricao = "Escreva lembretes rápidos ou anotações diretamente na barra." 
             },
-            new ItemLoja { 
+                        new ItemLoja { 
                 Tipo = TipoWidget.MonitorSistema, 
                 Nome = "Monitor de Sistema", 
-                Icone = "💻", 
+                Icone = "🖥️", 
                 Descricao = "Acompanhe o uso de CPU e RAM em tempo real sem abrir o gerenciador de tarefas." 
+            },
+            new ItemLoja { 
+                Tipo = TipoWidget.GitHubContribuicoes, 
+                Nome = "Contribuições do GitHub", 
+                Icone = "🐙", 
+                Descricao = "Acompanhe seu gráfico de contribuições diárias do GitHub direto da sua barra." 
             },
             new ItemLoja { 
                 Tipo = TipoWidget.CotacaoMoedas, 
@@ -121,3 +127,5 @@ public class ItemLoja
     public string TextoBotao => JaAdicionado ? "Remover" : "Adicionar";
     public string CorBotao => JaAdicionado ? "#EF4444" : "#0A84FF";
 }
+
+
