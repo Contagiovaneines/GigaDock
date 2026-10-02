@@ -21,7 +21,7 @@ public enum EstiloAnimacaoGitHub
 
 public class GitHubWidgetViewModel : ObservableObject
 {
-    private string? _nomeUsuario = "Contagiovaneines";
+    private string? _nomeUsuario = string.Empty;
     private bool _carregando;
     private int _totalContribuicoes;
     private bool _painelAberto;
@@ -131,15 +131,24 @@ public class GitHubWidgetViewModel : ObservableObject
 
     public void SincronizarUsuario(string? usuario)
     {
-        if (!string.IsNullOrWhiteSpace(usuario) && usuario != _nomeUsuario)
+        if (usuario != _nomeUsuario || Contribuicoes.Count == 0)
         {
-            _nomeUsuario = usuario;
-            OnPropertyChanged(nameof(NomeUsuario));
-            _ = CarregarContribuicoesAsync();
+            if (!string.IsNullOrWhiteSpace(usuario))
+            {
+                _nomeUsuario = usuario;
+                OnPropertyChanged(nameof(NomeUsuario));
+                _ = CarregarContribuicoesAsync();
+            }
+            else
+            {
+                _nomeUsuario = string.Empty;
+                Contribuicoes.Clear();
+                TotalContribuicoes = 0;
+            }
         }
-
         if (!_timer.IsEnabled) _timer.Start();
     }
+
 
     private async Task CarregarContribuicoesAsync()
     {
@@ -152,15 +161,29 @@ public class GitHubWidgetViewModel : ObservableObject
             var dias = new List<ContribuicaoDia>();
             int total = 0;
 
-            var matches = Regex.Matches(html, @"data-date=""(\d{4}-\d{2}-\d{2})""\s+[^>]*data-level=""(\d+)""");
-            if (matches.Count == 0) matches = Regex.Matches(html, @"data-date=""(\d{4}-\d{2}-\d{2})""[^>]*>\s*(\d+)\s+contribution");
+            var matches = Regex.Matches(html, "data-date=\"([^\"]+)\"[^>]*data-level=\"(\\d+)\"");
+            if (matches.Count == 0)
+            {
+                var matches2 = Regex.Matches(html, "data-level=\"(\\d+)\"[^>]*data-date=\"([^\"]+)\"");
+                if (matches2.Count > 0)
+                {
+                    foreach (Match m in matches2)
+                    {
+                        dias.Add(new ContribuicaoDia { Data = DateTime.Parse(m.Groups[2].Value), Nivel = int.Parse(m.Groups[1].Value) });
+                    }
+                }
+                else
+                {
+                    matches = Regex.Matches(html, "data-date=\"([^\"]+)\"[^>]*>\\s*(\\d+)\\s+contribution");
+                }
+            }
 
             foreach (Match m in matches)
             {
                 dias.Add(new ContribuicaoDia { Data = DateTime.Parse(m.Groups[1].Value), Nivel = int.Parse(m.Groups[2].Value) });
             }
 
-            var matchesTooltip = Regex.Matches(html, @"(\d+)\s+contributions?\s+on");
+            var matchesTooltip = Regex.Matches(html, "(\\d+)\\s+contributions?\\s+on");
             if (matchesTooltip.Count > 0)
             {
                 foreach (Match mt in matchesTooltip) total += int.Parse(mt.Groups[1].Value);
