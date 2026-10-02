@@ -6,28 +6,36 @@
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
     <UserControl.Resources><conv:BooleanToVisibilityConverter x:Key="BoolToVis"/></UserControl.Resources>
     <Grid Visibility="{Binding WhatsApp.Habilitado, Converter={StaticResource BoolToVis}}">
-        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" ToolTip="WhatsApp">
+        <Border CornerRadius="12" Padding="8,0" Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="{Binding WhatsApp.UltimaMensagem}">
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding WhatsApp.AbrirAppCommand}"/>
             </Border.InputBindings>
-                        <Border.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Testar Alerta de Notificação (Verde)" Command="{Binding WhatsApp.TestarAlertaCommand}"/>
-                </ContextMenu>
-            </Border.ContextMenu>
-            <Border.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/></Border.Effect>
-            <Border CornerRadius="8" Background="#128C7E" Height="40" Padding="12,0,16,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8BD;" FontSize="18" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding WhatsApp.MensagensNaoLidas, StringFormat={}{0} mensagens}" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="{Binding WhatsApp.UltimaMensagem}" FontSize="10" Foreground="#D1F4CC" Margin="0,-2,0,0" MaxWidth="110" TextTrimming="CharacterEllipsis"/>
-                    </StackPanel>
-                </StackPanel>
-            </Border>
+            
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#20FFFFFF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Grid>
+                    <!-- Icone do WhatsApp (Verde sem fundo quadrado gigante) -->
+                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8BD;" FontSize="20" Foreground="#25D366" VerticalAlignment="Center" Margin="0,0,8,0">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="12" ShadowDepth="0" Color="#25D366" Opacity="0.3"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <!-- Notification indicator red dot -->
+                    <Ellipse Width="8" Height="8" Fill="#FF453A" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,4,0" Visibility="{Binding WhatsApp.TemMensagens, Converter={StaticResource BoolToVis}}"/>
+                </Grid>
+                
+                <TextBlock Text="{Binding WhatsApp.MensagensNaoLidas, StringFormat='{}{0} mensagens'}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,4,0"/>
+            </StackPanel>
         </Border>
     </Grid>
 </UserControl>
-
-
-

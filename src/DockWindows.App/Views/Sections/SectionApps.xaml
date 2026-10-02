@@ -1,4 +1,4 @@
-<UserControl x:Class="DockWindows.App.Views.Sections.SectionApps"
+﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionApps"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:DockWindows.App.Converters"
@@ -42,7 +42,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:AppItemViewModel}">
-                    <Grid Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
+                    <Grid Margin="6,0,6,0">
                         <Button Command="{Binding ClicarCommand}"
                                 ContextMenu="{StaticResource AppContextMenu}"
                                 ToolTip="{Binding TextoDica}"
@@ -92,16 +92,16 @@
                                                 </Border>
                                             </Grid>
 
-                                            <!-- Indicador de Janela Aberta / Ativa consolidado para bolinha cinza discreta do protótipo -->
-                                            <Grid Grid.Row="1" Margin="0,2,0,0" Height="4" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Border Width="4" Height="4" CornerRadius="2" Background="#8E8E93"
+                                                                                        <!-- Blue indicator for running apps -->
+                                            <Grid Grid.Row="1" Margin="0,4,0,-8" Height="4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Border x:Name="IndicatorDot" Width="4" Height="4" CornerRadius="2" Background="#0A84FF"
                                                         Visibility="{Binding EstaAberto, Converter={StaticResource BoolToVis}}">
                                                     <Border.Style>
                                                         <Style TargetType="Border">
                                                             <Style.Triggers>
-                                                                <!-- Se ativo, fica mais escuro/sólido, se não, levemente transparente -->
-                                                                <DataTrigger Binding="{Binding EstaAtivo}" Value="False">
-                                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                                <DataTrigger Binding="{Binding EstaAtivo}" Value="True">
+                                                                    <Setter Property="Width" Value="14"/>
+                                                                    <Setter Property="Background" Value="#58A6FF"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
@@ -209,3 +209,4 @@
         </ItemsControl>
     </StackPanel>
 </UserControl>
+

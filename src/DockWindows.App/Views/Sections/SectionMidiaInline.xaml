@@ -40,20 +40,12 @@
     </UserControl.Resources>
     
     <Grid Width="240">
-                <Border CornerRadius="12" ClipToBounds="True" BorderThickness="1" BorderBrush="#15FFFFFF" Cursor="Hand" ToolTip="Dê um duplo-clique para abrir o player">
+                        <Border CornerRadius="12" ClipToBounds="False" BorderThickness="0" Background="Transparent" Cursor="Hand" ToolTip="Dê um duplo-clique para abrir o player">
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Midia.AbrirPlayerCommand}"/>
             </Border.InputBindings>
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#402A2A30" Offset="0.0"/>
-                    <GradientStop Color="#401A1A1E" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Border.Background>
             
             <Grid>
-                <!-- Capa de fundo com blur suave -->
-                <Image Source="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill" Opacity="0.12"/>
                 
                 <Grid Margin="6,0">
                     <Grid.ColumnDefinitions>
@@ -121,5 +113,6 @@
         </Border>
     </Grid>
 </UserControl>
+
 
 

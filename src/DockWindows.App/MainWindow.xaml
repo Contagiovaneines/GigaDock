@@ -137,21 +137,27 @@
     <Grid Margin="8,6,8,4" Name="MainGrid">
         
         <!-- BARRA PRINCIPAL FLUTUANTE (DOCK) -->
-        <Border x:Name="DockBorder"
-                CornerRadius="{Binding RaioCantosDockRadius}"
+                <Border x:Name="DockBorder"
+                CornerRadius="22"
                 BorderThickness="1"
-                BorderBrush="{Binding BordaDockColor, Converter={StaticResource ColorToBrushConverter}}"
-                Background="{Binding FundoDockColor, Converter={StaticResource ColorToBrushConverter}}"
                 Padding="0"
-                Height="{Binding AlturaBarra}"
+                Height="72"
                 Opacity="{Binding OpacidadeDock}">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#50FFFFFF" Offset="0.0"/>
+                    <GradientStop Color="#15FFFFFF" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#85000000" Offset="0.0"/>
+                    <GradientStop Color="#AA05050A" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
             <Border.ContextMenu>
                 <ContextMenu Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
-                    <MenuItem Header="🚀 Menu Iniciar (Win)" Command="{Binding AbrirMenuIniciarCommand}"/>
-                    <Separator Background="#33333A"/>
-                                        <MenuItem Header="✨ Adicionar Novo Item..." Command="{Binding AdicionarItemCommand}"/>
-                    <MenuItem Header="📁 Adicionar Nova Coleção..." Command="{Binding AdicionarColecaoGlobalCommand}"/>
-                    <MenuItem Header="💼 Mudar de Ambiente" ItemsSource="{Binding Ambientes}">
+                    <MenuItem Header="Mudar de Ambiente" ItemsSource="{Binding Ambientes}">
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">
                                 <Setter Property="Header" Value="{Binding Nome}"/>
@@ -162,38 +168,16 @@
                         </MenuItem.ItemContainerStyle>
                     </MenuItem>
                     <Separator Background="#33333A"/>
-                    <MenuItem Header="⚙️ Ajustes e Personalização..." Command="{Binding AbrirAjustesCommand}" FontWeight="Bold"/>
-                    <MenuItem Header="🔄 Restaurar Barra do Windows" Command="{Binding RestaurarBarraWindowsCommand}"/>
-                    <Separator Background="#33333A"/>
-                    <MenuItem Header="🚪 Sair do GigaDock" Command="{Binding SairCommand}"/>
+                    <MenuItem Header="Ajustes e Personalização..." Command="{Binding AbrirAjustesCommand}" FontWeight="Bold"/>
+                    <MenuItem Header="Sair do GigaDock" Command="{Binding SairCommand}"/>
                 </ContextMenu>
             </Border.ContextMenu>
             <Border.Effect>
-                <DropShadowEffect x:Name="DockShadow" BlurRadius="16" ShadowDepth="3" Direction="270" Color="#000000" Opacity="0.45"/>
+                <DropShadowEffect x:Name="DockShadow" BlurRadius="28" ShadowDepth="8" Direction="270" Color="#000000" Opacity="0.55"/>
             </Border.Effect>
 
             <Grid>
-                <!-- Camada Especular de Vidro Líquido (Liquid Glass Specular Reflection) -->
-                <Border CornerRadius="{Binding RaioCantosDockRadius}"
-                        BorderThickness="1,1,0,0"
-                        IsHitTestVisible="False"
-                        Visibility="{Binding TemEfeitoVidro, Converter={StaticResource BoolToVis}}">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#A0FFFFFF" Offset="0.0"/>
-                            <GradientStop Color="#40FFFFFF" Offset="0.3"/>
-                            <GradientStop Color="#15FFFFFF" Offset="0.7"/>
-                            <GradientStop Color="#05FFFFFF" Offset="1.0"/>
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="#1AFFFFFF" Offset="0.0"/>
-                            <GradientStop Color="#08FFFFFF" Offset="0.3"/>
-                            <GradientStop Color="#00FFFFFF" Offset="0.6"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                </Border>
+                
 
                 <!-- Conteúdo da barra -->
                 <Grid x:Name="DockContentGrid" Margin="10,0,10,0" VerticalAlignment="Center">
@@ -209,6 +193,7 @@
 
     </Grid>
 </Window>
+
 
 
 
