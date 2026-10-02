@@ -1280,6 +1280,7 @@ public class AjustesViewModel : ObservableObject
             if (wgt.Tipo == TipoWidget.Notas) _mainVm.Notas.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.MonitorSistema) _mainVm.MonitorSistema.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.GitHubContribuicoes) _mainVm.GitHub.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.Clima) _mainVm.Clima.Habilitado = wgt.Visivel;
             
             _mainVm.AtualizarCoresTema(); // Update visibility states in UI
             _mainVm.SalvarPreferencias();
@@ -1562,6 +1563,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

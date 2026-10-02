@@ -46,9 +46,12 @@ public class ClimaWidgetViewModel : ObservableObject
         timer.Start();
     }
 
-        private string _localizacaoPreferida = string.Empty;
+            private string _localizacaoPreferida = string.Empty;
+    private bool _habilitado = true;
+    private DockWindows.Core.Models.FormatoWidget _formato = DockWindows.Core.Models.FormatoWidget.Compacto;
 
-    public void SincronizarLocalizacao(string localizacao)
+    public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
+    public DockWindows.Core.Models.FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }public void SincronizarLocalizacao(string localizacao)
     {
         _localizacaoPreferida = localizacao ?? string.Empty;
         _ = AtualizarClimaAsync();
@@ -97,4 +100,7 @@ public class ClimaWidgetViewModel : ObservableObject
         }
     }
 }
+
+
+
 

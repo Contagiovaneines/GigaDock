@@ -1,4 +1,4 @@
-namespace DockWindows.Core.Models;
+﻿namespace DockWindows.Core.Models;
 
 public enum TipoWidget
 {
@@ -8,5 +8,7 @@ public enum TipoWidget
     Notas = 3,
     MonitorSistema = 4,
     CotacaoMoedas = 5,
-    GitHubContribuicoes = 6
+    GitHubContribuicoes = 6,
+    Clima = 7
 }
+

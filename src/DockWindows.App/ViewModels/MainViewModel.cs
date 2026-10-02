@@ -879,48 +879,69 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
     {
         if (amb == null) return;
 
+                var def = Preferencias.CriarWidgetsPadrao();
         if (amb.WidgetsInstalados.Count == 0)
         {
-            var def = Preferencias.CriarWidgetsPadrao();
             foreach (var w in def)
             {
                 amb.WidgetsInstalados.Add(w);
             }
         }
+        else
+        {
+            // Migração para usuários existentes: adiciona widgets novos que faltam
+            foreach (var wDef in def)
+            {
+                if (!amb.WidgetsInstalados.Any(w => w.Tipo == wDef.Tipo))
+                {
+                    amb.WidgetsInstalados.Add(wDef);
+                }
+            }
+        }
 
         var wRelogio = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Relogio);
-        if (wRelogio != null)
-        {
-            Clock.Habilitado = wRelogio.Visivel;
-            Clock.Formato = wRelogio.Formato;
-        }
+        Clock.Habilitado = wRelogio?.Visivel ?? false;
+        if (wRelogio != null) Clock.Formato = wRelogio.Formato;
 
         var wPomodoro = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Pomodoro);
-        if (wPomodoro != null)
-        {
-            Pomodoro.Habilitado = wPomodoro.Visivel;
-            Pomodoro.Formato = wPomodoro.Formato;
-        }
+        Pomodoro.Habilitado = wPomodoro?.Visivel ?? false;
+        if (wPomodoro != null) Pomodoro.Formato = wPomodoro.Formato;
 
         var wCalendario = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CalendarioCompromissos);
-        if (wCalendario != null)
-        {
-            Calendario.Habilitado = wCalendario.Visivel;
-            Calendario.Formato = wCalendario.Formato;
-        }
+        Calendario.Habilitado = wCalendario?.Visivel ?? false;
+        if (wCalendario != null) Calendario.Formato = wCalendario.Formato;
 
         var wNotas = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Notas);
-        if (wNotas != null)
-        {
-            Notas.Habilitado = wNotas.Visivel;
-            Notas.Formato = wNotas.Formato;
-        }
+        Notas.Habilitado = wNotas?.Visivel ?? false;
+        if (wNotas != null) Notas.Formato = wNotas.Formato;
 
-        var wMonitor = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.MonitorSistema);
+                var wMonitor = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.MonitorSistema);
         if (wMonitor != null)
         {
             MonitorSistema.Habilitado = wMonitor.Visivel;
             MonitorSistema.Formato = wMonitor.Formato;
+        }
+
+                var wGitHub = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.GitHubContribuicoes);
+        if (wGitHub != null)
+        {
+            GitHub.Habilitado = wGitHub.Visivel;
+            GitHub.Formato = wGitHub.Formato;
+        }
+        else 
+        {
+            GitHub.Habilitado = false;
+        }
+
+        var wClima = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
+        if (wClima != null)
+        {
+            Clima.Habilitado = wClima.Visivel;
+            Clima.Formato = wClima.Formato;
+        }
+        else 
+        {
+            Clima.Habilitado = false;
         }
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
@@ -1637,6 +1658,11 @@ public class LaunchpadItemModel
 
 
 }
+
+
+
+
+
 
 
 
