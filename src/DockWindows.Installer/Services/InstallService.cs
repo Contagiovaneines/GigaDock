@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -66,12 +66,16 @@ public class InstallService
                 }
             }
 
-            // 3. Verificar inicialização automática
-            using var runKey = Registry.CurrentUser.OpenSubKey(RegRunKey);
-            if (runKey != null)
+            // 3. Verificar inicialização automática (checa pasta Startup + chave de registro legada)
+            var startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            var startupLnk = Path.Combine(startupFolder, "GigaDock.lnk");
+            iniciaComWindows = File.Exists(startupLnk);
+            if (!iniciaComWindows)
             {
-                var runVal = runKey.GetValue("DockWindows");
-                iniciaComWindows = runVal != null;
+                // Checa chave de registro antiga (instalações anteriores)
+                using var runKey = Registry.CurrentUser.OpenSubKey(RegRunKey);
+                if (runKey != null)
+                    iniciaComWindows = runKey.GetValue("DockWindows") != null;
             }
 
             return existeArquivo || !string.IsNullOrEmpty(versaoInstalada);
@@ -244,6 +248,10 @@ public class InstallService
 
             var desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             ShortcutService.RemoverAtalho(Path.Combine(desktop, $"{AppName}.lnk"));
+
+            // Remover atalho da pasta Startup (inicialização automática)
+            var startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            ShortcutService.RemoverAtalho(Path.Combine(startupFolder, "GigaDock.lnk"));
 
             // 3. Remover chave de inicialização
             notificarProgresso("Removendo inicialização automática...");
@@ -495,18 +503,26 @@ public class InstallService
     {
         try
         {
-            using var key = Registry.CurrentUser.OpenSubKey(RegRunKey, writable: true);
-            if (key != null)
+            var startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            var shortcutPath = Path.Combine(startupFolder, "GigaDock.lnk");
+
+            if (habilitar && !string.IsNullOrEmpty(caminhoExe))
             {
-                if (habilitar && !string.IsNullOrEmpty(caminhoExe))
-                {
-                    key.SetValue("DockWindows", $"\"{caminhoExe}\"");
-                }
-                else
-                {
-                    key.DeleteValue("DockWindows", throwOnMissingValue: false);
-                }
+                var pastaDestino = Path.GetDirectoryName(caminhoExe) ?? string.Empty;
+                ShortcutService.CriarAtalho(shortcutPath, caminhoExe, pastaDestino, "GigaDock");
             }
+            else
+            {
+                if (File.Exists(shortcutPath)) File.Delete(shortcutPath);
+            }
+
+            // Limpa chave de registro legada (instalações antigas)
+            try
+            {
+                using var key = Registry.CurrentUser.OpenSubKey(RegRunKey, writable: true);
+                key?.DeleteValue("DockWindows", throwOnMissingValue: false);
+            }
+            catch { }
         }
         catch { }
     }
@@ -559,6 +575,7 @@ public class InstallService
         catch { }
     }
 }
+
 
 
 

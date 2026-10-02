@@ -1,53 +1,66 @@
+using System;
 using System.Diagnostics;
+using System.IO;
 using DockWindows.Core.Services;
-using Microsoft.Win32;
 
 namespace DockWindows.Infrastructure.Windows;
 
 public class AutostartService : IAutostartService
 {
-    private const string ChaveRegistro = @"Software\Microsoft\Windows\CurrentVersion\Run";
-    private const string NomeAplicacao = "DockWindows";
+    private static string GetShortcutPath()
+    {
+        var startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+        return Path.Combine(startupFolder, "GigaDock.lnk");
+    }
 
     public bool EstaHabilitado()
     {
-        try
-        {
-            using var key = Registry.CurrentUser.OpenSubKey(ChaveRegistro, false);
-            var valor = key?.GetValue(NomeAplicacao) as string;
-            return !string.IsNullOrWhiteSpace(valor);
-        }
-        catch
-        {
-            return false;
-        }
+        return File.Exists(GetShortcutPath());
     }
 
     public bool Configurar(bool habilitar)
     {
         try
         {
-            using var key = Registry.CurrentUser.OpenSubKey(ChaveRegistro, true);
-            if (key == null) return false;
+            var shortcutPath = GetShortcutPath();
+
+            // Migração: remove chave de registro antiga se existir
+            try
+            {
+                using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(
+                    @"Software\Microsoft\Windows\CurrentVersion\Run", writable: true);
+                key?.DeleteValue("DockWindows", throwOnMissingValue: false);
+            }
+            catch { }
 
             if (habilitar)
             {
                 var caminhoExe = Environment.ProcessPath;
                 if (string.IsNullOrWhiteSpace(caminhoExe))
-                {
                     caminhoExe = Process.GetCurrentProcess().MainModule?.FileName;
-                }
 
                 if (!string.IsNullOrWhiteSpace(caminhoExe))
                 {
-                    key.SetValue(NomeAplicacao, $"\"{caminhoExe}\"");
+                    var diretorioTrabalho = Path.GetDirectoryName(caminhoExe) ?? string.Empty;
+                    var shellType = Type.GetTypeFromProgID("WScript.Shell");
+                    if (shellType != null)
+                    {
+                        dynamic shell = Activator.CreateInstance(shellType)!;
+                        dynamic shortcut = shell.CreateShortcut(shortcutPath);
+                        shortcut.TargetPath = caminhoExe;
+                        shortcut.WorkingDirectory = diretorioTrabalho;
+                        shortcut.Description = "GigaDock";
+                        shortcut.IconLocation = caminhoExe + ",0";
+                        shortcut.Save();
+                    }
                     return true;
                 }
                 return false;
             }
             else
             {
-                key.DeleteValue(NomeAplicacao, false);
+                if (File.Exists(shortcutPath))
+                    File.Delete(shortcutPath);
                 return true;
             }
         }

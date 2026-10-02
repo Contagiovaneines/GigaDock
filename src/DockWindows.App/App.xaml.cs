@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using DockWindows.Infrastructure.Persistence;
 using DockWindows.Infrastructure.Windows;
 
@@ -11,6 +11,7 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
+        Environment.CurrentDirectory = AppContext.BaseDirectory;
         base.OnStartup(e);
 
         AppDomain.CurrentDomain.UnhandledException += (s, args) =>
@@ -45,4 +46,5 @@ public partial class App : Application
         catch { }
     }
 }
+
 
