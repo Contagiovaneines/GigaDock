@@ -82,13 +82,39 @@
                                                     <TextBlock Text="✦" FontSize="14" Foreground="#94A3B8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
 
-                                                                                                <!-- Badge com Contagem / Estilo iOS Red -->
+                                                                                                                                                <!-- Badge Normal: Contagem de Janelas Abertas (Opaco, sem piscar) -->
                                                 <Border Visibility="{Binding TemMultiplasJanelas, Converter={StaticResource BoolToVis}}"
                                                         Background="#FF3B30" CornerRadius="8"
                                                         MinWidth="16" Height="16" Padding="4,0"
                                                         HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,-4,0">
-                                                    
                                                     <TextBlock Text="{Binding QuantidadeJanelas}" FontSize="10" FontWeight="Bold"
+                                                               Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+
+                                                <!-- Badge de Notificação: Mensagens/Conversas (Translúcido, piscando) -->
+                                                <Border Visibility="{Binding TemNotificacao, Converter={StaticResource BoolToVis}}"
+                                                        Background="#B2FF3B30" CornerRadius="10"
+                                                        MinWidth="20" Height="20" Padding="4,0"
+                                                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-6,-6,-8,0">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding TemNotificacao}" Value="True">
+                                                                    <DataTrigger.EnterActions>
+                                                                        <BeginStoryboard Name="BlinkNotifBadgeAnim">
+                                                                            <Storyboard RepeatBehavior="Forever">
+                                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0.3" Duration="0:0:1" AutoReverse="True"/>
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </DataTrigger.EnterActions>
+                                                                    <DataTrigger.ExitActions>
+                                                                        <StopStoryboard BeginStoryboardName="BlinkNotifBadgeAnim"/>
+                                                                    </DataTrigger.ExitActions>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock Text="{Binding NumeroNotificacoes}" FontSize="11" FontWeight="Bold"
                                                                Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                             </Grid>
@@ -210,6 +236,7 @@
         </ItemsControl>
     </StackPanel>
 </UserControl>
+
 
 
 

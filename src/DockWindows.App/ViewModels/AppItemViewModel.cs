@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -26,7 +26,8 @@ public class AppItemViewModel : ObservableObject
     private bool _estaFixado;
     private bool _estaAberto;
     private bool _estaAtivo;
-    private int _quantidadeJanelas;
+        private int _quantidadeJanelas;
+    private int _numeroNotificacoes;
     private bool _menuJanelasAberto;
 
     public AppItemViewModel(
@@ -149,13 +150,19 @@ public class AppItemViewModel : ObservableObject
         }
     }
 
-    public bool EstaAtivo
+        public bool EstaAtivo
     {
         get => _estaAtivo;
-        set => SetProperty(ref _estaAtivo, value);
+        set
+        {
+            if (SetProperty(ref _estaAtivo, value))
+            {
+                if (value) NumeroNotificacoes = 0;
+            }
+        }
     }
 
-    public int QuantidadeJanelas
+        public int QuantidadeJanelas
     {
         get => _quantidadeJanelas;
         set
@@ -167,6 +174,20 @@ public class AppItemViewModel : ObservableObject
             }
         }
     }
+
+    public int NumeroNotificacoes
+    {
+        get => _numeroNotificacoes;
+        set
+        {
+            if (SetProperty(ref _numeroNotificacoes, value))
+            {
+                OnPropertyChanged(nameof(TemNotificacao));
+            }
+        }
+    }
+
+    public bool TemNotificacao => _numeroNotificacoes > 0;
 
     public bool TemMultiplasJanelas => QuantidadeJanelas > 1;
 
@@ -351,3 +372,6 @@ public class AppItemViewModel : ObservableObject
         };
     }
 }
+
+
+

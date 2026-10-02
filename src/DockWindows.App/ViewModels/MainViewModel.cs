@@ -66,6 +66,15 @@ public class MainViewModel : ObservableObject
     }
 
 
+        public void IncrementarNotificacaoApp(IntPtr hwnd)
+    {
+        var app = System.Linq.Enumerable.FirstOrDefault(System.Linq.Enumerable.OfType<AppItemViewModel>(Aplicativos), a => System.Linq.Enumerable.Any(a.Janelas, j => j.Hwnd == hwnd));
+        if (app != null)
+        {
+            app.NumeroNotificacoes++;
+        }
+    }
+
     public bool OcultoPorTelaCheia
     {
         get => _ocultoPorTelaCheia;
@@ -1711,6 +1720,7 @@ public class LaunchpadItemModel
 
 
 }
+
 
 
 

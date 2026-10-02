@@ -13,10 +13,22 @@ using DockWindows.Core.Services;
 using DockWindows.Infrastructure.Persistence;
 using DockWindows.Infrastructure.Windows;
 
+using System.Runtime.InteropServices;
+
 namespace DockWindows.App;
 
 public partial class MainWindow : Window
 {
+    [DllImport("user32.dll", EntryPoint = "RegisterShellHookWindow")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool RegisterShellHookWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll", EntryPoint = "RegisterWindowMessage")]
+    public static extern uint RegisterWindowMessage(string lpString);
+
+    private uint _shellHookMessage;
+    private const int HSHELL_FLASH = 0x8006;
+
     private readonly MainViewModel _viewModel;
     private readonly ISettingsRepository _settingsRepo;
     private readonly ILauncherService _launcherService;
@@ -219,6 +231,11 @@ public partial class MainWindow : Window
 
     private void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
+        var hwnd = new WindowInteropHelper(this).Handle;
+        RegisterShellHookWindow(hwnd);
+        _shellHookMessage = RegisterWindowMessage("SHELLHOOK");
+        HwndSource.FromHwnd(hwnd)?.AddHook(WndProc);
+
         AtualizarLayoutSecoes();
 
         if (_viewModel.UsarComoBarraPrincipal)
@@ -230,8 +247,7 @@ public partial class MainWindow : Window
 
         ReposicionarBarra();
 
-        var hwnd = new WindowInteropHelper(this).Handle;
-        InicializarHotkeys(hwnd);
+        hwnd = new WindowInteropHelper(this).Handle; InicializarHotkeys(hwnd);
         InicializarBandeja(hwnd);
     }
 
@@ -696,11 +712,17 @@ public partial class MainWindow : Window
         DockShadow.Color = System.Windows.Media.Colors.Black;
         DockShadow.BlurRadius = 16.0;
     }
+
+    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (msg == _shellHookMessage)
+        {
+            if (wParam.ToInt32() == HSHELL_FLASH)
+            {
+                _viewModel.IncrementarNotificacaoApp(lParam);
+            }
+        }
+        return IntPtr.Zero;
+    }
 }
-
-
-
-
-
-
 
