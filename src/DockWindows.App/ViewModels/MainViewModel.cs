@@ -190,6 +190,7 @@ public class MainViewModel : ObservableObject
     public WhatsAppWidgetViewModel WhatsApp { get; }
     public TeamsWidgetViewModel Teams { get; }
     public DiscordWidgetViewModel Discord { get; }
+    public ObsWidgetViewModel Obs { get; } = new();
     public ITaskbarService TaskbarService => _taskbarService;
     public IWindowTrackingService WindowTrackingService => _windowTrackingService;
     public IWinKeyHookService WinKeyHookService => _winKeyHookService;
@@ -1688,6 +1689,9 @@ public class LaunchpadItemModel
 
 
 }
+
+
+
 
 
 

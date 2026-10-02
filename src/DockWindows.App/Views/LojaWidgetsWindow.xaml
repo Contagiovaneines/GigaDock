@@ -1,4 +1,4 @@
-<Window x:Class="DockWindows.App.Views.LojaWidgetsWindow"
+﻿<Window x:Class="DockWindows.App.Views.LojaWidgetsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Widget Store" Height="820" Width="1160"
@@ -80,10 +80,10 @@
                                FontSize="14" Foreground="#8E8E93" LineHeight="20"/>
                     
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-                        <Border Background="#161821" CornerRadius="16" BorderBrush="#252733" BorderThickness="1" Padding="12,6" Width="240" Margin="0,0,12,0">
+                                                <Border Background="#161821" CornerRadius="16" BorderBrush="#252733" BorderThickness="1" Padding="12,6" Width="240" Margin="0,0,12,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" Foreground="#5C5C66" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBlock Text="Buscar widgets, ferramentas..." Foreground="#5C5C66" FontSize="13" VerticalAlignment="Center"/>
+                                <TextBox x:Name="TxtBusca" TextChanged="TxtBusca_TextChanged" Text="" Width="180" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="13" VerticalAlignment="Center" VerticalContentAlignment="Center" CaretBrush="#FFFFFF"/>
                             </StackPanel>
                         </Border>
                         <Border Background="#161821" CornerRadius="16" BorderBrush="#252733" BorderThickness="1" Padding="16,6">
@@ -103,22 +103,49 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Border Background="#0A84FF" CornerRadius="14" Padding="16,6" Margin="0,0,8,0">
-                            <TextBlock Text="Todos" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        </Border>
-                        <TextBlock Text="Produtividade" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" Margin="12,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Sistema" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" Margin="12,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Comunicação" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" Margin="12,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Desenvolvimento" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" Margin="12,0" VerticalAlignment="Center"/>
-                        <TextBlock Text="Mídia &amp; Áudio" FontSize="13" FontWeight="Bold" Foreground="#8E8E93" Margin="12,0" VerticalAlignment="Center"/>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <!-- Categorias com RadioButtons disfarçados -->
+                        <StackPanel.Resources>
+                            <Style TargetType="RadioButton">
+                                <Setter Property="Foreground" Value="#8E8E93"/>
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Margin" Value="4,0"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="RadioButton">
+                                            <Border x:Name="border" CornerRadius="14" Padding="16,6" Background="Transparent">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#1AFFFFFF"/>
+                                                </Trigger>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#0A84FF"/>
+                                                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <EventSetter Event="Checked" Handler="Filtro_Checked"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <RadioButton Content="Todos" IsChecked="True"/>
+                        <RadioButton Content="Produtividade"/>
+                        <RadioButton Content="Sistema"/>
+                        <RadioButton Content="Comunicação"/>
+                        <RadioButton Content="Dev Tools"/>
+                        <RadioButton Content="Mídia"/>
                     </StackPanel>
                     
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                         <Border Background="#161821" CornerRadius="14" Padding="12,6" Margin="0,0,16,0" BorderBrush="#252733" BorderThickness="1">
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="6" Height="6" Fill="#8E8E93" Margin="0,0,6,0"/>
-                                <TextBlock Text="Instalados: 5" FontSize="12" FontWeight="Bold" Foreground="#C8C8CE"/>
+                                <TextBlock x:Name="TxtInstaladosBadge" Text="Instalados: 0" FontSize="12" FontWeight="Bold" Foreground="#C8C8CE"/>
                             </StackPanel>
                         </Border>
                         <TextBlock Text="Ordenar por:" FontSize="13" Foreground="#8E8E93" Margin="0,0,6,0" VerticalAlignment="Center"/>
@@ -369,3 +396,6 @@
         </Grid>
     </Border>
 </Window>
+
+
+

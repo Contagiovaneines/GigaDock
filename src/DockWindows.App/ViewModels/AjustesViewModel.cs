@@ -1284,6 +1284,10 @@ public class AjustesViewModel : ObservableObject
             if (wgt.Tipo == TipoWidget.WhatsAppNotificacoes) _mainVm.WhatsApp.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.TeamsStatus) _mainVm.Teams.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.DiscordVoz) _mainVm.Discord.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.OBSStudio) _mainVm.Obs.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.WhatsAppNotificacoes) _mainVm.WhatsApp.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.TeamsStatus) _mainVm.Teams.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.DiscordVoz) _mainVm.Discord.Habilitado = wgt.Visivel;
             
             _mainVm.AtualizarCoresTema(); // Update visibility states in UI
             _mainVm.SalvarPreferencias();
@@ -1566,6 +1570,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

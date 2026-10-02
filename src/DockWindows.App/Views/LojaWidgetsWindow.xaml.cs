@@ -36,9 +36,11 @@ public partial class LojaWidgetsWindow : Window
         Close();
     }
 
+        private List<ItemLoja> _catalogoCompleto = new();
+
     private void CarregarLoja()
     {
-        var catalogo = new List<ItemLoja>
+        _catalogoCompleto = new List<ItemLoja>
         {
             new ItemLoja { 
                 Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Expandido, Nome = "Relógio", 
@@ -50,7 +52,7 @@ public partial class LojaWidgetsWindow : Window
                 Tipo = TipoWidget.Clima, Formato = FormatoWidget.Expandido, Nome = "Clima", 
                 Descricao = "Radar meteorológico compacto com alertas de chuva imediata, índice UV e qualidade do ar em tempo real.",
                 DescricaoFormato = "Detalhado com Local", Icone = "\uE9CA", CorIcone = "#21313A", Categoria = "Utilidade",
-                PreviewTitle = "24°C", PreviewSubtitle = "Céu Limpo • Umid 60%", PreviewIcone = "\uE9CA", PreviewCor = "#FF9F0A", ShowPreviewBar = false
+                PreviewTitle = "24°C", PreviewSubtitle = "Céu Limpo   Umid 60%", PreviewIcone = "\uE9CA", PreviewCor = "#FF9F0A", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Expandido, Nome = "WhatsApp", 
@@ -61,8 +63,14 @@ public partial class LojaWidgetsWindow : Window
             new ItemLoja { 
                 Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Expandido, Nome = "Teams", 
                 Descricao = "Controle de microfone rápido, status de presença em chamada e detecção de reuniões agendadas.",
-                DescricaoFormato = "Status Detalhado", Icone = "\uE716", CorIcone = "#292138", Categoria = "Reunião",
+                DescricaoFormato = "Status Detalhado", Icone = "\uE716", CorIcone = "#292138", Categoria = "Comunicação",
                 PreviewTitle = "Em Reunião", PreviewSubtitle = "Mic Mudo", PreviewIcone = "\uE716", PreviewCor = "#FF453A", ShowPreviewBar = false
+            },
+            new ItemLoja { 
+                Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Expandido, Nome = "Discord", 
+                Descricao = "Veja quem está falando no seu canal de voz e controle seu microfone e áudio.",
+                DescricaoFormato = "Canal de Voz", Icone = "\uE716", CorIcone = "#20242B", Categoria = "Comunicação",
+                PreviewTitle = "Gamer Room", PreviewSubtitle = "Você, Alex, Sam", PreviewIcone = "\uE716", PreviewCor = "#5865F2", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub Actions", 
@@ -85,12 +93,18 @@ public partial class LojaWidgetsWindow : Window
             new ItemLoja { 
                 Tipo = TipoWidget.Pomodoro, Formato = FormatoWidget.Expandido, Nome = "Pomodoro Timer", 
                 Descricao = "Timer de foco com técnica Pomodoro, ciclos de descanso, som de transição discreto e integração de tarefas.",
-                DescricaoFormato = "Cronômetro Visual", Icone = "\uE916", CorIcone = "#3A2222", Categoria = "Foco",
+                DescricaoFormato = "Cronômetro Visual", Icone = "\uE916", CorIcone = "#3A2222", Categoria = "Produtividade",
                 PreviewTitle = "18:42", PreviewSubtitle = "Foco #2", PreviewIcone = "\uE916", PreviewCor = "#FF453A", ShowPreviewBar = false
+            },
+            new ItemLoja { 
+                Tipo = TipoWidget.OBSStudio, Formato = FormatoWidget.Expandido, Nome = "OBS Studio Control", 
+                Descricao = "Inicie e pare gravações diretamente da dock, abra o OBS com um clique. Minimalista.",
+                DescricaoFormato = "Rec e Status", Icone = "\uE714", CorIcone = "#1C1C22", Categoria = "Mídia", Custo = "Gratuito",
+                PreviewTitle = "OBS Studio", PreviewSubtitle = "Pronto", PreviewIcone = "\uE714", PreviewCor = "#FF3B30", ShowPreviewBar = false
             }
         };
 
-        foreach (var item in catalogo)
+        foreach (var item in _catalogoCompleto)
         {
             var jaTem = _widgetsInstalados.FirstOrDefault(w => w.Tipo == item.Tipo);
             if (jaTem != null)
@@ -99,8 +113,37 @@ public partial class LojaWidgetsWindow : Window
                 item.FormatoAtivo = jaTem.Formato == item.Formato;
             }
         }
+        
+        TxtInstaladosBadge.Text = $"● Instalados: {_catalogoCompleto.Count(x => x.JaAdicionado)}";
+        AplicarFiltros();
+    }
 
-        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(catalogo);
+    private string _filtroCategoria = "Todos";
+
+    private void Filtro_Checked(object sender, RoutedEventArgs e)
+    {
+        if (sender is RadioButton rb && rb.IsChecked == true)
+        {
+            _filtroCategoria = rb.Content.ToString() ?? "Todos";
+            AplicarFiltros();
+        }
+    }
+
+    private void TxtBusca_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        AplicarFiltros();
+    }
+
+    private void AplicarFiltros()
+    {
+        if (_catalogoCompleto == null) return;
+        var termo = TxtBusca.Text.ToLowerInvariant();
+        var filtrados = _catalogoCompleto.Where(x => 
+            (_filtroCategoria == "Todos" || x.Categoria == _filtroCategoria) &&
+            (string.IsNullOrWhiteSpace(termo) || x.Nome.IndexOf(termo, StringComparison.OrdinalIgnoreCase) >= 0 || x.Descricao.IndexOf(termo, StringComparison.OrdinalIgnoreCase) >= 0)
+        ).ToList();
+
+        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(filtrados);
         ListaLoja.ItemsSource = view;
     }
 
@@ -155,4 +198,6 @@ public class ItemLoja
     public string CustoBackground => Custo == "Pro" ? "#3D2447" : (Custo == "Gratuito" ? "#193524" : "#24324D");
     public string CustoForeground => Custo == "Pro" ? "#D18EE2" : (Custo == "Gratuito" ? "#25D366" : "#4AA1FF");
 }
+
+
 

@@ -466,7 +466,7 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="{x:Type models:WidgetInstanceConfig}">
+                                                        <DataTemplate DataType="{x:Type models:WidgetInstanceConfig}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -482,7 +482,7 @@
                                     </StackPanel>
                                     
                                     <Border Grid.Column="1" Width="40" Height="40" CornerRadius="12" Background="#1C2E42" Margin="0,0,16,0" VerticalAlignment="Top">
-                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="18" Foreground="#4AA1FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="IconeWidget" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="18" Foreground="#4AA1FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
 
                                     <!-- Details -->
@@ -490,13 +490,13 @@
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                                             <TextBlock Text="{Binding Nome}" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,8,0"/>
                                             <Border Background="#252530" CornerRadius="4" Padding="6,2" Margin="0,0,6,0">
-                                                <TextBlock Text="Ultra-Preciso" FontSize="9" Foreground="#8E8E93"/>
+                                                <TextBlock x:Name="Tag1" Text="Sistema" FontSize="9" Foreground="#8E8E93"/>
                                             </Border>
                                             <Border Background="#252530" CornerRadius="4" Padding="6,2">
-                                                <TextBlock Text="DirectX 12" FontSize="9" Foreground="#8E8E93"/>
+                                                <TextBlock x:Name="Tag2" Text="DirectX 12" FontSize="9" Foreground="#8E8E93"/>
                                             </Border>
                                         </StackPanel>
-                                        <TextBlock Text="Configurações avançadas deste widget (descrição simplificada)." FontSize="11" Foreground="#8E8E93" Margin="0,0,0,8"/>
+                                        <TextBlock x:Name="DescWidget" Text="Configurações avançadas deste widget (descrição simplificada)." FontSize="11" Foreground="#8E8E93" Margin="0,0,0,8" TextWrapping="Wrap"/>
                                         <Border Background="#202026" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" BorderBrush="#2C2C36" BorderThickness="1">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Formato, StringFormat='Formato: {0}'}" FontSize="10" Foreground="#C8C8CE" VerticalAlignment="Center"/>
@@ -510,6 +510,51 @@
                                               Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                               CommandParameter="{Binding}"/>
                                 </Grid>
+                                <DataTemplate.Triggers>
+                                    <!-- Relogio = 0 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="Relogio">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE121;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Exibição de hora, fuso horário e data fluida."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Sistema"/>
+                                    </DataTrigger>
+                                    <!-- Pomodoro = 1 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="Pomodoro">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE823;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Temporizador de foco de 25 minutos integrado."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Produtividade"/>
+                                    </DataTrigger>
+                                    <!-- GitHubContribuicoes = 6 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="GitHubContribuicoes">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE90A;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Grade de atividade e sequência de commits diários."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Dev"/>
+                                        <Setter TargetName="Tag2" Property="Text" Value="Web API"/>
+                                    </DataTrigger>
+                                    <!-- Clima = 7 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="Clima">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE706;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Temperatura em tempo real e previsão de chuva."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Utilidade"/>
+                                    </DataTrigger>
+                                    <!-- WhatsAppNotificacoes = 8 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="WhatsAppNotificacoes">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE8BD;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Notificações não lidas e atalho rápido."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Chat"/>
+                                    </DataTrigger>
+                                    <!-- TeamsStatus = 9 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="TeamsStatus">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE716;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Status de presença em tempo real de reuniões."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Trabalho"/>
+                                    </DataTrigger>
+                                    <!-- OBSStudio = 11 -->
+                                    <DataTrigger Binding="{Binding Tipo}" Value="OBSStudio">
+                                        <Setter TargetName="IconeWidget" Property="Text" Value="&#xE714;"/>
+                                        <Setter TargetName="DescWidget" Property="Text" Value="Inicie ou pare gravações na dock, com um clique."/>
+                                        <Setter TargetName="Tag1" Property="Text" Value="Mídia"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -525,7 +570,7 @@
                                 <Button Content="+ Adicionar Novo Widget" Background="#1C1C22" Foreground="#FFFFFF" BorderBrush="#2C2C36" BorderThickness="1" FontSize="11" FontWeight="Bold" Padding="16,8" Margin="0,0,12,0" Command="{Binding AbrirLojaWidgetsCommand}" Cursor="Hand">
                                     <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="16"/></Style></Button.Resources>
                                 </Button>
-                                <Button Content="Concluir e Fechar" Background="#0A84FF" Foreground="#FFFFFF" BorderThickness="0" FontSize="11" FontWeight="Bold" Padding="16,8" Cursor="Hand">
+                                <Button Content="Concluir e Fechar" Command="{Binding ConcluirCommand}" Background="#0A84FF" Foreground="#FFFFFF" BorderThickness="0" FontSize="11" FontWeight="Bold" Padding="16,8" Cursor="Hand">
                                     <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="16"/></Style></Button.Resources>
                                 </Button>
                             </StackPanel>
@@ -1359,6 +1404,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 
