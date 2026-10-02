@@ -5,6 +5,13 @@ O **GigaDock** é um dock moderno, nativo e leve para Windows 10/11 que traz pro
 ![GigaDock Preview](docs/dock-apps-preview.jpg)
 
 
+## 🚀 Novidades da V2.1
+- **Sistema de Alertas Global:** A Dock pulsa com um brilho neon (Verde/Roxo) quando você recebe notificações ocultas.
+- **WhatsApp Widget:** Integração nativa de notificações do Windows para ler mensagens não lidas.
+- **Microsoft Teams Widget:** Status em tempo real.
+- **Discord Widget:** Status da sala de voz e quem está falando.
+- **Minigame da Cobrinha:** O widget do GitHub tem um minigame interativo animado!
+
 ## ✨ Funcionalidades
 
 - **Múltiplos Ambientes:** Separe seus apps em espaços de *Trabalho*, *Estudos* e *Pessoal*.
@@ -70,5 +77,6 @@ O GigaDock está em constante evolução! Aqui estão algumas das funcionalidade
 - **Caixa de Entrada Inteligente:** Widget para Gmail/Outlook mostrando um resumo (assunto) dos últimos 3 e-mails recebidos.
 - **Integração com Spotify/Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
 - **Assistente Virtual Flutuante (IA Mascot):** Um mascote de tela transparente e always-on-top, estilo "Clippy" moderno, integrado à API do Gemini. Ele pode flutuar pela tela, ser ativado/desativado via dock e, ao ser clicado, realiza uma captura de tela invisível (screenshot) para analisar o que você está vendo e oferecer ajuda contextual./Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
+
 
 

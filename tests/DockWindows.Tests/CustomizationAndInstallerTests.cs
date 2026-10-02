@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Infrastructure.Windows;
 using DockWindows.Installer.Services;
@@ -117,3 +117,4 @@ public class CustomizationAndInstallerTests
         Assert.Null(exception);
     }
 }
+

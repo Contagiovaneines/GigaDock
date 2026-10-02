@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -47,6 +47,7 @@ public class ThreeColumnSettingsAndInstallerUpgradeTests
 #pragma warning disable CS0067
         public event Action? JanelasAlteradas;
         public event Action<IntPtr>? JanelaAtivada;
+        public event Action<bool>? TelaCheiaAlterada;
 #pragma warning restore CS0067
         public IReadOnlyList<JanelaInfo> ObterJanelasAbertas() => Array.Empty<JanelaInfo>();
         public IntPtr ObterJanelaAtiva() => IntPtr.Zero;
@@ -264,3 +265,4 @@ public class ThreeColumnSettingsAndInstallerUpgradeTests
         Assert.Equal(jsonConfig, File.ReadAllText(arquivoBackup));
     }
 }
+

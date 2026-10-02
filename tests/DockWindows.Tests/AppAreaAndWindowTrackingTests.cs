@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +22,7 @@ public class AppAreaAndWindowTrackingTests
 
         public event Action? JanelasAlteradas;
         public event Action<IntPtr>? JanelaAtivada;
+        public event Action<bool>? TelaCheiaAlterada;
 
         public IReadOnlyList<JanelaInfo> ObterJanelasAbertas() => Janelas;
 
@@ -360,3 +361,4 @@ public class AppAreaAndWindowTrackingTests
         Assert.Equal(1, colVm.QuantidadeItens);
     }
 }
+

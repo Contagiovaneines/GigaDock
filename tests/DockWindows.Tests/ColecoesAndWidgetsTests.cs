@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -191,3 +191,4 @@ public class ColecoesAndWidgetsTests
         Assert.Equal("Review de Código", carregadas.CompromissosLocais[0].Titulo);
     }
 }
+

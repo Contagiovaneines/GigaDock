@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Core.Services;
 using DockWindows.Infrastructure.Persistence;
@@ -163,3 +163,4 @@ public class IntegrationTests : IDisposable
         }
     }
 }
+

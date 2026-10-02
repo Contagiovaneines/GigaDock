@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Infrastructure.Persistence;
 using Xunit;
@@ -204,3 +204,4 @@ public class PersistenceTests : IDisposable
         Assert.Contains(amb.Itens, i => i.Titulo == "Navegador Web");
     }
 }
+

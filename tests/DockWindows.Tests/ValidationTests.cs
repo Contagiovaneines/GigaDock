@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Core.Validation;
 using Xunit;
@@ -59,3 +59,4 @@ public class ValidationTests
         Assert.Contains("título", res.MensagemErro, StringComparison.OrdinalIgnoreCase);
     }
 }
+

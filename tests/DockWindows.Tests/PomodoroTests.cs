@@ -1,4 +1,4 @@
-using DockWindows.Core.Models;
+﻿using DockWindows.Core.Models;
 using DockWindows.Core.Widgets;
 using Xunit;
 
@@ -84,3 +84,4 @@ public class PomodoroTests
         Assert.Equal("09:59", pomo.TempoFormatado);
     }
 }
+
