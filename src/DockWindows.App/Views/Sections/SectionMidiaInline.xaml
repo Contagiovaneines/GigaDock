@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:conv="clr-namespace:DockWindows.App.Converters"
              mc:Ignorable="d"
-             Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}"
              Visibility="{Binding Midia.TemMidia, Converter={StaticResource BoolToVis}}">
     
@@ -113,6 +112,7 @@
         </Border>
     </Grid>
 </UserControl>
+
 
 
 

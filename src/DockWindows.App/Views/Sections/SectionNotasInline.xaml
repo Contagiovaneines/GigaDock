@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionNotasInline"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
     <Grid>
         <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand"
@@ -37,3 +36,4 @@
         </Border>
     </Grid>
 </UserControl>
+
