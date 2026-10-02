@@ -1105,63 +1105,200 @@
                         </Border>
                     </StackPanel>
                     <!-- ================================================= -->
+                                        <!-- ================================================= -->
                     <!-- 5. PAINEL DE EDIÇÃO GERAL                         -->
                     <!-- ================================================= -->
-                    <StackPanel Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="Configurações Gerais" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="Opções de inicialização, atalho e comportamento do sistema" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
-
-                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                    <StackPanel Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
+                        <TextBlock Text="Geral" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Opções de inicialização, atalhos e comportamento do sistema." FontSize="12" Foreground="#8E8E93" Margin="0,2,0,16"/>
+                        
+                        <!-- BLOCO: COMPORTAMENTO DO DOCK -->
+                        <Border Background="#1C1C22" BorderBrush="#2A2A33" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,0,0,24">
                             <StackPanel>
-                                <TextBlock Text="COMPORTAMENTO DA BARRA" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Usar como barra principal (posiciona rente à borda inferior)"
-                                          IsChecked="{Binding UsarComoBarraPrincipal, Mode=TwoWay}" Margin="0,0,0,8"/>
-                                <TextBlock Text="Quando ativado, o dock ocupa o espaço inferior e oculta suavemente a barra nativa do Windows sem encerrar o Explorer."
-                                           FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="24,0,0,12"/>
-
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Ocultar automaticamente quando o mouse se afastar"
-                                          IsChecked="{Binding OcultarAutomaticamente, Mode=TwoWay}" Margin="0,0,0,12"/>
-
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Iniciar o GigaDock com o Windows"
-                                          IsChecked="{Binding IniciarComWindows, Mode=TwoWay}" Margin="0,0,0,12"/>
-
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Desativar animações da interface (modo econômico)"
-                                          IsChecked="{Binding DesativarAnimacoes, Mode=TwoWay}" Margin="0,0,0,12"/>
-
-                                <StackPanel Margin="0,0,0,12">
-                                                                    <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Exibir contagem de itens nas Coleções (bolinha vermelha)"
-                                          IsChecked="{Binding ExibirContagemColecoes, Mode=TwoWay}" Margin="0,0,0,4"/>
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Exibir clima e temperatura inline na barra"
-                                              IsChecked="{Binding ExibirClima, Mode=TwoWay}" Margin="0,0,0,4"/>
-                                    <StackPanel Orientation="Horizontal" Margin="24,0,0,0" Visibility="{Binding ExibirClima, Converter={StaticResource BoolToVis}}">
-                                        <TextBlock Text="Localização:" VerticalAlignment="Center" FontSize="11" Foreground="#8E8E93" Margin="0,0,8,0"/>
-                                        <TextBox Text="{Binding LocalizacaoClima, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="22" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="4,2"/>
-                                        <TextBlock Text="(Em branco = Automático)" VerticalAlignment="Center" FontSize="10" Foreground="#666666" Margin="8,0,0,0"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                                                                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Abrir o player original ao dar duplo clique no widget de Mídia"
-                                          IsChecked="{Binding AbrirPlayerAoDuploClique, Mode=TwoWay}" Margin="0,0,0,10"/>
+                                <TextBlock Text="COMPORTAMENTO" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" Margin="0,0,0,12"/>
                                 
-                                <TextBlock Text="Usuário do GitHub (Para o Widget de Contribuições):" FontSize="12" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBox Text="{Binding GitHubUsuario, UpdateSourceTrigger=PropertyChanged}" MaxLength="40" Padding="8,4" Background="#141416" BorderBrush="#2C2C36" Foreground="White" Margin="0,0,0,4"/>
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Exibir botões de adição e configurações na barra"
-                                          IsChecked="{Binding ExibirBotoesAcao, Mode=TwoWay}"/>
+                                <!-- Usar como barra principal -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#0A84FF" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8A5;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Usar como barra principal" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Oculta a barra do Windows e reserva o espaço na tela." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding UsarComoBarraPrincipal, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
+                                
+                                <Border Height="1" Background="#2A2A33" Margin="32,0,0,12"/>
+
+                                <!-- Ocultar automaticamente -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#FF9F0A" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE75E;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Ocultar automaticamente" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="O dock se esconde quando o mouse se afasta da borda." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding OcultarAutomaticamente, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
+
+                                <Border Height="1" Background="#2A2A33" Margin="32,0,0,12"/>
+
+                                <!-- Iniciar com o Windows -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#34C759" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7B5;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Iniciar ao ligar o computador" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Abre o GigaDock silenciosamente junto com o Windows." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding IniciarComWindows, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
                             </StackPanel>
                         </Border>
 
-                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
+                        <!-- BLOCO: ELEMENTOS VISUAIS -->
+                        <Border Background="#1C1C22" BorderBrush="#2A2A33" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,0,0,24">
                             <StackPanel>
-                                <TextBlock Text="ATALHO DE TECLADO GLOBAL" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <TextBlock Text="Atalho padrão registrado no Windows para exibir/ocultar a barra:" FontSize="11" Foreground="#8E8E93" Margin="0,0,0,6"/>
-                                <Border Background="#202026" CornerRadius="6" Padding="10,6" HorizontalAlignment="Left">
-                                    <TextBlock Text="Ctrl + Alt + D" FontSize="13" FontWeight="Bold" Foreground="#0A84FF"/>
-                                </Border>
+                                <TextBlock Text="ELEMENTOS DA BARRA" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" Margin="0,0,0,12"/>
+
+                                <!-- Lixeira -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#2C2C36" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE74D;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Mostrar Lixeira" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Exibe o ícone da lixeira no final do dock." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ExibirLixeira, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
+
+                                <Border Height="1" Background="#2A2A33" Margin="32,0,0,12"/>
+
+                                <!-- Clima Inline -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#5AC8FA" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE706;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Clima e Temperatura" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Exibe as condições climáticas na barra." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ExibirClima, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
+
+                                <!-- Config Clima (Expande se ativo) -->
+                                <StackPanel Margin="40,0,0,12" Visibility="{Binding ExibirClima, Converter={StaticResource BoolToVis}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Localização (Deixe em branco para Automático):" FontSize="11" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                                        <TextBox Grid.Column="1" Text="{Binding LocalizacaoClima, UpdateSourceTrigger=PropertyChanged}" Height="24" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="6,2" VerticalContentAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <Border Height="1" Background="#2A2A33" Margin="32,0,0,12"/>
+
+                                <!-- Botões de Ação -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#FF2D55" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE710;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Mostrar botões Adicionar (+)" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Permite fixar novos itens e ver configurações diretamente da barra." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ExibirBotoesAcao, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- BLOCO: WIDGET GITHUB -->
+                        <Border Background="#1C1C22" BorderBrush="#2A2A33" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,0,0,24">
+                            <StackPanel>
+                                <TextBlock Text="INTEGRAÇÕES" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" Margin="0,0,0,12"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="150"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#333333" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE115;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Usuário do GitHub" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Necessário para carregar o gráfico de commits." FontSize="11" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <TextBox Grid.Column="2" Text="{Binding GitHubUsuario, UpdateSourceTrigger=PropertyChanged}" Height="24" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="6,2" VerticalContentAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- BLOCO: ATALHOS GLOBAIS -->
+                        <Border Background="#1C1C22" BorderBrush="#2A2A33" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,0,0,24">
+                            <StackPanel>
+                                <TextBlock Text="ATALHOS DO TECLADO" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" Margin="0,0,0,12"/>
+                                
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Exibir ou ocultar a dock" FontSize="13" Foreground="#E5E7EB" VerticalAlignment="Center"/>
+                                    <Border Grid.Column="1" Background="#2C2C36" CornerRadius="4" Padding="6,2">
+                                        <TextBlock Text="Ctrl + Alt + D" FontSize="11" FontWeight="Bold" Foreground="#0A84FF"/>
+                                    </Border>
+                                </Grid>
+                                
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Alternar entre ambientes (Trabalho, Estudos, Pessoal)" FontSize="13" Foreground="#E5E7EB" VerticalAlignment="Center"/>
+                                    <Border Grid.Column="1" Background="#2C2C36" CornerRadius="4" Padding="6,2">
+                                        <TextBlock Text="Ctrl + Alt + 1/2/3" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    </Border>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </StackPanel>
-
                     <!-- ================================================= -->
                     <!-- 6. PAINEL DE UTILITÁRIOS                          -->
                     <!-- ================================================= -->
@@ -1253,6 +1390,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 
