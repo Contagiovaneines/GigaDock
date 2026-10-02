@@ -1,47 +1,70 @@
-﻿# 🚀 GigaDock
+﻿# 🚀 GigaDock 3.0
 
-O **GigaDock** é um dock moderno, nativo e leve para Windows 10/11 que traz produtividade, fluidez e organização para sua área de trabalho. Criado para quem deseja uma interface limpa sem perder a performance.
+O **GigaDock** é um dock moderno, nativo e ultra-leve para Windows 10/11 que traz produtividade, fluidez e organização para sua área de trabalho. Criado para quem deseja uma interface limpa, inspirada no macOS, sem perder a performance.
 
 ![GigaDock Preview](docs/dock-apps-preview.jpg)
 
+## 🌟 O que há de novo na V3.0
+- **Loja de Widgets Visual (Estilo Mac):** Escolha livremente entre aparências *Compactas* (Apenas Ícone) ou *Expandidas* (Detalhadas) para cada widget.
+- **Integração Nativa Pac-Man:** O widget do GitHub agora possui as animações *Cobrinha* e *Pac-Man* rodando nativamente na barra.
+- **Notificações em Neon:** O sistema de Alerta Global agora faz a sua Dock brilhar em cores vibrantes quando há eventos em apps de comunicação.
+- **Proteção Anti-UAC:** O dock não some mais por engano quando você instala novos programas ou abre telas seguras de administrador.
 
-## 🚀 Novidades da V2.1
-- **Sistema de Alertas Global:** A Dock pulsa com um brilho neon (Verde/Roxo) quando você recebe notificações ocultas.
-- **WhatsApp Widget:** Integração nativa de notificações do Windows para ler mensagens não lidas.
-- **Microsoft Teams Widget:** Status em tempo real.
-- **Discord Widget:** Status da sala de voz e quem está falando.
-- **Minigame da Cobrinha:** O widget do GitHub tem um minigame interativo animado!
+---
 
-## ✨ Funcionalidades
+## 🛠️ Funcionalidades Principais
 
-- **Múltiplos Ambientes:** Separe seus apps em espaços de *Trabalho*, *Estudos* e *Pessoal*.
-- **Widgets Integrados:** Monitor de CPU/RAM, Relógio Pomodoro, Calendário e mais!
-- **Loja de Widgets Dinâmica:** Adicione e remova funcionalidades direto da barra.
-- **Atalho de Launchpad:** Pesquisa rápida (estilo Spotlight/Mac) direto do seu teclado.
-- **Visual Moderno:** Construído com WPF e design Fluent (Vidro Líquido, Transparências, Animações).
-- **Sem Telemetria:** Aplicativo 100% offline, rodando localmente sem enviar seus dados.
+- 🖥️ **Múltiplos Ambientes:** Separe seus atalhos em *Trabalho*, *Estudos* e *Pessoal*. Troque de ambiente instantaneamente com Ctrl + Alt + 1/2/3.
+- 🔍 **Launchpad Integrado:** Aperte a tecla de atalho para abrir uma barra de pesquisa flutuante (estilo Spotlight/Alfred) no meio da tela.
+- 🎨 **Estilo Vidro Líquido:** Construído em WPF com transparências, desfoques e suporte automático a Temas Claro/Escuro do Windows.
+- ⚙️ **Customização Extrema:** Altere a margem, desfoque, tamanho, arredondamento e ative o *Ocultar Automaticamente*.
+- 🔒 **100% Local & Seguro:** Nenhuma telemetria, nenhuma conta necessária. Seus dados de integração ficam apenas no seu PC.
+
+---
+
+## 🧩 Galeria de Widgets (Status Oficial)
+
+O GigaDock possui uma loja interna onde você pode ativar e desativar "módulos". Aqui está o status real de cada um deles:
+
+### ✅ Widgets 100% Funcionais
+- **Relógio Digital:** Mostra as horas e expande para exibir a data completa.
+- **Clima e Tempo:** Previsão e temperatura atual baseada na sua localização.
+- **Contribuições do GitHub:** Acompanhe seus commits. **(Easter Egg: Clique com o botão direito para alternar entre as animações da Cobrinha e Pac-Man devorando a grade!)**
+- **Monitor de Sistema:** Acompanhe o uso real de CPU e Memória RAM sem abrir o gerenciador de tarefas.
+- **WhatsApp:** Mostra a última mensagem recebida. (Clique com o botão direito para testar o **Alerta Neon Verde**).
+- **Microsoft Teams:** Exibe o status atual e reuniões. (Clique com botão direito para testar o **Alerta Neon Roxo**).
+- **Discord Voz:** Mostra a sala atual. (Clique com o botão direito para testar o **Alerta Neon Azul**).
+- **Pomodoro de Foco:** Cronômetro funcional de 25 minutos para técnica Pomodoro.
+- **Bloco de Notas:** Um espaço rápido para rascunhos.
+- **Calendário de Compromissos:** Leitor de agenda para próximos eventos.
+
+### 🚧 Widgets em Desenvolvimento (Ainda não funcionais na V3.0)
+- **Cotação de Moedas:** Visualizador de Dólar, Euro e Criptomoedas em tempo real. *(Atualmente desabilitado na Loja).*
+- **Controle de Mídia Avançado (Spotify/Music):** Atualmente em fase de Mock (dados falsos), aguardando implementação da API global do Windows Media.
+- **Assistente Virtual Flutuante (Mascote IA):** Mascote estilo "Clippy" alimentado por IA. Planejado para o futuro.
+
+---
 
 ## 📥 Como Baixar e Instalar
 
 Você pode configurar do seu jeito! Baixe a última versão na aba de [Releases](https://github.com/Contagiovaneines/WinDock-/releases) do GitHub.
 
-1. Baixe o arquivo DockWindows-Setup.exe.
-2. Execute o instalador (ele vai extrair os arquivos e criar o atalho).
+1. Baixe o instalador seguro **GigaDock-Setup.exe**.
+2. Execute o instalador (ele vai extrair os arquivos e lidar com o Windows Defender Smart App Control).
 3. Abra o GigaDock e personalize seus ícones, coleções e widgets!
 
-## 🛠 Como Compilar do Zero
+## 💻 Como Compilar do Zero
 
 Se você é desenvolvedor e quer rodar o código-fonte na sua máquina:
 
 1. Clone o repositório:
-   ``bash
+   `ash
    git clone https://github.com/Contagiovaneines/WinDock-.git
-   ``
+   `
 2. Abra a solução no Visual Studio 2022.
-3. Certifique-se de ter o SDK do .NET 10 instalado.
-4. Defina o DockWindows.App como projeto de inicialização e compile!
-
-*(Alternativamente, você pode usar o script 	ools/build-installer.ps1 no PowerShell para compilar e gerar o EXE single-file com todas as dependências embutidas).*
+3. Certifique-se de ter o SDK do **.NET 10** instalado.
+4. Antes de compilar, feche qualquer instância da dock aberta (Stop-Process -Name "DockWindows.App" no PowerShell).
+5. Defina o DockWindows.App como projeto de inicialização e compile!
 
 ## 🤝 Open Source & Contribuição
 
@@ -61,22 +84,4 @@ Se o GigaDock ajudou a melhorar o visual do seu Windows e sua produtividade, man
 
 ---
 
-Feito com 🤍 e muito C# / WPF. Licenciado sob [MIT License](LICENSE).
-
-
-
-## 🚀 Roadmap e Ideias Futuras
-
-O GigaDock está em constante evolução! Aqui estão algumas das funcionalidades e novos widgets que adoraríamos ver implementados no futuro (e você está super convidado a contribuir):
-
-- **Widget do WhatsApp:** Integração não-oficial para mostrar notificações e contador de mensagens pendentes.
-- **Widget do Microsoft Teams:** Visualizador rápido do seu status (Disponível, Ocupado) e lembretes de reuniões que estão para começar.
-- **Sincronização Avançada de Calendários:** Suporte oficial para importar eventos em tempo real usando links .ics (iCal), integrando facilmente com Google Calendar e Outlook sem precisar de logins complexos.
-- **Widget do Discord:** Integração com o status do Discord, mostrando quem está falando na sua sala de voz sem precisar abrir o app.
-- **Marketplace de Temas:** Uma forma de exportar e compartilhar as customizações de Cores, Sombras e Ícones com a comunidade e importar com apenas um clique.
-- **Caixa de Entrada Inteligente:** Widget para Gmail/Outlook mostrando um resumo (assunto) dos últimos 3 e-mails recebidos.
-- **Integração com Spotify/Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
-- **Assistente Virtual Flutuante (IA Mascot):** Um mascote de tela transparente e always-on-top, estilo "Clippy" moderno, integrado à API do Gemini. Ele pode flutuar pela tela, ser ativado/desativado via dock e, ao ser clicado, realiza uma captura de tela invisível (screenshot) para analisar o que você está vendo e oferecer ajuda contextual./Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
-
-
-
+*Feito com 🩵 e muito C# / WPF. Licenciado sob MIT.*
