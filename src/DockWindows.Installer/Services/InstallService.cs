@@ -314,6 +314,7 @@ public class InstallService
                 }
 
                 ExtrairArquivoComRetry(entry, arquivoDestino);
+                try { System.IO.File.Delete(arquivoDestino + ":Zone.Identifier"); } catch { }
             }
             return;
         }
@@ -558,6 +559,7 @@ public class InstallService
         catch { }
     }
 }
+
 
 
 
