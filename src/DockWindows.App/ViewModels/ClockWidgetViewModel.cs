@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Threading;
 using DockWindows.App.Common;
@@ -111,10 +111,11 @@ public class ClockWidgetViewModel : ObservableObject
     private void AtualizarHorario()
     {
         var agora = DateTime.Now;
-        HoraFormatada = agora.ToString("HH:mm", CulturaBrasil);
+        HoraFormatada = agora.ToString("HH:mm dd/MM", CulturaBrasil);
         HoraComSegundos = agora.ToString("HH:mm:ss", CulturaBrasil);
         DiaMesFormatado = agora.ToString("dd MMM", CulturaBrasil);
         DataFormatada = agora.ToString("dddd, dd 'de' MMMM 'de' yyyy", CulturaBrasil);
         OnPropertyChanged(nameof(TextoExibicao));
     }
 }
+
