@@ -7,6 +7,11 @@
     <UserControl.Resources><conv:BooleanToVisibilityConverter x:Key="BoolToVis"/></UserControl.Resources>
     <Grid Visibility="{Binding WhatsApp.Habilitado, Converter={StaticResource BoolToVis}}">
         <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" ToolTip="WhatsApp">
+                        <Border.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Testar Alerta de Notificação (Verde)" Command="{Binding WhatsApp.TestarAlertaCommand}"/>
+                </ContextMenu>
+            </Border.ContextMenu>
             <Border.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/></Border.Effect>
             <Border CornerRadius="8" Background="#128C7E" Height="40" Padding="12,0,16,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -20,3 +25,4 @@
         </Border>
     </Grid>
 </UserControl>
+

@@ -34,3 +34,6 @@ public class WhatsAppWidgetViewModel : ObservableObject
     }
 }
 
+
+
+

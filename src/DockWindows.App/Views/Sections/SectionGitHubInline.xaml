@@ -7,9 +7,13 @@
     <Grid>
         <Border CornerRadius="12" Padding="12,6" Background="#0D1117" BorderBrush="#30363D" BorderThickness="1"
                 Cursor="Hand" MouseLeftButtonDown="AbrirPainel_Click" ToolTip="{Binding GitHub.TextoResumo}">
-            <Border.InputBindings>
-                <MouseBinding MouseAction="RightClick" Command="{Binding GitHub.AlternarAnimacaoCommand}"/>
-            </Border.InputBindings>
+                        <Border.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Animação: Cobrinha" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Cobrinha"/>
+                    <MenuItem Header="Animação: Pac-Man" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="PacMan"/>
+                    <MenuItem Header="Desativar Animação" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Parado"/>
+                </ContextMenu>
+            </Border.ContextMenu>
             <Border.Effect>
                 <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
             </Border.Effect>
@@ -33,5 +37,6 @@
         </Border>
     </Grid>
 </UserControl>
+
 
 

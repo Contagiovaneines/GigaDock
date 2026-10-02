@@ -10,6 +10,11 @@
     </UserControl.Resources>
     <Grid Visibility="{Binding Teams.Habilitado, Converter={StaticResource BoolToVis}}">
         <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" ToolTip="Microsoft Teams">
+                        <Border.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Testar Alerta de Reunião (Roxo)" Command="{Binding Teams.TestarAlertaCommand}"/>
+                </ContextMenu>
+            </Border.ContextMenu>
             <Border.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/></Border.Effect>
             <Border CornerRadius="8" Background="#4A448C" Height="40" Padding="12,0,16,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -28,3 +33,4 @@
         </Border>
     </Grid>
 </UserControl>
+

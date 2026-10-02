@@ -32,8 +32,11 @@ public class DiscordWidgetViewModel : ObservableObject
     
     public ObservableCollection<DiscordUsuario> UsuariosNaCall { get; } = new();
 
-    public DiscordWidgetViewModel()
+        public System.Windows.Input.ICommand TestarAlertaCommand { get; }
+
+    public DiscordWidgetViewModel(System.Action<string>? onAlerta = null)
     {
+        TestarAlertaCommand = new RelayCommand(() => onAlerta?.Invoke("#5865F2"));
         _service = new DiscordIpcService();
         _service.OnCanalVozAlterado += (sala) =>
         {
@@ -61,3 +64,7 @@ public class DiscordWidgetViewModel : ObservableObject
         _service.Iniciar();
     }
 }
+
+
+
+

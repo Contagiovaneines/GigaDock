@@ -63,6 +63,10 @@ public partial class LojaWidgetsWindow : Window
                 Icone = "🐙", 
                 Descricao = "Acompanhe seu gráfico de contribuições diárias do GitHub direto da sua barra." 
             },
+                        new ItemLoja { Tipo = TipoWidget.Clima, Nome = "Clima e Tempo", Icone = "⛅", Descricao = "Previsão do tempo atual e temperatura." },
+            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Nome = "WhatsApp", Icone = "💬", Descricao = "Notificações do WhatsApp não lidas." },
+            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Nome = "Microsoft Teams", Icone = "👨‍💻", Descricao = "Status de reunião do Teams." },
+            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Nome = "Discord", Icone = "🎮", Descricao = "Status de voz do Discord." },
             new ItemLoja { 
                 Tipo = TipoWidget.CotacaoMoedas, 
                 Nome = "Cotação Financeira (Em Breve)", 
@@ -127,6 +131,7 @@ public class ItemLoja
     public string TextoBotao => JaAdicionado ? "Remover" : "Adicionar";
     public string CorBotao => JaAdicionado ? "#EF4444" : "#0A84FF";
 }
+
 
 
 

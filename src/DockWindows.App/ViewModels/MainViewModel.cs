@@ -112,7 +112,7 @@ public class MainViewModel : ObservableObject
         Clima = new ClimaWidgetViewModel();
         WhatsApp = new WhatsAppWidgetViewModel(cor => DispararAlertaGlobal(cor));
         Teams = new TeamsWidgetViewModel(cor => DispararAlertaGlobal(cor));
-        Discord = new DiscordWidgetViewModel();
+        Discord = new DiscordWidgetViewModel(cor => DispararAlertaGlobal(cor));
 
         TrocarAmbienteCommand = new RelayCommand<EnvironmentViewModel>(TrocarAmbiente);
         NovoAmbienteCommand = new RelayCommand(NovoAmbiente);
@@ -1688,6 +1688,7 @@ public class LaunchpadItemModel
 
 
 }
+
 
 
 
