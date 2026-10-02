@@ -274,9 +274,16 @@ public class Win32WindowTrackingService : IWindowTrackingService
                             var sb = new System.Text.StringBuilder(256);
                             GetClassName(hwnd, sb, sb.Capacity);
                             string className = sb.ToString();
-                            if (className != "WorkerW" && className != "Progman")
+                                                        if (className != "WorkerW" && className != "Progman" && className != "ScreenClippingHost" && className != "SnippingTool" && className != "Credential Dialog Xaml Host" && className != "ForegroundStaging")
                             {
-                                ehTelaCheia = true;
+                                var exStyle = (long)GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+                                const long WS_EX_TOOLWINDOW = 0x00000080L;
+                                const long WS_EX_TRANSPARENT = 0x00000020L;
+                                
+                                if ((exStyle & WS_EX_TOOLWINDOW) == 0 && (exStyle & WS_EX_TRANSPARENT) == 0)
+                                {
+                                    ehTelaCheia = true;
+                                }
                             }
                         }
                     }
@@ -486,6 +493,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
         GC.SuppressFinalize(this);
     }
 }
+
+
 
 
 

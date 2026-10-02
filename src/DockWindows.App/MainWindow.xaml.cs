@@ -618,6 +618,15 @@ public partial class MainWindow : Window
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(_viewModel.OcultoPorTelaCheia) && !_viewModel.OcultoPorTelaCheia)
+        {
+            if (_viewModel.SempreNoTopo)
+            {
+                Topmost = false;
+                Topmost = true;
+            }
+        }
+        
         if (e.PropertyName == nameof(_viewModel.EstaEmAlerta))
         {
             if (_viewModel.EstaEmAlerta)
@@ -688,6 +697,7 @@ public partial class MainWindow : Window
         DockShadow.BlurRadius = 16.0;
     }
 }
+
 
 
 
