@@ -838,120 +838,7 @@
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 2. PAINEL DE EDIÇÃO DE WIDGETS                    -->
-                    <!-- ================================================= -->
-                    <StackPanel Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="{Binding WidgetSelecionado.Nome, StringFormat='Widget: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="Ajuste o formato e os parâmetros do widget selecionado" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
-
-                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,14">
-                            <StackPanel>
-                                <TextBlock Text="FORMATO NA BARRA" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="Alternar Compacto / Expandido"
-                                            Command="{Binding AlternarFormatoWidgetCommand}" CommandParameter="{Binding WidgetSelecionado}" Margin="0,0,10,0"/>
-                                    <TextBlock Text="{Binding WidgetSelecionado.Formato, StringFormat='Formato Atual: {0}'}" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Parâmetros Específicos do Pomodoro -->
-                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,14"
-                                Visibility="{Binding EhWidgetPomodoro, Converter={StaticResource BoolToVis}}">
-                            <StackPanel>
-                                <TextBlock Text="TEMPOS DO POMODORO" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-
-                                <Grid Margin="0,0,0,8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="80"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Tempo de Foco (minutos):" FontSize="12" VerticalAlignment="Center"/>
-                                    <TextBox Grid.Column="1" Text="{Binding PomodoroFocoMinutos, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
-                                </Grid>
-
-                                <Grid Margin="0,0,0,8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="80"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Pausa Curta (minutos):" FontSize="12" VerticalAlignment="Center"/>
-                                    <TextBox Grid.Column="1" Text="{Binding PomodoroPausaCurtaMinutos, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
-                                </Grid>
-
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="80"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Pausa Longa (minutos):" FontSize="12" VerticalAlignment="Center"/>
-                                    <TextBox Grid.Column="1" Text="{Binding PomodoroPausaLongaMinutos, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Gerenciador de Compromissos Locais do Calendário -->
-                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14"
-                                Visibility="{Binding EhWidgetCalendario, Converter={StaticResource BoolToVis}}">
-                            <StackPanel>
-                                <TextBlock Text="COMPROMISSOS E EVENTOS LOCAIS" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <TextBlock Text="Os eventos cadastrados abaixo são exibidos no dock quando o widget de calendário está ativo. Nenhum dado é enviado para a nuvem."
-                                           FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="0,0,0,10"/>
-
-                                <Button Style="{StaticResource PrimaryButtonStyle}" Content="➕ Novo Compromisso" Command="{Binding NovoCompromissoCommand}" Margin="0,0,0,10" HorizontalAlignment="Left"/>
-
-                                <ListBox ItemsSource="{Binding Compromissos}"
-                                         SelectedItem="{Binding CompromissoSelecionado, Mode=TwoWay}"
-                                         Background="Transparent" BorderThickness="0" MaxHeight="180">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type models:CompromissoLocal}">
-                                            <Border CornerRadius="6" Padding="8" Background="#24242C" Margin="0,2">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackPanel Grid.Column="0">
-                                                        <TextBlock Text="{Binding Titulo}" FontWeight="SemiBold" FontSize="12" Foreground="#FFFFFF"/>
-                                                        <TextBlock Text="{Binding DataHora, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" FontSize="10" Foreground="#0A84FF"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-
-                                <Button Style="{StaticResource SecondaryButtonStyle}" Content="Remover Compromisso Selecionado"
-                                        Command="{Binding RemoverCompromissoCommand}" Margin="0,10,0,0" HorizontalAlignment="Left"
-                                        Visibility="{Binding CompromissoSelecionado, Converter={StaticResource BoolToVis}}"/>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Sincronização com Email iCal -->
-                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,14,0,0"
-                                Visibility="{Binding EhWidgetCalendario, Converter={StaticResource BoolToVis}}">
-                            <StackPanel>
-                                <TextBlock Text="SINCRONIZAÇÃO COM EMAIL (iCal / .ics)" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
-                                <TextBlock Text="Cole o Link Secreto (iCal/ICS) do seu Gmail, Outlook, Titan ou iCloud para sincronizar seus compromissos online automaticamente."
-                                           FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" Margin="0,0,0,10"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" Text="{Binding UrlIcal, UpdateSourceTrigger=PropertyChanged}" 
-                                             Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="8" 
-                                             VerticalContentAlignment="Center"
-                                             ToolTip="Cole a URL ou procure um arquivo local .ics"/>
-                                    <Button Grid.Column="1" Content="..." Width="30" Margin="8,0,0,0" 
-                                            Command="{Binding ProcurarArquivoIcsCommand}"
-                                            Background="#3A3A44" Foreground="#FFFFFF" BorderThickness="0" Cursor="Hand" ToolTip="Procurar arquivo local (.ics)"/>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-
-                    <!-- ================================================= -->
+                    
                     <!-- 3. PAINEL DE EDIÇÃO DE ESPAÇADORES                -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoEspacadores, Converter={StaticResource BoolToVis}}">
@@ -1390,6 +1277,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 
