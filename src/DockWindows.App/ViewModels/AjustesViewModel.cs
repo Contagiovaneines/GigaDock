@@ -118,7 +118,7 @@ public class AjustesViewModel : ObservableObject
     public Func<string, string, bool>? ConfirmarAcao { get; set; }
 
     public string AppNome => "GigaDock";
-    public string AppVersao => "1.4.0";
+    public string AppVersao => "2.0.0";
     public EnvironmentViewModel? AmbienteAtivo => _mainVm.AmbienteAtivo;
 
     public string SecaoAtiva
@@ -1562,6 +1562,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

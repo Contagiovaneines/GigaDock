@@ -67,7 +67,7 @@ public partial class MainWindow : Window
                 TxtTituloCabecalho.Text = "GigaDock — Assistente de Atualização";
                 TxtSubtituloCabecalho.Text = $"Versão {versaoInstalada} detectada -> Atualizar para {InstallService.CurrentVersion}";
 
-                TxtTituloAcao.Text = "Atualização do Aplicativo";
+                TxtTituloCabecalho.Text = "Atualização do Aplicativo";
                 TxtDescricaoAcao.Text = "Uma instalação anterior do GigaDock foi detectada. Seus ambientes, atalhos e preferências serão totalmente preservados.";
                 BtnAcaoPrincipal.Content = "Atualizar Agora";
             }
@@ -77,7 +77,7 @@ public partial class MainWindow : Window
                 TxtTituloCabecalho.Text = "GigaDock — Assistente de Instalação";
                 TxtSubtituloCabecalho.Text = $"Versão {InstallService.CurrentVersion} (Windows 10/11 x64)";
 
-                TxtTituloAcao.Text = "Instalação do Aplicativo";
+                TxtTituloCabecalho.Text = "Instalação do Aplicativo";
                 TxtDescricaoAcao.Text = "O GigaDock será instalado localmente no perfil do seu usuário sem exigir privilégios de administrador.";
                 BtnAcaoPrincipal.Content = "Instalar";
             }
@@ -89,7 +89,10 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void BtnAcaoPrincipal_Click(object sender, RoutedEventArgs e)
+    private void DragWindow(object sender, System.Windows.Input.MouseButtonEventArgs e) { if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) DragMove(); }
+        private void BtnSair_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
+
+        private async void BtnAcaoPrincipal_Click(object sender, RoutedEventArgs e)
     {
         if (_modoDesinstalacao)
         {
@@ -242,4 +245,6 @@ public partial class MainWindow : Window
         Close();
     }
 }
+
+
 
