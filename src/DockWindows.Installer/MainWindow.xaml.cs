@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -171,7 +171,7 @@ public partial class MainWindow : Window
             if (foiAtualizacao)
             {
                 TxtTituloConcluido.Text = "Atualização Concluída com Sucesso!";
-                TxtSubtituloConcluido.Text = "O GigaDock foi atualizado para a versão 1.4.0 com todas as suas preferências preservadas.";
+                TxtSubtituloConcluido.Text = $"O GigaDock foi atualizado para a versão {InstallService.CurrentVersion} com todas as suas preferências preservadas.";
             }
 
             BtnAcaoPrincipal.Content = "Concluir";
