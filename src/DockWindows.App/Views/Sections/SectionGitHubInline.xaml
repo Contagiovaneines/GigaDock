@@ -6,8 +6,11 @@
     
     <Grid>
         <Border CornerRadius="12" Padding="12,6" Background="#0D1117" BorderBrush="#30363D" BorderThickness="1"
-                Cursor="Hand" MouseLeftButtonDown="AbrirPainel_Click" ToolTip="{Binding GitHub.TextoResumo}">
-                        <Border.ContextMenu>
+                Cursor="Hand"  ToolTip="{Binding GitHub.TextoResumo}">
+                                    <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding GitHub.AbrirPerfilCommand}"/>
+            </Border.InputBindings>
+            <Border.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Animação: Cobrinha" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Cobrinha"/>
                     <MenuItem Header="Animação: Pac-Man" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="PacMan"/>
@@ -37,6 +40,7 @@
         </Border>
     </Grid>
 </UserControl>
+
 
 
 

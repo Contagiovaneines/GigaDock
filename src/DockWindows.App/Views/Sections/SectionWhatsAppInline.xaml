@@ -30,8 +30,27 @@
                             <DropShadowEffect BlurRadius="12" ShadowDepth="0" Color="#25D366" Opacity="0.3"/>
                         </TextBlock.Effect>
                     </TextBlock>
-                    <!-- Notification indicator red dot -->
-                    <Ellipse Width="8" Height="8" Fill="#FF453A" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,4,0" Visibility="{Binding WhatsApp.TemMensagens, Converter={StaticResource BoolToVis}}"/>
+                                        <!-- Notification indicator red dot -->
+                    <Ellipse Width="8" Height="8" Fill="#FF453A" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,4,0" Visibility="{Binding WhatsApp.TemMensagens, Converter={StaticResource BoolToVis}}">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WhatsApp.TemMensagens}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="BlinkAnim">
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0.2" Duration="0:0:1" AutoReverse="True"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <StopStoryboard BeginStoryboardName="BlinkAnim"/>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
                 </Grid>
                 
                 <TextBlock Text="{Binding WhatsApp.MensagensNaoLidas, StringFormat='{}{0} mensagens'}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,4,0"/>
@@ -39,3 +58,4 @@
         </Border>
     </Grid>
 </UserControl>
+

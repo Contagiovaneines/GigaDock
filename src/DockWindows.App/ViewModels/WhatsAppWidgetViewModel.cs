@@ -24,7 +24,7 @@ public class WhatsAppWidgetViewModel : ObservableObject
     public WhatsAppWidgetViewModel(System.Action<string>? onAlerta = null)
     {
         AbrirAppCommand = new RelayCommand(() => {
-            try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "whatsapp:", UseShellExecute = true }); } catch { }
+            try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "whatsapp://", UseShellExecute = true }); } catch { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "https://web.whatsapp.com", UseShellExecute = true }); } catch {} }
         });
 
         _service = new WhatsAppNotificationService();
@@ -40,4 +40,5 @@ public class WhatsAppWidgetViewModel : ObservableObject
         _ = _service.IniciarAsync();
     }
 }
+
 

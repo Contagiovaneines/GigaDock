@@ -1279,7 +1279,7 @@
                                         <TextBlock Text="Usuário do GitHub" FontSize="13" Foreground="#E5E7EB"/>
                                         <TextBlock Text="Necessário para carregar o gráfico de commits." FontSize="11" Foreground="#8E8E93"/>
                                     </StackPanel>
-                                    <TextBox Grid.Column="2" Text="{Binding GitHubUsuario, UpdateSourceTrigger=PropertyChanged}" Height="24" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="6,2" VerticalContentAlignment="Center"/>
+                                    <TextBox Grid.Column="2" Text="{Binding GitHubUsuario, UpdateSourceTrigger=LostFocus}" Height="24" FontSize="11" Background="#24242C" Foreground="#FFFFFF" BorderThickness="0" Padding="6,2" VerticalContentAlignment="Center"/>
                                 </Grid>
                             </StackPanel>
                         </Border>
@@ -1404,6 +1404,7 @@
         </Border>
     </Grid>
 </Window>
+
 
 
 
