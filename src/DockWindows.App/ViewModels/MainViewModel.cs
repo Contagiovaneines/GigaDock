@@ -1403,21 +1403,26 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         }
     }
 
-    public bool ExportarConfiguracoesJson(string caminhoArquivo)
-    {
-        try
+            public bool ExportarConfiguracoesJson(string caminhoArquivo)
         {
-            SalvarPreferencias();
-            var json = File.ReadAllText(_repository.ObterCaminhoConfiguracoes());
-            File.WriteAllText(caminhoArquivo, json);
-            return true;
+            try
+            {
+                SalvarPreferencias();
+                var json = File.ReadAllText(_repository.ObterCaminhoConfiguracoes());
+                File.WriteAllText(caminhoArquivo, json);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MostrarAlerta?.Invoke("Erro ao Exportar", $"Não foi possível salvar o backup: {ex.Message}");
+                return false;
+            }
         }
-        catch (Exception ex)
+
+        public void ForcarAtualizacaoLayout()
         {
-            MostrarAlerta?.Invoke("Erro ao Exportar", $"NÃ£o foi possÃ­vel salvar o backup: {ex.Message}");
-            return false;
+            OnPropertyChanged(nameof(OrdemSecoes));
         }
-    }
 
     public bool ImportarConfiguracoesJson(string caminhoArquivo)
     {
@@ -1599,30 +1604,37 @@ public class LaunchpadItemModel
     public bool EstaAberto { get; set; }
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

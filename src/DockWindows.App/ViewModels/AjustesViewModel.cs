@@ -361,6 +361,7 @@ public class AjustesViewModel : ObservableObject
             {
                 AmbienteSelecionado.Widgets.RelogioHabilitado = value;
                 _mainVm.Clock.Habilitado = value;
+                _mainVm.ForcarAtualizacaoLayout();
                 _mainVm.SalvarPreferencias();
                 OnPropertyChanged();
             }
@@ -376,13 +377,14 @@ public class AjustesViewModel : ObservableObject
             {
                 AmbienteSelecionado.Widgets.PomodoroHabilitado = value;
                 _mainVm.Pomodoro.CarregarConfiguracao(AmbienteSelecionado.Widgets);
+                _mainVm.ForcarAtualizacaoLayout();
                 _mainVm.SalvarPreferencias();
                 OnPropertyChanged();
             }
         }
     }
 
-    public bool CalendarioAmbienteHabilitado
+        public bool CalendarioAmbienteHabilitado
     {
         get
         {
@@ -394,13 +396,20 @@ public class AjustesViewModel : ObservableObject
             if (AmbienteSelecionado != null)
             {
                 var w = AmbienteSelecionado.WidgetsInstalados.FirstOrDefault(x => x.Tipo == TipoWidget.CalendarioCompromissos);
-                if (w != null)
+                if (w == null)
+                {
+                    w = new WidgetInstanceConfig { Id = "wgt-calendario", Tipo = TipoWidget.CalendarioCompromissos, Nome = "Calendário", Visivel = value };
+                    AmbienteSelecionado.WidgetsInstalados.Add(w);
+                }
+                else
                 {
                     w.Visivel = value;
-                    _mainVm.Calendario.Habilitado = value;
-                    _mainVm.SalvarPreferencias();
-                    OnPropertyChanged();
                 }
+                
+                _mainVm.Calendario.Habilitado = value;
+                _mainVm.ForcarAtualizacaoLayout();
+                _mainVm.SalvarPreferencias();
+                OnPropertyChanged();
             }
         }
     }
@@ -1553,6 +1562,9 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
+
+
 
 
 
