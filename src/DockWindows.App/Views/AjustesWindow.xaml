@@ -988,6 +988,45 @@
                                     <TextBlock Grid.Column="2" Text="{Binding RaioCantosDock, StringFormat='{}{0:N0} px'}" FontSize="13" Foreground="#8E8E93" VerticalAlignment="Center"/>
                                 </Grid>
                                 <Slider Minimum="0" Maximum="30" Value="{Binding RaioCantosDock, Mode=TwoWay}" Margin="40,0,0,24"/>
+                                <Border Height="1" Background="#2A2A33" Margin="0,0,0,16"/>
+
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#2C2C36" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE81E;" Foreground="#A0A0A8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Tamanho dos Ícones" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Tamanho dos ícones dos aplicativos (32px, 40px, 48px)" FontSize="10" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <ComboBox Grid.Column="2" Width="120" Background="#2C2C36" Foreground="#FFFFFF" BorderBrush="#383844" BorderThickness="1" 
+                                              SelectedValue="{Binding TamanhoIconesStr, Mode=TwoWay}" SelectedValuePath="Tag" VerticalAlignment="Center">
+                                        <ComboBoxItem Content="Pequeno" Tag="Pequeno"/>
+                                        <ComboBoxItem Content="Médio" Tag="Medio"/>
+                                        <ComboBoxItem Content="Grande" Tag="Grande"/>
+                                    </ComboBox>
+                                </Grid>
+
+                                <Border Height="1" Background="#2A2A33" Margin="0,0,0,16"/>
+
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#2C2C36" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE90A;" Foreground="#A0A0A8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Grid.Column="1" Text="Altura da Barra" FontSize="13" Foreground="#E5E7EB" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding AlturaBarra, StringFormat='{}{0:N0} px'}" FontSize="13" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Slider Minimum="48" Maximum="128" Value="{Binding AlturaBarra, Mode=TwoWay}" Margin="40,0,0,24"/>
+
 
                                 <Border Height="1" Background="#2A2A33" Margin="0,0,0,16"/>
 
@@ -1295,6 +1334,7 @@
         </Border>
     </Grid>
 </Window>
+
 
 
 

@@ -623,6 +623,19 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    public string TamanhoIconesStr
+    {
+        get => TamanhoIcones.ToString();
+        set
+        {
+            if (Enum.TryParse<DockWindows.Core.Models.TamanhoIcone>(value, out var result))
+            {
+                TamanhoIcones = result;
+                OnPropertyChanged();
+            }
+        }
+    }
+
         public double RaioCantosDock
     {
         get => _mainVm.Preferencias.RaioCantosDock;
@@ -1594,6 +1607,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 

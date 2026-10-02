@@ -1,0 +1,412 @@
+<!-- 4. APARÊNCIA (TEMAS PRÉ-DEFINIDOS) -->
+                <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoAparencia, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="Temas Visuais" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    <TextBlock Text="Escolha o estilo visual para o dock" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
+                </StackPanel>
+
+                <ListBox Grid.Row="1" ItemsSource="{Binding TemasPredefinidos}"
+                         SelectedItem="{Binding TemaSelecionado, Mode=TwoWay}"
+                         Background="Transparent" BorderThickness="0"
+                         Visibility="{Binding EhSecaoAparencia, Converter={StaticResource BoolToVis}}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="0,4"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="Card" CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1">
+                                            <ContentPresenter/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Card" Property="Background" Value="#282D3D"/>
+                                                <Setter TargetName="Card" Property="BorderBrush" Value="#0A84FF"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:TemaDefinicao}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Miniatura do tema -->
+                                <Border Grid.Column="0" Width="36" Height="36" CornerRadius="8"
+                                        Background="{Binding CorMiniatura, Converter={StaticResource ColorToBrushConverter}}"
+                                        BorderBrush="{Binding CorBordaMiniatura, Converter={StaticResource ColorToBrushConverter}}"
+                                        BorderThickness="2" Margin="0,0,10,0"/>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Nome}" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    <TextBlock Text="{Binding Descricao}" FontSize="11" Foreground="#8E8E93" TextWrapping="Wrap" MaxHeight="32"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                </Grid>
+        </Border>
+
+        <!-- ========================================================= -->
+        <!-- COLUNA 3: EDIÇÃO DO ITEM SELECIONADO                      -->
+        <!-- ========================================================= -->
+        <Border Grid.Column="2" Background="#141416">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="18,16">
+                <!-- CONTEÚDO DINÂMICO CONFORME A SEÇÃO -->
+                <Grid>
+                    <!-- ================================================= -->
+                    <!-- 1. PAINEL DE EDIÇÃO DO AMBIENTE                   -->
+                    <!-- ================================================= -->
+                    <StackPanel Visibility="{Binding EhSecaoAmbientes, Converter={StaticResource BoolToVis}}">
+                        <!-- Título e Ação de Ativação -->
+                        <Grid Margin="0,0,0,14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="{Binding NomeAmbienteEditavel, StringFormat='Ambiente: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                <TextBlock Text="Configure a identidade, itens fixados e widgets deste ambiente" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Style="{StaticResource PrimaryButtonStyle}" Content="Ativar na Barra"
+                                    Command="{Binding AtivarAmbienteSelecionadoCommand}"
+                                    Visibility="{Binding EstaAtivoAmbienteSelecionado, Converter={StaticResource InvertBoolToVis}}"/>
+                        </Grid>
+
+                        <!-- BLOCO: DADOS BÁSICOS DO AMBIENTE -->
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="IDENTIDADE VISUAL DO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
+
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Nome -->
+                                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                        <TextBlock Text="Nome do Ambiente:" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding NomeAmbienteEditavel, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+
+                                    <!-- Ícone -->
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="Ícone (Emoji):" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding IconeAmbienteEditavel, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Cor do Ambiente -->
+                                <TextBlock Text="Cor de Destaque:" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,6"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                    <TextBox Text="{Binding CorAmbienteEditavel, UpdateSourceTrigger=PropertyChanged}" Width="100" Margin="0,0,10,0"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#0078D4" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#0078D4" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#107C41" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#107C41" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#8764B8" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#8764B8" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#D83B01" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#D83B01" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#00B7C3" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#00B7C3" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#FFB900" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#FFB900" BorderThickness="0" Cursor="Hand"/>
+                                    <Button Width="22" Height="22" Margin="3,0" Background="#E74856" Command="{Binding DefinirCorAmbienteCommand}" CommandParameter="#E74856" BorderThickness="0" Cursor="Hand"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- BLOCO: INDICADOR DE APPS ABERTOS -->
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="INDICADOR DE APLICATIVOS ABERTOS" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Estilo do Indicador -->
+                                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                        <TextBlock Text="Formato do Indicador:" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                        <ComboBox SelectedValue="{Binding EstiloIndicadorAppsEditavel, Mode=TwoWay}"
+                                                  SelectedValuePath="Content" Background="#202026" Foreground="#FFFFFF" Padding="6,4">
+                                            <ComboBoxItem Content="Barra"/>
+                                            <ComboBoxItem Content="Ponto"/>
+                                            <ComboBoxItem Content="Pílula"/>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <!-- Cor do Indicador -->
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="Cor do Indicador:" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding CorIndicadorAppsEditavel, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- BLOCO: APLICATIVOS E ITENS FIXADOS -->
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="APLICATIVOS E ATALHOS DO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
+
+                                <!-- Barra com botões de adicionar -->
+                                <WrapPanel Margin="0,0,0,10">
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ App (.exe / .lnk)" Command="{Binding AdicionarAppExecutavelCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Arquivo" Command="{Binding AdicionarArquivoCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Pasta" Command="{Binding AdicionarPastaCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Site / URL" Command="{Binding AdicionarSiteUrlCommand}" Margin="0,0,6,6"/>
+                                    <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Coleção" Command="{Binding AdicionarColecaoAmbienteCommand}" Margin="0,0,6,6"/>
+                                </WrapPanel>
+
+                                <!-- Lista de Itens Fixados com Ações -->
+                                <ListBox ItemsSource="{Binding ItensAmbiente}"
+                                         SelectedItem="{Binding ItemSelecionado, Mode=TwoWay}"
+                                         Background="Transparent" BorderThickness="0" MaxHeight="220">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="Margin" Value="0,2"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border x:Name="ItemCard" CornerRadius="6" Padding="8,6" Background="#24242C" BorderBrush="#353540" BorderThickness="1">
+                                                            <ContentPresenter/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter TargetName="ItemCard" Property="Background" Value="#2E3445"/>
+                                                                <Setter TargetName="ItemCard" Property="BorderBrush" Value="#0A84FF"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type models:ItemFixado}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" Text="📌" FontSize="12" Margin="0,0,8,0" VerticalAlignment="Center"/>
+
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Titulo}" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF"/>
+                                                    <TextBlock Text="{Binding CaminhoOuUrl}" FontSize="10" Foreground="#8E8E93" TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+
+                                                <TextBlock Grid.Column="2" Text="{Binding Tipo}" FontSize="10" Foreground="#71717A" VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <!-- Controles do Item Selecionado -->
+                                <Border Margin="0,10,0,0" Padding="8" Background="#16161B" CornerRadius="6"
+                                        Visibility="{Binding ItemSelecionado, Converter={StaticResource BoolToVis}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Alternar Escopo (Ambiente vs Global) -->
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="Escopo: " FontSize="11" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}"
+                                                    Content="{Binding TextoEscopoItemSelecionado}"
+                                                    Command="{Binding AlternarEscopoItemCommand}"
+                                                    ToolTip="Clique para alternar entre Global e Exclusivo deste ambiente"/>
+                                        </StackPanel>
+
+                                        <!-- Botões de Ação do Item -->
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️" Command="{Binding MoverItemCimaCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️" Command="{Binding MoverItemBaixoCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="✏️" Command="{Binding EditarItemAmbienteCommand}" Margin="2,0"/>
+                                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="❌" Command="{Binding RemoverItemAmbienteCommand}" Margin="2,0"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- BLOCO: WIDGETS DO AMBIENTE -->
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
+                            <StackPanel>
+                                <TextBlock Text="WIDGETS HABILITADOS NO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Relógio Digital e Controles de Sistema" IsChecked="{Binding RelogioAmbienteHabilitado}" Margin="0,0,0,8"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Pomodoro de Foco e Produtividade" IsChecked="{Binding PomodoroAmbienteHabilitado}" Margin="0,0,0,8"/>
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Calendário e Próximos Compromissos" IsChecked="{Binding CalendarioAmbienteHabilitado}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================================================= -->
+                    
+                    <!-- 3. PAINEL DE EDIÇÃO DE ESPAÇADORES                -->
+                    <!-- ================================================= -->
+                    <StackPanel Visibility="{Binding EhSecaoEspacadores, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="{Binding EspacadorSelecionado.Nome, StringFormat='Espaçador: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Personalize a aparência dos divisores entre blocos da barra" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
+                            <StackPanel>
+                                <TextBlock Text="PROPRIEDADES DO DIVISOR" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="Nome do Divisor:" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding EspacadorSelecionado.Nome, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12"/>
+
+                                <TextBlock Text="Estilo Visual:" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,6"/>
+                                <ComboBox SelectedValue="{Binding EspacadorSelecionado.Estilo, Mode=TwoWay}"
+                                          Background="#202026" Foreground="#FFFFFF" Padding="6,4" Margin="0,0,0,12">
+                                    <models:EstiloEspacador>Linha</models:EstiloEspacador>
+                                    <models:EstiloEspacador>Espaco</models:EstiloEspacador>
+                                    <models:EstiloEspacador>Ponto</models:EstiloEspacador>
+                                </ComboBox>
+
+                                <TextBlock Text="{Binding EspacadorSelecionado.Largura, StringFormat='Espaçamento / Largura: {0}px'}" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <Slider Minimum="4" Maximum="32" Value="{Binding EspacadorSelecionado.Largura, Mode=TwoWay}" Margin="0,0,0,12"/>
+
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Visível no dock" IsChecked="{Binding EspacadorSelecionado.Visivel, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- ================================================= -->
+                    <!-- ================================================= -->
+                    <!-- 4. APARÊNCIA (TEMAS PRÉ-DEFINIDOS) E CUSTOMIZAÇÃO -->
+                    <!-- ================================================= -->
+                    <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoAparencia, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
+                        <TextBlock Text="Tema" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Visuais prontos para o Dock, como no RocketDock ou macOS." FontSize="12" Foreground="#8E8E93" Margin="0,2,0,16"/>
+                        
+                        <ListBox ItemsSource="{Binding TemasPredefinidos}"
+                                 SelectedItem="{Binding TemaSelecionado, Mode=TwoWay}"
+                                 Background="Transparent" BorderThickness="0"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Margin="-5" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="ContainerCard" CornerRadius="12" Background="#1B2028" BorderBrush="#2C313C" BorderThickness="2" Padding="2">
+                                                    <StackPanel>
+                                                        <!-- Área da Miniatura -->
+                                                        <Border Height="80" Width="140" CornerRadius="10" Background="#11151A" Margin="2">
+                                                            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                <!-- Mockup do Dock -->
+                                                                <Border Background="{Binding FundoDockColor, Converter={StaticResource ColorToBrushConverter}}"
+                                                                        BorderBrush="{Binding BordaDockColor, Converter={StaticResource ColorToBrushConverter}}"
+                                                                        BorderThickness="1"
+                                                                        CornerRadius="{Binding RaioCantos}"
+                                                                        Padding="10,6" Margin="0,15,0,0">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Border Width="20" Height="20" CornerRadius="4" Background="#0A84FF" Margin="2,0"/>
+                                                                        <Border Width="20" Height="20" CornerRadius="4" Background="#FFFFFF" Margin="2,0">
+                                                                            <Border Background="#FF3B30" Height="6" VerticalAlignment="Top" CornerRadius="4,4,0,0"/>
+                                                                        </Border>
+                                                                        <Border Width="20" Height="20" CornerRadius="4" Background="#0A84FF" Margin="2,0"/>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </Grid>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding Nome}" FontSize="11" Foreground="#A0A0A0" HorizontalAlignment="Center" Margin="0,6,0,8"/>
+                                                    </StackPanel>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="ContainerCard" Property="BorderBrush" Value="#00F5D4"/>
+                                                        <Setter TargetName="ContainerCard" Property="Background" Value="#1F2833"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ContainerCard" Property="Background" Value="#242B36"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+
+                        <Button Style="{StaticResource PrimaryButtonStyle}" Content="Aplicar este Tema no Dock"
+                                Command="{Binding SelecionarTemaCommand}" CommandParameter="{Binding TemaSelecionado}"
+                                Margin="0,16,0,24" HorizontalAlignment="Left" Padding="20,8"/>
+
+                        <!-- SEÇÃO DE PERSONALIZAÇÃO MAC OS STYLE -->
+                        <TextBlock Text="Personalizar este tema" FontSize="14" FontWeight="SemiBold" Foreground="#FFFFFF" Margin="0,0,0,10"/>
+                        
+                        <Border Background="#1C1C22" BorderBrush="#2A2A33" BorderThickness="1" CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#2C2C36" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE790;" Foreground="#A0A0A8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Grid.Column="1" Text="Opacidade" FontSize="13" Foreground="#E5E7EB" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding OpacidadeDock, StringFormat='{}{0:P0}'}" FontSize="13" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Slider Minimum="0.30" Maximum="1.0" Value="{Binding OpacidadeDock, Mode=TwoWay}" Margin="40,0,0,24"/>
+
+                                <Border Height="1" Background="#2A2A33" Margin="0,0,0,16"/>
+
+                                <Grid Margin="0,0,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#2C2C36" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8B3;" Foreground="#A0A0A8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Grid.Column="1" Text="Raio dos Cantos (Curvatura)" FontSize="13" Foreground="#E5E7EB" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="2" Text="{Binding RaioCantosDock, StringFormat='{}{0:N0} px'}" FontSize="13" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Slider Minimum="0" Maximum="30" Value="{Binding RaioCantosDock, Mode=TwoWay}" Margin="40,0,0,24"/>
+
+                                <Border Height="1" Background="#2A2A33" Margin="0,0,0,16"/>
+
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#2C2C36" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE756;" Foreground="#0A84FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Fundo Translúcido (Blur)" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Aplica o efeito de vidro atrás da barra." FontSize="10" Foreground="#8E8E93"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding EfeitoDesfoque, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <!-- ================================================= -->
+                                        <!-- ================================================= -->
+                    <!-- 5. PAINEL DE EDI
