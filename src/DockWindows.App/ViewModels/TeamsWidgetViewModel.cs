@@ -1,5 +1,6 @@
 ﻿using DockWindows.App.Common;
 using DockWindows.Core.Models;
+using DockWindows.Infrastructure.Windows;
 
 namespace DockWindows.App.ViewModels;
 
@@ -7,9 +8,10 @@ public class TeamsWidgetViewModel : ObservableObject
 {
     private bool _habilitado;
     private FormatoWidget _formato = FormatoWidget.Compacto;
-    private string _status = "Disponível";
-    private string _corStatus = "#23A736"; // Verde
-    private string _proximaReuniao = "Sem reuniões próximas";
+    private string _status = "Buscando...";
+    private string _corStatus = "#808080";
+    private string _proximaReuniao = "Conectando...";
+    private readonly TeamsIntegrationService _service;
 
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
     public FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
@@ -19,9 +21,22 @@ public class TeamsWidgetViewModel : ObservableObject
 
     public TeamsWidgetViewModel()
     {
-        // Mock inicial
-        Status = "Ocupado";
-        CorStatus = "#C4314B"; // Vermelho
-        ProximaReuniao = "Daily Team - 10:00";
+        _service = new TeamsIntegrationService();
+        _service.OnStatusChanged += (status, cor) =>
+        {
+            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                Status = status;
+                CorStatus = cor;
+            });
+        };
+        _service.OnMeetingChanged += (reuniao) =>
+        {
+            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                ProximaReuniao = reuniao;
+            });
+        };
+        _service.Iniciar();
     }
 }

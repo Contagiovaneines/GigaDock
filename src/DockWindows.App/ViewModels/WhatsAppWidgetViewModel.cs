@@ -1,5 +1,6 @@
 ﻿using DockWindows.App.Common;
 using DockWindows.Core.Models;
+using DockWindows.Infrastructure.Windows;
 
 namespace DockWindows.App.ViewModels;
 
@@ -8,7 +9,8 @@ public class WhatsAppWidgetViewModel : ObservableObject
     private bool _habilitado;
     private FormatoWidget _formato = FormatoWidget.Compacto;
     private int _mensagensNaoLidas = 0;
-    private string _ultimaMensagem = "Nenhuma nova mensagem";
+    private string _ultimaMensagem = "Buscando...";
+    private readonly WhatsAppNotificationService _service;
 
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
     public FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
@@ -18,8 +20,15 @@ public class WhatsAppWidgetViewModel : ObservableObject
 
     public WhatsAppWidgetViewModel()
     {
-        // Mock inicial
-        MensagensNaoLidas = 3;
-        UltimaMensagem = "Reunião confirmada às 14h.";
+        _service = new WhatsAppNotificationService();
+        _service.OnNotificacoesAtualizadas += (count, lastMsg) =>
+        {
+            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                MensagensNaoLidas = count;
+                UltimaMensagem = lastMsg;
+            });
+        };
+        _ = _service.IniciarAsync();
     }
 }
