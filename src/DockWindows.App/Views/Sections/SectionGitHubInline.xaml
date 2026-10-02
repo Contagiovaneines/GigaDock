@@ -1,58 +1,32 @@
 ﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionGitHubInline"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:conv="clr-namespace:DockWindows.App.Converters"
              Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
     
     <Grid>
-        <!-- WIDGET INLINE (Design Estilo iOS / Moderno) -->
-        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand"
-                MouseLeftButtonDown="AbrirPainel_Click" ToolTip="Contribuições do GitHub">
+        <Border CornerRadius="12" Padding="12,6" Background="#0D1117" BorderBrush="#30363D" BorderThickness="1"
+                Cursor="Hand" MouseLeftButtonDown="AbrirPainel_Click" ToolTip="{Binding GitHub.TextoResumo}">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
             </Border.Effect>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                
-                <!-- Ícone da Esquerda (Matrix menor) -->
-                <Border Width="40" Height="40" CornerRadius="8" Background="#0D1117" Padding="4">
-                    <!-- Usamos um ícone simples e limpo para representar o logo do Git ou a grid -->
-                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE774;" FontSize="20" 
-                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#39D353"/>
-                </Border>
 
-                <!-- Pílula da Direita (Status e Grid) -->
-                <Border CornerRadius="10" Background="#21262D" Height="40" Margin="6,0,0,0" Padding="10,0">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        
-                        <!-- Textos -->
-                        <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
-                            <TextBlock Text="{Binding GitHub.TotalContribuicoes}" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
-                            <TextBlock Text="neste ano" FontSize="9" Foreground="#8B949E" Margin="0,-2,0,0"/>
-                        </StackPanel>
+            <!-- Mini Heatmap (Últimas semanas) - Apenas os quadradinhos -->
+            <ItemsControl ItemsSource="{Binding GitHub.Contribuicoes}" VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="13" Rows="7"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Quadradinhos um pouco maiores, com margem ajustada -->
+                        <Border Width="4" Height="4" CornerRadius="1" Margin="1"
+                                Background="{Binding Cor}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-                        <!-- Mini Heatmap (Últimas semanas) -->
-                        <ItemsControl ItemsSource="{Binding GitHub.Contribuicoes}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="13" Rows="7"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Width="3" Height="3" CornerRadius="0.5" Margin="0.5"
-                                            Background="{Binding Cor}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                    </StackPanel>
-                </Border>
-
-            </StackPanel>
         </Border>
-        
-        <!-- O Popup original foi removido por ser redundante, mas pode ser adicionado se quiser. -->
-        <!-- Para manter a action de click, deixamos apenas o link direto pro perfil. -->
     </Grid>
 </UserControl>

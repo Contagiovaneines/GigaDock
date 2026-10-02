@@ -4,40 +4,21 @@
              Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
     <Grid>
-        <!-- WIDGET INLINE (Design Estilo iOS / Moderno) -->
-        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand"
-                 ToolTip="Previsão do Tempo">
+        <!-- WIDGET INLINE (Estilo Unificado) -->
+        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" ToolTip="Previsão do Tempo">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
             </Border.Effect>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                
-                <!-- Ícone da Esquerda (Azul escuro) -->
-                <Border Width="40" Height="40" CornerRadius="8" Background="#1E3A5F" Padding="4">
+            
+            <Border CornerRadius="8" Background="#1A4E7A" Height="40" Padding="12,0,16,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Clima.IconeEmoji}" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Clima.IconeEmoji}" FontSize="16" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding Clima.Temperatura}" FontSize="10" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                        <TextBlock Text="{Binding Clima.Temperatura}" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="{Binding Clima.Local}" FontSize="10" Foreground="#A0C0E0" Margin="0,-2,0,0" MaxWidth="100" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
-                </Border>
-
-                <!-- Pílula da Direita (Status Detalhado) -->
-                <Border CornerRadius="10" Background="#21262D" Height="40" Margin="6,0,0,0" Padding="12,0,16,0">
-                    <Grid>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding Clima.IconeEmoji}" FontSize="18" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Clima.Temperatura}" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                <TextBlock Text="{Binding Clima.Local}" FontSize="9" Foreground="#8B949E" Margin="0,-2,0,0" MaxWidth="80" TextTrimming="CharacterEllipsis"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <!-- A previsão do dia (Mockado para o visual) -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0">
-                            <!-- Este espaçamento empurra o mock pra direita se quiser colocar algo extra depois -->
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </StackPanel>
+                </StackPanel>
+            </Border>
         </Border>
     </Grid>
 </UserControl>
-
