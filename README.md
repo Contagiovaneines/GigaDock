@@ -15,7 +15,7 @@ O **GigaDock** é um dock moderno, nativo e ultra-leve para Windows 10/11 que tr
 ## 🛠️ Funcionalidades Principais
 
 - 🖥️ **Múltiplos Ambientes:** Separe seus atalhos em *Trabalho*, *Estudos* e *Pessoal*. Troque de ambiente instantaneamente com Ctrl + Alt + 1/2/3.
-- 🔍 **Launchpad Integrado:** Aperte a tecla de atalho para abrir uma barra de pesquisa flutuante (estilo Spotlight/Alfred) no meio da tela.
+- 🔍 **Launchpad Integrado:** Aperte a tecla de atalho para abrir uma barra de pesquisa flutuante (inspirada no Mac) no meio da tela.
 - 🎨 **Estilo Vidro Líquido:** Construído em WPF com transparências, desfoques e suporte automático a Temas Claro/Escuro do Windows.
 - ⚙️ **Customização Extrema:** Altere a margem, desfoque, tamanho, arredondamento e ative o *Ocultar Automaticamente*.
 - 🔒 **100% Local & Seguro:** Nenhuma telemetria, nenhuma conta necessária. Seus dados de integração ficam apenas no seu PC.
@@ -41,7 +41,7 @@ O GigaDock possui uma loja interna onde você pode ativar e desativar "módulos"
 ### 🚧 Widgets em Desenvolvimento (Ainda não funcionais na V3.0)
 - **Cotação de Moedas:** Visualizador de Dólar, Euro e Criptomoedas em tempo real. *(Atualmente desabilitado na Loja).*
 - **Controle de Mídia Avançado (Spotify/Music):** Atualmente em fase de Mock (dados falsos), aguardando implementação da API global do Windows Media.
-- **Assistente Virtual Flutuante (Mascote IA):** Mascote estilo "Clippy" alimentado por IA. Planejado para o futuro.
+- **Assistente Virtual Flutuante (Mascote IA):** Mascote inteligente alimentado por Inteligência Artificial. Planejado para o futuro.
 
 ---
 
@@ -85,3 +85,4 @@ Se o GigaDock ajudou a melhorar o visual do seu Windows e sua produtividade, man
 ---
 
 *Feito com 🩵 e muito C# / WPF. Licenciado sob MIT.*
+
