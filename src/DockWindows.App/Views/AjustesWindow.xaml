@@ -26,7 +26,7 @@
                         <StackPanel Orientation="Horizontal" Background="Transparent">
                             <Grid Width="36" Height="20" VerticalAlignment="Center">
                                 <Border x:Name="BgBorder" CornerRadius="10" Background="#32323C" BorderBrush="#4A4A55" BorderThickness="1"/>
-                                <Border x:Name="Knob" Width="14" Height="14" CornerRadius="7" Background="#94A3B8" HorizontalAlignment="Left" Margin="3,0,0,0">
+                                <Border x:Name="Knob" Width="16" Height="16" CornerRadius="8" Background="#94A3B8" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0">
                                     <Border.RenderTransform>
                                         <TranslateTransform X="0" />
                                     </Border.RenderTransform>
@@ -1277,6 +1277,7 @@
         </Border>
     </Grid>
 </Window>
+
 
 
 
