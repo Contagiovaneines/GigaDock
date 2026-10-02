@@ -13,60 +13,28 @@ using DockWindows.App.Common;
 
 namespace DockWindows.App.ViewModels;
 
+public enum EstiloAnimacaoGitHub
+{
+    Cobrinha,
+    PacMan
+}
+
 public class GitHubWidgetViewModel : ObservableObject
 {
-    private string _nomeUsuario = string.Empty;
-    private int _totalContribuicoes;
-    private string _textoResumo = "GitHub";
-    private bool _habilitado;
-    private bool _painelAberto;
+    private string? _nomeUsuario = "Contagiovaneines";
     private bool _carregando;
-    private DockWindows.Core.Models.FormatoWidget _formato = DockWindows.Core.Models.FormatoWidget.Compacto;
-        private readonly DispatcherTimer _timer;
-    private readonly DispatcherTimer _snakeTimer;
-    private static readonly HttpClient _http = new();
+    private int _totalContribuicoes;
+    private bool _painelAberto;
+    private readonly HttpClient _http = new();
+    private readonly DispatcherTimer _timer;
+    private readonly DispatcherTimer _animTimer;
     
-    // Variáveis da Cobrinha
-    private List<(int X, int Y)> _snakeBody = new();
-    private bool _cobrinhaRodando = false;
+    // Animação State
+    private bool _animacaoRodando;
+    private List<(int X, int Y)> _corpo = new();
+    private (int X, int Y) _fantasma = (12, 6);
 
-
-    public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
-    public DockWindows.Core.Models.FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
-
-    public string NomeUsuario
-    {
-        get => _nomeUsuario;
-        set
-        {
-            if (SetProperty(ref _nomeUsuario, value))
-                _ = CarregarContribuicoesAsync();
-        }
-    }
-
-    public int TotalContribuicoes
-    {
-        get => _totalContribuicoes;
-        set
-        {
-            if (SetProperty(ref _totalContribuicoes, value))
-                OnPropertyChanged(nameof(TextoResumo));
-        }
-    }
-
-    public string TextoResumo => TotalContribuicoes > 0 ? $"{TotalContribuicoes} contrib." : "GitHub";
-
-    public bool PainelAberto { get => _painelAberto; set => SetProperty(ref _painelAberto, value); }
-    public bool Carregando { get => _carregando; set => SetProperty(ref _carregando, value); }
-
-    // Grid de contribuições: 7 dias (linhas) x 53 semanas (colunas)
-    public ObservableCollection<ContribuicaoDia> Contribuicoes { get; } = new();
-
-    public ICommand AlternarPainelCommand { get; }
-    public ICommand AbrirPerfilCommand { get; }
-    public ICommand JogarCobrinhaCommand { get; }
-
-        private bool _animacaoAutomatica = true;
+    private bool _animacaoAutomatica = true;
     public bool AnimacaoAutomatica
     {
         get => _animacaoAutomatica;
@@ -74,38 +42,91 @@ public class GitHubWidgetViewModel : ObservableObject
         {
             if (SetProperty(ref _animacaoAutomatica, value))
             {
-                if (value && !_cobrinhaRodando) IniciarCobrinha();
+                if (value && !_animacaoRodando) IniciarAnimacao();
+            }
+        }
+    }
+
+    private EstiloAnimacaoGitHub _estiloAtual = EstiloAnimacaoGitHub.Cobrinha;
+    public EstiloAnimacaoGitHub EstiloAtual
+    {
+        get => _estiloAtual;
+        set
+        {
+            if (SetProperty(ref _estiloAtual, value))
+            {
+                if (_animacaoRodando)
+                {
+                    LimparEstadoAnimacao();
+                    IniciarAnimacao();
+                }
             }
         }
     }
 
     private List<int> _niveisOriginais = new();
 
+        private bool _habilitado;
+    public bool Habilitado
+    {
+        get => _habilitado;
+        set => SetProperty(ref _habilitado, value);
+    }
+
+    private DockWindows.Core.Models.FormatoWidget _formato;
+    public DockWindows.Core.Models.FormatoWidget Formato
+    {
+        get => _formato;
+        set => SetProperty(ref _formato, value);
+    }
+
+    public string? NomeUsuario { get => _nomeUsuario; set => SetProperty(ref _nomeUsuario, value); }
+    public bool Carregando { get => _carregando; set => SetProperty(ref _carregando, value); }
+    public int TotalContribuicoes { get => _totalContribuicoes; set => SetProperty(ref _totalContribuicoes, value); }
+    public bool PainelAberto { get => _painelAberto; set => SetProperty(ref _painelAberto, value); }
+    public ObservableCollection<ContribuicaoDia> Contribuicoes { get; } = new();
+
+    public string TextoResumo => "$TotalContribuicoes contribuições";
+
+    public ICommand AlternarPainelCommand { get; }
+    public ICommand AbrirPerfilCommand { get; }
     public ICommand AlternarAnimacaoCommand { get; }
+
     public GitHubWidgetViewModel()
     {
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
-        JogarCobrinhaCommand = new RelayCommand(() => IniciarCobrinha());
-        AlternarAnimacaoCommand = new RelayCommand(() => AnimacaoAutomatica = !AnimacaoAutomatica);
-          AbrirPerfilCommand = new RelayCommand(() =>
-          {
+        
+        AlternarAnimacaoCommand = new RelayCommand(() => {
+            if (AnimacaoAutomatica && EstiloAtual == EstiloAnimacaoGitHub.Cobrinha)
+            {
+                EstiloAtual = EstiloAnimacaoGitHub.PacMan;
+            }
+            else if (AnimacaoAutomatica && EstiloAtual == EstiloAnimacaoGitHub.PacMan)
+            {
+                AnimacaoAutomatica = false;
+                LimparEstadoAnimacao();
+            }
+            else
+            {
+                AnimacaoAutomatica = true;
+                EstiloAtual = EstiloAnimacaoGitHub.Cobrinha;
+            }
+        });
+
+        AbrirPerfilCommand = new RelayCommand(() =>
+        {
             if (!string.IsNullOrEmpty(NomeUsuario))
             {
-                try
-                {
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"https://github.com/{NomeUsuario}") { UseShellExecute = true });
-                }
+                try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/$NomeUsuario") { UseShellExecute = true }); }
                 catch { }
             }
         });
 
-                // Atualiza a cada 30 minutos
         _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(30) };
         _timer.Tick += (_, _) => _ = CarregarContribuicoesAsync();
 
-        // Timer da Cobrinha (roda a cada 150ms)
-        _snakeTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
-        _snakeTimer.Tick += (_, _) => TickCobrinha();
+        _animTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
+        _animTimer.Tick += (_, _) => TickAnimacao();
     }
 
     public void SincronizarUsuario(string? usuario)
@@ -117,110 +138,108 @@ public class GitHubWidgetViewModel : ObservableObject
             _ = CarregarContribuicoesAsync();
         }
 
-        if (!_timer.IsEnabled)
-            _timer.Start();
+        if (!_timer.IsEnabled) _timer.Start();
     }
 
     private async Task CarregarContribuicoesAsync()
     {
         if (string.IsNullOrWhiteSpace(_nomeUsuario)) return;
-
         Carregando = true;
-
         try
         {
-            // Busca a página de contribuições do GitHub (retorna SVG/HTML público)
-            var url = $"https://github.com/users/{_nomeUsuario}/contributions";
+            var url = "https://github.com/users/$_nomeUsuario/contributions";
             var html = await _http.GetStringAsync(url);
-
-            // Parse the contribution data from the HTML
             var dias = new List<ContribuicaoDia>();
             int total = 0;
 
-            // Match: data-date="2024-01-01" data-level="0" (or data-count="N")
             var matches = Regex.Matches(html, @"data-date=""(\d{4}-\d{2}-\d{2})""\s+[^>]*data-level=""(\d+)""");
-            
-            if (matches.Count == 0)
-            {
-                // Fallback: try newer GitHub format
-                matches = Regex.Matches(html, @"data-date=""(\d{4}-\d{2}-\d{2})""[^>]*>\s*(\d+)\s+contribution");
-            }
+            if (matches.Count == 0) matches = Regex.Matches(html, @"data-date=""(\d{4}-\d{2}-\d{2})""[^>]*>\s*(\d+)\s+contribution");
 
             foreach (Match m in matches)
             {
-                var date = DateTime.Parse(m.Groups[1].Value);
-                var level = int.Parse(m.Groups[2].Value);
-                dias.Add(new ContribuicaoDia { Data = date, Nivel = level });
+                dias.Add(new ContribuicaoDia { Data = DateTime.Parse(m.Groups[1].Value), Nivel = int.Parse(m.Groups[2].Value) });
             }
 
-                        // Tenta obter o total pelas tooltips
             var matchesTooltip = Regex.Matches(html, @"(\d+)\s+contributions?\s+on");
             if (matchesTooltip.Count > 0)
             {
-                foreach (Match mt in matchesTooltip)
-                {
-                    total += int.Parse(mt.Groups[1].Value);
-                }
+                foreach (Match mt in matchesTooltip) total += int.Parse(mt.Groups[1].Value);
             }
-            else
-            {
-                total = dias.Count(d => d.Nivel > 0);
-            }
+            else total = dias.Count(d => d.Nivel > 0);
 
             Application.Current?.Dispatcher.Invoke(() =>
             {
                 Contribuicoes.Clear();
-
-                // Pega os últimos 91 dias (13 semanas) para o mini-gráfico no popup
                 var ultimos = dias.OrderByDescending(d => d.Data).Take(91).Reverse().ToList();
                 foreach (var d in ultimos) Contribuicoes.Add(d);
                 _niveisOriginais = ultimos.Select(d => d.Nivel).ToList();
-                if (AnimacaoAutomatica) IniciarCobrinha();
+                
+                if (AnimacaoAutomatica) IniciarAnimacao();
 
                 TotalContribuicoes = total;
                 Carregando = false;
             });
         }
-        catch
+        catch { Application.Current?.Dispatcher.Invoke(() => { Carregando = false; }); }
+    }
+
+    public void IniciarAnimacao()
+    {
+        if (_animacaoRodando || Contribuicoes.Count < 91) return;
+        _corpo.Clear();
+        _corpo.Add((0, 0));
+        _fantasma = (12, 6);
+        _animacaoRodando = true;
+        _animTimer.Start();
+    }
+
+    private void LimparEstadoAnimacao()
+    {
+        _animTimer.Stop();
+        _animacaoRodando = false;
+        foreach(var c in Contribuicoes) 
+        { 
+            c.EhCobra = false; c.EhCabecaCobra = false; 
+            c.EhPacMan = false; c.EhFantasma = false;
+        }
+        for(int i = 0; i < Contribuicoes.Count && i < _niveisOriginais.Count; i++)
+            Contribuicoes[i].Nivel = _niveisOriginais[i];
+    }
+
+    private void FinalizarCiclo()
+    {
+        LimparEstadoAnimacao();
+
+        if (AnimacaoAutomatica)
         {
-            Application.Current?.Dispatcher.Invoke(() =>
-            {
-                Carregando = false;
+            Task.Run(async () => {
+                await Task.Delay(3000);
+                Application.Current?.Dispatcher.Invoke(() => {
+                    if (AnimacaoAutomatica) IniciarAnimacao();
+                });
             });
         }
     }
 
-    public void IniciarCobrinha()
+    private void TickAnimacao()
     {
-        if (_cobrinhaRodando || Contribuicoes.Count < 91) return;
-
-        _snakeBody.Clear();
-        _snakeBody.Add((0, 0));
-        _cobrinhaRodando = true;
-        _snakeTimer.Start();
-    }
-
-    private void TickCobrinha()
-    {
-        if (!_cobrinhaRodando || Contribuicoes.Count < 91)
+        if (!_animacaoRodando || Contribuicoes.Count < 91)
         {
-            _snakeTimer.Stop();
+            _animTimer.Stop();
             return;
         }
 
-        var head = _snakeBody.First();
+        var head = _corpo.First();
         var nextStep = EncontrarProximoPasso(head);
 
         if (nextStep == null)
         {
-            _cobrinhaRodando = false;
-            _snakeTimer.Stop();
-            foreach(var c in Contribuicoes) { c.EhCobra = false; c.EhCabecaCobra = false; }
+            FinalizarCiclo();
             return;
         }
 
         var n = nextStep.Value;
-        _snakeBody.Insert(0, n);
+        _corpo.Insert(0, n);
 
         int idx = n.Y * 13 + n.X;
         var cell = Contribuicoes[idx];
@@ -228,22 +247,59 @@ public class GitHubWidgetViewModel : ObservableObject
         if (cell.Nivel > 0)
         {
             cell.Nivel = 0; 
+            if (EstiloAtual == EstiloAnimacaoGitHub.PacMan)
+            {
+                var tail = _corpo.Last();
+                _corpo.RemoveAt(_corpo.Count - 1);
+                var tailCell = Contribuicoes[tail.Y * 13 + tail.X];
+                tailCell.EhPacMan = false;
+            }
         }
         else
         {
-            var tail = _snakeBody.Last();
-            _snakeBody.RemoveAt(_snakeBody.Count - 1);
+            var tail = _corpo.Last();
+            _corpo.RemoveAt(_corpo.Count - 1);
             var tailCell = Contribuicoes[tail.Y * 13 + tail.X];
             tailCell.EhCobra = false;
             tailCell.EhCabecaCobra = false;
+            tailCell.EhPacMan = false;
         }
 
-        for (int i = 0; i < _snakeBody.Count; i++)
+        if (EstiloAtual == EstiloAnimacaoGitHub.PacMan)
         {
-            var pt = _snakeBody[i];
+            var oldFantasma = Contribuicoes[_fantasma.Y * 13 + _fantasma.X];
+            oldFantasma.EhFantasma = false;
+
+            var fDirs = new (int X, int Y)[] { (0, -1), (0, 1), (-1, 0), (1, 0) };
+            var validFDirs = fDirs.Select(d => (X: _fantasma.X + d.X, Y: _fantasma.Y + d.Y))
+                                  .Where(v => v.X >= 0 && v.X < 13 && v.Y >= 0 && v.Y < 7)
+                                  .ToList();
+            if (validFDirs.Count > 0)
+            {
+                var r = new Random();
+                _fantasma = validFDirs[r.Next(validFDirs.Count)];
+            }
+        }
+
+        for (int i = 0; i < _corpo.Count; i++)
+        {
+            var pt = _corpo[i];
             var c = Contribuicoes[pt.Y * 13 + pt.X];
-            c.EhCabecaCobra = (i == 0);
-            c.EhCobra = (i != 0);
+            if (EstiloAtual == EstiloAnimacaoGitHub.Cobrinha)
+            {
+                c.EhCabecaCobra = (i == 0);
+                c.EhCobra = (i != 0);
+            }
+            else
+            {
+                c.EhPacMan = (i == 0);
+            }
+        }
+
+        if (EstiloAtual == EstiloAnimacaoGitHub.PacMan)
+        {
+            var fCell = Contribuicoes[_fantasma.Y * 13 + _fantasma.X];
+            fCell.EhFantasma = true;
         }
     }
 
@@ -268,7 +324,9 @@ public class GitHubWidgetViewModel : ObservableObject
                 var ny = atual.Y + dir.Y;
                 var vizinho = (X: nx, Y: ny);
 
-                if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !visitados.Contains(vizinho) && !_snakeBody.Contains(vizinho))
+                bool colisaoCorpo = EstiloAtual == EstiloAnimacaoGitHub.Cobrinha && _corpo.Contains(vizinho);
+
+                if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !visitados.Contains(vizinho) && !colisaoCorpo)
                 {
                     visitados.Add(vizinho);
                     var novoCaminho = new List<(int X, int Y)>(caminho) { vizinho };
@@ -282,7 +340,8 @@ public class GitHubWidgetViewModel : ObservableObject
             var nx = start.X + dir.X;
             var ny = start.Y + dir.Y;
             var vizinho = (X: nx, Y: ny);
-            if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !_snakeBody.Contains(vizinho))
+            bool colisaoCorpo = EstiloAtual == EstiloAnimacaoGitHub.Cobrinha && _corpo.Contains(vizinho);
+            if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !colisaoCorpo)
                 return vizinho;
         }
         return null;
@@ -294,31 +353,23 @@ public class ContribuicaoDia : ObservableObject
     private int _nivel;
     private bool _ehCobra;
     private bool _ehCabecaCobra;
+    private bool _ehPacMan;
+    private bool _ehFantasma;
 
     public DateTime Data { get; set; }
 
-    public int Nivel
-    {
-        get => _nivel;
-        set { if (SetProperty(ref _nivel, value)) OnPropertyChanged(nameof(Cor)); }
-    }
-
-    public bool EhCobra
-    {
-        get => _ehCobra;
-        set { if (SetProperty(ref _ehCobra, value)) OnPropertyChanged(nameof(Cor)); }
-    }
-
-    public bool EhCabecaCobra
-    {
-        get => _ehCabecaCobra;
-        set { if (SetProperty(ref _ehCabecaCobra, value)) OnPropertyChanged(nameof(Cor)); }
-    }
+    public int Nivel { get => _nivel; set { if (SetProperty(ref _nivel, value)) OnPropertyChanged(nameof(Cor)); } }
+    public bool EhCobra { get => _ehCobra; set { if (SetProperty(ref _ehCobra, value)) OnPropertyChanged(nameof(Cor)); } }
+    public bool EhCabecaCobra { get => _ehCabecaCobra; set { if (SetProperty(ref _ehCabecaCobra, value)) OnPropertyChanged(nameof(Cor)); } }
+    public bool EhPacMan { get => _ehPacMan; set { if (SetProperty(ref _ehPacMan, value)) OnPropertyChanged(nameof(Cor)); } }
+    public bool EhFantasma { get => _ehFantasma; set { if (SetProperty(ref _ehFantasma, value)) OnPropertyChanged(nameof(Cor)); } }
 
     public Brush Cor 
     {
         get
         {
+            if (EhPacMan) return new SolidColorBrush(Color.FromRgb(255, 255, 0)); 
+            if (EhFantasma) return new SolidColorBrush(Color.FromRgb(255, 0, 0)); 
             if (EhCabecaCobra) return new SolidColorBrush(Color.FromRgb(0x9B, 0x59, 0xB6));
             if (EhCobra) return new SolidColorBrush(Color.FromRgb(0x8E, 0x44, 0xAD));
             
@@ -334,12 +385,4 @@ public class ContribuicaoDia : ObservableObject
         }
     }
 }
-
-
-
-
-
-
-
-
 
