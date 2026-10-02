@@ -33,10 +33,12 @@ public class DiscordWidgetViewModel : ObservableObject
     public ObservableCollection<DiscordUsuario> UsuariosNaCall { get; } = new();
 
         public System.Windows.Input.ICommand TestarAlertaCommand { get; }
+    public System.Windows.Input.ICommand AbrirAppCommand { get; }
 
     public DiscordWidgetViewModel(System.Action<string>? onAlerta = null)
     {
         TestarAlertaCommand = new RelayCommand(() => onAlerta?.Invoke("#5865F2"));
+        AbrirAppCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "discord:", UseShellExecute = true }); } catch { } });
         _service = new DiscordIpcService();
         _service.OnCanalVozAlterado += (sala) =>
         {
@@ -64,6 +66,8 @@ public class DiscordWidgetViewModel : ObservableObject
         _service.Iniciar();
     }
 }
+
+
 
 
 

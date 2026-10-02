@@ -117,7 +117,7 @@ public class GitHubWidgetViewModel : ObservableObject
         {
             if (!string.IsNullOrEmpty(NomeUsuario))
             {
-                try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://github.com/$NomeUsuario") { UseShellExecute = true }); }
+                try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"https://github.com/{NomeUsuario}") { UseShellExecute = true }); }
                 catch { }
             }
         });
@@ -147,7 +147,7 @@ public class GitHubWidgetViewModel : ObservableObject
         Carregando = true;
         try
         {
-            var url = "https://github.com/users/$_nomeUsuario/contributions";
+            var url = $"https://github.com/users/{_nomeUsuario}/contributions";
             var html = await _http.GetStringAsync(url);
             var dias = new List<ContribuicaoDia>();
             int total = 0;
@@ -385,5 +385,7 @@ public class ContribuicaoDia : ObservableObject
         }
     }
 }
+
+
 
 

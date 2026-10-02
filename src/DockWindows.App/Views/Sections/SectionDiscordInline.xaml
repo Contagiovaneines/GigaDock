@@ -10,6 +10,9 @@
     </UserControl.Resources>
     <Grid Visibility="{Binding Discord.Habilitado, Converter={StaticResource BoolToVis}}">
         <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" ToolTip="Discord">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding Discord.AbrirAppCommand}"/>
+            </Border.InputBindings>
                         <Border.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Testar Alerta de Voz (Azul)" Command="{Binding Discord.TestarAlertaCommand}"/>
@@ -54,4 +57,5 @@
         </Border>
     </Grid>
 </UserControl>
+
 

@@ -19,8 +19,11 @@ public class TeamsWidgetViewModel : ObservableObject
     public string CorStatus { get => _corStatus; set => SetProperty(ref _corStatus, value); }
     public string ProximaReuniao { get => _proximaReuniao; set => SetProperty(ref _proximaReuniao, value); }
 
+    public System.Windows.Input.ICommand AbrirAppCommand { get; }
+
     public TeamsWidgetViewModel(System.Action<string>? onAlerta = null)
     {
+        AbrirAppCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "msteams:", UseShellExecute = true }); } catch { } });
         _service = new TeamsIntegrationService();
         _service.OnStatusChanged += (status, cor) =>
         {
@@ -41,6 +44,9 @@ public class TeamsWidgetViewModel : ObservableObject
         _service.Iniciar();
     }
 }
+
+
+
 
 
 
