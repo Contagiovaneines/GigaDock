@@ -30,7 +30,7 @@ public class TeamsWidgetViewModel : ObservableObject
             System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
                 Status = status;
-                if (status == "Chamando...") onAlerta?.Invoke("#4A448C");
+                if (status == "Chamando..." || status == "Nova mensagem" || status == "Em chamada") onAlerta?.Invoke("#4A448C");
                 CorStatus = cor;
             });
         };
@@ -44,6 +44,7 @@ public class TeamsWidgetViewModel : ObservableObject
         _service.Iniciar();
     }
 }
+
 
 
 
