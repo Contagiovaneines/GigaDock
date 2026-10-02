@@ -1,8 +1,8 @@
-﻿# Script para empacotar e compilar o instalador oficial do Dock Windows (x64)
+﻿# Script para empacotar e compilar o instalador oficial do GigaDock (x64)
 $ErrorActionPreference = "Stop"
 
 Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host "   Compilando Dock Windows e Gerando Instalador Oficial   " -ForegroundColor Cyan
+Write-Host "   Compilando GigaDock e Gerando Instalador Oficial   " -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
 $rootDir = Split-Path -Parent $PSScriptRoot
@@ -44,12 +44,13 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # 4. Mover executável final para dist/
-$finalSetupExe = Join-Path $distDir "DockWindows-Setup.exe"
-Copy-Item (Join-Path $installerDistDir "DockWindows-Setup.exe") $finalSetupExe -Force
+$finalSetupExe = Join-Path $distDir "GigaDock-Setup.exe"
+Copy-Item (Join-Path $installerDistDir "GigaDock-Setup.exe") $finalSetupExe -Force
 
 Write-Host "`n[4/4] Instalador gerado com sucesso!" -ForegroundColor Green
 $setupSize = (Get-Item $finalSetupExe).Length / 1MB
 Write-Host "Local: $finalSetupExe" -ForegroundColor White
 Write-Host ("Tamanho do Instalador: {0:N2} MB" -f $setupSize) -ForegroundColor White
 Write-Host "==========================================================" -ForegroundColor Cyan
+
 
