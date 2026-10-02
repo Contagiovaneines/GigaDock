@@ -1,4 +1,4 @@
-﻿<Window x:Class="DockWindows.App.Views.LojaWidgetsWindow"
+<Window x:Class="DockWindows.App.Views.LojaWidgetsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Loja de Widgets" Height="700" Width="900"
@@ -42,7 +42,9 @@
                                 </Grid.RowDefinitions>
                                 
                                 <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding Icone}" FontSize="32" Margin="0,0,10,0"/>
+                                    <Border Width="48" Height="48" CornerRadius="12" Background="{Binding CorIcone}" Margin="0,0,12,0">
+                                        <TextBlock Text="{Binding Icone}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
                                     <StackPanel VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Nome}" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
                                         <TextBlock Text="{Binding DescricaoFormato}" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,0"/>

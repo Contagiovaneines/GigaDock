@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,28 +26,32 @@ public partial class LojaWidgetsWindow : Window
 
     private void CarregarLoja()
     {
+        // Ícones: Segoe Fluent Icons / Segoe MDL2 Assets (Unicode hex)
+        // E121 = Relógio, E9CA = Clima/Nuvem, E8BD = Mensagem (WhatsApp), E902 = Pessoas (Teams)
+        // E1D3 = Discord/Voz, E916 = Pomodoro/Timer, E163 = Calendário
+        // E943 = Código/GitHub, E950 = Monitor/PC, E70B = Notas/Papel
         var catalogo = new List<ItemLoja>
         {
-            new ItemLoja { Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Compacto, Nome = "Relógio", DescricaoFormato = "Apenas Ícone", Icone = "🕒" },
-            new ItemLoja { Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Expandido, Nome = "Relógio", DescricaoFormato = "Hora e Data", Icone = "🕒" },
-            
-            new ItemLoja { Tipo = TipoWidget.Clima, Formato = FormatoWidget.Compacto, Nome = "Clima", DescricaoFormato = "Ícone e Temp", Icone = "⛅" },
-            new ItemLoja { Tipo = TipoWidget.Clima, Formato = FormatoWidget.Expandido, Nome = "Clima", DescricaoFormato = "Detalhado com Local", Icone = "⛅" },
+            new ItemLoja { Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Compacto, Nome = "Relógio", DescricaoFormato = "Apenas Ícone", Icone = "\uE121", CorIcone = "#0A84FF" },
+            new ItemLoja { Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Expandido, Nome = "Relógio", DescricaoFormato = "Hora e Data", Icone = "\uE121", CorIcone = "#0A84FF" },
 
-            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Compacto, Nome = "WhatsApp", DescricaoFormato = "Apenas Ícone", Icone = "💬" },
-            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Expandido, Nome = "WhatsApp", DescricaoFormato = "Última Mensagem", Icone = "💬" },
+            new ItemLoja { Tipo = TipoWidget.Clima, Formato = FormatoWidget.Compacto, Nome = "Clima", DescricaoFormato = "Ícone e Temp", Icone = "\uE9CA", CorIcone = "#30B0C7" },
+            new ItemLoja { Tipo = TipoWidget.Clima, Formato = FormatoWidget.Expandido, Nome = "Clima", DescricaoFormato = "Detalhado com Local", Icone = "\uE9CA", CorIcone = "#30B0C7" },
 
-            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Compacto, Nome = "Teams", DescricaoFormato = "Apenas Ícone", Icone = "👨‍💻" },
-            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Expandido, Nome = "Teams", DescricaoFormato = "Status Detalhado", Icone = "👨‍💻" },
+            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Compacto, Nome = "WhatsApp", DescricaoFormato = "Apenas Ícone", Icone = "\uE8BD", CorIcone = "#25D366" },
+            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Expandido, Nome = "WhatsApp", DescricaoFormato = "Última Mensagem", Icone = "\uE8BD", CorIcone = "#128C7E" },
 
-            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Compacto, Nome = "Discord", DescricaoFormato = "Apenas Ícone", Icone = "🎮" },
-            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Expandido, Nome = "Discord", DescricaoFormato = "Sala de Voz", Icone = "🎮" },
+            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Compacto, Nome = "Teams", DescricaoFormato = "Apenas Ícone", Icone = "\uE716", CorIcone = "#6264A7" },
+            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Expandido, Nome = "Teams", DescricaoFormato = "Status Detalhado", Icone = "\uE716", CorIcone = "#4A448C" },
 
-            new ItemLoja { Tipo = TipoWidget.Pomodoro, Formato = FormatoWidget.Expandido, Nome = "Pomodoro", DescricaoFormato = "Cronômetro Visual", Icone = "🍅" },
-            new ItemLoja { Tipo = TipoWidget.CalendarioCompromissos, Formato = FormatoWidget.Expandido, Nome = "Calendário", DescricaoFormato = "Próximo Evento", Icone = "📅" },
-            new ItemLoja { Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub", DescricaoFormato = "Gráfico de Commits", Icone = "🐙" },
-            new ItemLoja { Tipo = TipoWidget.MonitorSistema, Formato = FormatoWidget.Expandido, Nome = "Monitor", DescricaoFormato = "CPU e RAM", Icone = "🖥️" },
-            new ItemLoja { Tipo = TipoWidget.Notas, Formato = FormatoWidget.Compacto, Nome = "Notas", DescricaoFormato = "Acesso Rápido", Icone = "📝" }
+            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Compacto, Nome = "Discord", DescricaoFormato = "Apenas Ícone", Icone = "\uE767", CorIcone = "#5865F2" },
+            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Expandido, Nome = "Discord", DescricaoFormato = "Sala de Voz", Icone = "\uE767", CorIcone = "#4752C4" },
+
+            new ItemLoja { Tipo = TipoWidget.Pomodoro, Formato = FormatoWidget.Expandido, Nome = "Pomodoro", DescricaoFormato = "Cronômetro Visual", Icone = "\uE916", CorIcone = "#FF9F0A" },
+            new ItemLoja { Tipo = TipoWidget.CalendarioCompromissos, Formato = FormatoWidget.Expandido, Nome = "Calendário", DescricaoFormato = "Próximo Evento", Icone = "\uE163", CorIcone = "#FF453A" },
+            new ItemLoja { Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub", DescricaoFormato = "Gráfico de Commits", Icone = "\uE943", CorIcone = "#2D333B" },
+            new ItemLoja { Tipo = TipoWidget.MonitorSistema, Formato = FormatoWidget.Expandido, Nome = "Monitor", DescricaoFormato = "CPU e RAM", Icone = "\uE950", CorIcone = "#5E5CE6" },
+            new ItemLoja { Tipo = TipoWidget.Notas, Formato = FormatoWidget.Compacto, Nome = "Notas", DescricaoFormato = "Acesso Rápido", Icone = "\uE70B", CorIcone = "#636366" },
         };
 
         foreach (var item in catalogo)
@@ -78,7 +82,7 @@ public partial class LojaWidgetsWindow : Window
                 Visivel = true,
                 Ordem = 99
             };
-            
+
             DialogResult = true;
             Close();
         }
@@ -92,12 +96,12 @@ public class ItemLoja
     public string Nome { get; set; } = string.Empty;
     public string DescricaoFormato { get; set; } = string.Empty;
     public string Icone { get; set; } = string.Empty;
+    public string CorIcone { get; set; } = "#333340";
     public bool JaAdicionado { get; set; }
     public bool FormatoAtivo { get; set; }
-    
+
     // UI Helpers
     public string TextoBotao => JaAdicionado && FormatoAtivo ? "Instalado" : (JaAdicionado ? "Trocar Formato" : "Adicionar");
     public string CorBotao => JaAdicionado && FormatoAtivo ? "#1DB954" : "#0A84FF";
-    public double LarguraCard => Formato == FormatoWidget.Compacto ? 120 : 260;
+    public double LarguraCard => Formato == FormatoWidget.Compacto ? 160 : 280;
 }
-

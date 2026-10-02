@@ -15,7 +15,7 @@
             <Border.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/></Border.Effect>
             <Border CornerRadius="8" Background="#128C7E" Height="40" Padding="12,0,16,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8F2;" FontSize="18" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8BD;" FontSize="18" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="{Binding WhatsApp.MensagensNaoLidas, StringFormat={}{0} mensagens}" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="{Binding WhatsApp.UltimaMensagem}" FontSize="10" Foreground="#D1F4CC" Margin="0,-2,0,0" MaxWidth="110" TextTrimming="CharacterEllipsis"/>
