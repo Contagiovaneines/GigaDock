@@ -18,7 +18,7 @@ public class WhatsAppWidgetViewModel : ObservableObject
     public string UltimaMensagem { get => _ultimaMensagem; set => SetProperty(ref _ultimaMensagem, value); }
     public bool TemMensagens => MensagensNaoLidas > 0;
 
-    public WhatsAppWidgetViewModel()
+    public WhatsAppWidgetViewModel(System.Action<string>? onAlerta = null)
     {
         _service = new WhatsAppNotificationService();
         _service.OnNotificacoesAtualizadas += (count, lastMsg) =>
@@ -26,9 +26,11 @@ public class WhatsAppWidgetViewModel : ObservableObject
             System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
                 MensagensNaoLidas = count;
+                if (count > _mensagensNaoLidas) onAlerta?.Invoke("#128C7E");
                 UltimaMensagem = lastMsg;
             });
         };
         _ = _service.IniciarAsync();
     }
 }
+

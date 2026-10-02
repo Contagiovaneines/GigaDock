@@ -38,3 +38,4 @@ public class TeamsIntegrationService
         OnMeetingChanged?.Invoke("Daily Team - 10:00");
     }
 }
+

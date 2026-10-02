@@ -38,6 +38,12 @@ public partial class MainWindow : Window
     private Views.Sections.SectionClimaInline? _secClimaInline;
     
 
+    protected override void OnPreviewMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+    {
+        base.OnPreviewMouseLeftButtonDown(e);
+        if (_viewModel.EstaEmAlerta) _viewModel.EstaEmAlerta = false;
+    }
+
     public MainWindow()
     {
         InitializeComponent();
@@ -47,8 +53,9 @@ public partial class MainWindow : Window
         _iconService = new IconExtractionService();
         _autostartService = new AutostartService();
 
-        _viewModel = new MainViewModel(_settingsRepo, _launcherService, _iconService, _autostartService);
+                _viewModel = new MainViewModel(_settingsRepo, _launcherService, _iconService, _autostartService);
         DataContext = _viewModel;
+        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         ConectarCallbacksViewModel();
 
@@ -607,6 +614,82 @@ public partial class MainWindow : Window
 
         _viewModel.SalvarPreferencias();
     }
+    private System.Windows.Media.Animation.Storyboard? _alertaStoryboard;
+
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(_viewModel.EstaEmAlerta))
+        {
+            if (_viewModel.EstaEmAlerta)
+            {
+                IniciarAnimacaoAlerta();
+            }
+            else
+            {
+                PararAnimacaoAlerta();
+            }
+        }
+    }
+
+    private void IniciarAnimacaoAlerta()
+    {
+        if (_alertaStoryboard != null)
+        {
+            _alertaStoryboard.Stop();
+        }
+
+        try
+        {
+            var cor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_viewModel.CorAlerta);
+
+            // Anima a sombra pulsando
+            var animacaoSombra = new System.Windows.Media.Animation.ColorAnimation
+            {
+                From = System.Windows.Media.Colors.Black,
+                To = cor,
+                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.8)),
+                AutoReverse = true,
+                RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever
+            };
+
+            var animacaoRaio = new System.Windows.Media.Animation.DoubleAnimation
+            {
+                From = 16.0,
+                To = 30.0,
+                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.8)),
+                AutoReverse = true,
+                RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever
+            };
+
+            System.Windows.Media.Animation.Storyboard.SetTarget(animacaoSombra, DockShadow);
+            System.Windows.Media.Animation.Storyboard.SetTargetProperty(animacaoSombra, new System.Windows.PropertyPath(System.Windows.Media.Effects.DropShadowEffect.ColorProperty));
+            
+            System.Windows.Media.Animation.Storyboard.SetTarget(animacaoRaio, DockShadow);
+            System.Windows.Media.Animation.Storyboard.SetTargetProperty(animacaoRaio, new System.Windows.PropertyPath(System.Windows.Media.Effects.DropShadowEffect.BlurRadiusProperty));
+
+            _alertaStoryboard = new System.Windows.Media.Animation.Storyboard();
+            _alertaStoryboard.Children.Add(animacaoSombra);
+            _alertaStoryboard.Children.Add(animacaoRaio);
+            _alertaStoryboard.Begin();
+        }
+        catch { }
+    }
+
+    private void PararAnimacaoAlerta()
+    {
+        if (_alertaStoryboard != null)
+        {
+            _alertaStoryboard.Stop();
+            _alertaStoryboard = null;
+        }
+        
+        // Restaura valores originais
+        DockShadow.Color = System.Windows.Media.Colors.Black;
+        DockShadow.BlurRadius = 16.0;
+    }
 }
+
+
+
 
 

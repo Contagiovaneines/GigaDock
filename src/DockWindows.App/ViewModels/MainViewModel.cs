@@ -22,10 +22,33 @@ public class MainViewModel : ObservableObject
     private readonly IWindowTrackingService _windowTrackingService;
     private readonly IWinKeyHookService _winKeyHookService;
 
-    private Preferencias _preferencias;
+        private Preferencias _preferencias;
     private EnvironmentViewModel? _ambienteAtivo;
-        private bool _dockVisivel = true;
+    private bool _dockVisivel = true;
     private bool _ocultoPorTelaCheia = false;
+
+    // Sistema de Alerta Global
+    private bool _estaEmAlerta;
+    private string _corAlerta = "#128C7E";
+
+    public bool EstaEmAlerta { get => _estaEmAlerta; set => SetProperty(ref _estaEmAlerta, value); }
+    public string CorAlerta { get => _corAlerta; set => SetProperty(ref _corAlerta, value); }
+
+    public void DispararAlertaGlobal(string corHex)
+    {
+        CorAlerta = corHex;
+        EstaEmAlerta = true;
+
+        // Auto-desligar o alerta após 15 segundos (simulando o tempo de tocar)
+        System.Threading.Tasks.Task.Delay(15000).ContinueWith(_ => 
+        {
+            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+            {
+                EstaEmAlerta = false;
+            });
+        });
+    }
+
 
     public bool OcultoPorTelaCheia
     {
@@ -84,11 +107,11 @@ public class MainViewModel : ObservableObject
         Midia = new MidiaWidgetViewModel(() => _preferencias.AbrirPlayerAoDuploClique);
         Notas = new NotasWidgetViewModel();
         MonitorSistema = new MonitorSistemaViewModel();
-                GitHub = new GitHubWidgetViewModel();
+                        GitHub = new GitHubWidgetViewModel();
         GitHub.SincronizarUsuario(_preferencias.GitHubUsuario);
         Clima = new ClimaWidgetViewModel();
-        WhatsApp = new WhatsAppWidgetViewModel();
-        Teams = new TeamsWidgetViewModel();
+        WhatsApp = new WhatsAppWidgetViewModel(cor => DispararAlertaGlobal(cor));
+        Teams = new TeamsWidgetViewModel(cor => DispararAlertaGlobal(cor));
         Discord = new DiscordWidgetViewModel();
 
         TrocarAmbienteCommand = new RelayCommand<EnvironmentViewModel>(TrocarAmbiente);
@@ -1665,6 +1688,8 @@ public class LaunchpadItemModel
 
 
 }
+
+
 
 
 

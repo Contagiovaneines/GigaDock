@@ -169,7 +169,7 @@
                 </ContextMenu>
             </Border.ContextMenu>
             <Border.Effect>
-                <DropShadowEffect BlurRadius="16" ShadowDepth="3" Direction="270" Color="#000000" Opacity="0.45"/>
+                <DropShadowEffect x:Name="DockShadow" BlurRadius="16" ShadowDepth="3" Direction="270" Color="#000000" Opacity="0.45"/>
             </Border.Effect>
 
             <Grid>
@@ -209,6 +209,7 @@
 
     </Grid>
 </Window>
+
 
 
 

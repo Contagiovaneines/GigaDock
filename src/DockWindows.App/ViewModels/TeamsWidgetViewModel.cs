@@ -19,7 +19,7 @@ public class TeamsWidgetViewModel : ObservableObject
     public string CorStatus { get => _corStatus; set => SetProperty(ref _corStatus, value); }
     public string ProximaReuniao { get => _proximaReuniao; set => SetProperty(ref _proximaReuniao, value); }
 
-    public TeamsWidgetViewModel()
+    public TeamsWidgetViewModel(System.Action<string>? onAlerta = null)
     {
         _service = new TeamsIntegrationService();
         _service.OnStatusChanged += (status, cor) =>
@@ -27,6 +27,7 @@ public class TeamsWidgetViewModel : ObservableObject
             System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
                 Status = status;
+                if (status == "Chamando...") onAlerta?.Invoke("#4A448C");
                 CorStatus = cor;
             });
         };
@@ -40,3 +41,4 @@ public class TeamsWidgetViewModel : ObservableObject
         _service.Iniciar();
     }
 }
+
