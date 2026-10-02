@@ -198,7 +198,7 @@
             <!-- Coluna 1: Navegação Lateral -->
             <ColumnDefinition Width="220" MinWidth="190" MaxWidth="260"/>
             <!-- Coluna 2: Itens da Seção Selecionada -->
-            <ColumnDefinition Width="360" MinWidth="300" MaxWidth="500"/>
+            <ColumnDefinition Width="Auto" MaxWidth="500"/>
             <!-- Coluna 3: Edição e Detalhes do Item Selecionado -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -654,76 +654,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <!-- 5. GERAL (LISTA DE CATEGORIAS) -->
-                <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="Opções Gerais" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="Configurações de sistema e comportamento" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}">
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <StackPanel>
-                            <TextBlock Text="🖥️ Modo Barra Principal" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                            <TextBlock Text="Substituição da barra nativa do Windows" FontSize="11" Foreground="#8E8E93"/>
-                        </StackPanel>
-                    </Border>
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <StackPanel>
-                            <TextBlock Text="👁️ Ocultação Automática" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                            <TextBlock Text="Recolher quando o mouse se afasta" FontSize="11" Foreground="#8E8E93"/>
-                        </StackPanel>
-                    </Border>
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <StackPanel>
-                            <TextBlock Text="⚡ Inicialização do Sistema" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                            <TextBlock Text="Iniciar automaticamente com o Windows" FontSize="11" Foreground="#8E8E93"/>
-                        </StackPanel>
-                    </Border>
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <StackPanel>
-                            <TextBlock Text="⌨️ Atalhos de Teclado" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                            <TextBlock Text="Atalho global para exibir ou ocultar" FontSize="11" Foreground="#8E8E93"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-
-                <!-- 6. UTILITÁRIOS (LISTA DE TÓPICOS) -->
-                <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoUtilitarios, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="Utilitários" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="Ferramentas de dados e manutenção" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoUtilitarios, Converter={StaticResource BoolToVis}}">
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="💾 Backup e Exportação JSON" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                    </Border>
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="📥 Restaurar Backup JSON" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                    </Border>
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="🔄 Restaurar Barra do Windows" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                    </Border>
-                    <Border CornerRadius="8" Padding="10" Background="#202026" BorderBrush="#32323C" BorderThickness="1" Margin="0,0,0,6">
-                        <TextBlock Text="⚠️ Redefinir para Padrões de Fábrica" FontSize="13" FontWeight="SemiBold" Foreground="#FF453A"/>
-                    </Border>
-                </StackPanel>
-
-                <!-- 7. SOBRE (INFORMAÇÕES) -->
-                <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="Sobre o Aplicativo" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="Informações de versão e sistema" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,10"/>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
-                    <Border CornerRadius="8" Padding="12" Background="#202026" BorderBrush="#32323C" BorderThickness="1">
-                        <StackPanel>
-                            <TextBlock Text="GigaDock 2.0.0" FontSize="14" FontWeight="Bold" Foreground="#0A84FF"/>
-                            <TextBlock Text="Aplicativo desktop nativo para Windows 10 e 11." FontSize="11" Foreground="#C8C8CE" Margin="0,4,0,0"/>
-                            <TextBlock Text="100% local, sem telemetria, sem contas e sem nuvem." FontSize="11" Foreground="#30D158" Margin="0,4,0,0"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Grid>
+                </Grid>
         </Border>
 
         <!-- ========================================================= -->
