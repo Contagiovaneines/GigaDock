@@ -12,7 +12,9 @@ public enum TipoWidget
     Clima = 7,
     WhatsAppNotificacoes = 8,
     TeamsStatus = 9,
-    DiscordVoz = 10
+    DiscordVoz = 10,
+    OBSStudio = 11
 }
+
 
 

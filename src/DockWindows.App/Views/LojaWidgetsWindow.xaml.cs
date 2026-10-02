@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -155,3 +155,4 @@ public class ItemLoja
     public string CustoBackground => Custo == "Pro" ? "#3D2447" : (Custo == "Gratuito" ? "#193524" : "#24324D");
     public string CustoForeground => Custo == "Pro" ? "#D18EE2" : (Custo == "Gratuito" ? "#25D366" : "#4AA1FF");
 }
+
