@@ -2,9 +2,9 @@
 
 namespace DockWindows.App.Views.Sections;
 
-public partial class SectionMonitorInline : UserControl
+public partial class SectionCalendarioInline : UserControl
 {
-    public SectionMonitorInline()
+    public SectionCalendarioInline()
     {
         InitializeComponent();
     }

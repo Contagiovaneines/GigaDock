@@ -1,37 +1,49 @@
-<UserControl x:Class="DockWindows.App.Views.Sections.SectionMonitorInline"
+﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionMonitorInline"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:conv="clr-namespace:DockWindows.App.Converters"
              Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
-    
     <Grid>
-        <!-- Botão Compacto na Barra -->
-        <Border CornerRadius="10" Padding="8,4" Background="#18FFFFFF" Cursor="Hand"
-                MouseLeftButtonDown="AbrirPainel_Click" ToolTip="Monitor de Sistema">
+        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand"
+                ToolTip="Monitor de Atividade (CPU/RAM)">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
+            </Border.Effect>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="💻" FontSize="13" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                <TextBlock Text="{Binding MonitorSistema.TextoResumo}" FontSize="11" Foreground="#DDDDDD" 
-                           VerticalAlignment="Center" FontWeight="SemiBold"/>
+                
+                <!-- Ícone da Esquerda -->
+                <Border Width="40" Height="40" CornerRadius="8" Background="#1B1238" Padding="2">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border Width="16" Height="16" CornerRadius="8" BorderThickness="2" BorderBrush="#0A84FF" Margin="0,0,2,0">
+                            <TextBlock Text="{Binding MonitorSistema.UsoCpu}" FontSize="6" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border Width="16" Height="16" CornerRadius="8" BorderThickness="2" BorderBrush="#BF5AF2">
+                            <TextBlock Text="{Binding MonitorSistema.UsoRam}" FontSize="6" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- Pílula da Direita -->
+                <Border CornerRadius="10" Background="#21262D" Height="40" Margin="6,0,0,0" Padding="12,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Circulo CPU -->
+                        <Border Width="28" Height="28" CornerRadius="14" BorderThickness="3" BorderBrush="#0A84FF" Margin="0,0,10,0">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding MonitorSistema.UsoCpu}" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" Margin="0,0,0,-2"/>
+                                <TextBlock Text="CPU" FontSize="5" Foreground="#8E8E93" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Circulo RAM -->
+                        <Border Width="28" Height="28" CornerRadius="14" BorderThickness="3" BorderBrush="#BF5AF2">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding MonitorSistema.UsoRam}" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" Margin="0,0,0,-2"/>
+                                <TextBlock Text="RAM" FontSize="5" Foreground="#8E8E93" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Border>
-        
-        <!-- Painel Popup do Monitor -->
-        <Popup x:Name="PopupMonitor" IsOpen="{Binding MonitorSistema.PainelAberto, Mode=TwoWay}" 
-               StaysOpen="False" Placement="Top" VerticalOffset="-8"
-               AllowsTransparency="True" PopupAnimation="Fade">
-            <Border Background="#1C1C22" BorderBrush="#3A3A44" BorderThickness="1" 
-                    CornerRadius="12" Width="200" Padding="14">
-                <StackPanel>
-                    <TextBlock Text="💻 Monitor de Sistema" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,12"/>
-                    
-                    <TextBlock Text="Uso da CPU:" FontSize="11" Foreground="#8E8E93" Margin="0,0,0,2"/>
-                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding MonitorSistema.UsoCpu}" Height="8" Margin="0,0,0,10" Foreground="#0A84FF" Background="#2C2C36" BorderThickness="0"/>
-                    
-                    <TextBlock Text="Uso da RAM:" FontSize="11" Foreground="#8E8E93" Margin="0,0,0,2"/>
-                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding MonitorSistema.UsoRam}" Height="8" Margin="0,0,0,5" Foreground="#32D74B" Background="#2C2C36" BorderThickness="0"/>
-                </StackPanel>
-            </Border>
-        </Popup>
     </Grid>
 </UserControl>
