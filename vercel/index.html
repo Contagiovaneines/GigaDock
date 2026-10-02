@@ -1,29 +1,29 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GigaDock 2.0 - A Barra Definitiva para Windows</title>
+    <title>GigaDock Pro 3.4 - A Barra Definitiva para Windows</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="hero">
         <div class="nav">
-            <div class="logo">GigaDock</div>
+            <div class="logo">GigaDock Pro</div>
             <div class="links">
                 <a href="#features">Recursos</a>
-                <a href="#demo">Testar Agora</a>
+                <a href="#demo">Live Demo</a>
                 <a href="https://github.com/Contagiovaneines/WinDock-" target="_blank" class="btn-outline">GitHub</a>
             </div>
         </div>
         
         <div class="hero-content">
-            <span class="badge">Lançamento v2.0.0</span>
-            <h1>A barra de tarefas que o <br>Windows sempre mereceu.</h1>
-            <p>100% Nativo. Zero Telemetria. Widgets Inline e Ambientes Ilimitados.<br>Experimente o visual premium do macOS diretamente no seu PC.</p>
+            <span class="badge">LANÇAMENTO v3.4.0 (DirectX 12)</span>
+            <h1>O Windows<br>finalmente perfeito.</h1>
+            <p>Glass Translúcido Premium. Widget Store Integrada. Launchpad em Tela Cheia.<br>Eleve sua produtividade com a dock de mais alto nível já criada.</p>
             <div class="actions">
-                <a href="#demo" class="btn-primary">Testar o Protótipo Abaixo</a>
-                <a href="#" class="btn-secondary">Baixar GigaDock (30 MB)</a>
+                <a href="#demo" class="btn-primary">Interagir com a Dock (Demo)</a>
+                <a href="https://github.com/Contagiovaneines/WinDock-" class="btn-secondary">Download GigaDock (40 MB)</a>
             </div>
         </div>
     </header>
@@ -32,71 +32,85 @@
         <div class="desktop-mockup">
             <div class="wallpaper"></div>
             <div class="desktop-content">
-                <h2>Interaja com a Dock!</h2>
-                <p>Passe o mouse, clique nos ícones e veja os widgets.</p>
+                <h2>Experimente o Glass</h2>
+                <p>Passe o mouse, veja os indicadores e os novos widgets da Widget Store.</p>
             </div>
             
             <!-- A DOCK INTERATIVA -->
             <div class="dock-container">
                 <div class="dock" id="dock">
-                    <!-- Ambientes -->
-                    <div class="dock-item workspace-indicator active" data-tooltip="Ambiente: Trabalho">
-                        <div class="dot blue"></div>
+                    
+                    <!-- Launchpad & Search -->
+                    <div class="dock-item action-btn" data-tooltip="Launchpad (Win)">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/></svg>
+                    </div>
+                    <div class="dock-item action-btn" data-tooltip="Spotlight Search">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                     </div>
                     
                     <div class="divider"></div>
 
-                    <!-- Apps Fixados -->
-                    <div class="dock-item" data-tooltip="Navegador">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome">
-                        <div class="open-dot"></div>
-                    </div>
-                    <div class="dock-item" data-tooltip="Editor de Código">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VSCode">
-                    </div>
-                    <div class="dock-item" data-tooltip="Explorador de Arquivos">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Folder_Icon.svg" alt="Arquivos">
+                    <!-- Media Widget (Spotify) -->
+                    <div class="dock-item widget media" data-tooltip="Ouvindo: Midnight City - Kavinsky">
+                        <div class="widget-content">
+                            <img src="https://i.scdn.co/image/ab67616d0000b273b5df510ec115998a18340d25" alt="Album Art" class="album-art">
+                            <div class="media-info">
+                                <span class="title">Midnight City</span>
+                                <span class="artist">Kavinsky</span>
+                            </div>
+                            <div class="media-controls">
+                                <span class="ctrl">&#9654;</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="divider"></div>
 
-                    <!-- Widgets Inline -->
-                    <div class="dock-item widget pomodoro" data-tooltip="Timer de Foco">
+                    <!-- Apps Fixados -->
+                    <div class="dock-item" data-tooltip="Explorador de Arquivos">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Folder_Icon.svg" alt="Arquivos">
+                        <div class="open-dot"></div>
+                    </div>
+                    <div class="dock-item" data-tooltip="Microsoft Teams">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg" alt="Teams">
+                    </div>
+                    <div class="dock-item" data-tooltip="Visual Studio Code">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VSCode">
+                        <div class="open-dot active"></div>
+                    </div>
+                    <div class="dock-item" data-tooltip="Google Chrome">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome">
+                    </div>
+                    <div class="dock-item" data-tooltip="OBS Studio">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/OBS_Studio_Logo.svg" alt="OBS">
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- OBS Widget (Novo) -->
+                    <div class="dock-item widget obs" data-tooltip="Controle OBS Studio">
                         <div class="widget-content">
-                            <span class="time">17:00</span>
-                            <div class="pause-btn">||</div>
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                            <div class="rec-btn">
+                                <div class="rec-dot"></div> GRAVAR
+                            </div>
                         </div>
                     </div>
 
-                    <div class="dock-item widget weather" data-tooltip="Clima Atual">
+                    <!-- WhatsApp Notifications (Compact) -->
+                    <div class="dock-item widget whatsapp" data-tooltip="Nova mensagem de Design Team">
                         <div class="widget-content">
-                            <span class="icon">☀️</span>
-                            <span class="temp">24°</span>
-                        </div>
-                    </div>
-
-                    <div class="dock-item widget calendar" data-tooltip="Próximo Evento">
-                        <div class="widget-content">
-                            <div class="cal-left">
-                                <div class="cal-top">TER</div>
-                                <div class="cal-bot">29</div>
-                            </div>
-                            <div class="cal-right">
-                                <span class="cal-title">Reunião de Design</span>
-                                <span class="cal-time">10:30</span>
-                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA">
+                            <span class="count">3</span>
+                            <div class="notify-dot"></div>
                         </div>
                     </div>
 
                     <div class="divider"></div>
 
                     <!-- Configurações e Lixeira -->
-                    <div class="dock-item" data-tooltip="Ajustes do GigaDock" onclick="alert('No app real, isso abre a nossa linda tela de Ajustes em WPF!')">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Settings-icon-symbol-vector.png/640px-Settings-icon-symbol-vector.png" alt="Ajustes">
-                    </div>
-                    
-                    <div class="dock-item trash" data-tooltip="Lixeira">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Trash_Can.svg/1024px-Trash_Can.svg.png" alt="Lixeira">
+                    <div class="dock-item action-btn" data-tooltip="Configurações & Widget Store">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
                     </div>
                 </div>
             </div>
@@ -104,24 +118,25 @@
     </section>
 
     <section id="features" class="features-section">
+        <h2>Poder Massivo. Impacto Zero.</h2>
         <div class="feature-grid">
             <div class="feature-card">
-                <h3>🏠 Ambientes Ilimitados</h3>
-                <p>Crie Docks separadas para "Trabalho", "Estudos" e "Pessoal". Alterne entre elas com um atalho de teclado.</p>
+                <h3>🛍️ Nova Widget Store</h3>
+                <p>Navegue por dezenas de mini-apps interativos na nova Widget Store integrada. Monitoramento de CPU (DirectX 12), GitHub Actions, Controle do OBS Studio e Clima em Tempo Real.</p>
             </div>
             <div class="feature-card">
-                <h3>🧩 Widgets Embutidos</h3>
-                <p>Chega de poluir a tela. Clima, Pomodoro, Calendário e Monitoramento de CPU vivem diretamente na sua barra.</p>
+                <h3>🚀 Launchpad & Spotlight</h3>
+                <p>Um toque no teclado e o novo Launchpad em tela-cheia entra em ação com efeito Mica. Busque qualquer arquivo ou app com o painel de pesquisa super-rápido.</p>
             </div>
             <div class="feature-card">
-                <h3>🔒 100% Local</h3>
-                <p>Nenhuma conta necessária. Sem servidores, sem telemetria. Seus dados nunca saem da sua máquina.</p>
+                <h3>✨ Acabamento Premium</h3>
+                <p>Construída com WPF e Windows 11 APIs, a GigaDock Pro oferece o autêntico "Dark Translucent Glass", bordas reflexivas de 1px e sombreamento ambiente macio.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>GigaDock 2.0 &copy; 2026 - Criado por Giovane Ines</p>
+        <p>GigaDock Pro 3.4 &copy; 2026 - Criado por Giovane Ines. Inspirado no melhor do design nativo.</p>
     </footer>
 
     <script src="script.js"></script>

@@ -52,13 +52,12 @@ body {
 }
 
 .badge {
-    background: #1F6FEB;
+    background: linear-gradient(90deg, #1F6FEB, #8B949E);
     color: white;
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: bold;
-    text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 1.5rem;
     display: inline-block;
@@ -150,13 +149,15 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(20, 20, 25, 0.45);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(180deg, rgba(0,0,0,0.52) 0%, rgba(5,5,10,0.67) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
     padding: 10px 14px;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    height: 72px;
+    border-radius: 22px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.55);
     transform-style: preserve-3d;
     transition: transform 0.2s;
 }
@@ -377,3 +378,86 @@ footer {
     border-top: 1px solid #30363D;
     color: #8B949E;
 }
+
+/* Novas Classes do GigaDock Pro */
+.action-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.action-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.dock-item.widget.media {
+    min-width: 180px;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+.media .widget-content {
+    justify-content: flex-start;
+    gap: 10px;
+}
+.media .album-art {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(10,132,255,0.5);
+}
+.media .media-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.media .title { font-size: 13px; font-weight: bold; color: white; }
+.media .artist { font-size: 11px; color: #A0A0A0; }
+.media .media-controls { margin-left: auto; padding-right: 8px; }
+.media .ctrl { background: rgba(255,255,255,0.1); padding: 6px; border-radius: 50%; font-size: 10px; }
+
+.dock-item.widget.obs {
+    min-width: 130px;
+    background: transparent;
+    border: none;
+}
+.obs .widget-content { gap: 10px; }
+.obs .rec-btn {
+    display: flex;
+    align-items: center;
+    background: #1C1C22;
+    border: 1px solid #2C2C36;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    gap: 6px;
+}
+.obs .rec-dot {
+    width: 8px;
+    height: 8px;
+    background: #FF3B30;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #FF3B30;
+}
+
+.dock-item.widget.whatsapp {
+    min-width: 80px;
+    background: transparent;
+    border: none;
+}
+.whatsapp .widget-content { gap: 6px; position: relative; }
+.whatsapp img { width: 28px; height: 28px; filter: drop-shadow(0 0 8px rgba(37,211,102,0.4)); }
+.whatsapp .count { font-size: 13px; font-weight: bold; }
+.whatsapp .notify-dot {
+    position: absolute;
+    top: 6px;
+    left: 20px;
+    width: 8px;
+    height: 8px;
+    background: #FF453A;
+    border-radius: 50%;
+}
+
+.features-section h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; background: -webkit-linear-gradient(#FFF, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.open-dot.active { width: 14px; height: 3px; border-radius: 2px; background: #58A6FF; box-shadow: 0 0 8px #58A6FF; bottom: -8px;}
+.open-dot { background: #0A84FF; bottom: -8px;}
