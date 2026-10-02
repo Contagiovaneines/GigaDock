@@ -66,10 +66,27 @@ public class GitHubWidgetViewModel : ObservableObject
     public ICommand AbrirPerfilCommand { get; }
     public ICommand JogarCobrinhaCommand { get; }
 
+        private bool _animacaoAutomatica = true;
+    public bool AnimacaoAutomatica
+    {
+        get => _animacaoAutomatica;
+        set
+        {
+            if (SetProperty(ref _animacaoAutomatica, value))
+            {
+                if (value && !_cobrinhaRodando) IniciarCobrinha();
+            }
+        }
+    }
+
+    private List<int> _niveisOriginais = new();
+
+    public ICommand AlternarAnimacaoCommand { get; }
     public GitHubWidgetViewModel()
     {
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
         JogarCobrinhaCommand = new RelayCommand(() => IniciarCobrinha());
+        AlternarAnimacaoCommand = new RelayCommand(() => AnimacaoAutomatica = !AnimacaoAutomatica);
           AbrirPerfilCommand = new RelayCommand(() =>
           {
             if (!string.IsNullOrEmpty(NomeUsuario))
@@ -156,8 +173,9 @@ public class GitHubWidgetViewModel : ObservableObject
 
                 // Pega os últimos 91 dias (13 semanas) para o mini-gráfico no popup
                 var ultimos = dias.OrderByDescending(d => d.Data).Take(91).Reverse().ToList();
-                foreach (var d in ultimos)
-                    Contribuicoes.Add(d);
+                foreach (var d in ultimos) Contribuicoes.Add(d);
+                _niveisOriginais = ultimos.Select(d => d.Nivel).ToList();
+                if (AnimacaoAutomatica) IniciarCobrinha();
 
                 TotalContribuicoes = total;
                 Carregando = false;
@@ -316,6 +334,8 @@ public class ContribuicaoDia : ObservableObject
         }
     }
 }
+
+
 
 
 
