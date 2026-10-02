@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GigaDock 2.0 - A Barra Definitiva para Windows</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="nav">
+            <div class="logo">GigaDock</div>
+            <div class="links">
+                <a href="#features">Recursos</a>
+                <a href="#demo">Testar Agora</a>
+                <a href="https://github.com/Contagiovaneines/WinDock-" target="_blank" class="btn-outline">GitHub</a>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <span class="badge">Lançamento v2.0.0</span>
+            <h1>A barra de tarefas que o <br>Windows sempre mereceu.</h1>
+            <p>100% Nativo. Zero Telemetria. Widgets Inline e Ambientes Ilimitados.<br>Experimente o visual premium do macOS diretamente no seu PC.</p>
+            <div class="actions">
+                <a href="#demo" class="btn-primary">Testar o Protótipo Abaixo</a>
+                <a href="#" class="btn-secondary">Baixar GigaDock (30 MB)</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="demo" class="demo-section">
+        <div class="desktop-mockup">
+            <div class="wallpaper"></div>
+            <div class="desktop-content">
+                <h2>Interaja com a Dock!</h2>
+                <p>Passe o mouse, clique nos ícones e veja os widgets.</p>
+            </div>
+            
+            <!-- A DOCK INTERATIVA -->
+            <div class="dock-container">
+                <div class="dock" id="dock">
+                    <!-- Ambientes -->
+                    <div class="dock-item workspace-indicator active" data-tooltip="Ambiente: Trabalho">
+                        <div class="dot blue"></div>
+                    </div>
+                    
+                    <div class="divider"></div>
+
+                    <!-- Apps Fixados -->
+                    <div class="dock-item" data-tooltip="Navegador">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome">
+                        <div class="open-dot"></div>
+                    </div>
+                    <div class="dock-item" data-tooltip="Editor de Código">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VSCode">
+                    </div>
+                    <div class="dock-item" data-tooltip="Explorador de Arquivos">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Folder_Icon.svg" alt="Arquivos">
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Widgets Inline -->
+                    <div class="dock-item widget pomodoro" data-tooltip="Timer de Foco">
+                        <div class="widget-content">
+                            <span class="time">17:00</span>
+                            <div class="pause-btn">||</div>
+                        </div>
+                    </div>
+
+                    <div class="dock-item widget weather" data-tooltip="Clima Atual">
+                        <div class="widget-content">
+                            <span class="icon">☀️</span>
+                            <span class="temp">24°</span>
+                        </div>
+                    </div>
+
+                    <div class="dock-item widget calendar" data-tooltip="Próximo Evento">
+                        <div class="widget-content">
+                            <div class="cal-left">
+                                <div class="cal-top">TER</div>
+                                <div class="cal-bot">29</div>
+                            </div>
+                            <div class="cal-right">
+                                <span class="cal-title">Reunião de Design</span>
+                                <span class="cal-time">10:30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Configurações e Lixeira -->
+                    <div class="dock-item" data-tooltip="Ajustes do GigaDock" onclick="alert('No app real, isso abre a nossa linda tela de Ajustes em WPF!')">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Settings-icon-symbol-vector.png/640px-Settings-icon-symbol-vector.png" alt="Ajustes">
+                    </div>
+                    
+                    <div class="dock-item trash" data-tooltip="Lixeira">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Trash_Can.svg/1024px-Trash_Can.svg.png" alt="Lixeira">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🏠 Ambientes Ilimitados</h3>
+                <p>Crie Docks separadas para "Trabalho", "Estudos" e "Pessoal". Alterne entre elas com um atalho de teclado.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🧩 Widgets Embutidos</h3>
+                <p>Chega de poluir a tela. Clima, Pomodoro, Calendário e Monitoramento de CPU vivem diretamente na sua barra.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 100% Local</h3>
+                <p>Nenhuma conta necessária. Sem servidores, sem telemetria. Seus dados nunca saem da sua máquina.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>GigaDock 2.0 &copy; 2026 - Criado por Giovane Ines</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
