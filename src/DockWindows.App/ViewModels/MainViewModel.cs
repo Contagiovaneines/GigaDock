@@ -158,6 +158,7 @@ public class MainViewModel : ObservableObject
         AbrirExploradorCommand = new RelayCommand(AbrirExplorador);
         AlternarVisibilidadeCommand = new RelayCommand(AlternarVisibilidade);
         SairCommand = new RelayCommand(() => SolicitarFechamento?.Invoke());
+        AbrirLixeiraCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "explorer.exe", Arguments = "shell:RecycleBinFolder", UseShellExecute = true }); } catch { } });
 
         _winKeyHookService.WinKeyTapped += () =>
         {
@@ -582,6 +583,21 @@ public class MainViewModel : ObservableObject
         }
     }
 
+    
+    public bool ExibirLixeira
+    {
+        get => _preferencias.ExibirLixeira;
+        set
+        {
+            if (_preferencias.ExibirLixeira != value)
+            {
+                _preferencias.ExibirLixeira = value;
+                OnPropertyChanged();
+                SalvarPreferencias();
+            }
+        }
+    }
+
     public bool ExibirClima
     {
         get => _preferencias.ExibirClima;
@@ -711,6 +727,7 @@ public class MainViewModel : ObservableObject
     public ICommand AbrirExploradorCommand { get; }
     public ICommand AlternarVisibilidadeCommand { get; }
     public ICommand SairCommand { get; }
+    public ICommand AbrirLixeiraCommand { get; }
 
     public Action? FocarBuscaLaunchpad;
     public Action? AtivarJanelaPrincipal;
@@ -884,6 +901,7 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         OnPropertyChanged(nameof(ExibirItensFixados));
         OnPropertyChanged(nameof(ExibirBotoesAcao));
         OnPropertyChanged(nameof(ExibirClima));
+        OnPropertyChanged(nameof(ExibirLixeira));
         OnPropertyChanged(nameof(DesativarAnimacoes));
         OnPropertyChanged(nameof(EspacamentoItens));
         OnPropertyChanged(nameof(MargemItem));

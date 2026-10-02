@@ -565,6 +565,20 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    
+    public bool ExibirLixeira
+    {
+        get => _mainVm.ExibirLixeira;
+        set
+        {
+            if (_mainVm.ExibirLixeira != value)
+            {
+                _mainVm.ExibirLixeira = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public bool ExibirClima
     {
         get => _mainVm.ExibirClima;
@@ -1580,6 +1594,7 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
 
 
 
