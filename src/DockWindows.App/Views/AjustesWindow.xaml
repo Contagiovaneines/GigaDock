@@ -16,7 +16,7 @@
         ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
-        <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
+                <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -24,9 +24,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
                         <StackPanel Orientation="Horizontal" Background="Transparent">
-                            <Grid Width="36" Height="20" VerticalAlignment="Center">
-                                <Border x:Name="BgBorder" CornerRadius="10" Background="#32323C" BorderBrush="#4A4A55" BorderThickness="1"/>
-                                <Border x:Name="Knob" Width="16" Height="16" CornerRadius="8" Background="#94A3B8" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0">
+                            <Grid Width="44" Height="24" VerticalAlignment="Center">
+                                <Border x:Name="BgBorder" CornerRadius="12" Background="#21212B" BorderBrush="#2C2C36" BorderThickness="1"/>
+                                <Border x:Name="Knob" Width="18" Height="18" CornerRadius="9" Background="#8E8E93" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0">
                                     <Border.RenderTransform>
                                         <TranslateTransform X="0" />
                                     </Border.RenderTransform>
@@ -42,7 +42,7 @@
                                 <Trigger.EnterActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="Knob" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="16" Duration="0:0:0.15">
+                                            <DoubleAnimation Storyboard.TargetName="Knob" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" To="20" Duration="0:0:0.15">
                                                 <DoubleAnimation.EasingFunction>
                                                     <CubicEase EasingMode="EaseOut"/>
                                                 </DoubleAnimation.EasingFunction>
@@ -383,17 +383,52 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <!-- 2. WIDGETS -->
+                                <!-- 2. WIDGETS -->
                 <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
-                    <TextBlock Text="Widgets" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <TextBlock Text="Widgets disponíveis no ambiente ativo" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,8"/>
-
-                    <Border Background="#202026" CornerRadius="6" Padding="4" Margin="0,0,0,10">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️ Subir" Command="{Binding MoverWidgetCimaCommand}" Margin="2,0"/>
-                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️ Descer" Command="{Binding MoverWidgetBaixoCommand}" Margin="2,0"/>
+                    <Grid Margin="0,0,0,16">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <Border Background="#0A84FF" CornerRadius="8" Padding="6,4" Margin="0,0,12,0">
+                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="16" Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="Widgets" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Text="Gerencie, reordene e personalize os widgets ativos exibidos na barra principal da dock." FontSize="12" Foreground="#8E8E93"/>
                         </StackPanel>
-                    </Border>
+                        <Border Background="#21212B" CornerRadius="12" Padding="12,6" HorizontalAlignment="Right" VerticalAlignment="Top" BorderBrush="#2C2C36" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="8" Height="8" Fill="#636366" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding WidgetsAmbiente.Count, StringFormat='{}{0} de 9 widgets ativos na dock'}" FontSize="11" FontWeight="Bold" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#111115" CornerRadius="8" Padding="12,8" BorderBrush="#1C1C22" BorderThickness="1" Margin="0,0,16,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="12" Foreground="#5C5C66" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Filtrar configurações de widgets..." FontSize="12" Foreground="#5C5C66" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Border Background="#0A84FF" CornerRadius="12" Padding="16,6" Margin="0,0,8,0">
+                                <TextBlock Text="Todos (9)" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF"/>
+                            </Border>
+                            <Border Background="#1C1C22" CornerRadius="12" Padding="16,6" Margin="0,0,8,0">
+                                <TextBlock Text="Ativos (6)" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
+                            </Border>
+                            <Border Background="#1C1C22" CornerRadius="12" Padding="16,6" Margin="0,0,8,0">
+                                <TextBlock Text="Sistema &amp; Produtividade (5)" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
+                            </Border>
+                            <Border Background="#1C1C22" CornerRadius="12" Padding="16,6">
+                                <TextBlock Text="Comunicação (4)" FontSize="11" FontWeight="Bold" Foreground="#8E8E93"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
 
                 <Grid Grid.Row="1" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
@@ -401,54 +436,101 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    
                     <ListBox Grid.Row="0" ItemsSource="{Binding WidgetsAmbiente}"
                              SelectedItem="{Binding WidgetSelecionado, Mode=TwoWay}"
-                             Background="Transparent" BorderThickness="0">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0,3"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <Border x:Name="Card" CornerRadius="8" Padding="10,8" Background="#202026" BorderBrush="#32323C" BorderThickness="1">
-                                            <ContentPresenter/>
+                             Background="Transparent" BorderThickness="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,0,0,8"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Card" CornerRadius="12" Padding="12,16" Background="#16161C" BorderBrush="#1C1C22" BorderThickness="1">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Card" Property="Background" Value="#1C1C24"/>
+                                                    <Setter TargetName="Card" Property="BorderBrush" Value="#252530"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Card" Property="Background" Value="#1A1A20"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:WidgetInstanceConfig}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Drag Handles & Icon -->
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE700;" FontSize="14" Foreground="#333340" Margin="0,0,0,4"/>
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE700;" FontSize="14" Foreground="#333340"/>
+                                    </StackPanel>
+                                    
+                                    <Border Grid.Column="1" Width="40" Height="40" CornerRadius="12" Background="#1C2E42" Margin="0,0,16,0" VerticalAlignment="Top">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" FontSize="18" Foreground="#4AA1FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+
+                                    <!-- Details -->
+                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                            <TextBlock Text="{Binding Nome}" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,8,0"/>
+                                            <Border Background="#252530" CornerRadius="4" Padding="6,2" Margin="0,0,6,0">
+                                                <TextBlock Text="Ultra-Preciso" FontSize="9" Foreground="#8E8E93"/>
+                                            </Border>
+                                            <Border Background="#252530" CornerRadius="4" Padding="6,2">
+                                                <TextBlock Text="DirectX 12" FontSize="9" Foreground="#8E8E93"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <TextBlock Text="Configurações avançadas deste widget (descrição simplificada)." FontSize="11" Foreground="#8E8E93" Margin="0,0,0,8"/>
+                                        <Border Background="#202026" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" BorderBrush="#2C2C36" BorderThickness="1">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Formato, StringFormat='Formato: {0}'}" FontSize="10" Foreground="#C8C8CE" VerticalAlignment="Center"/>
+                                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE70D;" FontSize="8" Foreground="#8E8E93" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                                            </StackPanel>
                                         </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="Card" Property="Background" Value="#2A2F3D"/>
-                                                <Setter TargetName="Card" Property="BorderBrush" Value="#0A84FF"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type models:WidgetInstanceConfig}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                    </StackPanel>
 
-                                <TextBlock Grid.Column="0" Text="🧩" FontSize="16" Margin="0,0,10,0" VerticalAlignment="Center"/>
-
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Nome}" FontSize="13" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                                    <TextBlock Text="{Binding Formato}" FontSize="11" Foreground="#8E8E93"/>
-                                </StackPanel>
-
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Grid.Column="2" IsChecked="{Binding Visivel}" VerticalAlignment="Center" ToolTip="Exibir na barra"
-                                          Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                          CommandParameter="{Binding}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button Grid.Row="1" Style="{StaticResource PrimaryButtonStyle}" Content="Adicionar Novo Widget" Command="{Binding AbrirLojaWidgetsCommand}" Margin="0,10,0,0"/>
+                                    <!-- Toggle -->
+                                    <CheckBox Style="{StaticResource ToggleSwitchStyle}" Grid.Column="3" IsChecked="{Binding Visivel}" VerticalAlignment="Center" Margin="16,0,0,0"
+                                              Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                              CommandParameter="{Binding}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                    <!-- Bottom Action Bar -->
+                    <Border Grid.Row="1" Background="#111115" BorderBrush="#1C1C22" BorderThickness="1" CornerRadius="12" Padding="16" Margin="0,16,0,0">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE777;" FontSize="12" Foreground="#8E8E93" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Restaurar ordem padrão" FontSize="11" Foreground="#8E8E93" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="+ Adicionar Novo Widget" Background="#1C1C22" Foreground="#FFFFFF" BorderBrush="#2C2C36" BorderThickness="1" FontSize="11" FontWeight="Bold" Padding="16,8" Margin="0,0,12,0" Command="{Binding AbrirLojaWidgetsCommand}" Cursor="Hand">
+                                    <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="16"/></Style></Button.Resources>
+                                </Button>
+                                <Button Content="Concluir e Fechar" Background="#0A84FF" Foreground="#FFFFFF" BorderThickness="0" FontSize="11" FontWeight="Bold" Padding="16,8" Cursor="Hand">
+                                    <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="16"/></Style></Button.Resources>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
 
                 <!-- 3. ESPAÇADORES -->
@@ -1277,6 +1359,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 
