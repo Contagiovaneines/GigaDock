@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using DockWindows.Core.Models;
 
 namespace DockWindows.App.Views;
@@ -14,12 +15,12 @@ public partial class LojaWidgetsWindow : Window
     public TipoWidget? WidgetParaRemover { get; private set; }
     public bool Removeu { get; private set; }
 
-    private readonly List<TipoWidget> _tiposJaAdicionados;
+    private readonly List<WidgetInstanceConfig> _widgetsInstalados;
 
-    public LojaWidgetsWindow(IEnumerable<TipoWidget>? tiposJaAdicionados = null)
+    public LojaWidgetsWindow(IEnumerable<WidgetInstanceConfig>? widgetsInstalados = null)
     {
         InitializeComponent();
-        _tiposJaAdicionados = tiposJaAdicionados?.ToList() ?? new List<TipoWidget>();
+        _widgetsInstalados = widgetsInstalados?.ToList() ?? new List<WidgetInstanceConfig>();
         CarregarLoja();
     }
 
@@ -27,90 +28,53 @@ public partial class LojaWidgetsWindow : Window
     {
         var catalogo = new List<ItemLoja>
         {
-            new ItemLoja { 
-                Tipo = TipoWidget.Relogio, 
-                Nome = "Relógio Digital", 
-                Icone = "🕒", 
-                Descricao = "Um relógio limpo com horas, minutos e segundos. Mostra a data completa quando expandido." 
-            },
-            new ItemLoja { 
-                Tipo = TipoWidget.Pomodoro, 
-                Nome = "Pomodoro de Foco", 
-                Icone = "🍅", 
-                Descricao = "Cronômetro para técnica Pomodoro. Foque por 25 minutos e descanse por 5." 
-            },
-            new ItemLoja { 
-                Tipo = TipoWidget.CalendarioCompromissos, 
-                Nome = "Calendário e Agenda", 
-                Icone = "📅", 
-                Descricao = "Mostra seus próximos eventos do dia (suporta sincronização via .ics/iCal)." 
-            },
-            new ItemLoja { 
-                Tipo = TipoWidget.Notas, 
-                Nome = "Bloco de Notas", 
-                Icone = "📝", 
-                Descricao = "Escreva lembretes rápidos ou anotações diretamente na barra." 
-            },
-                        new ItemLoja { 
-                Tipo = TipoWidget.MonitorSistema, 
-                Nome = "Monitor de Sistema", 
-                Icone = "🖥️", 
-                Descricao = "Acompanhe o uso de CPU e RAM em tempo real sem abrir o gerenciador de tarefas." 
-            },
-            new ItemLoja { 
-                Tipo = TipoWidget.GitHubContribuicoes, 
-                Nome = "Contribuições do GitHub", 
-                Icone = "🐙", 
-                Descricao = "Acompanhe seu gráfico de contribuições diárias do GitHub direto da sua barra." 
-            },
-                        new ItemLoja { Tipo = TipoWidget.Clima, Nome = "Clima e Tempo", Icone = "⛅", Descricao = "Previsão do tempo atual e temperatura." },
-            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Nome = "WhatsApp", Icone = "💬", Descricao = "Notificações do WhatsApp não lidas." },
-            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Nome = "Microsoft Teams", Icone = "👨‍💻", Descricao = "Status de reunião do Teams." },
-            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Nome = "Discord", Icone = "🎮", Descricao = "Status de voz do Discord." },
-            new ItemLoja { 
-                Tipo = TipoWidget.CotacaoMoedas, 
-                Nome = "Cotação Financeira (Em Breve)", 
-                Icone = "📈", 
-                Descricao = "Veja o preço do Dólar, Euro ou Bitcoin piscando em tempo real na sua Dock." 
-            }
+            new ItemLoja { Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Compacto, Nome = "Relógio", DescricaoFormato = "Apenas Ícone", Icone = "🕒" },
+            new ItemLoja { Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Expandido, Nome = "Relógio", DescricaoFormato = "Hora e Data", Icone = "🕒" },
+            
+            new ItemLoja { Tipo = TipoWidget.Clima, Formato = FormatoWidget.Compacto, Nome = "Clima", DescricaoFormato = "Ícone e Temp", Icone = "⛅" },
+            new ItemLoja { Tipo = TipoWidget.Clima, Formato = FormatoWidget.Expandido, Nome = "Clima", DescricaoFormato = "Detalhado com Local", Icone = "⛅" },
+
+            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Compacto, Nome = "WhatsApp", DescricaoFormato = "Apenas Ícone", Icone = "💬" },
+            new ItemLoja { Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Expandido, Nome = "WhatsApp", DescricaoFormato = "Última Mensagem", Icone = "💬" },
+
+            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Compacto, Nome = "Teams", DescricaoFormato = "Apenas Ícone", Icone = "👨‍💻" },
+            new ItemLoja { Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Expandido, Nome = "Teams", DescricaoFormato = "Status Detalhado", Icone = "👨‍💻" },
+
+            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Compacto, Nome = "Discord", DescricaoFormato = "Apenas Ícone", Icone = "🎮" },
+            new ItemLoja { Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Expandido, Nome = "Discord", DescricaoFormato = "Sala de Voz", Icone = "🎮" },
+
+            new ItemLoja { Tipo = TipoWidget.Pomodoro, Formato = FormatoWidget.Expandido, Nome = "Pomodoro", DescricaoFormato = "Cronômetro Visual", Icone = "🍅" },
+            new ItemLoja { Tipo = TipoWidget.CalendarioCompromissos, Formato = FormatoWidget.Expandido, Nome = "Calendário", DescricaoFormato = "Próximo Evento", Icone = "📅" },
+            new ItemLoja { Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub", DescricaoFormato = "Gráfico de Commits", Icone = "🐙" },
+            new ItemLoja { Tipo = TipoWidget.MonitorSistema, Formato = FormatoWidget.Expandido, Nome = "Monitor", DescricaoFormato = "CPU e RAM", Icone = "🖥️" },
+            new ItemLoja { Tipo = TipoWidget.Notas, Formato = FormatoWidget.Compacto, Nome = "Notas", DescricaoFormato = "Acesso Rápido", Icone = "📝" }
         };
 
-        // Marca quais já estão adicionados
         foreach (var item in catalogo)
         {
-            item.JaAdicionado = _tiposJaAdicionados.Contains(item.Tipo);
+            var jaTem = _widgetsInstalados.FirstOrDefault(w => w.Tipo == item.Tipo);
+            if (jaTem != null)
+            {
+                item.JaAdicionado = true;
+                item.FormatoAtivo = jaTem.Formato == item.Formato;
+            }
         }
 
-        ListaLoja.ItemsSource = catalogo;
+        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(catalogo);
+        view.GroupDescriptions.Add(new PropertyGroupDescription("Nome"));
+        ListaLoja.ItemsSource = view;
     }
 
     private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button btn && btn.Tag is ItemLoja item)
         {
-            if (item.Nome.Contains("Em Breve"))
-            {
-                MessageBox.Show(this, "Este widget ainda está em desenvolvimento e será adicionado numa atualização futura! Fique de olho.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            if (item.JaAdicionado)
-            {
-                // Remover
-                WidgetParaRemover = item.Tipo;
-                Removeu = true;
-                DialogResult = true;
-                Close();
-                return;
-            }
-
-            // Adicionar
             WidgetSelecionado = new WidgetInstanceConfig
             {
                 Id = "wgt-" + Guid.NewGuid().ToString().Substring(0, 8),
                 Tipo = item.Tipo,
-                Nome = item.Nome.Replace(" (Em Breve)", ""),
-                Formato = FormatoWidget.Compacto,
+                Nome = item.Nome,
+                Formato = item.Formato,
                 Visivel = true,
                 Ordem = 99
             };
@@ -124,14 +88,16 @@ public partial class LojaWidgetsWindow : Window
 public class ItemLoja
 {
     public TipoWidget Tipo { get; set; }
+    public FormatoWidget Formato { get; set; }
     public string Nome { get; set; } = string.Empty;
+    public string DescricaoFormato { get; set; } = string.Empty;
     public string Icone { get; set; } = string.Empty;
-    public string Descricao { get; set; } = string.Empty;
     public bool JaAdicionado { get; set; }
-    public string TextoBotao => JaAdicionado ? "Remover" : "Adicionar";
-    public string CorBotao => JaAdicionado ? "#EF4444" : "#0A84FF";
+    public bool FormatoAtivo { get; set; }
+    
+    // UI Helpers
+    public string TextoBotao => JaAdicionado && FormatoAtivo ? "Instalado" : (JaAdicionado ? "Trocar Formato" : "Adicionar");
+    public string CorBotao => JaAdicionado && FormatoAtivo ? "#1DB954" : "#0A84FF";
+    public double LarguraCard => Formato == FormatoWidget.Compacto ? 120 : 260;
 }
-
-
-
 

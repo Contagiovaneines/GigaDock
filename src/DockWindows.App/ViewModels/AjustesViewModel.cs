@@ -1312,7 +1312,7 @@ public class AjustesViewModel : ObservableObject
         
         // Passa os tipos já instalados para a loja saber o que mostrar como "Remover"
         var tiposJaInstalados = WidgetsAmbiente.Select(w => w.Tipo).ToList();
-        var janelaLoja = new Views.LojaWidgetsWindow(tiposJaInstalados);
+        var janelaLoja = new Views.LojaWidgetsWindow(WidgetsAmbiente.ToList());
         janelaLoja.Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(w => w.GetType().Name == "AjustesWindow") ?? System.Windows.Application.Current.MainWindow;
         janelaLoja.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
         if (janelaLoja.ShowDialog() == true)
@@ -1566,6 +1566,9 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
+
+
 
 
 
