@@ -341,7 +341,7 @@
                                 </Button>
                                 
                                 <Button Command="{Binding SairCommand}"
-                                        ToolTip="Encerrar o Dock Windows e restaurar o sistema"
+                                        ToolTip="Encerrar o GigaDock e restaurar o sistema"
                                         Padding="8,5"
                                         Background="#25EF4444" Foreground="#FCA5A5" FontSize="11" FontWeight="SemiBold"
                                         BorderThickness="0" Cursor="Hand">
@@ -451,6 +451,7 @@
         </Button>
     </StackPanel>
 </UserControl>
+
 
 
 

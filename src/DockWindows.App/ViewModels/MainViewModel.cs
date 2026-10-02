@@ -84,6 +84,7 @@ public class MainViewModel : ObservableObject
         Midia = new MidiaWidgetViewModel(() => _preferencias.AbrirPlayerAoDuploClique);
         Notas = new NotasWidgetViewModel();
         MonitorSistema = new MonitorSistemaViewModel();
+        GitHub = new GitHubWidgetViewModel();
         Clima = new ClimaWidgetViewModel();
 
         TrocarAmbienteCommand = new RelayCommand<EnvironmentViewModel>(TrocarAmbiente);
@@ -157,6 +158,7 @@ public class MainViewModel : ObservableObject
     public MidiaWidgetViewModel Midia { get; }
     public NotasWidgetViewModel Notas { get; }
     public MonitorSistemaViewModel MonitorSistema { get; }
+    public GitHubWidgetViewModel GitHub { get; }
     public ClimaWidgetViewModel Clima { get; }
     public ITaskbarService TaskbarService => _taskbarService;
     public IWindowTrackingService WindowTrackingService => _windowTrackingService;
@@ -1582,6 +1584,8 @@ public class LaunchpadItemModel
     public bool EstaAtivo { get; set; }
     public string Categoria { get; set; } = "Aplicativos";
 }
+
+
 
 
 

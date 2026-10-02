@@ -9,5 +9,6 @@ public enum TipoSecaoDock
     RelogioControles = 4,
     Colecoes = 5,
     MidiaInline = 6,
-    ClimaInline = 7
+    ClimaInline = 7,
+    GitHubInline = 8
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -41,8 +41,8 @@ public partial class MainWindow : Window
     {
         if (_modoDesinstalacao)
         {
-            Title = "Desinstalador do Dock Windows";
-            TxtTituloCabecalho.Text = "Dock Windows — Assistente de Desinstalação";
+            Title = "Desinstalador do GigaDock";
+            TxtTituloCabecalho.Text = "GigaDock — Assistente de Desinstalação";
             TxtSubtituloCabecalho.Text = "Remoção segura e restauração do Windows";
 
             PanelOpcoesInstalacao.Visibility = Visibility.Collapsed;
@@ -63,22 +63,22 @@ public partial class MainWindow : Window
                 TxtCaminhoDestino.Text = _pastaInstalacao;
                 ChkIniciarComWindows.IsChecked = iniciaComWindows;
 
-                Title = "Atualizador do Dock Windows";
-                TxtTituloCabecalho.Text = "Dock Windows — Assistente de Atualização";
+                Title = "Atualizador do GigaDock";
+                TxtTituloCabecalho.Text = "GigaDock — Assistente de Atualização";
                 TxtSubtituloCabecalho.Text = $"Versão {versaoInstalada} detectada -> Atualizar para {InstallService.CurrentVersion}";
 
                 TxtTituloAcao.Text = "Atualização do Aplicativo";
-                TxtDescricaoAcao.Text = "Uma instalação anterior do Dock Windows foi detectada. Seus ambientes, atalhos e preferências serão totalmente preservados.";
+                TxtDescricaoAcao.Text = "Uma instalação anterior do GigaDock foi detectada. Seus ambientes, atalhos e preferências serão totalmente preservados.";
                 BtnAcaoPrincipal.Content = "Atualizar Agora";
             }
             else
             {
-                Title = "Instalador do Dock Windows";
-                TxtTituloCabecalho.Text = "Dock Windows — Assistente de Instalação";
+                Title = "Instalador do GigaDock";
+                TxtTituloCabecalho.Text = "GigaDock — Assistente de Instalação";
                 TxtSubtituloCabecalho.Text = $"Versão {InstallService.CurrentVersion} (Windows 10/11 x64)";
 
                 TxtTituloAcao.Text = "Instalação do Aplicativo";
-                TxtDescricaoAcao.Text = "O Dock Windows será instalado localmente no perfil do seu usuário sem exigir privilégios de administrador.";
+                TxtDescricaoAcao.Text = "O GigaDock será instalado localmente no perfil do seu usuário sem exigir privilégios de administrador.";
                 BtnAcaoPrincipal.Content = "Instalar";
             }
 
@@ -168,7 +168,7 @@ public partial class MainWindow : Window
             if (foiAtualizacao)
             {
                 TxtTituloConcluido.Text = "Atualização Concluída com Sucesso!";
-                TxtSubtituloConcluido.Text = "O Dock Windows foi atualizado para a versão 1.4.0 com todas as suas preferências preservadas.";
+                TxtSubtituloConcluido.Text = "O GigaDock foi atualizado para a versão 1.4.0 com todas as suas preferências preservadas.";
             }
 
             BtnAcaoPrincipal.Content = "Concluir";
@@ -194,7 +194,7 @@ public partial class MainWindow : Window
     private async Task ExecutarDesinstalacaoAsync()
     {
         var resultado = MessageBox.Show(this,
-            "Deseja realmente prosseguir com a desinstalação do Dock Windows?",
+            "Deseja realmente prosseguir com a desinstalação do GigaDock?",
             "Confirmar Desinstalação",
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
@@ -227,7 +227,7 @@ public partial class MainWindow : Window
 
         if (sucesso)
         {
-            MessageBox.Show(this, "Dock Windows foi desinstalado com sucesso do seu computador.\nA barra de tarefas nativa do Windows foi restaurada.", "Desinstalação Concluída", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(this, "GigaDock foi desinstalado com sucesso do seu computador.\nA barra de tarefas nativa do Windows foi restaurada.", "Desinstalação Concluída", MessageBoxButton.OK, MessageBoxImage.Information);
             Close();
         }
         else
@@ -242,3 +242,4 @@ public partial class MainWindow : Window
         Close();
     }
 }
+

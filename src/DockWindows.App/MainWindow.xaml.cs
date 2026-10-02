@@ -36,6 +36,7 @@ public partial class MainWindow : Window
     private Views.Sections.SectionRelogioControles? _secRelogioControles;
     private Views.Sections.SectionMidiaInline? _secMidiaInline;
     private Views.Sections.SectionClimaInline? _secClimaInline;
+    private Views.Sections.SectionGitHubInline? _secGitHubInline;
 
     public MainWindow()
     {
@@ -383,6 +384,7 @@ public partial class MainWindow : Window
         _secRelogioControles ??= new Views.Sections.SectionRelogioControles();
         _secMidiaInline ??= new Views.Sections.SectionMidiaInline();
         _secClimaInline ??= new Views.Sections.SectionClimaInline();
+        _secGitHubInline ??= new Views.Sections.SectionGitHubInline();
 
         var secoesOrdenadas = _viewModel.OrdemSecoes.OrderBy(s => s.Ordem).ToList();
         bool primeiroAdicionado = false;
@@ -402,6 +404,7 @@ public partial class MainWindow : Window
                 TipoSecaoDock.RelogioControles => _secRelogioControles,
                 TipoSecaoDock.MidiaInline => _secMidiaInline,
                 TipoSecaoDock.ClimaInline => _secClimaInline,
+                TipoSecaoDock.GitHubInline => _secGitHubInline,
                 _ => null
             };
 
@@ -605,3 +608,4 @@ public partial class MainWindow : Window
         _viewModel.SalvarPreferencias();
     }
 }
+

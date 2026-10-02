@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:DockWindows.App.Converters"
         xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
-        Title="Dock Windows"
+        Title="GigaDock"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -165,7 +165,7 @@
                     <MenuItem Header="⚙️ Ajustes e Personalização..." Command="{Binding AbrirAjustesCommand}" FontWeight="Bold"/>
                     <MenuItem Header="🔄 Restaurar Barra do Windows" Command="{Binding RestaurarBarraWindowsCommand}"/>
                     <Separator Background="#33333A"/>
-                    <MenuItem Header="🚪 Sair do Dock Windows" Command="{Binding SairCommand}"/>
+                    <MenuItem Header="🚪 Sair do GigaDock" Command="{Binding SairCommand}"/>
                 </ContextMenu>
             </Border.ContextMenu>
             <Border.Effect>
@@ -209,6 +209,8 @@
 
     </Grid>
 </Window>
+
+
 
 
 

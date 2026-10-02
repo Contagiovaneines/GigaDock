@@ -1,0 +1,98 @@
+<UserControl x:Class="DockWindows.App.Views.Sections.SectionGitHubInline"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:DockWindows.App.Converters"
+             Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
+             Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
+    
+    <Grid>
+        <!-- Botão Compacto na Barra -->
+        <Border CornerRadius="10" Padding="8,4" Background="#18FFFFFF" Cursor="Hand"
+                MouseLeftButtonDown="AbrirPainel_Click" ToolTip="Contribuições do GitHub">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE774;" FontSize="13" 
+                           VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#39D353"/>
+                <TextBlock Text="{Binding GitHub.TextoResumo}" FontSize="11" Foreground="#DDDDDD" 
+                           VerticalAlignment="Center" FontWeight="SemiBold"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Painel Popup com Gráfico de Contribuições -->
+        <Popup x:Name="PopupGitHub" IsOpen="{Binding GitHub.PainelAberto, Mode=TwoWay}" 
+               StaysOpen="False" Placement="Top" VerticalOffset="-8"
+               AllowsTransparency="True" PopupAnimation="Fade">
+            <Border Background="#0D1117" BorderBrush="#30363D" BorderThickness="1" 
+                    CornerRadius="12" Width="340" Padding="14">
+                <StackPanel>
+                    <!-- Header -->
+                    <Grid Margin="0,0,0,10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE774;" FontSize="16" 
+                                       Foreground="#39D353" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock FontSize="14" FontWeight="Bold" Foreground="#C9D1D9" VerticalAlignment="Center">
+                                <Run Text="{Binding GitHub.NomeUsuario, Mode=OneWay}"/>
+                            </TextBlock>
+                        </StackPanel>
+                        <TextBlock HorizontalAlignment="Right" FontSize="11" Foreground="#8B949E" VerticalAlignment="Center"
+                                   Text="{Binding GitHub.TotalContribuicoes, StringFormat='{}{0} contribuições'}"/>
+                    </Grid>
+                    
+                    <!-- Grid de Contribuições (mini heatmap) -->
+                    <Border Background="#010409" CornerRadius="6" Padding="6" Margin="0,0,0,10">
+                        <ItemsControl ItemsSource="{Binding GitHub.Contribuicoes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="13" Rows="7"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="10" Height="10" CornerRadius="2" Margin="1"
+                                            Background="{Binding Cor}"
+                                            ToolTip="{Binding Data, StringFormat='dd/MM/yyyy'}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                    
+                    <!-- Legenda -->
+                    <Grid Margin="0,0,0,8">
+                        <TextBlock FontSize="9" Foreground="#484F58" Text="Menos" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Border Width="10" Height="10" CornerRadius="2" Margin="2,0" Background="#161B22"/>
+                            <Border Width="10" Height="10" CornerRadius="2" Margin="2,0" Background="#0E4429"/>
+                            <Border Width="10" Height="10" CornerRadius="2" Margin="2,0" Background="#006D32"/>
+                            <Border Width="10" Height="10" CornerRadius="2" Margin="2,0" Background="#26A641"/>
+                            <Border Width="10" Height="10" CornerRadius="2" Margin="2,0" Background="#39D353"/>
+                        </StackPanel>
+                        <TextBlock FontSize="9" Foreground="#484F58" Text="Mais" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+                    
+                    <!-- Botão Abrir Perfil -->
+                    <Button Command="{Binding GitHub.AbrirPerfilCommand}" Cursor="Hand"
+                            Background="#21262D" Foreground="#C9D1D9" BorderThickness="1" BorderBrush="#30363D"
+                            Padding="8,5" HorizontalAlignment="Stretch" FontSize="11" FontWeight="SemiBold">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="6" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        Padding="{TemplateBinding Padding}">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE774;" FontSize="12" 
+                                                   VerticalAlignment="Center" Margin="0,0,6,0" Foreground="#C9D1D9"/>
+                                        <TextBlock Text="Abrir Perfil no GitHub" VerticalAlignment="Center" Foreground="#C9D1D9"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#30363D"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

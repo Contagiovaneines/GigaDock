@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -117,7 +117,7 @@ public class AjustesViewModel : ObservableObject
     public Action<string, string>? MostrarAlerta { get; set; }
     public Func<string, string, bool>? ConfirmarAcao { get; set; }
 
-    public string AppNome => "Dock Windows";
+    public string AppNome => "GigaDock";
     public string AppVersao => "1.4.0";
     public EnvironmentViewModel? AmbienteAtivo => _mainVm.AmbienteAtivo;
 
@@ -1260,6 +1260,7 @@ public class AjustesViewModel : ObservableObject
             if (wgt.Tipo == TipoWidget.CalendarioCompromissos) _mainVm.Calendario.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.Notas) _mainVm.Notas.Habilitado = wgt.Visivel;
             if (wgt.Tipo == TipoWidget.MonitorSistema) _mainVm.MonitorSistema.Habilitado = wgt.Visivel;
+            if (wgt.Tipo == TipoWidget.GitHubContribuicoes) _mainVm.GitHub.Habilitado = wgt.Visivel;
             
             _mainVm.AtualizarCoresTema(); // Update visibility states in UI
             _mainVm.SalvarPreferencias();
@@ -1443,7 +1444,7 @@ public class AjustesViewModel : ObservableObject
     {
         var dlg = new SaveFileDialog
         {
-            Title = "Exportar Configurações do Dock Windows",
+            Title = "Exportar Configurações do GigaDock",
             Filter = "Arquivo JSON (*.json)|*.json",
             FileName = $"dockwindows-backup-{DateTime.Now:yyyyMMdd-HHmm}.json"
         };
@@ -1467,7 +1468,7 @@ public class AjustesViewModel : ObservableObject
     {
         var dlg = new OpenFileDialog
         {
-            Title = "Importar Configurações do Dock Windows",
+            Title = "Importar Configurações do GigaDock",
             Filter = "Arquivo JSON (*.json)|*.json",
             CheckFileExists = true
         };
@@ -1491,7 +1492,7 @@ public class AjustesViewModel : ObservableObject
                 }
                 else
                 {
-                    MostrarAlerta?.Invoke("Arquivo Inválido", "O arquivo JSON selecionado não contém uma configuração válida do Dock Windows.");
+                    MostrarAlerta?.Invoke("Arquivo Inválido", "O arquivo JSON selecionado não contém uma configuração válida do GigaDock.");
                 }
             }
             catch (Exception ex)
@@ -1542,6 +1543,9 @@ public class AjustesViewModel : ObservableObject
         catch { }
     }
 }
+
+
+
 
 
 

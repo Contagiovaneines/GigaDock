@@ -12,7 +12,7 @@ namespace DockWindows.Installer.Services;
 
 public class InstallService
 {
-    public const string AppName = "Dock Windows";
+    public const string AppName = "GigaDock";
     public const string AppExeName = "DockWindows.App.exe";
     public const string CurrentVersion = "1.6.0";
     private const string RegUninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\DockWindows";
@@ -140,8 +140,8 @@ public class InstallService
                 catch { }
             }
 
-            // 2. Encerrar instâncias ativas do Dock Windows de forma controlada
-            notificarProgresso("Encerrando instâncias em execução do Dock Windows...");
+            // 2. Encerrar instâncias ativas do GigaDock de forma controlada
+            notificarProgresso("Encerrando instâncias em execução do GigaDock...");
             FecharProcessosDock(pastaDestino);
 
             // 3. Preparar diretório e extrair arquivos (substituição limpa)
@@ -170,7 +170,7 @@ public class InstallService
                 notificarProgresso("Configurando atalho no Menu Iniciar...");
                 var menuIniciar = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
                 var atalhoStart = Path.Combine(menuIniciar, $"{AppName}.lnk");
-                ShortcutService.CriarAtalho(atalhoStart, exePrincipal, pastaDestino, "Dock Windows — Barra de produtividade e ambientes");
+                ShortcutService.CriarAtalho(atalhoStart, exePrincipal, pastaDestino, "GigaDock — Barra de produtividade e ambientes");
             }
 
             if (criarAtalhoDesktop)
@@ -178,7 +178,7 @@ public class InstallService
                 notificarProgresso("Configurando atalho na Área de Trabalho...");
                 var desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 var atalhoDesk = Path.Combine(desktop, $"{AppName}.lnk");
-                ShortcutService.CriarAtalho(atalhoDesk, exePrincipal, pastaDestino, "Dock Windows — Barra de produtividade e ambientes");
+                ShortcutService.CriarAtalho(atalhoDesk, exePrincipal, pastaDestino, "GigaDock — Barra de produtividade e ambientes");
             }
 
             // 6. Atualizar registro de inicialização automática
@@ -198,7 +198,7 @@ public class InstallService
                 prefs.UsarComoBarraPrincipal = true;
                 prefs.EstiloTema = EstiloTema.VidroLiquido;
 
-                notificarProgresso("Ocultando barra nativa do Windows para o Dock Windows...");
+                notificarProgresso("Ocultando barra nativa do Windows para o GigaDock...");
                 var taskbarService = new Win32TaskbarService();
                 if (taskbarService.OcultarBarraNativa(out var estadoAnt))
                 {
@@ -208,7 +208,7 @@ public class InstallService
             }
             catch { }
 
-            notificarProgresso(ehAtualizacao ? "Dock Windows atualizado com sucesso!" : "Instalação concluída com sucesso!");
+            notificarProgresso(ehAtualizacao ? "GigaDock atualizado com sucesso!" : "Instalação concluída com sucesso!");
             return true;
         }
         catch (Exception ex)
@@ -223,7 +223,7 @@ public class InstallService
     {
         try
         {
-            notificarProgresso("Encerrando instâncias ativas do Dock Windows...");
+            notificarProgresso("Encerrando instâncias ativas do GigaDock...");
             FecharProcessosDock();
 
             // 1. Restaurar imediatamente a barra de tarefas do Windows se estiver oculta
@@ -276,7 +276,7 @@ public class InstallService
                 AgendarExclusaoPasta(pastaApp);
             }
 
-            notificarProgresso("Dock Windows foi desinstalado com sucesso!");
+            notificarProgresso("GigaDock foi desinstalado com sucesso!");
             return true;
         }
         catch (Exception ex)
@@ -339,7 +339,7 @@ public class InstallService
             }
         }
 
-        throw new FileNotFoundException("Arquivos do aplicativo Dock Windows não foram encontrados para instalação.");
+        throw new FileNotFoundException("Arquivos do aplicativo GigaDock não foram encontrados para instalação.");
     }
 
     private static void ExtrairArquivoComRetry(ZipArchiveEntry entry, string destinoArquivo, int maxTentativas = 6)
@@ -520,7 +520,7 @@ public class InstallService
                 var desinstalador = Path.Combine(pastaDestino, "Uninstall.exe");
                 key.SetValue("DisplayName", AppName);
                 key.SetValue("DisplayVersion", CurrentVersion);
-                key.SetValue("Publisher", "Dock Windows");
+                key.SetValue("Publisher", "GigaDock");
                 key.SetValue("InstallLocation", pastaDestino);
                 key.SetValue("UninstallString", $"\"{desinstalador}\" --uninstall");
                 key.SetValue("DisplayIcon", $"\"{exePrincipal}\",0");
@@ -558,5 +558,6 @@ public class InstallService
         catch { }
     }
 }
+
 
 

@@ -1,9 +1,9 @@
-<Window x:Class="DockWindows.App.Views.SettingsWindow"
+﻿<Window x:Class="DockWindows.App.Views.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core"
         xmlns:conv="clr-namespace:DockWindows.App.Converters"
-        Title="Dock Windows — Configurações"
+        Title="GigaDock — Configurações"
         Width="580"
         Height="520"
         WindowStartupLocation="CenterScreen"
@@ -93,7 +93,7 @@
                             </StackPanel>
                         </Border>
 
-                        <CheckBox Content="Iniciar o Dock Windows automaticamente com o Windows"
+                        <CheckBox Content="Iniciar o GigaDock automaticamente com o Windows"
                                   IsChecked="{Binding IniciarComWindows, Mode=TwoWay}"/>
                         <TextBlock Text="Registra na inicialização do usuário (HKCU) sem exigir permissões de administrador."
                                    FontSize="11" Foreground="#8E8E93" Margin="24,0,0,10"/>
@@ -210,7 +210,7 @@
             <!-- ABA SOBRE -->
             <TabItem Header="ℹ️ Sobre">
                 <StackPanel Margin="10,16,10,10">
-                    <TextBlock Text="Dock Windows 1.0" FontSize="16" FontWeight="Bold" Foreground="#0A84FF"/>
+                    <TextBlock Text="GigaDock 1.0" FontSize="16" FontWeight="Bold" Foreground="#0A84FF"/>
                     <TextBlock Text="Aplicativo desktop original para Windows 10 e 11 com barra flutuante e ambientes independentes."
                                TextWrapping="Wrap" Margin="0,6,0,12" FontSize="13" Foreground="#C8C8CE"/>
 
@@ -255,3 +255,4 @@
         </Grid>
     </Grid>
 </Window>
+

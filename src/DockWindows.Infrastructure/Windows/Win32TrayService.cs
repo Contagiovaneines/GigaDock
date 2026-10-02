@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
 namespace DockWindows.Infrastructure.Windows;
@@ -54,7 +54,7 @@ public class Win32TrayService : IDisposable
     public event Action? DuploClique;
     public event Action? CliqueDireito;
 
-    public Win32TrayService(IntPtr hwnd, string dica = "Dock Windows")
+    public Win32TrayService(IntPtr hwnd, string dica = "GigaDock")
     {
         _hwnd = hwnd;
         if (_hwnd != IntPtr.Zero)
@@ -138,3 +138,4 @@ public class Win32TrayService : IDisposable
         GC.SuppressFinalize(this);
     }
 }
+

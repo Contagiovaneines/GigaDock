@@ -1,7 +1,7 @@
-<Window x:Class="DockWindows.Installer.MainWindow"
+﻿<Window x:Class="DockWindows.Installer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Instalador do Dock Windows"
+        Title="Instalador do GigaDock"
         Width="580"
         Height="450"
         WindowStartupLocation="CenterScreen"
@@ -48,7 +48,7 @@
                 </Border>
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock x:Name="TxtTituloCabecalho" Text="Dock Windows — Assistente de Instalação" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    <TextBlock x:Name="TxtTituloCabecalho" Text="GigaDock — Assistente de Instalação" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                     <TextBlock x:Name="TxtSubtituloCabecalho" Text="Versão 1.4.0 (Windows 10/11 x64)" FontSize="12" Foreground="#8E8E93" Margin="0,2,0,0"/>
                 </StackPanel>
             </Grid>
@@ -59,7 +59,7 @@
             <!-- 1. MODO INSTALAÇÃO: ETAPA INICIAL (OPÇÕES) -->
             <StackPanel x:Name="PanelOpcoesInstalacao" Visibility="Visible">
                 <TextBlock x:Name="TxtTituloAcao" Text="Instalação do Aplicativo" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#0A84FF"/>
-                <TextBlock x:Name="TxtDescricaoAcao" Text="O Dock Windows será instalado localmente no perfil do seu usuário sem exigir privilégios de administrador."
+                <TextBlock x:Name="TxtDescricaoAcao" Text="O GigaDock será instalado localmente no perfil do seu usuário sem exigir privilégios de administrador."
                            TextWrapping="Wrap" FontSize="12" Foreground="#C8C8CE" Margin="0,0,0,12"/>
 
                 <!-- Pasta de Instalação -->
@@ -98,16 +98,16 @@
                     <TextBlock Text="✓" FontSize="26" FontWeight="Bold" Foreground="#30D158" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
                 <TextBlock x:Name="TxtTituloConcluido" Text="Instalação Concluída com Sucesso!" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8"/>
-                <TextBlock x:Name="TxtSubtituloConcluido" Text="O Dock Windows já está pronto para uso com os ambientes Trabalho, Estudos e Pessoal."
+                <TextBlock x:Name="TxtSubtituloConcluido" Text="O GigaDock já está pronto para uso com os ambientes Trabalho, Estudos e Pessoal."
                            FontSize="12" Foreground="#8E8E93" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,0,0,16"/>
 
-                <CheckBox x:Name="ChkExecutarAgora" Content="Executar o Dock Windows agora" IsChecked="True" HorizontalAlignment="Center"/>
+                <CheckBox x:Name="ChkExecutarAgora" Content="Executar o GigaDock agora" IsChecked="True" HorizontalAlignment="Center"/>
             </StackPanel>
 
             <!-- 4. MODO DESINSTALAÇÃO: CONFIRMAÇÃO -->
             <StackPanel x:Name="PanelDesinstalacao" Visibility="Collapsed">
                 <TextBlock Text="Desinstalação do Aplicativo" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#FF453A"/>
-                <TextBlock Text="Esta operação removerá o Dock Windows e todos os seus atalhos deste computador."
+                <TextBlock Text="Esta operação removerá o GigaDock e todos os seus atalhos deste computador."
                            TextWrapping="Wrap" FontSize="12" Foreground="#C8C8CE" Margin="0,0,0,14"/>
 
                 <!-- Card de Segurança da Barra de Tarefas -->
@@ -138,3 +138,4 @@
         </Border>
     </Grid>
 </Window>
+

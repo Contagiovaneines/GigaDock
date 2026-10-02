@@ -4,7 +4,7 @@
         xmlns:conv="clr-namespace:DockWindows.App.Converters"
         xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core"
         xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
-        Title="Dock Windows — Ajustes e Configurações"
+        Title="GigaDock — Ajustes e Configurações"
         Width="1080"
         Height="720"
         MinWidth="960"
@@ -217,7 +217,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Cabeçalho: Identidade do Dock Windows e Ambiente Ativo -->
+                <!-- Cabeçalho: Identidade do GigaDock e Ambiente Ativo -->
                 <Border Grid.Row="0" Padding="14,16,14,14" BorderBrush="#26262C" BorderThickness="0,0,0,1">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -225,7 +225,7 @@
                                 <TextBlock Text="🚀" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
-                                <TextBlock Text="Dock Windows" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                <TextBlock Text="GigaDock" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
                                 <TextBlock Text="Versão 1.6.0" FontSize="11" Foreground="#8E8E93"/>
                             </StackPanel>
                         </StackPanel>
@@ -630,7 +630,7 @@
                 <StackPanel Grid.Row="1" Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
                     <Border CornerRadius="8" Padding="12" Background="#202026" BorderBrush="#32323C" BorderThickness="1">
                         <StackPanel>
-                            <TextBlock Text="Dock Windows 2.0.0" FontSize="14" FontWeight="Bold" Foreground="#0A84FF"/>
+                            <TextBlock Text="GigaDock 2.0.0" FontSize="14" FontWeight="Bold" Foreground="#0A84FF"/>
                             <TextBlock Text="Aplicativo desktop nativo para Windows 10 e 11." FontSize="11" Foreground="#C8C8CE" Margin="0,4,0,0"/>
                             <TextBlock Text="100% local, sem telemetria, sem contas e sem nuvem." FontSize="11" Foreground="#30D158" Margin="0,4,0,0"/>
                         </StackPanel>
@@ -1030,7 +1030,7 @@
                                 <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Ocultar automaticamente quando o mouse se afastar"
                                           IsChecked="{Binding OcultarAutomaticamente, Mode=TwoWay}" Margin="0,0,0,12"/>
 
-                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Iniciar o Dock Windows com o Windows"
+                                <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Iniciar o GigaDock com o Windows"
                                           IsChecked="{Binding IniciarComWindows, Mode=TwoWay}" Margin="0,0,0,12"/>
 
                                 <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Desativar animações da interface (modo econômico)"
@@ -1100,19 +1100,50 @@
                     </StackPanel>
 
                     <!-- ================================================= -->
-                    <!-- 7. PAINEL DE SOBRE                                -->
+                                        <!-- 7. PAINEL DE SOBRE                                -->
                     <!-- ================================================= -->
                     <StackPanel Visibility="{Binding EhSecaoSobre, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="Sobre o Dock Windows" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="Informações do projeto, privacidade e diagnósticos" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
+                        <TextBlock Text="Sobre o GigaDock" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Informações do projeto, criador e privacidade" FontSize="11" Foreground="#8E8E93" Margin="0,2,0,14"/>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                             <StackPanel>
-                                <TextBlock Text="ARQUITETURA E COMPATIBILIDADE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
-                                <TextBlock Text="• Desenvolvido em C# com .NET 10 e Windows Presentation Foundation (WPF)." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="• Integração com APIs Win32 oficiais e seguras (SHAppBarMessage, SetWinEventHook)." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="• Sem telemetria, contas ou dependências externas." FontSize="11" Foreground="#30D158"/>
+                                <TextBlock Text="O PROJETO É OPEN SOURCE" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
+                                <TextBlock Text="  O GigaDock é 100% open-source e gratuito!" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="  Se alguém quiser contribuir com o projeto fique à vontade." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="  Feito em C# .NET 10 WPF." FontSize="11" Foreground="#C8C8CE"/>
                             </StackPanel>
+                        </Border>
+
+                        <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="CRIADO POR GIOVANE INES" FontSize="11" FontWeight="Bold" Foreground="#71717A" Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE71B;" Foreground="#0A84FF" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                    <TextBlock Text="LinkedIn: https://www.linkedin.com/in/giovaneines/" FontSize="11" Foreground="#C8C8CE" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE774;" Foreground="#C9D1D9" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                    <TextBlock Text="GitHub: https://github.com/Contagiovaneines" FontSize="11" Foreground="#C8C8CE" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#2A1B3D" BorderBrush="#4A2569" BorderThickness="1" CornerRadius="8" Padding="14">
+                            <StackPanel>
+                                <TextBlock Text="APOIE O DESENVOLVEDOR" FontSize="11" FontWeight="Bold" Foreground="#BF5AF2" Margin="0,0,0,8"/>
+                                <TextBlock Text="  Se quiser mandar um alô pro dev ou apoiar o projeto:" FontSize="11" Foreground="#E5D0FF" Margin="0,0,0,6"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE715;" Foreground="#E5D0FF" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                    <TextBlock Text="Email: giovaneinesdev@gmail.com" FontSize="11" Foreground="#E5D0FF" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8D7;" Foreground="#32D74B" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                    <TextBlock Text="Pix: giovaneinesdev@gmail.com" FontSize="11" Foreground="#32D74B" VerticalAlignment="Center" FontWeight="Bold"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                         </Border>
 
                         <Border Background="#1C1C22" BorderBrush="#2C2C36" BorderThickness="1" CornerRadius="8" Padding="14">
@@ -1129,6 +1160,8 @@
         </Border>
     </Grid>
 </Window>
+
+
 
 
 
