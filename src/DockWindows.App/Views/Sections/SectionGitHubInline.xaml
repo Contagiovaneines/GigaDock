@@ -7,6 +7,9 @@
     <Grid>
         <Border CornerRadius="12" Padding="12,6" Background="#0D1117" BorderBrush="#30363D" BorderThickness="1"
                 Cursor="Hand" MouseLeftButtonDown="AbrirPainel_Click" ToolTip="{Binding GitHub.TextoResumo}">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="RightClick" Command="{Binding GitHub.JogarCobrinhaCommand}"/>
+            </Border.InputBindings>
             <Border.Effect>
                 <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
             </Border.Effect>
@@ -30,3 +33,4 @@
         </Border>
     </Grid>
 </UserControl>
+

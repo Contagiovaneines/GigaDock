@@ -22,8 +22,14 @@ public class GitHubWidgetViewModel : ObservableObject
     private bool _painelAberto;
     private bool _carregando;
     private DockWindows.Core.Models.FormatoWidget _formato = DockWindows.Core.Models.FormatoWidget.Compacto;
-    private readonly DispatcherTimer _timer;
+        private readonly DispatcherTimer _timer;
+    private readonly DispatcherTimer _snakeTimer;
     private static readonly HttpClient _http = new();
+    
+    // Variáveis da Cobrinha
+    private List<(int X, int Y)> _snakeBody = new();
+    private bool _cobrinhaRodando = false;
+
 
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
     public DockWindows.Core.Models.FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
@@ -58,12 +64,14 @@ public class GitHubWidgetViewModel : ObservableObject
 
     public ICommand AlternarPainelCommand { get; }
     public ICommand AbrirPerfilCommand { get; }
+    public ICommand JogarCobrinhaCommand { get; }
 
     public GitHubWidgetViewModel()
     {
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
-        AbrirPerfilCommand = new RelayCommand(() =>
-        {
+        JogarCobrinhaCommand = new RelayCommand(() => IniciarCobrinha());
+          AbrirPerfilCommand = new RelayCommand(() =>
+          {
             if (!string.IsNullOrEmpty(NomeUsuario))
             {
                 try
@@ -74,9 +82,13 @@ public class GitHubWidgetViewModel : ObservableObject
             }
         });
 
-        // Atualiza a cada 30 minutos
+                // Atualiza a cada 30 minutos
         _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(30) };
         _timer.Tick += (_, _) => _ = CarregarContribuicoesAsync();
+
+        // Timer da Cobrinha (roda a cada 150ms)
+        _snakeTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
+        _snakeTimer.Tick += (_, _) => TickCobrinha();
     }
 
     public void SincronizarUsuario(string? usuario)
@@ -159,21 +171,155 @@ public class GitHubWidgetViewModel : ObservableObject
             });
         }
     }
-}
 
-public class ContribuicaoDia
-{
-    public DateTime Data { get; set; }
-    public int Nivel { get; set; } // 0-4
-
-    public Brush Cor => Nivel switch
+    public void IniciarCobrinha()
     {
-        0 => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22)),
-        1 => new SolidColorBrush(Color.FromRgb(0x0E, 0x44, 0x29)),
-        2 => new SolidColorBrush(Color.FromRgb(0x00, 0x6D, 0x32)),
-        3 => new SolidColorBrush(Color.FromRgb(0x26, 0xA6, 0x41)),
-        4 => new SolidColorBrush(Color.FromRgb(0x39, 0xD3, 0x53)),
-        _ => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22))
-    };
+        if (_cobrinhaRodando || Contribuicoes.Count < 91) return;
+
+        _snakeBody.Clear();
+        _snakeBody.Add((0, 0));
+        _cobrinhaRodando = true;
+        _snakeTimer.Start();
+    }
+
+    private void TickCobrinha()
+    {
+        if (!_cobrinhaRodando || Contribuicoes.Count < 91)
+        {
+            _snakeTimer.Stop();
+            return;
+        }
+
+        var head = _snakeBody.First();
+        var nextStep = EncontrarProximoPasso(head);
+
+        if (nextStep == null)
+        {
+            _cobrinhaRodando = false;
+            _snakeTimer.Stop();
+            foreach(var c in Contribuicoes) { c.EhCobra = false; c.EhCabecaCobra = false; }
+            return;
+        }
+
+        var n = nextStep.Value;
+        _snakeBody.Insert(0, n);
+
+        int idx = n.Y * 13 + n.X;
+        var cell = Contribuicoes[idx];
+
+        if (cell.Nivel > 0)
+        {
+            cell.Nivel = 0; 
+        }
+        else
+        {
+            var tail = _snakeBody.Last();
+            _snakeBody.RemoveAt(_snakeBody.Count - 1);
+            var tailCell = Contribuicoes[tail.Y * 13 + tail.X];
+            tailCell.EhCobra = false;
+            tailCell.EhCabecaCobra = false;
+        }
+
+        for (int i = 0; i < _snakeBody.Count; i++)
+        {
+            var pt = _snakeBody[i];
+            var c = Contribuicoes[pt.Y * 13 + pt.X];
+            c.EhCabecaCobra = (i == 0);
+            c.EhCobra = (i != 0);
+        }
+    }
+
+    private (int X, int Y)? EncontrarProximoPasso((int X, int Y) start)
+    {
+        var dirs = new (int X, int Y)[] { (0, -1), (0, 1), (-1, 0), (1, 0) };
+        var fila = new Queue<List<(int X, int Y)>>();
+        fila.Enqueue(new List<(int X, int Y)> { start });
+        var visitados = new HashSet<(int X, int Y)> { start };
+
+        while (fila.Count > 0)
+        {
+            var caminho = fila.Dequeue();
+            var atual = caminho.Last();
+
+            if (atual != start && Contribuicoes[atual.Y * 13 + atual.X].Nivel > 0)
+                return caminho[1];
+
+            foreach (var dir in dirs)
+            {
+                var nx = atual.X + dir.X;
+                var ny = atual.Y + dir.Y;
+                var vizinho = (X: nx, Y: ny);
+
+                if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !visitados.Contains(vizinho) && !_snakeBody.Contains(vizinho))
+                {
+                    visitados.Add(vizinho);
+                    var novoCaminho = new List<(int X, int Y)>(caminho) { vizinho };
+                    fila.Enqueue(novoCaminho);
+                }
+            }
+        }
+
+        foreach (var dir in dirs)
+        {
+            var nx = start.X + dir.X;
+            var ny = start.Y + dir.Y;
+            var vizinho = (X: nx, Y: ny);
+            if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !_snakeBody.Contains(vizinho))
+                return vizinho;
+        }
+        return null;
+    }
 }
+
+public class ContribuicaoDia : ObservableObject
+{
+    private int _nivel;
+    private bool _ehCobra;
+    private bool _ehCabecaCobra;
+
+    public DateTime Data { get; set; }
+
+    public int Nivel
+    {
+        get => _nivel;
+        set { if (SetProperty(ref _nivel, value)) OnPropertyChanged(nameof(Cor)); }
+    }
+
+    public bool EhCobra
+    {
+        get => _ehCobra;
+        set { if (SetProperty(ref _ehCobra, value)) OnPropertyChanged(nameof(Cor)); }
+    }
+
+    public bool EhCabecaCobra
+    {
+        get => _ehCabecaCobra;
+        set { if (SetProperty(ref _ehCabecaCobra, value)) OnPropertyChanged(nameof(Cor)); }
+    }
+
+    public Brush Cor 
+    {
+        get
+        {
+            if (EhCabecaCobra) return new SolidColorBrush(Color.FromRgb(0x9B, 0x59, 0xB6));
+            if (EhCobra) return new SolidColorBrush(Color.FromRgb(0x8E, 0x44, 0xAD));
+            
+            return Nivel switch
+            {
+                0 => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22)),
+                1 => new SolidColorBrush(Color.FromRgb(0x0E, 0x44, 0x29)),
+                2 => new SolidColorBrush(Color.FromRgb(0x00, 0x6D, 0x32)),
+                3 => new SolidColorBrush(Color.FromRgb(0x26, 0xA6, 0x41)),
+                4 => new SolidColorBrush(Color.FromRgb(0x39, 0xD3, 0x53)),
+                _ => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22))
+            };
+        }
+    }
+}
+
+
+
+
+
+
 
