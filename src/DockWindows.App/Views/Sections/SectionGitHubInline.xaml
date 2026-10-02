@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionGitHubInline"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
+             
              Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
     
     <Grid>
@@ -40,6 +40,7 @@
         </Border>
     </Grid>
 </UserControl>
+
 
 
 
