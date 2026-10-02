@@ -57,3 +57,16 @@ Se o GigaDock ajudou a melhorar o visual do seu Windows e sua produtividade, man
 Feito com 🤍 e muito C# / WPF. Licenciado sob [MIT License](LICENSE).
 
 
+
+## 🚀 Roadmap e Ideias Futuras
+
+O GigaDock está em constante evolução! Aqui estão algumas das funcionalidades e novos widgets que adoraríamos ver implementados no futuro (e você está super convidado a contribuir):
+
+- **Widget do WhatsApp:** Integração não-oficial para mostrar notificações e contador de mensagens pendentes.
+- **Widget do Microsoft Teams:** Visualizador rápido do seu status (Disponível, Ocupado) e lembretes de reuniões que estão para começar.
+- **Sincronização Avançada de Calendários:** Suporte oficial para importar eventos em tempo real usando links .ics (iCal), integrando facilmente com Google Calendar e Outlook sem precisar de logins complexos.
+- **Widget do Discord:** Integração com o status do Discord, mostrando quem está falando na sua sala de voz sem precisar abrir o app.
+- **Marketplace de Temas:** Uma forma de exportar e compartilhar as customizações de Cores, Sombras e Ícones com a comunidade e importar com apenas um clique.
+- **Caixa de Entrada Inteligente:** Widget para Gmail/Outlook mostrando um resumo (assunto) dos últimos 3 e-mails recebidos.
+- **Integração com Spotify/Apple Music:** Controle completo com exibição da capa do álbum rodando fluentemente na barra de mídia.
+
