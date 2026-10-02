@@ -579,6 +579,7 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    
     public bool ExibirClima
     {
         get => _mainVm.ExibirClima;
