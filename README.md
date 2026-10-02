@@ -2,7 +2,7 @@
 
 O **GigaDock** é um dock moderno, nativo e leve para Windows 10/11 que traz produtividade, fluidez e organização para sua área de trabalho. Criado para quem deseja uma interface limpa sem perder a performance.
 
-![GigaDock Preview](docs/demo.gif)
+![GigaDock Preview](docs/dock-apps-preview.jpg)
 
 
 ## ✨ Funcionalidades
