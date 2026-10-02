@@ -134,11 +134,50 @@
     </Window.Resources>
 
     <!-- Container geral com margem compacta para renderizar o DropShadow suavemente -->
-    <Grid Margin="8,6,8,4" Name="MainGrid">
-        
-        <!-- BARRA PRINCIPAL FLUTUANTE (DOCK) -->
-                <Border x:Name="DockBorder"
-                CornerRadius="22"
+          <Grid Margin="8,6,8,4" Name="MainGrid">
+          
+          <!-- OVERLAY DE ALERTA (PISCA QUANDO RECEBE CHAMADA/MSG) -->
+          <Border x:Name="GlowAlertBorder" CornerRadius="{Binding RaioCantosDock}"
+                  BorderThickness="2"
+                  Padding="0"
+                  Height="{Binding AlturaBarra}"
+                  BorderBrush="{Binding CorAlerta, Converter={StaticResource ColorToBrushConverter}}"
+                  Visibility="{Binding EstaEmAlerta, Converter={StaticResource BoolToVis}}"
+                  Opacity="0">
+              <Border.Background>
+                  <!-- Um leve gradiente colorido no fundo -->
+                  <SolidColorBrush Color="{Binding CorAlertaMedia}" Opacity="0.15"/>
+              </Border.Background>
+              <Border.Effect>
+                  <!-- Sombra projetada colorida e esfumaçada -->
+                  <DropShadowEffect BlurRadius="40" ShadowDepth="0" Color="{Binding CorAlertaMedia}" Opacity="0.9"/>
+              </Border.Effect>
+              <Border.Style>
+                  <Style TargetType="Border">
+                      <Style.Triggers>
+                          <DataTrigger Binding="{Binding EstaEmAlerta}" Value="True">
+                              <DataTrigger.EnterActions>
+                                  <BeginStoryboard Name="AlertAnim">
+                                      <Storyboard RepeatBehavior="Forever">
+                                          <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:1.0" AutoReverse="True">
+                                              <DoubleAnimation.EasingFunction>
+                                                  <SineEase EasingMode="EaseInOut"/>
+                                              </DoubleAnimation.EasingFunction>
+                                          </DoubleAnimation>
+                                      </Storyboard>
+                                  </BeginStoryboard>
+                              </DataTrigger.EnterActions>
+                              <DataTrigger.ExitActions>
+                                  <StopStoryboard BeginStoryboardName="AlertAnim"/>
+                              </DataTrigger.ExitActions>
+                          </DataTrigger>
+                      </Style.Triggers>
+                  </Style>
+              </Border.Style>
+          </Border>
+
+          <!-- BARRA PRINCIPAL FLUTUANTE (DOCK) -->
+                <Border x:Name="DockBorder" CornerRadius="{Binding RaioCantosDock}"
                 BorderThickness="1"
                 Padding="0"
                 Height="{Binding AlturaBarra}"
@@ -193,6 +232,8 @@
 
     </Grid>
 </Window>
+
+
 
 
 

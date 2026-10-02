@@ -32,7 +32,23 @@ public class MainViewModel : ObservableObject
     private string _corAlerta = "#128C7E";
 
     public bool EstaEmAlerta { get => _estaEmAlerta; set => SetProperty(ref _estaEmAlerta, value); }
-    public string CorAlerta { get => _corAlerta; set => SetProperty(ref _corAlerta, value); }
+        public string CorAlerta 
+    { 
+        get => _corAlerta; 
+        set 
+        { 
+            if (SetProperty(ref _corAlerta, value)) 
+                OnPropertyChanged(nameof(CorAlertaMedia)); 
+        } 
+    }
+    public System.Windows.Media.Color CorAlertaMedia 
+    { 
+        get 
+        { 
+            try { return (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_corAlerta); } 
+            catch { return System.Windows.Media.Color.FromRgb(255,0,0); } 
+        } 
+    }
 
     public void DispararAlertaGlobal(string corHex)
     {
@@ -1695,6 +1711,7 @@ public class LaunchpadItemModel
 
 
 }
+
 
 
 
