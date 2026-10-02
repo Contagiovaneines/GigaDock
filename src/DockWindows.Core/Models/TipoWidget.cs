@@ -9,6 +9,10 @@ public enum TipoWidget
     MonitorSistema = 4,
     CotacaoMoedas = 5,
     GitHubContribuicoes = 6,
-    Clima = 7
+    Clima = 7,
+    WhatsAppNotificacoes = 8,
+    TeamsStatus = 9,
+    DiscordVoz = 10
 }
+
 

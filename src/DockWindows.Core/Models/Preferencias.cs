@@ -98,13 +98,16 @@ public class Preferencias
         new EspacadorConfig { Id = "esp-widgets", Nome = "Divisor Widgets", Estilo = EstiloEspacador.Linha, Largura = 8, Visivel = true, Ordem = 3 }
     };
 
-        public static List<WidgetInstanceConfig> CriarWidgetsPadrao() => new()
+            public static List<WidgetInstanceConfig> CriarWidgetsPadrao() => new()
     {
         new WidgetInstanceConfig { Id = "wgt-relogio", Tipo = TipoWidget.Relogio, Nome = "Relógio Digital", Formato = FormatoWidget.Compacto, Visivel = true, Ordem = 0 },
         new WidgetInstanceConfig { Id = "wgt-pomodoro", Tipo = TipoWidget.Pomodoro, Nome = "Pomodoro de Foco", Formato = FormatoWidget.Compacto, Visivel = true, Ordem = 1 },
         new WidgetInstanceConfig { Id = "wgt-calendario", Tipo = TipoWidget.CalendarioCompromissos, Nome = "Calendário e Compromissos", Formato = FormatoWidget.Compacto, Visivel = true, Ordem = 2 },
         new WidgetInstanceConfig { Id = "wgt-github", Tipo = TipoWidget.GitHubContribuicoes, Nome = "Integração GitHub", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 3 },
-        new WidgetInstanceConfig { Id = "wgt-clima", Tipo = TipoWidget.Clima, Nome = "Clima e Tempo", Formato = FormatoWidget.Compacto, Visivel = true, Ordem = 4 }
+        new WidgetInstanceConfig { Id = "wgt-clima", Tipo = TipoWidget.Clima, Nome = "Clima e Tempo", Formato = FormatoWidget.Compacto, Visivel = true, Ordem = 4 },
+        new WidgetInstanceConfig { Id = "wgt-whatsapp", Tipo = TipoWidget.WhatsAppNotificacoes, Nome = "WhatsApp", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 5 },
+        new WidgetInstanceConfig { Id = "wgt-teams", Tipo = TipoWidget.TeamsStatus, Nome = "Microsoft Teams", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 6 },
+        new WidgetInstanceConfig { Id = "wgt-discord", Tipo = TipoWidget.DiscordVoz, Nome = "Discord", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 7 }
     };
 
     public static List<CompromissoLocal> CriarCompromissosPadrao() => new();
@@ -241,6 +244,7 @@ public class Preferencias
         ambiente.Itens = padrao.Itens;
     }
 }
+
 
 
 

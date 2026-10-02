@@ -84,9 +84,12 @@ public class MainViewModel : ObservableObject
         Midia = new MidiaWidgetViewModel(() => _preferencias.AbrirPlayerAoDuploClique);
         Notas = new NotasWidgetViewModel();
         MonitorSistema = new MonitorSistemaViewModel();
-        GitHub = new GitHubWidgetViewModel();
+                GitHub = new GitHubWidgetViewModel();
         GitHub.SincronizarUsuario(_preferencias.GitHubUsuario);
         Clima = new ClimaWidgetViewModel();
+        WhatsApp = new WhatsAppWidgetViewModel();
+        Teams = new TeamsWidgetViewModel();
+        Discord = new DiscordWidgetViewModel();
 
         TrocarAmbienteCommand = new RelayCommand<EnvironmentViewModel>(TrocarAmbiente);
         NovoAmbienteCommand = new RelayCommand(NovoAmbiente);
@@ -160,7 +163,10 @@ public class MainViewModel : ObservableObject
     public NotasWidgetViewModel Notas { get; }
     public MonitorSistemaViewModel MonitorSistema { get; }
     public GitHubWidgetViewModel GitHub { get; }
-    public ClimaWidgetViewModel Clima { get; }
+        public ClimaWidgetViewModel Clima { get; }
+    public WhatsAppWidgetViewModel WhatsApp { get; }
+    public TeamsWidgetViewModel Teams { get; }
+    public DiscordWidgetViewModel Discord { get; }
     public ITaskbarService TaskbarService => _taskbarService;
     public IWindowTrackingService WindowTrackingService => _windowTrackingService;
     public IWinKeyHookService WinKeyHookService => _winKeyHookService;
@@ -933,16 +939,17 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             GitHub.Habilitado = false;
         }
 
-        var wClima = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
-        if (wClima != null)
-        {
-            Clima.Habilitado = wClima.Visivel;
-            Clima.Formato = wClima.Formato;
-        }
-        else 
-        {
-            Clima.Habilitado = false;
-        }
+                var wClima = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
+        if (wClima != null) { Clima.Habilitado = wClima.Visivel; Clima.Formato = wClima.Formato; } else { Clima.Habilitado = false; }
+
+        var wWhatsApp = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.WhatsAppNotificacoes);
+        if (wWhatsApp != null) { WhatsApp.Habilitado = wWhatsApp.Visivel; WhatsApp.Formato = wWhatsApp.Formato; } else { WhatsApp.Habilitado = false; }
+
+        var wTeams = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.TeamsStatus);
+        if (wTeams != null) { Teams.Habilitado = wTeams.Visivel; Teams.Formato = wTeams.Formato; } else { Teams.Habilitado = false; }
+
+        var wDiscord = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.DiscordVoz);
+        if (wDiscord != null) { Discord.Habilitado = wDiscord.Visivel; Discord.Formato = wDiscord.Formato; } else { Discord.Habilitado = false; }
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
@@ -1658,6 +1665,7 @@ public class LaunchpadItemModel
 
 
 }
+
 
 
 
