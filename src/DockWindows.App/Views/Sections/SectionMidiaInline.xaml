@@ -105,7 +105,7 @@
         <Border Background="{Binding Midia.FonteCor, FallbackValue='#1DB954'}" 
                 Width="14" Height="14" CornerRadius="7" 
                 BorderThickness="1.5" BorderBrush="#1A1A1E"
-                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-4,-4,0"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,4,0"
                 ToolTip="{Binding Midia.FonteNome}">
             <TextBlock Text="{Binding Midia.FonteIcone, FallbackValue='♪'}" FontSize="8" Foreground="White" 
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0"/>
