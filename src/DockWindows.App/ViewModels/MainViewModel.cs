@@ -723,6 +723,7 @@ public class MainViewModel : ObservableObject
                 _preferencias.ModoRgbMedia = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(CorSombraDock));
+                OnPropertyChanged(nameof(GlowRgbVisivel));
                 SalvarPreferencias();
             }
         }
