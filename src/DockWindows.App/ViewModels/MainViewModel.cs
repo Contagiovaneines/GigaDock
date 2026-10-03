@@ -242,6 +242,7 @@ public class MainViewModel : ObservableObject
         Midia.PropertyChanged += (s, e) => {
             if (e.PropertyName == "CorPredominanteHex" || e.PropertyName == "EstaTocando" || e.PropertyName == "TemMidia") {
                 OnPropertyChanged(nameof(CorSombraDock));
+                OnPropertyChanged(nameof(GlowRgbVisivel));
             }
         };
         Notas = new NotasWidgetViewModel();
@@ -731,14 +732,11 @@ public class MainViewModel : ObservableObject
     {
         get
         {
-            if (ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia)
-            {
-                try { return (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(Midia.CorPredominanteHex); }
-                catch { }
-            }
-            return System.Windows.Media.Colors.Black;
+            return System.Windows.Media.Colors.Black; // Usaremos o arco-íris via GlowRgbVisivel
         }
     }
+
+    public bool GlowRgbVisivel => ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia;
 public bool AlertasVisuaisHabilitados
     {
         get => _preferencias.AlertasVisuaisHabilitados;
