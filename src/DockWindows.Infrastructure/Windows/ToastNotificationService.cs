@@ -9,7 +9,7 @@ namespace DockWindows.Infrastructure.Windows
 {
     public class ToastNotificationService
     {
-        public event Action<string>? OnNotificationReceived;
+        public event Action<string, bool>? OnNotificationReceived;
         private UserNotificationListener? _listener;
 
         public async Task Iniciar()
@@ -64,7 +64,26 @@ namespace DockWindows.Infrastructure.Windows
                     if (nova != null)
                     {
                         string appName = nova.AppInfo.DisplayInfo.DisplayName ?? string.Empty;
-                        OnNotificationReceived?.Invoke(appName);
+                        
+                        bool isCall = false;
+                        try 
+                        {
+                            var textNodes = nova.Notification.Visual.GetBinding(KnownNotificationBindings.ToastGeneric)?.GetTextElements();
+                            if (textNodes != null)
+                            {
+                                foreach(var node in textNodes)
+                                {
+                                    string t = node.Text.ToLowerInvariant();
+                                    if (t.Contains("chamada") || t.Contains("ligando") || t.Contains("call") || t.Contains("calling"))
+                                    {
+                                        isCall = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        } catch { }
+
+                        OnNotificationReceived?.Invoke(appName, isCall);
                     }
                 }
             }

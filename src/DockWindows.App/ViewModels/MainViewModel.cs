@@ -53,7 +53,7 @@ public class MainViewModel : ObservableObject
         } 
     }
 
-                public void DispararAlertaGlobal(string corHex)
+                public void DispararAlertaGlobal(string corHex, bool isCall = false)
     {
         CorAlerta = corHex;
         
@@ -80,7 +80,7 @@ public class MainViewModel : ObservableObject
     }
 
 
-            private void TratarNotificacaoToast(string appName)
+            private void TratarNotificacaoToast(string appName, bool isCall = false)
     {
         if (string.IsNullOrEmpty(appName)) return;
         string proc = appName.ToLowerInvariant();
@@ -112,7 +112,7 @@ public class MainViewModel : ObservableObject
             
             if (!string.IsNullOrEmpty(cor))
             {
-                DispararAlertaGlobal(cor);
+                DispararAlertaGlobal(cor, isCall);
             }
         }
         
@@ -179,9 +179,9 @@ public class MainViewModel : ObservableObject
         _windowTrackingService = windowTrackingService ?? new Win32WindowTrackingService();
         _winKeyHookService = winKeyHookService ?? new WinKeyHookService();
         _toastService = new DockWindows.Infrastructure.Windows.ToastNotificationService();
-        _toastService.OnNotificationReceived += appName => {
+        _toastService.OnNotificationReceived += (appName, isCall) => {
             Application.Current?.Dispatcher?.InvokeAsync(() => {
-                TratarNotificacaoToast(appName);
+                TratarNotificacaoToast(appName, isCall);
             });
         };
         _ = _toastService.Iniciar();
