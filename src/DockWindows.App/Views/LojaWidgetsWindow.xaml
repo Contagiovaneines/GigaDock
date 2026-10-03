@@ -300,6 +300,9 @@
                                                 <Border Background="{Binding CustoBackground}" CornerRadius="4" Padding="6,2">
                                                     <TextBlock Text="{Binding Custo}" FontSize="9" Foreground="{Binding CustoForeground}" FontWeight="Bold"/>
                                                 </Border>
+                                                <Border Background="{Binding TagStatusBackground}" CornerRadius="4" Padding="6,2" Margin="6,0,0,0">
+                                                    <TextBlock Text="{Binding TagStatus}" FontSize="9" Foreground="{Binding TagStatusForeground}" FontWeight="Bold"/>
+                                                </Border>
                                             </StackPanel>
                                         </Grid>
 

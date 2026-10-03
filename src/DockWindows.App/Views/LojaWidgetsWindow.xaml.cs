@@ -62,19 +62,19 @@ public partial class LojaWidgetsWindow : Window
             },
             new ItemLoja { 
                 Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Expandido, Nome = "Teams", 
-                Descricao = "Controle de microfone rápido, status de presença em chamada e detecção de reuniões agendadas.",
+                Descricao = "Exibe alertas de mensagens e chamadas baseando-se nas notificacoes do Windows. Status de cores (login) em analise.",
                 DescricaoFormato = "Status Detalhado", Icone = "\uE716", CorIcone = "#292138", Categoria = "Comunicação",
                 PreviewTitle = "Em Reunião", PreviewSubtitle = "Mic Mudo", PreviewIcone = "\uE716", PreviewCor = "#FF453A", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Expandido, Nome = "Discord", 
-                Descricao = "Veja quem está falando no seu canal de voz e controle seu microfone e áudio.",
+                Descricao = "MOCK: Exibe interface visual de salas de voz. API Oficial em desenvolvimento.", TagStatus = "BETA",
                 DescricaoFormato = "Canal de Voz", Icone = "\uE716", CorIcone = "#20242B", Categoria = "Comunicação",
                 PreviewTitle = "Gamer Room", PreviewSubtitle = "Você, Alex, Sam", PreviewIcone = "\uE716", PreviewCor = "#5865F2", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub Actions", 
-                Descricao = "Acompanhe PRs abertas, code reviews pendentes e status de pipelines do GitHub Actions.",
+                Descricao = "MOCK: Grafico de contribuicoes. Conexao oficial com GitHub em desenvolvimento.", TagStatus = "BETA",
                 DescricaoFormato = "Gráfico de Commits", Icone = "\uE943", CorIcone = "#20242B", Categoria = "Dev Tools", Custo = "Pro",
                 PreviewTitle = "2 PRs", PreviewSubtitle = "#412 pass", PreviewIcone = "\uE943", PreviewCor = "#1DB954", ShowPreviewBar = false
             },
@@ -98,7 +98,7 @@ public partial class LojaWidgetsWindow : Window
             },
             new ItemLoja { 
                 Tipo = TipoWidget.OBSStudio, Formato = FormatoWidget.Expandido, Nome = "OBS Studio Control", 
-                Descricao = "Inicie e pare gravações diretamente da dock, abra o OBS com um clique. Minimalista.",
+                Descricao = "MOCK: Botoes visuais de Rec. Integracao com WebSockets do OBS chegando em breve.", TagStatus = "BETA",
                 DescricaoFormato = "Rec e Status", Icone = "\uE714", CorIcone = "#1C1C22", Categoria = "Mídia", Custo = "Gratuito",
                 PreviewTitle = "OBS Studio", PreviewSubtitle = "Pronto", PreviewIcone = "\uE714", PreviewCor = "#FF3B30", ShowPreviewBar = false
             }
@@ -187,6 +187,9 @@ public partial class LojaWidgetsWindow : Window
 public class ItemLoja
 {
     public TipoWidget Tipo { get; set; }
+    public string TagStatus { get; set; } = string.Empty;
+    public string TagStatusBackground => string.IsNullOrEmpty(TagStatus) ? "Transparent" : "#4A2016";
+    public string TagStatusForeground => string.IsNullOrEmpty(TagStatus) ? "Transparent" : "#FF795A";
     public FormatoWidget Formato { get; set; }
     public string Nome { get; set; } = string.Empty;
     public string Descricao { get; set; } = string.Empty;
