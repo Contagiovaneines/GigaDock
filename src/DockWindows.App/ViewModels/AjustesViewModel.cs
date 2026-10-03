@@ -1375,6 +1375,7 @@ public bool ExibirLixeira
                 var wgtRemover = WidgetsAmbiente.FirstOrDefault(w => w.Tipo == janelaLoja.WidgetParaRemover);
                 if (wgtRemover != null)
                 {
+                    wgtRemover.Visivel = false; // <<< OBRIGATORIO: desativa antes de atualizar o MainViewModel
                     WidgetsAmbiente.Remove(wgtRemover);
                     AmbienteSelecionado.WidgetsInstalados.Remove(wgtRemover);
                     AlternarVisibilidadeWidget(wgtRemover); // Disable in MainVM
