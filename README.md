@@ -78,6 +78,14 @@ Você pode configurar do seu jeito! Baixe a última versão na aba de [Releases]
 2. Execute o instalador (ele vai extrair os arquivos e lidar com o Windows Defender Smart App Control).
 3. Abra o GigaDock e personalize seus ícones, coleções e widgets!
 
+## 🔮 Ideias Futuras e Limitações Conhecidas
+
+O GigaDock foi criado com uma premissa estrita de ser **100% offline, local e sem contas**. Por causa dessa regra, algumas integrações mais complexas foram mapeadas, mas arquivadas para o futuro:
+
+- **Status Real do Discord (Salas de Voz):** Atualmente o widget do Discord é apenas ilustrativo (mock). Para ler as salas reais e quem está falando, é necessário usar a API oficial do Discord (Discord RPC). Isso exigiria criar um App no portal de desenvolvedores do Discord, gerenciar um *Client ID*, e forçar o usuário a dar "Autorizar" na janela do Discord.
+- **Cores de Status do Microsoft Teams:** O Teams não salva localmente se você está "Disponível", "Ocupado" ou "Ausente". Para espelhar essas cores na doca, seria necessário integrar a *Microsoft Graph API*, o que exigiria um App no Azure AD (Entra ID) e forçar o usuário a fazer login corporativo na própria dock.
+- *(Ambas as features foram adiadas para manter a dock invisível, sem telemetria e focada puramente na experiência desktop).*
+
 ## 💻 Como Compilar do Zero
 
 Se você é desenvolvedor e quer rodar o código-fonte na sua máquina:
