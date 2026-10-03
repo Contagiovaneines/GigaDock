@@ -1160,6 +1160,9 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
 
         var wDiscord = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.DiscordVoz);
         if (wDiscord != null) { Discord.Habilitado = wDiscord.Visivel; Discord.Formato = wDiscord.Formato; } else { Discord.Habilitado = false; }
+
+        var wObs = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.OBSStudio);
+        if (wObs != null) { Obs.Habilitado = wObs.Visivel; } else { Obs.Habilitado = false; }
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
