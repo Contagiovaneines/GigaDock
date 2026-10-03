@@ -103,12 +103,14 @@ public class TeamsIntegrationService
                     ? $"Sala: {callTitle.Trim()}"
                     : "Chamada em andamento";
             }
-            else if (teamsProcs.Any())
+                        else if (teamsProcs.Any())
             {
-                // Teams aberto mas sem chamada — mostrar apenas "Disponível"
-                newStatus = "Disponível";
-                newCor = "#23A736";
-                newContext = string.Empty; // sem texto extra quando disponivel
+                // Como não temos acesso à API do Graph (para manter 100% offline/local),
+                // não podemos ler o status real de "Ocupado" ou "Ausente".
+                // Portanto, mostramos um status neutro para não mentir.
+                newStatus = "Aberto";
+                newCor = "#8E8E93"; // Cinza neutro
+                newContext = string.Empty;
             }
             else
             {
