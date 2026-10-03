@@ -566,7 +566,17 @@ public class AjustesViewModel : ObservableObject
     }
 
     
-    public bool ExibirLixeira
+        public bool AlertasVisuaisHabilitados
+    {
+        get => _mainVm.AlertasVisuaisHabilitados;
+        set
+        {
+            _mainVm.AlertasVisuaisHabilitados = value;
+            OnPropertyChanged();
+        }
+    }
+
+public bool ExibirLixeira
     {
         get => _mainVm.ExibirLixeira;
         set

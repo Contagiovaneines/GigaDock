@@ -1,4 +1,4 @@
-﻿using DockWindows.App.Common;
+using DockWindows.App.Common;
 using DockWindows.Core.Models;
 using DockWindows.Infrastructure.Windows;
 
@@ -29,26 +29,17 @@ public class TeamsWidgetViewModel : ObservableObject
         {
             System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
-                Status = status;
-                if (status == "Chamando..." || status == "Nova mensagem" || status == "Em chamada") onAlerta?.Invoke("#4A448C");
-                CorStatus = cor;
+                Status = string.IsNullOrWhiteSpace(status) ? "Offline" : status;
+                CorStatus = string.IsNullOrWhiteSpace(cor) ? "#808080" : cor;
             });
         };
         _service.OnMeetingChanged += (reuniao) =>
         {
             System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
-                ProximaReuniao = reuniao;
+                ProximaReuniao = string.IsNullOrWhiteSpace(reuniao) ? "Nenhuma atividade" : reuniao;
             });
         };
         _service.Iniciar();
     }
 }
-
-
-
-
-
-
-
-

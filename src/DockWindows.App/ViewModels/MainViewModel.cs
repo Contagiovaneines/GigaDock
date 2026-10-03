@@ -66,12 +66,26 @@ public class MainViewModel : ObservableObject
     }
 
 
-        public void IncrementarNotificacaoApp(IntPtr hwnd)
+            public void IncrementarNotificacaoApp(IntPtr hwnd)
     {
         var app = System.Linq.Enumerable.FirstOrDefault(System.Linq.Enumerable.OfType<AppItemViewModel>(Aplicativos), a => System.Linq.Enumerable.Any(a.Janelas, j => j.Hwnd == hwnd));
         if (app != null)
         {
             app.NumeroNotificacoes++;
+            
+            if (AlertasVisuaisHabilitados)
+            {
+                string proc = (app.Titulo ?? string.Empty).ToLowerInvariant();
+                string cor = "#0A84FF"; // Blue default
+                
+                if (proc.Contains("teams")) cor = "#4A448C"; // Roxo
+                else if (proc.Contains("whatsapp")) cor = "#25D366"; // Verde
+                else if (proc.Contains("discord")) cor = "#5865F2"; // Azul discord
+                else if (proc.Contains("slack")) cor = "#E01E5A"; // Rosa slack
+                
+                CorAlerta = cor;
+                EstaEmAlerta = true;
+            }
         }
     }
 
@@ -598,7 +612,21 @@ public class MainViewModel : ObservableObject
     }
 
     
-    public bool ExibirLixeira
+        public bool AlertasVisuaisHabilitados
+    {
+        get => _preferencias.AlertasVisuaisHabilitados;
+        set
+        {
+            if (_preferencias.AlertasVisuaisHabilitados != value)
+            {
+                _preferencias.AlertasVisuaisHabilitados = value;
+                OnPropertyChanged();
+                SalvarPreferencias();
+            }
+        }
+    }
+
+public bool ExibirLixeira
     {
         get => _preferencias.ExibirLixeira;
         set
