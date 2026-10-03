@@ -21,6 +21,8 @@ public class MainViewModel : ObservableObject
     private readonly ITaskbarService _taskbarService;
     private readonly IWindowTrackingService _windowTrackingService;
     private readonly IWinKeyHookService _winKeyHookService;
+    private readonly DockWindows.Infrastructure.Windows.ToastNotificationService _toastService;
+
 
         private Preferencias _preferencias;
     private EnvironmentViewModel? _ambienteAtivo;
@@ -66,7 +68,44 @@ public class MainViewModel : ObservableObject
     }
 
 
-            public void IncrementarNotificacaoApp(IntPtr hwnd)
+            private void TratarNotificacaoToast(string appName)
+    {
+        if (string.IsNullOrEmpty(appName)) return;
+        string proc = appName.ToLowerInvariant();
+        
+        // Find matching app to increment badge
+        var app = Aplicativos.FirstOrDefault(a => 
+            (!string.IsNullOrEmpty(a.Titulo) && a.Titulo.ToLowerInvariant().Contains(proc)) ||
+            (!string.IsNullOrEmpty(a.CaminhoExecutavel) && a.CaminhoExecutavel.ToLowerInvariant().Contains(proc))
+        );
+
+        if (app != null)
+        {
+            app.NumeroNotificacoes++;
+        }
+
+        if (AlertasVisuaisHabilitados)
+        {
+            string cor = string.Empty;
+            if (proc.Contains("teams") || proc.Contains("msteams")) cor = "#4A448C"; // Roxo
+            else if (proc.Contains("whatsapp")) cor = "#25D366"; // Verde
+            else if (proc.Contains("discord")) cor = "#5865F2"; // Azul discord
+            
+            if (!string.IsNullOrEmpty(cor))
+            {
+                CorAlerta = cor;
+                EstaEmAlerta = true;
+            }
+        }
+        
+        // Update Widgets
+        if (proc.Contains("teams") || proc.Contains("msteams"))
+        {
+            Teams.MensagensNaoLidas++;
+        }
+    }
+
+    public void IncrementarNotificacaoApp(IntPtr hwnd)
     {
         var app = System.Linq.Enumerable.FirstOrDefault(System.Linq.Enumerable.OfType<AppItemViewModel>(Aplicativos), a => System.Linq.Enumerable.Any(a.Janelas, j => j.Hwnd == hwnd));
         if (app != null)
@@ -121,6 +160,14 @@ public class MainViewModel : ObservableObject
         _taskbarService = taskbarService ?? new Win32TaskbarService();
         _windowTrackingService = windowTrackingService ?? new Win32WindowTrackingService();
         _winKeyHookService = winKeyHookService ?? new WinKeyHookService();
+        _toastService = new DockWindows.Infrastructure.Windows.ToastNotificationService();
+        _toastService.OnNotificationReceived += appName => {
+            Application.Current?.Dispatcher?.InvokeAsync(() => {
+                TratarNotificacaoToast(appName);
+            });
+        };
+        _ = _toastService.Iniciar();
+
 
         _preferencias = _repository.Carregar();
 
