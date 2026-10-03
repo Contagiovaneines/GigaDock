@@ -80,7 +80,7 @@ public class MainViewModel : ObservableObject
     }
 
 
-            private void TratarNotificacaoToast(string appName, bool isCall = false)
+            private void TratarNotificacaoToast(string appName, bool isCall = false, string senderName = "")
     {
         if (string.IsNullOrEmpty(appName)) return;
         string proc = appName.ToLowerInvariant();
@@ -120,6 +120,7 @@ public class MainViewModel : ObservableObject
         if (proc.Contains("teams") || proc.Contains("msteams"))
         {
             Teams.MensagensNaoLidas++;
+            if (!string.IsNullOrEmpty(senderName)) Teams.ExibirMensagemDe(senderName);
         }
     }
 
@@ -179,9 +180,9 @@ public class MainViewModel : ObservableObject
         _windowTrackingService = windowTrackingService ?? new Win32WindowTrackingService();
         _winKeyHookService = winKeyHookService ?? new WinKeyHookService();
         _toastService = new DockWindows.Infrastructure.Windows.ToastNotificationService();
-        _toastService.OnNotificationReceived += (appName, isCall) => {
+        _toastService.OnNotificationReceived += (appName, isCall, senderName) => {
             Application.Current?.Dispatcher?.InvokeAsync(() => {
-                TratarNotificacaoToast(appName, isCall);
+                TratarNotificacaoToast(appName, isCall, senderName);
             });
         };
         _ = _toastService.Iniciar();

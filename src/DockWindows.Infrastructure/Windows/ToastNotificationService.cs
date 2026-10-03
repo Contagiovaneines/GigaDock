@@ -9,7 +9,7 @@ namespace DockWindows.Infrastructure.Windows
 {
     public class ToastNotificationService
     {
-        public event Action<string, bool>? OnNotificationReceived;
+        public event Action<string, bool, string>? OnNotificationReceived;
         private UserNotificationListener? _listener;
 
         public async Task Iniciar()
@@ -66,11 +66,13 @@ namespace DockWindows.Infrastructure.Windows
                         string appName = nova.AppInfo.DisplayInfo.DisplayName ?? string.Empty;
                         
                         bool isCall = false;
+                        string senderName = string.Empty;
                         try 
                         {
                             var textNodes = nova.Notification.Visual.GetBinding(KnownNotificationBindings.ToastGeneric)?.GetTextElements();
-                            if (textNodes != null)
+                            if (textNodes != null && textNodes.Count > 0)
                             {
+                                senderName = textNodes[0].Text; // Geralmente o primeiro texto é o nome do remetente
                                 foreach(var node in textNodes)
                                 {
                                     string t = node.Text.ToLowerInvariant();
@@ -83,7 +85,7 @@ namespace DockWindows.Infrastructure.Windows
                             }
                         } catch { }
 
-                        OnNotificationReceived?.Invoke(appName, isCall);
+                        OnNotificationReceived?.Invoke(appName, isCall, senderName);
                     }
                 }
             }
