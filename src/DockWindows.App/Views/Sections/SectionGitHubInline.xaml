@@ -11,7 +11,7 @@
                 <MouseBinding MouseAction="LeftClick" Command="{Binding GitHub.AbrirPerfilCommand}"/>
             </Border.InputBindings>
             <Border.ContextMenu>
-                <ContextMenu>
+                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem Header="Animação: Cobrinha" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Cobrinha"/>
                     <MenuItem Header="Animação: Pac-Man" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="PacMan"/>
                     <MenuItem Header="Desativar Animação" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Parado"/>

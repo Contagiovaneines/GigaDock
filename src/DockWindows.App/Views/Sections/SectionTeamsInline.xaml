@@ -13,7 +13,7 @@
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Teams.AbrirAppCommand}"/>
             </Border.InputBindings>
                         <Border.ContextMenu>
-                <ContextMenu>
+                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                     <MenuItem Header="Testar Alerta de Reunião (Roxo)" Command="{Binding Teams.TestarAlertaCommand}"/>
                 </ContextMenu>
             </Border.ContextMenu>
