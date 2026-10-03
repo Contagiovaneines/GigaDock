@@ -22,6 +22,7 @@ public class MainViewModel : ObservableObject
     private readonly IWindowTrackingService _windowTrackingService;
     private readonly IWinKeyHookService _winKeyHookService;
     private readonly DockWindows.Infrastructure.Windows.ToastNotificationService _toastService;
+    private System.Windows.Threading.DispatcherTimer? _syncNotificacoesTimer;
 
 
         private Preferencias _preferencias;
@@ -115,6 +116,32 @@ public class MainViewModel : ObservableObject
         }
     }
 
+
+    private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsAsync()
+    {
+        var contagens = await _toastService.ObterContagemNotificacoesPorAppAsync();
+        
+        System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+        {
+            int whatsappCount = 0;
+            int teamsCount = 0;
+            int discordCount = 0;
+
+            foreach(var kvp in contagens)
+            {
+                string proc = kvp.Key.ToLowerInvariant();
+                if (proc.Contains("whatsapp")) whatsappCount += kvp.Value;
+                else if (proc.Contains("teams") || proc.Contains("msteams")) teamsCount += kvp.Value;
+                else if (proc.Contains("discord")) discordCount += kvp.Value;
+            }
+
+            WhatsApp.MensagensNaoLidas = whatsappCount;
+            // Só sobrescrevemos o Teams e Discord se a contagem do Windows for maior, pois eles também usam a janela ativa
+            if (teamsCount > Teams.MensagensNaoLidas) Teams.MensagensNaoLidas = teamsCount;
+            if (whatsappCount == 0) WhatsApp.MensagensNaoLidas = 0; // Força zerar se não tem nada no Windows
+        });
+    }
+
     public void IncrementarNotificacaoApp(IntPtr hwnd)
     {
         var app = System.Linq.Enumerable.FirstOrDefault(System.Linq.Enumerable.OfType<AppItemViewModel>(Aplicativos), a => System.Linq.Enumerable.Any(a.Janelas, j => j.Hwnd == hwnd));
@@ -176,6 +203,11 @@ public class MainViewModel : ObservableObject
             });
         };
         _ = _toastService.Iniciar();
+
+        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromSeconds(3) };
+        _syncNotificacoesTimer.Tick += async (s, e) => await SincronizarNotificacoesComWindowsAsync();
+        _syncNotificacoesTimer.Start();
+
 
 
         _preferencias = _repository.Carregar();
