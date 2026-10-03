@@ -21,6 +21,9 @@ public class MainViewModel : ObservableObject
     private readonly ITaskbarService _taskbarService;
     private readonly IWindowTrackingService _windowTrackingService;
     private readonly IWinKeyHookService _winKeyHookService;
+    private int _whatsappGhosts = 0;
+    private int _teamsGhosts = 0;
+    private System.Windows.Threading.DispatcherTimer? _syncNotificacoesTimer;
     private readonly DockWindows.Infrastructure.Windows.ToastNotificationService _toastService;
     
 
@@ -124,6 +127,28 @@ public class MainViewModel : ObservableObject
         }
     }
 
+
+        private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsAsync()
+    {
+        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+        int wappCount = 0;
+        int teamsCount = 0;
+
+        foreach (var kvp in dict)
+        {
+            string proc = kvp.Key.ToLowerInvariant();
+            if (proc.Contains("whatsapp")) wappCount += kvp.Value;
+            if (proc.Contains("teams") || proc.Contains("msteams")) teamsCount += kvp.Value;
+        }
+
+        int wappReal = System.Math.Max(0, wappCount - _whatsappGhosts);
+        int teamsReal = System.Math.Max(0, teamsCount - _teamsGhosts);
+
+        // Apenas atualiza se a flag não estiver forçando o zero
+        // Na verdade, podemos apenas definir o valor
+        WhatsApp.MensagensNaoLidas = wappReal;
+        Teams.MensagensNaoLidas = teamsReal;
+    }
 
     public void IncrementarNotificacaoApp(IntPtr hwnd)
     {
@@ -291,6 +316,9 @@ public class MainViewModel : ObservableObject
         };
 
         CarregarDados();
+        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromSeconds(3) };
+        _syncNotificacoesTimer.Tick += async (s, e) => await SincronizarNotificacoesComWindowsAsync();
+        _syncNotificacoesTimer.Start();
         _windowTrackingService.Iniciar();
     }
 
@@ -1017,6 +1045,9 @@ public bool ExibirLixeira
     {
         _preferencias = novasPrefs;
         CarregarDados();
+        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromSeconds(3) };
+        _syncNotificacoesTimer.Tick += async (s, e) => await SincronizarNotificacoesComWindowsAsync();
+        _syncNotificacoesTimer.Start();
         SalvarPreferencias();
         NotificarReposicionamento?.Invoke();
     }
@@ -1222,9 +1253,27 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             onMoverEsquerda: MoverAppEsquerda,
             onMoverDireita: MoverAppDireita);
         vm.OnMoverParaAmbiente = MoverAppParaAmbiente;
-        vm.PropertyChanged += (s, e) => {
+        vm.PropertyChanged += async (s, e) => {
             if (e.PropertyName == "NumeroNotificacoes") {
                 SincronizarBadgeWidget(vm);
+                
+                if (vm.NumeroNotificacoes == 0)
+                {
+                    string t = (vm.Titulo ?? "").ToLowerInvariant();
+                    string exec = (vm.CaminhoExecutavel ?? "").ToLowerInvariant();
+                    if (t.Contains("whatsapp") || exec.Contains("whatsapp")) 
+                    {
+                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        _whatsappGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("whatsapp")).Sum(x => x.Value);
+                        WhatsApp.MensagensNaoLidas = 0;
+                    }
+                    else if (t.Contains("teams") || t.Contains("msteams") || exec.Contains("teams") || exec.Contains("msteams"))
+                    {
+                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        _teamsGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("teams") || x.Key.ToLowerInvariant().Contains("msteams")).Sum(x => x.Value);
+                        Teams.MensagensNaoLidas = 0;
+                    }
+                }
             }
         };
         return vm;
@@ -1241,9 +1290,27 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             onMoverEsquerda: MoverAppEsquerda,
             onMoverDireita: MoverAppDireita);
         vm.OnMoverParaAmbiente = MoverAppParaAmbiente;
-        vm.PropertyChanged += (s, e) => {
+        vm.PropertyChanged += async (s, e) => {
             if (e.PropertyName == "NumeroNotificacoes") {
                 SincronizarBadgeWidget(vm);
+                
+                if (vm.NumeroNotificacoes == 0)
+                {
+                    string t = (vm.Titulo ?? "").ToLowerInvariant();
+                    string exec = (vm.CaminhoExecutavel ?? "").ToLowerInvariant();
+                    if (t.Contains("whatsapp") || exec.Contains("whatsapp")) 
+                    {
+                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        _whatsappGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("whatsapp")).Sum(x => x.Value);
+                        WhatsApp.MensagensNaoLidas = 0;
+                    }
+                    else if (t.Contains("teams") || t.Contains("msteams") || exec.Contains("teams") || exec.Contains("msteams"))
+                    {
+                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        _teamsGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("teams") || x.Key.ToLowerInvariant().Contains("msteams")).Sum(x => x.Value);
+                        Teams.MensagensNaoLidas = 0;
+                    }
+                }
             }
         };
         return vm;
