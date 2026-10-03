@@ -708,9 +708,9 @@ public partial class MainWindow : Window
             _alertaStoryboard = null;
         }
         
-        // Restaura valores originais
-        DockShadow.Color = System.Windows.Media.Colors.Black;
-        DockShadow.BlurRadius = 16.0;
+        // Restaura valores originais (ClearValue restaura o Binding ou valor do XAML original)
+        DockShadow.ClearValue(System.Windows.Media.Effects.DropShadowEffect.ColorProperty);
+        DockShadow.ClearValue(System.Windows.Media.Effects.DropShadowEffect.BlurRadiusProperty);
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
