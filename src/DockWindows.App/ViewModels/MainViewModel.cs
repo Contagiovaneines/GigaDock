@@ -393,13 +393,25 @@ public class MainViewModel : ObservableObject
                 _preferencias.TamanhoIcones = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(TamanhoIconeNumerico));
+                OnPropertyChanged(nameof(EscalaUI));
                 OnPropertyChanged(nameof(AlturaBarra));
                 SalvarPreferencias();
             }
         }
     }
 
-    public double TamanhoIconeNumerico => (double)TamanhoIcones;
+            public double EscalaUI => AlturaBarra / 64.0;
+
+    public double TamanhoIconeNumerico
+    {
+        get
+        {
+            // Scale icon size proportionally to bar height: at 64px (default) -> 40px icons
+            double ratio = AlturaBarra / 64.0;
+            double baseSize = (double)TamanhoIcones;
+            return System.Math.Round(baseSize * ratio);
+        }
+    }
 
         public double AlturaBarra
     {
@@ -410,6 +422,8 @@ public class MainViewModel : ObservableObject
             {
                 _preferencias.AlturaBarra = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(TamanhoIconeNumerico));
+                OnPropertyChanged(nameof(EscalaUI));
                 SalvarPreferencias();
             }
         }
@@ -1738,6 +1752,7 @@ public class LaunchpadItemModel
 
 
 }
+
 
 
 
