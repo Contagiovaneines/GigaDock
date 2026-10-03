@@ -52,19 +52,30 @@ public class MainViewModel : ObservableObject
         } 
     }
 
-    public void DispararAlertaGlobal(string corHex)
+                public void DispararAlertaGlobal(string corHex)
     {
         CorAlerta = corHex;
-        EstaEmAlerta = true;
-
-        // Auto-desligar o alerta após 15 segundos (simulando o tempo de tocar)
-        System.Threading.Tasks.Task.Delay(15000).ContinueWith(_ => 
+        
+        // Força o gatilho da animação no WPF alternando pra false antes
+        if (EstaEmAlerta)
         {
-            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+            EstaEmAlerta = false;
+            OnPropertyChanged(nameof(EstaEmAlerta));
+        }
+        
+        System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() => 
+        {
+            EstaEmAlerta = true;
+            
+            // Auto-desligar o alerta após 15 segundos (simulando o tempo de tocar)
+            System.Threading.Tasks.Task.Delay(15000).ContinueWith(_ => 
             {
-                EstaEmAlerta = false;
+                System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
+                {
+                    EstaEmAlerta = false;
+                });
             });
-        });
+        }, System.Windows.Threading.DispatcherPriority.Background);
     }
 
 
@@ -93,8 +104,7 @@ public class MainViewModel : ObservableObject
             
             if (!string.IsNullOrEmpty(cor))
             {
-                CorAlerta = cor;
-                EstaEmAlerta = true;
+                DispararAlertaGlobal(cor);
             }
         }
         
@@ -123,8 +133,7 @@ public class MainViewModel : ObservableObject
                 
                 if (!string.IsNullOrEmpty(cor))
                 {
-                    CorAlerta = cor;
-                    EstaEmAlerta = true;
+                    DispararAlertaGlobal(cor);
                 }
                 
                 if (proc.Contains("teams") || proc.Contains("msteams"))
