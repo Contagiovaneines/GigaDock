@@ -48,9 +48,11 @@ public class TeamsWidgetViewModel : ObservableObject
     public string ProximaReuniao { get => _proximaReuniao; set => SetProperty(ref _proximaReuniao, value); }
 
     public System.Windows.Input.ICommand AbrirAppCommand { get; }
+    public System.Windows.Input.ICommand TestarAlertaCommand { get; }
 
     public TeamsWidgetViewModel(System.Action<string>? onAlerta = null)
     {
+        TestarAlertaCommand = new RelayCommand(() => onAlerta?.Invoke("#4A448C"));
         AbrirAppCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "msteams:", UseShellExecute = true }); } catch { } });
         _service = new TeamsIntegrationService();
         _service.OnStatusChanged += (status, cor) =>
