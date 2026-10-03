@@ -34,12 +34,7 @@
                     <Border Background="#252733" CornerRadius="4" Padding="4,2" VerticalAlignment="Center">
                         <TextBlock Text="v3.4" FontSize="10" Foreground="#8E8E93" FontWeight="Bold"/>
                     </Border>
-                    <Border Background="#1C2E3C" CornerRadius="12" Padding="8,4" Margin="16,0,0,0" VerticalAlignment="Center" BorderBrush="#20425C" BorderThickness="1">
-                        <StackPanel Orientation="Horizontal">
-                            <Ellipse Width="6" Height="6" Fill="#0A84FF" Margin="0,0,6,0"/>
-                            <TextBlock Text="DESKTOP CANVAS" FontSize="10" Foreground="#4AA1FF" FontWeight="Bold"/>
-                        </StackPanel>
-                    </Border>
+                    
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -64,11 +59,7 @@
             <!-- HEADER TEXT & TABS -->
             <StackPanel Grid.Row="1" Margin="32,10,32,10">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                    <TextBlock Text="Widget Store" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF"/>
-                    <Border Background="#161821" CornerRadius="12" Padding="8,4" Margin="16,0,0,0" VerticalAlignment="Center" BorderBrush="#252733" BorderThickness="1">
-                        <TextBlock Text="NATIVE DESKTOP HUB" FontSize="10" Foreground="#0A84FF" FontWeight="Bold"/>
-                    </Border>
-                    <TextBlock Text="• API v3.4.108 Direct" FontSize="11" Foreground="#5C5C66" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    <TextBlock Text="Loja de Widgets" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF"/>
                 </StackPanel>
                 
                 <Grid>
