@@ -157,7 +157,11 @@ public class AppItemViewModel : ObservableObject
         {
             if (SetProperty(ref _estaAtivo, value))
             {
-                if (value) NumeroNotificacoes = 0;
+                if (value) 
+                {
+                    NumeroNotificacoes = 0;
+                    OnPropertyChanged(nameof(NumeroNotificacoes)); // Força atualização para zerar widgets mesmo se já for 0
+                }
             }
         }
     }
