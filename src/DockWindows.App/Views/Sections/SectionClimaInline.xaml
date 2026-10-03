@@ -6,16 +6,13 @@
     <UserControl.Resources><conv:BooleanToVisibilityConverter x:Key="BoolToVis"/></UserControl.Resources>
     <Grid Visibility="{Binding Clima.Habilitado, Converter={StaticResource BoolToVis}}">
         <!-- WIDGET INLINE (Estilo Unificado) -->
-                <Border CornerRadius="12" Padding="2" Background="#161B22" Cursor="Hand" ToolTip="Previsão do Tempo">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
-            </Border.Effect>
+                <Border CornerRadius="12" Padding="2" Background="Transparent" Cursor="Hand" ToolTip="Previsão do Tempo">
             
-            <Border CornerRadius="10" Background="#1A4E7A" Padding="12,4,16,4" VerticalAlignment="Stretch">
+            <Border CornerRadius="10" Background="Transparent" Padding="12,4,16,4" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Clima.IconeEmoji}" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Clima.Temperatura}" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="{Binding Clima.Temperatura}" FontSize="13" FontWeight="Bold" Foreground="#E0E0E0"/>
                         <TextBlock Text="{Binding Clima.Local}" FontSize="10" Foreground="#A0C0E0" Margin="0,-2,0,0" MaxWidth="100" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
                 </StackPanel>
