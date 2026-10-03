@@ -76,15 +76,17 @@ public class MainViewModel : ObservableObject
             if (AlertasVisuaisHabilitados)
             {
                 string proc = (app.Titulo ?? string.Empty).ToLowerInvariant();
-                string cor = "#0A84FF"; // Blue default
+                string cor = string.Empty;
                 
-                if (proc.Contains("teams")) cor = "#4A448C"; // Roxo
+                if (proc.Contains("teams") || proc.Contains("msteams")) cor = "#4A448C"; // Roxo
                 else if (proc.Contains("whatsapp")) cor = "#25D366"; // Verde
                 else if (proc.Contains("discord")) cor = "#5865F2"; // Azul discord
-                else if (proc.Contains("slack")) cor = "#E01E5A"; // Rosa slack
                 
-                CorAlerta = cor;
-                EstaEmAlerta = true;
+                if (!string.IsNullOrEmpty(cor))
+                {
+                    CorAlerta = cor;
+                    EstaEmAlerta = true;
+                }
             }
         }
     }
