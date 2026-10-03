@@ -87,6 +87,11 @@ public class MainViewModel : ObservableObject
                     CorAlerta = cor;
                     EstaEmAlerta = true;
                 }
+                
+                if (proc.Contains("teams") || proc.Contains("msteams"))
+                {
+                    Teams.MensagensNaoLidas = app.NumeroNotificacoes;
+                }
             }
         }
     }

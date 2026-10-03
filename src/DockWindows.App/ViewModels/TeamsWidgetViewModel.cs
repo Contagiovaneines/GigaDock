@@ -11,7 +11,21 @@ public class TeamsWidgetViewModel : ObservableObject
     private string _status = "Buscando...";
     private string _corStatus = "#808080";
     private string _proximaReuniao = "Conectando...";
+    private int _mensagensNaoLidas;
     private readonly TeamsIntegrationService _service;
+
+    public int MensagensNaoLidas
+    {
+        get => _mensagensNaoLidas;
+        set
+        {
+            if (SetProperty(ref _mensagensNaoLidas, value))
+            {
+                OnPropertyChanged(nameof(TemMensagem));
+            }
+        }
+    }
+    public bool TemMensagem => _mensagensNaoLidas > 0;
 
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
     public FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }

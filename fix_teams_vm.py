@@ -2,31 +2,26 @@
 with open(path, "r", encoding="utf-8") as f:
     c = f.read()
 
-# Remove the random alert trigger and handle empty strings (offline)
-new_constructor = """    public TeamsWidgetViewModel(System.Action<string>? onAlerta = null)
-    {
-        AbrirAppCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "msteams:", UseShellExecute = true }); } catch { } });
-        _service = new TeamsIntegrationService();
-        _service.OnStatusChanged += (status, cor) =>
-        {
-            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
-            {
-                Status = string.IsNullOrWhiteSpace(status) ? "Offline" : status;
-                CorStatus = string.IsNullOrWhiteSpace(cor) ? "#808080" : cor;
-            });
-        };
-        _service.OnMeetingChanged += (reuniao) =>
-        {
-            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
-            {
-                ProximaReuniao = string.IsNullOrWhiteSpace(reuniao) ? "Nenhuma atividade" : reuniao;
-            });
-        };
-        _service.Iniciar();
-    }"""
+insert_props = """    private string _corStatus = "#808080";
+    private string _proximaReuniao = "Conectando...";
+    private int _mensagensNaoLidas;
+    private readonly TeamsIntegrationService _service;
 
-import re
-c = re.sub(r'public TeamsWidgetViewModel\(System\.Action<string>\? onAlerta = null\).*?\}', new_constructor, c, flags=re.DOTALL)
+    public int MensagensNaoLidas
+    {
+        get => _mensagensNaoLidas;
+        set
+        {
+            if (SetProperty(ref _mensagensNaoLidas, value))
+            {
+                OnPropertyChanged(nameof(TemMensagem));
+            }
+        }
+    }
+    public bool TemMensagem => _mensagensNaoLidas > 0;
+"""
+
+c = c.replace("    private string _corStatus = \"#808080\";\n    private string _proximaReuniao = \"Conectando...\";\n    private readonly TeamsIntegrationService _service;\n", insert_props)
 
 with open(path, "w", encoding="utf-8") as f:
     f.write(c)
