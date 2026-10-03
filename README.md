@@ -47,26 +47,24 @@ Em **Ajustes → Aparência**, novo bloco *"Dimensões da Barra"* com três slid
 
 ---
 
-## 🧩 Galeria de Widgets (Status Oficial)
+## 🧩 Galeria de Widgets (Status Atual)
 
-O GigaDock possui uma loja interna onde você pode ativar e desativar "módulos". Aqui está o status real de cada um deles:
+A GigaDock possui uma loja interna ("Widget Store") onde você pode adicionar extensões à sua barra. Aqui está o status real de cada uma delas:
 
 ### ✅ Widgets 100% Funcionais
-- **Relógio Digital:** Mostra as horas e expande para exibir a data completa.
-- **Clima e Tempo:** Previsão e temperatura atual baseada na sua localização.
-- **Contribuições do GitHub:** Acompanhe seus commits. **(Easter Egg: Clique com o botão direito para alternar entre as animações da Cobrinha e Pac-Man devorando a grade!)**
-- **Monitor de Sistema:** Acompanhe o uso real de CPU e Memória RAM sem abrir o gerenciador de tarefas.
-- **WhatsApp:** Mostra a última mensagem recebida. (Clique com o botão direito para testar o **Alerta Neon Verde**).
-- **Microsoft Teams:** Exibe o status atual e reuniões. (Clique com botão direito para testar o **Alerta Neon Roxo**).
-- **Discord Voz:** Mostra a sala atual. (Clique com o botão direito para testar o **Alerta Neon Azul**).
-- **Pomodoro de Foco:** Cronômetro funcional de 25 minutos para técnica Pomodoro.
-- **Bloco de Notas:** Um espaço rápido para rascunhos.
-- **Calendário de Compromissos:** Leitor de agenda para próximos eventos.
+- **Mídia (Tocando Agora):** Conecta nativamente via Windows Media API com Spotify, Edge, etc. Controles de reprodução reais, exibe a capa do álbum e acende o Alerta Neon RGB giratório automaticamente quando a música toca.
+- **WhatsApp:** Monitora a contagem de mensagens através da Central de Notificações. Usa um sistema heurístico inteligente de monitoramento de janelas para detectar ligações recebidas em tempo real e piscar o Alerta Neon Verde.
+- **Microsoft Teams:** Intercepta notificações nativas de entrada de mensagens para exibir o remetente e acionar o Alerta Neon Roxo. *(Status por cor como Disponível/Ausente arquivado para o futuro)*.
+- **Monitor de Sistema:** Acompanhe o uso real de CPU e Memória RAM diretamente na doca de forma otimizada.
+- **Pomodoro Timer:** Cronômetro de foco de 25 minutos funcional, com contagem regressiva ao vivo e som suave.
+- **Calendário de Compromissos:** Lê e sincroniza agendas (arquivos `.ics`) e exibe os minutos exatos até a sua próxima reunião.
+- **Relógio e Clima:** Mostra as horas e a previsão do tempo.
 
-### 🚧 Widgets em Desenvolvimento (Ainda não funcionais na V3.0)
-- **Cotação de Moedas:** Visualizador de Dólar, Euro e Criptomoedas em tempo real. *(Atualmente desabilitado na Loja).*
-- **Controle de Mídia Avançado (Spotify/Music):** Atualmente em fase de Mock (dados falsos), aguardando implementação da API global do Windows Media.
-- **Assistente Virtual Flutuante (Mascote IA):** Mascote inteligente alimentado por Inteligência Artificial. Planejado para o futuro.
+### 🚧 Em Desenvolvimento (Mock / BETA)
+Os widgets abaixo ainda estão na prancheta de desenvolvimento. Por enquanto, se você os adicionar na doca, eles vão exibir apenas dados de mentira (Mocks) para ilustrar o visual.
+- **Discord (Canais de Voz):** Exibe avatares e salas ilustrativas. A conexão real requer integração complexa com a RPC do Discord e fluxo de autorização.
+- **GitHub Actions:** Gráfico de contribuições de mentira. Integração com o Token API do GitHub está na fila.
+- **OBS Studio:** Interface de botões REC/Stop ilustrativa. Integração via WebSockets planejada.
 
 ---
 
