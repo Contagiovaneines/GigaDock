@@ -128,7 +128,34 @@ public class MainViewModel : ObservableObject
     }
 
 
-        private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsAsync()
+        
+    private async void OnJanelaAtivada(IntPtr hwnd)
+    {
+        var windows = _windowTrackingService.ObterJanelasAbertas();
+        var activeWindow = System.Linq.Enumerable.FirstOrDefault(windows, w => w.Hwnd == hwnd);
+        if (activeWindow != null)
+        {
+            string exec = (activeWindow.CaminhoExecutavel ?? "").ToLowerInvariant();
+            string name = (activeWindow.NomeProcesso ?? "").ToLowerInvariant();
+            string title = (activeWindow.Titulo ?? "").ToLowerInvariant();
+
+            if (exec.Contains("whatsapp") || name.Contains("whatsapp") || title.Contains("whatsapp"))
+            {
+                var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                _whatsappGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("whatsapp")).Sum(x => x.Value);
+                WhatsApp.MensagensNaoLidas = 0;
+            }
+
+            if (exec.Contains("teams") || exec.Contains("msteams") || name.Contains("teams") || name.Contains("msteams") || title.Contains("teams") || title.Contains("msteams"))
+            {
+                var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                _teamsGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("teams") || x.Key.ToLowerInvariant().Contains("msteams")).Sum(x => x.Value);
+                Teams.MensagensNaoLidas = 0;
+            }
+        }
+    }
+
+    private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsAsync()
     {
         var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
         int wappCount = 0;
@@ -140,6 +167,9 @@ public class MainViewModel : ObservableObject
             if (proc.Contains("whatsapp")) wappCount += kvp.Value;
             if (proc.Contains("teams") || proc.Contains("msteams")) teamsCount += kvp.Value;
         }
+
+        if (wappCount < _whatsappGhosts) _whatsappGhosts = wappCount;
+        if (teamsCount < _teamsGhosts) _teamsGhosts = teamsCount;
 
         int wappReal = System.Math.Max(0, wappCount - _whatsappGhosts);
         int teamsReal = System.Math.Max(0, teamsCount - _teamsGhosts);
@@ -319,6 +349,7 @@ public class MainViewModel : ObservableObject
         _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromSeconds(3) };
         _syncNotificacoesTimer.Tick += async (s, e) => await SincronizarNotificacoesComWindowsAsync();
         _syncNotificacoesTimer.Start();
+        _windowTrackingService.JanelaAtivada += OnJanelaAtivada;
         _windowTrackingService.Iniciar();
     }
 
