@@ -1209,6 +1209,21 @@
                                     </Grid>
                                 </Border>
 
+                                <!-- Modo RGB Mídia -->
+                                <Border Background="#25252C" CornerRadius="8" Padding="12,8" Margin="0,0,0,8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="Modo RGB Musical" FontSize="13" Foreground="#E5E7EB" FontWeight="SemiBold"/>
+                                            <TextBlock Text="Sombra da dock muda de cor acompanhando a capa da música atual." FontSize="11" Foreground="#8E8E93" Margin="0,2,0,0"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Column="1" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ModoRgbMedia, Mode=TwoWay}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
 <!-- Lixeira -->
                                 <Grid Margin="0,0,0,12">
                                     <Grid.ColumnDefinitions>

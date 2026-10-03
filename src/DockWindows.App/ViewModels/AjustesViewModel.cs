@@ -566,7 +566,17 @@ public class AjustesViewModel : ObservableObject
     }
 
     
-        public bool AlertasVisuaisHabilitados
+            public bool ModoRgbMedia
+    {
+        get => _mainVm.ModoRgbMedia;
+        set
+        {
+            _mainVm.ModoRgbMedia = value;
+            OnPropertyChanged();
+        }
+    }
+
+public bool AlertasVisuaisHabilitados
     {
         get => _mainVm.AlertasVisuaisHabilitados;
         set

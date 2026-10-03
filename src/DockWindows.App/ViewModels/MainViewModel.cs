@@ -146,6 +146,11 @@ public class MainViewModel : ObservableObject
         Pomodoro = new PomodoroWidgetViewModel();
         Calendario = new CalendarioWidgetViewModel(onAbrirAjustes: () => AbrirAjustes("Widgets"));
         Midia = new MidiaWidgetViewModel(() => _preferencias.AbrirPlayerAoDuploClique);
+        Midia.PropertyChanged += (s, e) => {
+            if (e.PropertyName == "CorPredominanteHex" || e.PropertyName == "EstaTocando" || e.PropertyName == "TemMidia") {
+                OnPropertyChanged(nameof(CorSombraDock));
+            }
+        };
         Notas = new NotasWidgetViewModel();
         MonitorSistema = new MonitorSistemaViewModel();
                         GitHub = new GitHubWidgetViewModel();
@@ -614,7 +619,34 @@ public class MainViewModel : ObservableObject
     }
 
     
-        public bool AlertasVisuaisHabilitados
+            public bool ModoRgbMedia
+    {
+        get => _preferencias.ModoRgbMedia;
+        set
+        {
+            if (_preferencias.ModoRgbMedia != value)
+            {
+                _preferencias.ModoRgbMedia = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CorSombraDock));
+                SalvarPreferencias();
+            }
+        }
+    }
+
+    public System.Windows.Media.Color CorSombraDock
+    {
+        get
+        {
+            if (ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia)
+            {
+                try { return (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(Midia.CorPredominanteHex); }
+                catch { }
+            }
+            return System.Windows.Media.Colors.Black;
+        }
+    }
+public bool AlertasVisuaisHabilitados
     {
         get => _preferencias.AlertasVisuaisHabilitados;
         set

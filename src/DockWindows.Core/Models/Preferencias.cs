@@ -31,6 +31,7 @@ public class Preferencias
     public bool ExibirMidia { get; set; } = true;
     public bool ExibirLixeira { get; set; } = false;
     public bool AlertasVisuaisHabilitados { get; set; } = true;
+    public bool ModoRgbMedia { get; set; } = false;
     public bool AbrirPlayerAoDuploClique { get; set; } = true;
     public string GitHubUsuario { get; set; } = string.Empty;
     public string LocalizacaoClima { get; set; } = string.Empty;

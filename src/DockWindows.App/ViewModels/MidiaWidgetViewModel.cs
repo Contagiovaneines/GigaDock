@@ -16,6 +16,7 @@ public class MidiaWidgetViewModel : ObservableObject
     private string? _titulo = string.Empty;
     private string? _artista = string.Empty;
     private string? _capaAlbumUrl = string.Empty;
+    private string _corPredominanteHex = "#000000";
     private bool _estaTocando;
     private bool _habilitado = true;
     
@@ -54,6 +55,8 @@ public class MidiaWidgetViewModel : ObservableObject
         set => SetProperty(ref _artista, value);
     }
     
+    public string CorPredominanteHex { get => _corPredominanteHex; set => SetProperty(ref _corPredominanteHex, value); }
+
     public string? CapaAlbumUrl
     {
         get => _capaAlbumUrl;
@@ -294,6 +297,33 @@ public class MidiaWidgetViewModel : ObservableObject
                 FonteCor = cor;
                 FonteIcone = icone;
                 FonteNome = nome;
+                
+                string dominColor = "#000000";
+                if (!string.IsNullOrEmpty(capaPath))
+                {
+                    try
+                    {
+                        var bmp = new System.Windows.Media.Imaging.BitmapImage();
+                        bmp.BeginInit();
+                        bmp.UriSource = new Uri(capaPath);
+                        bmp.DecodePixelWidth = 10;
+                        bmp.DecodePixelHeight = 10;
+                        bmp.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                        bmp.EndInit();
+                        var formatted = new System.Windows.Media.Imaging.FormatConvertedBitmap(bmp, System.Windows.Media.PixelFormats.Pbgra32, null, 0);
+                        int bwidth = formatted.PixelWidth;
+                        int bheight = formatted.PixelHeight;
+                        int bytesPerPixel = 4;
+                        byte[] pixels = new byte[bwidth * bheight * bytesPerPixel];
+                        formatted.CopyPixels(pixels, bwidth * bytesPerPixel, 0);
+                        long pr = 0, pg = 0, pb = 0;
+                        for (int i = 0; i < pixels.Length; i += bytesPerPixel) { pb += pixels[i]; pg += pixels[i + 1]; pr += pixels[i + 2]; }
+                        int count = pixels.Length / bytesPerPixel;
+                        if (count > 0) dominColor = $"#{(byte)(pr/count):X2}{(byte)(pg/count):X2}{(byte)(pb/count):X2}";
+                    }
+                    catch { }
+                }
+                CorPredominanteHex = dominColor;
             });
         }
         catch
@@ -305,6 +335,7 @@ public class MidiaWidgetViewModel : ObservableObject
                 CapaAlbumUrl = string.Empty;
                 EstaTocando = false;
                 FonteNome = string.Empty;
+                CorPredominanteHex = "#000000";
             });
         }
     }

@@ -212,7 +212,7 @@
                 </ContextMenu>
             </Border.ContextMenu>
             <Border.Effect>
-                <DropShadowEffect x:Name="DockShadow" BlurRadius="28" ShadowDepth="8" Direction="270" Color="#000000" Opacity="0.55"/>
+                <DropShadowEffect x:Name="DockShadow" BlurRadius="28" ShadowDepth="8" Direction="270" Color="{Binding CorSombraDock}" Opacity="0.55"/>
             </Border.Effect>
 
             <Grid>
