@@ -1205,7 +1205,7 @@
                                             <TextBlock Text="Alertas Visuais Neon" FontSize="13" Foreground="#E5E7EB" FontWeight="SemiBold"/>
                                             <TextBlock Text="Faz a dock brilhar na cor do aplicativo quando recebe mensagem." FontSize="11" Foreground="#8E8E93" Margin="0,2,0,0"/>
                                         </StackPanel>
-                                        <ToggleButton Grid.Column="1" Style="{StaticResource ModernToggleStyle}" IsChecked="{Binding AlertasVisuaisHabilitados}" VerticalAlignment="Center"/>
+                                        <CheckBox Grid.Column="1" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding AlertasVisuaisHabilitados, Mode=TwoWay}" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>
 
