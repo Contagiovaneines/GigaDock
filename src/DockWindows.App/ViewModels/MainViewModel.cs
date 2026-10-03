@@ -1210,6 +1210,11 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             onMoverEsquerda: MoverAppEsquerda,
             onMoverDireita: MoverAppDireita);
         vm.OnMoverParaAmbiente = MoverAppParaAmbiente;
+        vm.PropertyChanged += (s, e) => {
+            if (e.PropertyName == "NumeroNotificacoes") {
+                SincronizarBadgeWidget(vm);
+            }
+        };
         return vm;
     }
 
@@ -1224,7 +1229,27 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             onMoverEsquerda: MoverAppEsquerda,
             onMoverDireita: MoverAppDireita);
         vm.OnMoverParaAmbiente = MoverAppParaAmbiente;
+        vm.PropertyChanged += (s, e) => {
+            if (e.PropertyName == "NumeroNotificacoes") {
+                SincronizarBadgeWidget(vm);
+            }
+        };
         return vm;
+    }
+
+    private void SincronizarBadgeWidget(AppItemViewModel app)
+    {
+        string titulo = (app.Titulo ?? string.Empty).ToLowerInvariant();
+        string caminho = (app.CaminhoExecutavel ?? string.Empty).ToLowerInvariant();
+        
+        if (titulo.Contains("teams") || titulo.Contains("msteams") || caminho.Contains("ms-teams"))
+        {
+            Teams.MensagensNaoLidas = app.NumeroNotificacoes;
+        }
+        else if (titulo.Contains("whatsapp") || caminho.Contains("whatsapp"))
+        {
+            WhatsApp.MensagensNaoLidas = app.NumeroNotificacoes;
+        }
     }
 
     public void AtualizarAplicativosAbertos()
