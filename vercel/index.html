@@ -1,149 +1,565 @@
-﻿<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GigaDock Pro 3.4 - A Barra Definitiva para Windows</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="hero">
-        <div class="nav">
-            <div class="logo">GigaDock Pro</div>
-            <div class="links">
-                <a href="#features">Recursos</a>
-                <a href="#demo">Live Demo</a>
-                <a href="https://github.com/Contagiovaneines/WinDock-" target="_blank" class="btn-outline">GitHub</a>
-            </div>
-        </div>
-        
-        <div class="hero-content">
-            <span class="badge">LANÇAMENTO v3.4.0 (DirectX 12)</span>
-            <h1>O Windows<br>finalmente perfeito.</h1>
-            <p>Glass Translúcido Premium. Widget Store Integrada. Launchpad em Tela Cheia.<br>Eleve sua produtividade com a dock de mais alto nível já criada.</p>
-            <div class="actions">
-                <a href="#demo" class="btn-primary">Interagir com a Dock (Demo)</a>
-                <a href="https://github.com/Contagiovaneines/WinDock-" class="btn-secondary">Download GigaDock (40 MB)</a>
-            </div>
-        </div>
-    </header>
+<!DOCTYPE html>
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed":"#c4e7ff","primary-fixed-dim":"#7bd0ff","on-surface-variant":"#bdc8d1","primary-container":"#38bdf8","secondary":"#ddb7ff","on-primary-fixed":"#001e2c","inverse-on-surface":"#313032","on-secondary":"#490080","on-secondary-fixed":"#2c0051","on-surface":"#e5e1e4","surface-bright":"#39393b","tertiary":"#c7c8ff","on-secondary-container":"#d6a9ff","on-primary-fixed-variant":"#004c69","inverse-primary":"#00668a","on-tertiary-fixed":"#07006c","surface-container-highest":"#353437","outline":"#87929a","error-container":"#93000a","tertiary-fixed":"#e1e0ff","secondary-fixed-dim":"#ddb7ff","on-primary-container":"#004965","outline-variant":"#3e484f","on-secondary-fixed-variant":"#6900b3","on-tertiary":"#1000a9","surface-variant":"#353437","surface":"#131315","on-error-container":"#ffdad6","surface-container-low":"#1c1b1d","on-tertiary-container":"#2b29bb","tertiary-container":"#a7a9ff","on-error":"#690005","tertiary-fixed-dim":"#c0c1ff","on-background":"#e5e1e4","inverse-surface":"#e5e1e4","background":"#131315","on-primary":"#00354a","secondary-fixed":"#f0dbff","on-tertiary-fixed-variant":"#2f2ebe","surface-dim":"#131315","secondary-container":"#6f00be","surface-container-lowest":"#0e0e10","primary":"#8ed5ff","surface-tint":"#7bd0ff","surface-container-high":"#2a2a2c","surface-container":"#201f21","error":"#ffb4ab"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"margin":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","space-xl":"1.5rem","space-lg":"1rem","space-md":"0.75rem","gutter":"0.75rem"},"fontFamily":{"body-md":["Inter"],"body-lg":["Inter"],"label-sm":["Geist"],"code":["Geist"],"label-md":["Geist"],"headline-lg":["Geist"],"body-sm":["Inter"],"headline-md":["Geist"],"display":["Geist"],"headline-sm":["Geist"]},"fontSize":{"body-md":["13px",{"lineHeight":"18px","letterSpacing":"-0.005em","fontWeight":"400"}],"body-lg":["15px",{"lineHeight":"22px","letterSpacing":"-0.01em","fontWeight":"400"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"code":["12px",{"lineHeight":"16px","letterSpacing":"-0.01em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"34px","letterSpacing":"-0.04em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"headline-md":["20px",{"lineHeight":"26px","letterSpacing":"-0.03em","fontWeight":"500"}],"display":["40px",{"lineHeight":"48px","letterSpacing":"-0.05em","fontWeight":"600"}],"headline-sm":["16px",{"lineHeight":"22px","letterSpacing":"-0.02em","fontWeight":"500"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/70 backdrop-blur-2xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><div class="flex items-center justify-center w-8 h-8 rounded-xl bg-surface-container-high shadow-[0_0_16px_-4px_rgba(56,189,248,0.25)]"><span class="material-symbols-outlined text-primary text-[20px]">dock_to_bottom</span></div><a class="flex items-center gap-space-xs font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface" data-path="overview" href="#"><span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">GigaDock</span><span>Pro</span><span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-primary font-code text-code">v3.4</span></a></div><nav class="hidden md:flex items-center gap-space-xs px-space-xs py-1 rounded-xl bg-surface-container/60 backdrop-blur-md" data-active-classes="bg-primary-container text-on-primary-container rounded-lg font-medium shadow-[0_0_12px_rgba(56,189,248,0.2)]"><a aria-current="page" class="px-space-md py-1.5 transition-all bg-primary-container text-on-primary-container rounded-lg font-medium shadow-[0_0_12px_rgba(56,189,248,0.2)]" data-path="overview" href="#">Recursos</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="demo" href="#">Demo</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="widgets" href="#">Widgets</a></nav><div class="flex items-center gap-space-md"><a class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface hover:text-primary transition-all font-label-md text-label-md shadow-[0_1px_4px_rgba(0,0,0,0.2)]" href="https://github.com" rel="noreferrer" target="_blank"><span class="material-symbols-outlined text-[16px]">terminal</span><span class="font-code text-code">GitHub</span><span class="w-px h-3 bg-surface-container-highest mx-0.5"></span><span class="material-symbols-outlined text-secondary text-[14px]">star</span><span class="font-code text-code text-on-surface-variant">2.4k</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full text-on-surface select-none overflow-x-hidden">
+<!-- HERO SECTION -->
+<section class="relative w-full pt-12 pb-20 px-6 lg:px-12 flex flex-col items-center justify-center text-center">
+<!-- Ambient Lighting Core -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[720px] h-[340px] bg-gradient-to-tr from-primary-container/20 via-secondary-container/25 to-transparent rounded-full blur-[120px] pointer-events-none"></div>
+<div class="absolute top-48 left-1/3 -translate-x-1/2 w-[420px] h-[220px] bg-primary/10 rounded-full blur-[90px] pointer-events-none"></div>
+<!-- Announcement Chip -->
+<div class="inline-flex items-center gap-space-sm px-space-md py-1 rounded-full bg-surface-container-high/80 backdrop-blur-xl shadow-[0_0_24px_rgba(56,189,248,0.25)] hover:scale-105 transition-transform duration-300 cursor-default mb-8">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="material-symbols-outlined text-[15px] text-primary">auto_awesome</span>
+<span class="font-label-sm text-label-sm tracking-wide text-on-surface">Lançamento v3.4.0 • Renderização DirectX 12</span>
+</div>
+<!-- Main Title -->
+<h1 class="font-display text-display lg:text-[68px] lg:leading-[76px] font-bold max-w-5xl tracking-[-0.05em] text-on-surface mb-6">
+      O ambiente de trabalho,<br/>
+<span class="bg-gradient-to-r from-primary-container via-primary to-secondary bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(56,189,248,0.35)]">
+        reimaginado.
+      </span>
+</h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl text-center mb-10">
+      Glass translúcido premium. Widget Store integrada. Eleve a sua produtividade com a doca de mais alto nível já concebida para utilizadores avançados no Windows 11.
+    </p>
+<!-- CTAs -->
+<div class="flex flex-wrap items-center justify-center gap-space-md mb-12">
+<button class="px-space-xl py-3 rounded-xl bg-gradient-to-r from-primary-container to-secondary-container hover:brightness-110 active:scale-95 transition-all text-on-surface font-headline-sm text-headline-sm font-semibold shadow-[0_0_30px_-5px_rgba(56,189,248,0.5)] flex items-center gap-space-sm group" id="btnScrollDemo">
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:translate-y-0.5">dock_to_bottom</span>
+<span>Ver Demonstração</span>
+</button>
+<a class="px-space-xl py-3 rounded-xl bg-surface-container-high/90 hover:bg-surface-bright backdrop-blur-xl transition-all text-on-surface font-headline-sm text-headline-sm font-medium flex items-center gap-space-sm shadow-[0_4px_20px_rgba(0,0,0,0.5)]" href="#download">
+<span class="material-symbols-outlined text-[20px] text-primary">download</span>
+<span>Transferir (40 MB)</span>
+<span class="ml-1 px-1.5 py-0.5 rounded bg-surface-container-lowest font-code text-label-sm text-primary-fixed">Win 11 x64</span>
+</a>
+</div>
+<!-- Quick Metrics -->
+<div class="flex flex-wrap items-center justify-center gap-8 text-on-surface-variant font-code text-code">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">star</span>
+<span class="font-semibold text-on-surface">4.9 / 5.0</span>
+<span>GitHub Community</span>
+</div>
+<span class="w-1 h-1 rounded-full bg-surface-variant"></span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">speed</span>
+<span class="font-semibold text-on-surface">144 FPS</span>
+<span>Taxa de Atualização Nativa</span>
+</div>
+<span class="w-1 h-1 rounded-full bg-surface-variant"></span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">memory</span>
+<span class="font-semibold text-on-surface">&lt;18 MB</span>
+<span>Consumo Médio de RAM</span>
+</div>
+</div>
+</section>
+<!-- INTERACTIVE LIVE DEMO SCREEN -->
+<section class="relative w-full max-w-7xl mx-auto px-6 lg:px-12 py-12" id="demo-anchor">
+<!-- Section Title & Meta -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+<div>
+<div class="font-code text-label-sm text-primary tracking-widest uppercase mb-1">Interatividade em Tempo Real</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Workspace de Alta Fidelidade</h2>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all shadow-[0_2px_10px_rgba(0,0,0,0.4)]" id="toggleQuickSettingsBtn">
+<span class="material-symbols-outlined text-[16px] text-primary">tune</span>
+<span>Abrir Definições da Doca</span>
+</button>
+</div>
+</div>
+<!-- Desktop Frame Shell -->
+<div class="relative w-full rounded-2xl bg-surface-container-lowest overflow-hidden shadow-[0_25px_70px_-15px_rgba(0,0,0,0.85)]">
+<!-- Windows Minimal Header -->
+<div class="h-10 px-4 bg-surface-container/70 backdrop-blur-md flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-error/80"></div>
+<div class="w-3 h-3 rounded-full bg-secondary-fixed-dim/70"></div>
+<div class="w-3 h-3 rounded-full bg-primary/70"></div>
+<span class="ml-2 font-code text-code text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">desktop_windows</span>
+<span>Windows 11 Pro — Workspace Linear / DevStation</span>
+</span>
+</div>
+<div class="flex items-center gap-3 font-code text-label-sm text-on-surface-variant">
+<span class="px-2 py-0.5 rounded bg-surface-container-high">GPU: 0.8%</span>
+<span>60 Hz Synced</span>
+</div>
+</div>
+<!-- Wallpaper & Mockup Workspace Area -->
+<div class="relative w-full h-[540px] md:h-[620px] bg-surface-dim overflow-hidden flex flex-col justify-between p-6">
+<!-- Abstract Liquid Gradient Wallpaper Graphic -->
+<div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_20%_25%,_rgba(56,189,248,0.22),transparent_45%),radial-gradient(circle_at_80%_75%,_rgba(168,85,247,0.28),transparent_50%),radial-gradient(circle_at_50%_50%,_rgba(14,14,18,0.9),transparent_100%)]"></div>
+<!-- Floating Windows Layer -->
+<div class="relative z-10 w-full grid grid-cols-1 md:grid-cols-12 gap-6 pointer-events-none">
+<!-- Mockup Window: VS Code Minimal -->
+<div class="md:col-span-7 rounded-xl bg-surface-container-low/75 backdrop-blur-xl p-4 shadow-[0_16px_36px_rgba(0,0,0,0.6)]">
+<div class="flex items-center justify-between pb-3 mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary">terminal</span>
+<span class="font-code text-code text-on-surface">dock-engine.cs — Visual Studio Code</span>
+</div>
+<span class="font-code text-label-sm text-primary-fixed bg-surface-container-high px-2 py-0.5 rounded">.NET 8</span>
+</div>
+<pre class="font-code text-code leading-relaxed text-on-surface-variant overflow-x-hidden"><span class="text-secondary">public sealed class</span> <span class="text-primary">DirectXAcrylicPipeline</span> {
+  <span class="text-on-surface-variant/60">// Zero copy compositing swapchain</span>
+  <span class="text-secondary">public void</span> <span class="text-primary-container">RenderDockFrame</span>(<span class="text-tertiary">IDCompositionDesktopDevice</span> dev) {
+    dev.SetBlurRadius(<span class="text-primary">48.0f</span>);
+    dev.CommitHardwareSurfaces();
+  }
+}</pre>
+</div>
+<!-- Mockup Window: Spotify Minimal Glass Player -->
+<div class="md:col-span-5 rounded-xl bg-surface-container-low/70 backdrop-blur-xl p-4 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">graphic_eq</span>
+<span class="font-label-md text-label-md text-on-surface">Now Playing</span>
+</div>
+<span class="font-code text-label-sm text-secondary bg-surface-container-high px-2 py-0.5 rounded">Hi-Fi 96kHz</span>
+</div>
+<div class="my-3 flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+<span class="material-symbols-outlined text-[24px]">album</span>
+</div>
+<div class="min-w-0">
+<div class="font-headline-sm text-headline-sm font-semibold truncate text-on-surface">Midnight City Pulse</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate">Kavinsky • Re-Engineered v4</div>
+</div>
+</div>
+<!-- Progress Bar Audio -->
+<div class="w-full">
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-secondary w-3/5 rounded-full"></div>
+</div>
+<div class="flex justify-between font-code text-label-sm text-on-surface-variant mt-1.5">
+<span>02:14</span>
+<span>03:45</span>
+</div>
+</div>
+</div>
+</div>
+<!-- DOCK POSITIONING CONTAINER -->
+<div class="relative z-30 w-full flex flex-col items-center justify-end pb-2 pointer-events-auto">
+<!-- FLOATING GIGADOCK PRO COMPONENT -->
+<div class="relative group px-4 py-2.5 rounded-2xl bg-surface-container/80 backdrop-blur-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.85)] transition-all duration-300 flex items-center gap-3" id="interactiveDock">
+<!-- RGB Glow Perimeter Wrapper (Toggled by JS) -->
+<div class="absolute -inset-[2px] rounded-[18px] bg-gradient-to-r from-primary via-secondary to-primary-container -z-10 opacity-100 blur-[6px] transition-opacity duration-500" id="dockRgbRing"></div>
+<!-- Item: Files -->
+<div class="dock-item relative group/item flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:scale-110">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high/90 flex items-center justify-center text-primary shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
+<span class="material-symbols-outlined text-[24px]">folder</span>
+</div>
+<span class="w-1.5 h-1.5 mt-1 rounded-full bg-primary shadow-[0_0_8px_#38bdf8]"></span>
+<span class="absolute -top-8 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none shadow-lg">Ficheiros</span>
+</div>
+<!-- Item: Terminal -->
+<div class="dock-item relative group/item flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:scale-110">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high/90 flex items-center justify-center text-on-surface shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
+<span class="material-symbols-outlined text-[22px]">terminal</span>
+</div>
+<span class="w-1.5 h-1.5 mt-1 rounded-full bg-secondary shadow-[0_0_8px_#a855f7]"></span>
+<span class="absolute -top-8 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none shadow-lg">Terminal</span>
+</div>
+<!-- Item: Code -->
+<div class="dock-item relative group/item flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:scale-110">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high/90 flex items-center justify-center text-primary-container shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
+<span class="material-symbols-outlined text-[24px]">code</span>
+</div>
+<span class="w-1.5 h-1.5 mt-1 rounded-full bg-primary-container shadow-[0_0_8px_#38bdf8]"></span>
+<span class="absolute -top-8 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none shadow-lg">VS Code</span>
+</div>
+<!-- Item: Browser -->
+<div class="dock-item relative group/item flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:scale-110">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high/90 flex items-center justify-center text-tertiary shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
+<span class="material-symbols-outlined text-[24px]">travel_explore</span>
+</div>
+<span class="w-1.5 h-1.5 mt-1 rounded-full bg-tertiary"></span>
+<span class="absolute -top-8 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none shadow-lg">Navegador</span>
+</div>
+<!-- Item: Figma / Design -->
+<div class="dock-item relative group/item flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:scale-110">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high/90 flex items-center justify-center text-secondary shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
+<span class="material-symbols-outlined text-[22px]">draw</span>
+</div>
+<span class="w-1.5 h-1.5 mt-1 rounded-full bg-transparent"></span>
+<span class="absolute -top-8 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none shadow-lg">Figma Studio</span>
+</div>
+<!-- Vertical Separator -->
+<div class="w-px h-8 bg-surface-variant mx-1"></div>
+<!-- Interactive Widget: Music Island (Toggleable) -->
+<div class="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-surface-container-low/90 backdrop-blur-md cursor-pointer transition-all hover:bg-surface-container-high" id="dockMusicWidget">
+<span class="material-symbols-outlined text-[20px] text-primary animate-pulse">music_note</span>
+<div class="flex flex-col text-left">
+<span class="font-code text-label-sm text-on-surface leading-tight truncate w-24">Midnight City</span>
+<span class="font-code text-[10px] text-on-surface-variant">Spotify Live</span>
+</div>
+</div>
+<!-- Widget: Weather -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container-low/90 backdrop-blur-md cursor-pointer hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary-fixed">wb_sunny</span>
+<span class="font-code text-label-sm text-on-surface">21°C</span>
+</div>
+<!-- Widget: Hardware CPU -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container-low/90 backdrop-blur-md cursor-pointer hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[18px] text-secondary">memory</span>
+<div class="flex flex-col text-left">
+<span class="font-code text-[11px] text-on-surface font-semibold">12%</span>
+<span class="font-code text-[9px] text-on-surface-variant">DirectX 12</span>
+</div>
+</div>
+<!-- Vertical Separator -->
+<div class="w-px h-8 bg-surface-variant mx-1"></div>
+<!-- Item: Dock Settings Opener -->
+<button class="dock-item relative group/item flex flex-col items-center cursor-pointer transition-all duration-200 hover:-translate-y-2 hover:scale-110" id="dockSettingsIconBtn">
+<div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-surface-container-high to-surface-bright flex items-center justify-center text-primary shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+<span class="material-symbols-outlined text-[22px] transition-transform duration-500 group-hover/item:rotate-90">settings</span>
+</div>
+<span class="w-1.5 h-1.5 mt-1 rounded-full bg-primary-container"></span>
+<span class="absolute -top-8 px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-label-sm text-label-sm opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none shadow-lg">Personalizar</span>
+</button>
+</div>
+<!-- Dock Subtext hint -->
+<div class="mt-3 font-code text-label-sm text-on-surface-variant/70 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">mouse</span>
+<span>Passe o cursor sobre os ícones ou clique nas definições para interagir em tempo real</span>
+</div>
+</div>
+<!-- MODAL / DRAWER INTERATIVO DE DEFINIÇÕES (Controlado via JS) -->
+<div class="absolute inset-0 z-40 bg-surface-container-lowest/80 backdrop-blur-xl flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none" id="settingsOverlay">
+<div class="relative w-full max-w-md rounded-2xl bg-surface-container-high/95 p-6 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.9)]">
+<div class="flex items-center justify-between mb-5">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[24px]">tune</span>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Configurações da GigaDock</h3>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container hover:bg-surface-variant flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" id="closeSettingsBtn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">
+              Ajuste as propriedades visuais em tempo de execução com aceleração nativa via hardware:
+            </p>
+<!-- Toggles List -->
+<div class="flex flex-col gap-4">
+<!-- Toggle 1: Dynamic RGB Ring -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div>
+<div class="font-label-md text-label-md font-medium text-on-surface">Aura RGB Dinâmica</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Gradiente neon pulsante ao redor da doca</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggleRgbSwitch" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Toggle 2: Spotify Sound Widget -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div>
+<div class="font-label-md text-label-md font-medium text-on-surface">Widget de Música / Spotify</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Mini player integrado com status ao vivo</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggleMusicSwitch" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+<!-- Toggle 3: Ultra Glass Blur Intensity -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div>
+<div class="font-label-md text-label-md font-medium text-on-surface">Transparência Glass Ultra</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Backdrop blur profundo estilo Apple Mica</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggleGlassSwitch" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- Footer Action inside Modal -->
+<div class="mt-6 flex justify-end">
+<button class="px-space-lg py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container font-label-md text-label-md font-semibold transition-all" id="applySettingsBtn">
+                Concluído
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- BENTO GRID (Funcionalidades Avançadas) -->
+<section class="w-full max-w-7xl mx-auto px-6 lg:px-12 py-16">
+<div class="max-w-2xl mb-12">
+<div class="font-code text-label-sm text-secondary uppercase tracking-widest mb-2">Engenharia de Ponta</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Concebido para Fluxos Sem Fricção</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">
+        Uma experiência unificada onde estética pura e renderização nativa em C# WPF entregam poder sem comprometer a sua bateria.
+      </p>
+</div>
+<!-- Bento Grid Container -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: Dynamic Launchpad (Large / 2 Columns) -->
+<div class="md:col-span-2 rounded-2xl bg-surface-container-low p-8 relative overflow-hidden flex flex-col justify-between group hover:shadow-[0_0_35px_rgba(56,189,248,0.15)] transition-all">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-[24px]">grid_view</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2">Launchpad Dinâmico com Categorias</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Organize os seus programas de desenvolvimento, suíte criativa e ferramentas de comunicação através de pastas contextuais inteligentes acionadas com atalhos de teclado instantâneos.
+          </p>
+</div>
+<!-- Visual Drawer Graphic Representation -->
+<div class="mt-8 rounded-xl bg-surface-container p-4 backdrop-blur-md">
+<div class="flex items-center gap-2 mb-3">
+<span class="px-2.5 py-1 rounded-md bg-primary-container text-on-primary-container font-label-sm text-label-sm font-medium">Desenvolvimento</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Design UX</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">Produtividade</span>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-6 gap-3">
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-high hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-primary text-[22px]">code</span>
+<span class="font-code text-[11px] text-on-surface mt-1">VS Code</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-high hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-secondary text-[22px]">terminal</span>
+<span class="font-code text-[11px] text-on-surface mt-1">PowerShell</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-high hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-tertiary text-[22px]">database</span>
+<span class="font-code text-[11px] text-on-surface mt-1">Postgres</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-high hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-primary-fixed text-[22px]">deployed_code</span>
+<span class="font-code text-[11px] text-on-surface mt-1">Docker</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-high hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-primary text-[22px]">commit</span>
+<span class="font-code text-[11px] text-on-surface mt-1">GitKraken</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-high hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-secondary text-[22px]">api</span>
+<span class="font-code text-[11px] text-on-surface mt-1">Postman</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Musical RGB Mode (Square) -->
+<div class="rounded-2xl bg-surface-container-low p-8 flex flex-col justify-between group hover:shadow-[0_0_35px_rgba(221,183,255,0.15)] transition-all">
+<div>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary mb-4">
+<span class="material-symbols-outlined text-[24px]">equalizer</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2">Modo RGB Musical</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            O perímetro da doca reage em tempo real com as frequências graves e batidas das suas faixas em execução no Spotify ou YouTube.
+          </p>
+</div>
+<!-- Frequency visualizer SVG -->
+<div class="my-6 p-4 rounded-xl bg-surface-container flex items-end justify-center gap-1.5 h-32">
+<span class="w-2 h-10 bg-primary/70 rounded-full animate-pulse"></span>
+<span class="w-2 h-16 bg-primary rounded-full animate-bounce"></span>
+<span class="w-2 h-24 bg-primary-container rounded-full animate-pulse"></span>
+<span class="w-2 h-20 bg-secondary rounded-full animate-bounce"></span>
+<span class="w-2 h-14 bg-secondary-fixed-dim rounded-full animate-pulse"></span>
+<span class="w-2 h-28 bg-gradient-to-t from-primary to-secondary rounded-full animate-bounce"></span>
+<span class="w-2 h-16 bg-secondary rounded-full animate-pulse"></span>
+<span class="w-2 h-8 bg-tertiary rounded-full animate-bounce"></span>
+</div>
+<div class="font-code text-label-sm text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">graphic_eq</span>
+<span>Latência de áudio &lt; 2ms via WASAPI</span>
+</div>
+</div>
+<!-- Card 3: Modular Widget Store (Square) -->
+<div class="rounded-2xl bg-surface-container-low p-8 flex flex-col justify-between group hover:shadow-[0_0_35px_rgba(56,189,248,0.15)] transition-all">
+<div>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary-fixed mb-4">
+<span class="material-symbols-outlined text-[24px]">extension</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2">Widget Store Integrada</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Biblioteca modular comunitária com micro-widgets leves. Instale monitores de GitHub PRs, cotações e conversor monetário com um clique.
+          </p>
+</div>
+<!-- Mini widgets list -->
+<div class="my-6 flex flex-col gap-2.5">
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">cloud</span>
+<span class="font-code text-label-sm text-on-surface">Meteorologia Global</span>
+</div>
+<span class="font-code text-[11px] text-primary-container">Ativo</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]">terminal</span>
+<span class="font-code text-label-sm text-on-surface">GitHub Watcher</span>
+</div>
+<span class="font-code text-[11px] text-on-surface-variant">Instalar</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[18px]">currency_bitcoin</span>
+<span class="font-code text-label-sm text-on-surface">Crypto Ticker</span>
+</div>
+<span class="font-code text-[11px] text-on-surface-variant">Instalar</span>
+</div>
+</div>
+<div class="font-code text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Open API SDK disponível em C# &amp; Lua</span>
+</div>
+</div>
+<!-- Card 4: Hardware Performance & DirectX 12 Engine (Wide / 2 Columns) -->
+<div class="md:col-span-2 rounded-2xl bg-surface-container-low p-8 relative overflow-hidden flex flex-col justify-between group hover:shadow-[0_0_35px_rgba(56,189,248,0.2)] transition-all">
+<div class="relative z-10">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-[24px]">bolt</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-2">Engine DirectX 12 &amp; C# .NET WPF Nativo</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Sem containers Electron inflados. Compilado nativamente com AOT (Ahead-of-Time) para execução direta sobre a GPU com taxa constante de 144Hz e zero impacto em jogos pesados.
+          </p>
+</div>
+<!-- Benchmarks comparison table -->
+<div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="p-4 rounded-xl bg-surface-container">
+<div class="font-code text-label-sm text-on-surface-variant uppercase">Uso de Memória</div>
+<div class="font-headline-lg text-headline-lg font-bold text-primary mt-1">18 MB</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/80 mt-1">vs 450 MB em apps Electron</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container">
+<div class="font-code text-label-sm text-on-surface-variant uppercase">Tempo de Inicialização</div>
+<div class="font-headline-lg text-headline-lg font-bold text-secondary mt-1">0.12s</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/80 mt-1">Startup instantâneo com o Windows</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container">
+<div class="font-code text-label-sm text-on-surface-variant uppercase">Taxa de Quadros</div>
+<div class="font-headline-lg text-headline-lg font-bold text-primary-container mt-1">144 FPS</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/80 mt-1">Fluidez total sem micro-stutters</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- BOTTOM DOWNLOAD / FINAL CONVERSION STRIP -->
+<section class="w-full max-w-7xl mx-auto px-6 lg:px-12 py-20" id="download">
+<div class="relative rounded-3xl bg-surface-container-high/60 backdrop-blur-2xl p-10 lg:p-16 overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] flex flex-col md:flex-row items-center justify-between gap-8">
+<!-- Ambient back glow -->
+<div class="absolute -right-20 -bottom-20 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="max-w-xl text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg lg:text-[34px] font-bold text-on-surface tracking-tight">
+          Pronto para transformar a sua área de trabalho?
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-3">
+          Transfira gratuitamente a versão 3.4.0-stable e junte-se a mais de 45.000 profissionais e criadores de conteúdo que escolheram velocidade real.
+        </p>
+<div class="flex items-center justify-center md:justify-start gap-4 mt-4 font-code text-code text-on-surface-variant">
+<span>Licença MIT Open-Source</span>
+<span>•</span>
+<span>Compatível com Windows 10 &amp; 11</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+<a class="w-full sm:w-auto px-space-xl py-3.5 rounded-xl bg-gradient-to-r from-primary-container via-primary to-secondary hover:brightness-110 active:scale-95 transition-all text-on-surface font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-space-sm shadow-[0_0_30px_rgba(56,189,248,0.4)]" href="#download-file">
+<span class="material-symbols-outlined text-[22px]">download</span>
+<span>Descarregar GigaDock Pro</span>
+</a>
+<a class="w-full sm:w-auto px-space-xl py-3.5 rounded-xl bg-surface-container hover:bg-surface-bright text-on-surface font-headline-sm text-headline-sm font-medium flex items-center justify-center gap-space-sm transition-all shadow-md" href="https://github.com" rel="noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">code</span>
+<span>Ver no GitHub</span>
+</a>
+</div>
+</div>
+</section>
+</div>
+<!-- INTERACTIVE SCRIPTS FOR LIVE DEMO ENGINE -->
+<script>
+  (function () {
+    // Smooth scroll from CTA to interactive demo
+    const btnScrollDemo = document.getElementById('btnScrollDemo');
+    if (btnScrollDemo) {
+      btnScrollDemo.addEventListener('click', () => {
+        const target = document.getElementById('demo-anchor');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
 
-    <section id="demo" class="demo-section">
-        <div class="desktop-mockup">
-            <div class="wallpaper"></div>
-            <div class="desktop-content">
-                <h2>Experimente a Mágica</h2>
-                <p>Clique no ícone de configurações na dock para abrir a Loja de Widgets. Teste o player de música!</p>
-            </div>
-            
-            <!-- A DOCK INTERATIVA -->
-            <div class="dock-container">
-                <div class="dock" id="dock">
-                    <div class="rgb-border" id="rgb-border"></div>
-                    <div class="dock-inner" id="dock-inner">
-                        <!-- Launchpad & Search -->
-                        <div class="dock-item action-btn" data-tooltip="Launchpad">
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z"/></svg>
-                        </div>
-                        <div class="dock-item action-btn" data-tooltip="Pesquisa">
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                        </div>
+    // Modal Settings Controls
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    const toggleQuickSettingsBtn = document.getElementById('toggleQuickSettingsBtn');
+    const dockSettingsIconBtn = document.getElementById('dockSettingsIconBtn');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    const applySettingsBtn = document.getElementById('applySettingsBtn');
 
-                        <div class="divider"></div>
+    function openSettings() {
+      settingsOverlay.classList.remove('opacity-0', 'pointer-events-none');
+      settingsOverlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
 
-                        <!-- Apps Fixos -->
-                        <div class="dock-item app-icon" data-tooltip="Chrome">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" alt="Chrome">
-                            <div class="dot active"></div>
-                        </div>
-                        <div class="dock-item app-icon" data-tooltip="VS Code">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VSCode">
-                            <div class="dot active"></div>
-                        </div>
+    function closeSettings() {
+      settingsOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+      settingsOverlay.classList.add('opacity-0', 'pointer-events-none');
+    }
 
-                        <div class="divider"></div>
+    if (toggleQuickSettingsBtn) toggleQuickSettingsBtn.addEventListener('click', openSettings);
+    if (dockSettingsIconBtn) dockSettingsIconBtn.addEventListener('click', openSettings);
+    if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeSettings);
+    if (applySettingsBtn) applySettingsBtn.addEventListener('click', closeSettings);
 
-                        <!-- Configurações -->
-                        <div class="dock-item action-btn" data-tooltip="Ajustes e Widgets" id="settings-btn">
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    // Interactive Toggles behavior on Dock elements
+    const toggleRgbSwitch = document.getElementById('toggleRgbSwitch');
+    const dockRgbRing = document.getElementById('dockRgbRing');
 
-            <!-- MODAL DE AJUSTES -->
-            <div class="modal-overlay" id="settings-modal">
-                <div class="modal">
-                    <div class="modal-header">
-                        <h3>Ajustes e Loja de Widgets</h3>
-                        <button class="close-btn" id="close-modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="setting-item">
-                            <div>
-                                <h4>Widget de Mídia</h4>
-                                <p>Exibe a música atual tocando</p>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" id="toggle-midia">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-item">
-                            <div>
-                                <h4>Widget do WhatsApp</h4>
-                                <p>Mostra contador de mensagens não lidas</p>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" id="toggle-wapp">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-item">
-                            <div>
-                                <h4>Contorno Neon (Música)</h4>
-                                <p>Pisca cores RGB quando há música tocando</p>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" id="toggle-rgb">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    if (toggleRgbSwitch && dockRgbRing) {
+      toggleRgbSwitch.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          dockRgbRing.classList.remove('opacity-0');
+          dockRgbRing.classList.add('opacity-100');
+        } else {
+          dockRgbRing.classList.remove('opacity-100');
+          dockRgbRing.classList.add('opacity-0');
+        }
+      });
+    }
 
-        </div>
-    </section>
+    const toggleMusicSwitch = document.getElementById('toggleMusicSwitch');
+    const dockMusicWidget = document.getElementById('dockMusicWidget');
 
-    <!-- Templates para Injetar no DOM -->
-    <template id="tpl-midia">
-        <div class="dock-item widget music" data-tooltip="Spotify" id="widget-midia">
-            <div class="widget-content">
-                <img src="https://i.scdn.co/image/ab67616d00001e021a00a266ce22a1040316d3f2" class="album-art" alt="Album">
-                <div class="music-info">
-                    <span class="title">Can You Remember</span>
-                    <span class="artist">The Jackson 5</span>
-                </div>
-                <div class="controls">
-                    <button>⏮</button>
-                    <button id="play-pause-btn">▶</button>
-                    <button>⏭</button>
-                </div>
-            </div>
-        </div>
-    </template>
+    if (toggleMusicSwitch && dockMusicWidget) {
+      toggleMusicSwitch.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          dockMusicWidget.classList.remove('hidden');
+          dockMusicWidget.classList.add('flex');
+        } else {
+          dockMusicWidget.classList.remove('flex');
+          dockMusicWidget.classList.add('hidden');
+        }
+      });
+    }
 
-    <template id="tpl-wapp">
-        <div class="dock-item widget whatsapp" data-tooltip="Nova mensagem" id="widget-wapp">
-            <div class="widget-content">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WA">
-                <span class="count">4</span>
-                <div class="notify-dot"></div>
-            </div>
-        </div>
-    </template>
+    const toggleGlassSwitch = document.getElementById('toggleGlassSwitch');
+    const interactiveDock = document.getElementById('interactiveDock');
 
-    <script src="script.js"></script>
-</body>
-</html>
+    if (toggleGlassSwitch && interactiveDock) {
+      toggleGlassSwitch.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          interactiveDock.classList.remove('bg-surface-container-highest/95');
+          interactiveDock.classList.add('bg-surface-container/80', 'backdrop-blur-2xl');
+        } else {
+          interactiveDock.classList.remove('bg-surface-container/80', 'backdrop-blur-2xl');
+          interactiveDock.classList.add('bg-surface-container-highest/95');
+        }
+      });
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest/90 backdrop-blur-xl"><div class="max-w-7xl mx-auto px-6 lg:px-12 py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex flex-col items-center md:items-start gap-space-xs"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">GigaDock Pro</span><span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-code text-code">3.4.0-stable</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Arquitetura open-source ultra-rápida desenvolvida em C# .NET 8 e WPF Engine nativo para Windows 11.</p></div><div class="flex flex-wrap items-center justify-center gap-space-lg text-on-surface-variant font-label-md text-label-md"><a class="hover:text-primary transition-colors" data-path="overview" href="#">Documentação</a><a class="hover:text-primary transition-colors" data-path="widgets" href="#">Catálogo SDK</a><a class="hover:text-primary transition-colors" data-path="demo" href="#">Changelog</a><a class="flex items-center gap-space-xs text-secondary hover:text-primary-fixed transition-colors" href="https://github.com/sponsors" rel="noreferrer" target="_blank"><span class="material-symbols-outlined text-[16px]">favorite</span><span>Patrocinar Desenvolvedor</span></a></div><div class="text-center md:text-right font-code text-code text-on-surface-variant/80"><p>© 2024 GigaDock Project. Licenciado sob MIT.</p><p class="text-surface-tint/80">Compilação 2024.11.08 • Hardware Acceleration Enabled</p></div></div></footer></body></html>
