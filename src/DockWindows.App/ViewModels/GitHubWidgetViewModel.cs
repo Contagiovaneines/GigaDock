@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,6 +42,14 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
     public DockWindows.Core.Widgets.SaudeWidget Saude => string.IsNullOrEmpty(ErroAtualizacao) ? DockWindows.Core.Widgets.SaudeWidget.Disponivel : DockWindows.Core.Widgets.SaudeWidget.Erro;
     public string? MotivoEstado => ErroAtualizacao;
     public bool TotalConfirmado { get; private set; }
+    private string? _etagEventos;
+    private int _eventosRecentes;
+    private DateTimeOffset? _ultimaAtividade;
+    private string _estadoAtividade = "Atividade recente não consultada";
+    public int EventosRecentes { get => _eventosRecentes; private set => SetProperty(ref _eventosRecentes, value); }
+    public DateTimeOffset? UltimaAtividade { get => _ultimaAtividade; private set => SetProperty(ref _ultimaAtividade, value); }
+    public string EstadoAtividade { get => _estadoAtividade; private set => SetProperty(ref _estadoAtividade, value); }
+    public string ResumoCompleto => $"{TextoResumo}\n{EstadoAtividade}";
     private readonly DispatcherTimer _timer;
     private readonly DispatcherTimer _animTimer;
     private bool _visual, _animacoes, _disposed, _ocupado;
@@ -153,6 +165,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
     public GitHubWidgetViewModel()
     {
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd("GigaDock/3.0 (+https://github.com/Contagiovaneines/GigaDock)");
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
         DefinirAnimacaoCommand = new RelayCommand<string>(SelecionarAnimacao);
         
@@ -220,6 +233,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         Carregando = true;
         try
         {
+            await CarregarAtividadeRecenteAsync(usuario, consulta.Token);
             var url = $"https://github.com/users/{Uri.EscapeDataString(usuario)}/contributions";
             Requisicoes++;
             var html = await _http.GetStringAsync(url, consulta.Token);
@@ -268,7 +282,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
                 if (AnimacaoAutomatica) IniciarAnimacao();
 
                 ErroAtualizacao = ""; TotalConfirmado = matchesTooltip.Count > 0;
-                TotalContribuicoes = total; OnPropertyChanged(nameof(TextoResumo));
+                TotalContribuicoes = total; OnPropertyChanged(nameof(TextoResumo)); OnPropertyChanged(nameof(ResumoCompleto));
                 Carregando = false;
             }
             if (Application.Current?.Dispatcher is { } dispatcher) await dispatcher.InvokeAsync(Aplicar); else Aplicar();
@@ -282,6 +296,51 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             if (_visual && !_disposed && (consulta.IsCancellationRequested || usuario != _nomeUsuario)) _ = CarregarContribuicoesAsync();
         }
     }
+
+    private async Task CarregarAtividadeRecenteAsync(string usuario, CancellationToken token)
+    {
+        var cache = ObterCaminhoCacheEventos(usuario);
+        try
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.github.com/users/{Uri.EscapeDataString(usuario)}/events/public?per_page=100");
+            if (!string.IsNullOrWhiteSpace(_etagEventos)) request.Headers.IfNoneMatch.Add(new EntityTagHeaderValue(_etagEventos));
+            using var response = await _http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
+            if (response.StatusCode == HttpStatusCode.NotModified) { EstadoAtividade = $"{EventosRecentes} eventos públicos recentes"; return; }
+            if (response.StatusCode == HttpStatusCode.NotFound) throw new InvalidOperationException("Usuário do GitHub não encontrado.");
+            response.EnsureSuccessStatusCode();
+            _etagEventos = response.Headers.ETag?.Tag;
+            if (response.Headers.TryGetValues("X-Poll-Interval", out var valores) && int.TryParse(valores.FirstOrDefault(), out var segundos))
+                _cacheAte = DateTimeOffset.UtcNow.AddSeconds(Math.Max(60, segundos));
+            await using var stream = await response.Content.ReadAsStreamAsync(token);
+            using var json = await JsonDocument.ParseAsync(stream, cancellationToken: token);
+            var datas = json.RootElement.EnumerateArray().Select(e => e.TryGetProperty("created_at", out var data) && data.TryGetDateTimeOffset(out var valor) ? valor : (DateTimeOffset?)null).Where(x => x.HasValue).Select(x => x!.Value).ToList();
+            EventosRecentes = datas.Count; UltimaAtividade = datas.Count == 0 ? null : datas.Max();
+            EstadoAtividade = datas.Count == 0 ? "Sem eventos públicos recentes" : $"{datas.Count} eventos · último {UltimaAtividade:dd/MM HH:mm}";
+            OnPropertyChanged(nameof(ResumoCompleto));
+            Directory.CreateDirectory(Path.GetDirectoryName(cache)!);
+            await File.WriteAllTextAsync(cache, JsonSerializer.Serialize(new CacheEventos(EventosRecentes, UltimaAtividade, _etagEventos, DateTimeOffset.Now)), token);
+        }
+        catch (OperationCanceledException) { throw; }
+        catch (InvalidOperationException ex) when (ex.Message.Contains("não encontrado", StringComparison.Ordinal)) { EstadoAtividade = ex.Message; throw; }
+        catch
+        {
+            try
+            {
+                if (!File.Exists(cache)) { EstadoAtividade = "Atividade recente indisponível"; return; }
+                var salvo = JsonSerializer.Deserialize<CacheEventos>(await File.ReadAllTextAsync(cache, token));
+                if (salvo != null) { EventosRecentes = salvo.Eventos; UltimaAtividade = salvo.Ultima; _etagEventos = salvo.ETag; EstadoAtividade = $"{salvo.Eventos} eventos · cache de {salvo.SalvoEm:dd/MM HH:mm}"; OnPropertyChanged(nameof(ResumoCompleto)); }
+            }
+            catch { EstadoAtividade = "Atividade recente indisponível"; }
+        }
+    }
+
+    private static string ObterCaminhoCacheEventos(string usuario)
+    {
+        var seguro = new string(usuario.Where(char.IsLetterOrDigit).ToArray());
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DockWindows", "cache", $"github-{seguro}-events.json");
+    }
+
+    private sealed record CacheEventos(int Eventos, DateTimeOffset? Ultima, string? ETag, DateTimeOffset SalvoEm);
 
     public void IniciarAnimacao()
     {

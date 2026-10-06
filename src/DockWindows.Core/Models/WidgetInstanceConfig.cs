@@ -9,4 +9,21 @@ public class WidgetInstanceConfig
     public string Estilo { get; set; } = "";
     public bool Visivel { get; set; } = true;
     public int Ordem { get; set; }
+    public int VersaoConfiguracao { get; set; } = 1;
+    public Dictionary<string, string> Configuracao { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+
+    public string ObterConfiguracao(string chave, string valorPadrao = "")
+    {
+        if (string.IsNullOrWhiteSpace(chave)) return valorPadrao;
+        Configuracao ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        return Configuracao.TryGetValue(chave, out var valor) ? valor : valorPadrao;
+    }
+
+    public void DefinirConfiguracao(string chave, string? valor)
+    {
+        if (string.IsNullOrWhiteSpace(chave)) return;
+        Configuracao ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        if (string.IsNullOrWhiteSpace(valor)) Configuracao.Remove(chave);
+        else Configuracao[chave] = valor.Trim();
+    }
 }

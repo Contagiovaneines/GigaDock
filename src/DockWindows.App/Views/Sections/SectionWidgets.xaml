@@ -124,6 +124,154 @@
 
         <!-- WIDGET: NOTAS -->
         <local:SectionNotasInline Visibility="{Binding Notas.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>
+        <ItemsControl ItemsSource="{Binding NotasAdicionais}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate><local:SectionNotasInline Margin="2,0"/></DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Border Visibility="{Binding LembreteAgua.Habilitado, Converter={StaticResource BoolToVis}}"
+                CornerRadius="10" Background="#152A2630" Padding="8,5" Margin="2,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="💧" FontSize="15" Margin="0,0,5,0"/>
+                <StackPanel>
+                    <TextBlock Text="{Binding LembreteAgua.TextoResumo}" Foreground="White" FontSize="11" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding LembreteAgua.TextoProximo, StringFormat='Próximo: {0}'}" Foreground="#9FB1C3" FontSize="9"/>
+                </StackPanel>
+                <Button Content="Bebi" Command="{Binding LembreteAgua.BeberAguaCommand}" Margin="8,0,0,0" Padding="7,3"
+                        Background="#1F6F5C" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                <Button Content="+10" Command="{Binding LembreteAgua.AdiarCommand}" Margin="4,0,0,0" Padding="6,3"
+                        Background="#2B3440" Foreground="White" BorderThickness="0" Cursor="Hand" ToolTip="Adiar por dez minutos"/>
+            </StackPanel>
+        </Border>
+
+        <Button Visibility="{Binding CotacaoMoedas.Habilitado, Converter={StaticResource BoolToVis}}"
+                Command="{Binding CotacaoMoedas.AtualizarCommand}" Background="Transparent" BorderThickness="0"
+                ToolTip="{Binding CotacaoMoedas.MotivoEstado}" Cursor="Hand" Margin="2,0">
+            <Border CornerRadius="10" Background="#1626313D" Padding="10,6">
+                <StackPanel>
+                    <TextBlock Text="{Binding CotacaoMoedas.Texto}" Foreground="White" FontSize="11" FontWeight="SemiBold"/>
+                    <TextBlock Text="BCE · taxa diária" Foreground="#9FB1C3" FontSize="9"/>
+                </StackPanel>
+            </Border>
+        </Button>
+
+        <Grid Visibility="{Binding AreaTransferencia.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0">
+            <Button x:Name="ClipboardButton" Command="{Binding AreaTransferencia.AlternarPainelCommand}"
+                    Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand"
+                    ToolTip="{Binding AreaTransferencia.Estado}" AutomationProperties.Name="Abrir histórico da área de transferência">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="📋" Margin="0,0,5,0"/><TextBlock Text="{Binding AreaTransferencia.Itens.Count}" Foreground="White" FontWeight="SemiBold"/></StackPanel>
+            </Button>
+            <Popup IsOpen="{Binding AreaTransferencia.PainelAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=ClipboardButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True">
+                <Border Width="360" MaxHeight="330" Background="#F2171B22" BorderBrush="#445566" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,0,10">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,10"><Button DockPanel.Dock="Right" Content="Limpar" Command="{Binding AreaTransferencia.LimparCommand}" Padding="8,3"/><TextBlock Text="Área de transferência" Foreground="White" FontSize="15" FontWeight="SemiBold"/></DockPanel>
+                        <TextBlock Text="Somente textos desta sessão. Máximo de 20 itens." Foreground="#9FB1C3" FontSize="10" Margin="0,0,0,8"/>
+                        <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding AreaTransferencia.Itens}"><ItemsControl.ItemTemplate><DataTemplate>
+                                <Border Background="#202936" CornerRadius="8" Padding="8" Margin="0,0,0,6"><DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="×" Command="{Binding RemoverCommand}" Margin="6,0,0,0"/>
+                                    <Button Command="{Binding CopiarCommand}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left" ToolTip="Copiar novamente"><TextBlock Text="{Binding Resumo}" Foreground="White" TextWrapping="Wrap"/></Button>
+                                </DockPanel></Border>
+                            </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+
+        <Grid Visibility="{Binding ArquivosRecentes.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0">
+            <Button x:Name="RecentesButton" Command="{Binding ArquivosRecentes.AlternarPainelCommand}"
+                    Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand"
+                    ToolTip="{Binding ArquivosRecentes.Estado}" AutomationProperties.Name="Abrir Downloads e capturas recentes">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="📁" Margin="0,0,5,0"/><TextBlock Text="{Binding ArquivosRecentes.Itens.Count}" Foreground="White" FontWeight="SemiBold"/></StackPanel>
+            </Button>
+            <Popup IsOpen="{Binding ArquivosRecentes.PainelAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=RecentesButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True">
+                <Border Width="390" MaxHeight="360" Background="#F2171B22" BorderBrush="#445566" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,0,10">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,10">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"><Button Content="Capturar tela" Command="{Binding ArquivosRecentes.CapturarCommand}" Padding="8,4" Margin="0,0,5,0"/><Button Content="Atualizar" Command="{Binding ArquivosRecentes.AtualizarCommand}" Padding="8,4"/></StackPanel>
+                            <TextBlock Text="Downloads e capturas" Foreground="White" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </DockPanel>
+                        <TextBlock Text="{Binding ArquivosRecentes.Estado}" Foreground="#9FB1C3" FontSize="10" Margin="0,0,0,8"/>
+                        <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding ArquivosRecentes.Itens}"><ItemsControl.ItemTemplate><DataTemplate>
+                            <Button Command="{Binding AbrirCommand}" Background="#202936" BorderThickness="0" Margin="0,0,0,6" Padding="9" HorizontalContentAlignment="Stretch" ToolTip="{Binding Caminho}">
+                                <DockPanel><TextBlock DockPanel.Dock="Right" Text="{Binding Pasta}" Foreground="#8291A3" FontSize="9" Margin="8,0,0,0"/><TextBlock Text="{Binding Nome}" Foreground="White" TextTrimming="CharacterEllipsis"/></DockPanel>
+                            </Button>
+                        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+
+        <Grid Visibility="{Binding Conectividade.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0">
+            <Button x:Name="ConectividadeButton" Command="{Binding Conectividade.AlternarPainelCommand}" Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand" ToolTip="{Binding Conectividade.MotivoEstado}">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="◉" Foreground="#5AC8FA" Margin="0,0,5,0"/><TextBlock Text="{Binding Conectividade.Intensidade, StringFormat={}{0}%}" Foreground="White" FontWeight="SemiBold"/></StackPanel>
+            </Button>
+            <Popup IsOpen="{Binding Conectividade.PainelAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=ConectividadeButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True">
+                <Border Width="340" MaxHeight="330" Background="#F2171B22" BorderBrush="#445566" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,0,10">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,10"><Button DockPanel.Dock="Right" Content="Atualizar" Command="{Binding Conectividade.AtualizarCommand}" Padding="8,4"/><TextBlock Text="Conectividade" Foreground="White" FontSize="15" FontWeight="SemiBold"/></DockPanel>
+                        <Button Command="{Binding Conectividade.AbrirRedeCommand}" Background="#202936" BorderThickness="0" Padding="10" HorizontalContentAlignment="Stretch" Margin="0,0,0,8">
+                            <StackPanel><TextBlock Text="{Binding Conectividade.Wifi}" Foreground="White" FontWeight="SemiBold"/><ProgressBar Minimum="0" Maximum="100" Value="{Binding Conectividade.Intensidade}" Height="3" Margin="0,6,0,0"/></StackPanel>
+                        </Button>
+                        <DockPanel Margin="0,4,0,7"><Button DockPanel.Dock="Right" Content="Configurar" Command="{Binding Conectividade.AbrirBluetoothCommand}" Padding="7,3"/><TextBlock Text="Bluetooth conectado" Foreground="#B8C5D3" FontWeight="SemiBold"/></DockPanel>
+                        <ItemsControl ItemsSource="{Binding Conectividade.Bluetooth}"><ItemsControl.ItemTemplate><DataTemplate><Border Background="#202936" CornerRadius="7" Padding="8" Margin="0,0,0,5"><TextBlock Text="{Binding Nome}" Foreground="White"/></Border></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+
+        <Grid Visibility="{Binding AudioSistema.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0">
+            <Button x:Name="AudioSistemaButton" Command="{Binding AudioSistema.AlternarPainelCommand}" Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand" ToolTip="{Binding AudioSistema.MotivoEstado}">
+                <TextBlock Text="🔊" FontSize="14"/>
+            </Button>
+            <Popup IsOpen="{Binding AudioSistema.PainelAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=AudioSistemaButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True">
+                <Border Width="390" MaxHeight="390" Background="#F2171B22" BorderBrush="#445566" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,0,10">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,10"><Button DockPanel.Dock="Right" Content="Atualizar" Command="{Binding AudioSistema.AtualizarCommand}" Padding="8,4"/><TextBlock Text="Áudio do sistema" Foreground="White" FontSize="15" FontWeight="SemiBold"/></DockPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Button Content="{Binding AudioSistema.TextoMicrofone}" Command="{Binding AudioSistema.AlternarMicrofoneCommand}" Padding="9,5" Background="#733237" Foreground="White"/>
+                            <Button Content="Escolher saída no Windows" Command="{Binding AudioSistema.AbrirSomCommand}" Padding="9,5" Margin="6,0,0,0"/>
+                        </StackPanel>
+                        <ScrollViewer MaxHeight="280" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding AudioSistema.Sessoes}"><ItemsControl.ItemTemplate><DataTemplate>
+                            <Border Background="#202936" CornerRadius="8" Padding="9" Margin="0,0,0,6"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="110"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Nome}" Foreground="White" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="8,0"/>
+                                <Button Grid.Column="2" Content="Mudo" Command="{Binding AlternarMudoCommand}" Padding="6,3"/>
+                            </Grid></Border>
+                        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+
+        <Grid Visibility="{Binding EstanteArquivos.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0">
+            <Button x:Name="EstanteButton" Command="{Binding EstanteArquivos.AlternarPainelCommand}" Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand" ToolTip="{Binding EstanteArquivos.MotivoEstado}">
+                <StackPanel Orientation="Horizontal"><TextBlock Text="▤" Foreground="#FFCC66" Margin="0,0,5,0"/><TextBlock Text="{Binding EstanteArquivos.Itens.Count}" Foreground="White" FontWeight="SemiBold"/></StackPanel>
+            </Button>
+            <Popup IsOpen="{Binding EstanteArquivos.PainelAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=EstanteButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True">
+                <Border Width="620" Height="390" Background="#F2171B22" BorderBrush="#445566" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,0,10">
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="12"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <DockPanel Grid.Column="0">
+                            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8"><Button Content="Adicionar" Command="{Binding EstanteArquivos.AdicionarCommand}" Padding="8,4"/><Button Content="Remover" Command="{Binding EstanteArquivos.RemoverCommand}" Padding="8,4" Margin="5,0,0,0"/></StackPanel>
+                            <ListBox ItemsSource="{Binding EstanteArquivos.Itens}" SelectedItem="{Binding EstanteArquivos.Selecionado, Mode=TwoWay}" Background="#151B23" BorderThickness="0" DisplayMemberPath="Nome" Foreground="White"/>
+                        </DockPanel>
+                        <Border Grid.Column="2" Background="#151B23" CornerRadius="9" Padding="12">
+                            <DockPanel><Button DockPanel.Dock="Bottom" Content="Abrir arquivo" Command="{Binding EstanteArquivos.AbrirCommand}" Padding="9,5" Margin="0,10,0,0"/>
+                                <StackPanel><TextBlock Text="{Binding EstanteArquivos.PreviewTitulo}" Foreground="White" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/><TextBlock Text="{Binding EstanteArquivos.PreviewDescricao}" Foreground="#9FB1C3" FontSize="10" Margin="0,3,0,9"/>
+                                    <Image Source="{Binding EstanteArquivos.PreviewImagem}" MaxHeight="240" Stretch="Uniform"/>
+                                    <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding EstanteArquivos.PreviewTexto}" Foreground="#D5DEE8" FontFamily="Consolas" FontSize="10" TextWrapping="Wrap"/></ScrollViewer>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Popup>
+        </Grid>
         
         <!-- WIDGET: GITHUB -->
         <local:SectionGitHubInline Visibility="{Binding GitHub.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>

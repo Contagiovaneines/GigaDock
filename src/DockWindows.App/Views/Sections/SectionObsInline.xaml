@@ -48,6 +48,9 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+                <Button Command="{Binding Obs.ConfigurarSenhaCommand}" Content="⚿" Margin="4,0,0,0" Padding="6,4"
+                        Background="#1C1C22" Foreground="#B8C5D3" BorderBrush="#2C2C36"
+                        Cursor="Hand" ToolTip="Configurar senha do OBS WebSocket no Gerenciador de Credenciais"/>
             </StackPanel>
         </Border>
     </Grid>

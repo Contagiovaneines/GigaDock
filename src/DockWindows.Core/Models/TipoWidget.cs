@@ -15,7 +15,13 @@ public enum TipoWidget
     DiscordVoz = 10,
     OBSStudio = 11,
     Midia = 12,
-    Bateria = 13
+    Bateria = 13,
+    LembreteAgua = 14,
+    AreaTransferencia = 15,
+    ArquivosRecentes = 16,
+    Conectividade = 17,
+    AudioSistema = 18,
+    EstanteArquivos = 19
 }
 
 

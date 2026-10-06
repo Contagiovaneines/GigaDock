@@ -17,7 +17,7 @@ public class NotasWidgetViewModel : ObservableObject, IAtividadeWidget
     private bool _habilitado;
     private DockWindows.Core.Models.FormatoWidget _formato = DockWindows.Core.Models.FormatoWidget.Expandido;
     private readonly DispatcherTimer _timerSalvar;
-    private readonly string _arquivo;
+    private string _arquivo;
     private bool _pendenteSalvar, _disposed;
     public string ErroPersistencia { get; private set; } = "";
     public int QuantidadeLinhas => _textoNotas.Split('\n', '\r').Count(l => !string.IsNullOrWhiteSpace(l));
@@ -76,6 +76,32 @@ public class NotasWidgetViewModel : ObservableObject, IAtividadeWidget
         };
 
         CarregarNotas();
+    }
+
+    public void SincronizarInstancia(string instanceId)
+    {
+        if (_disposed || string.IsNullOrWhiteSpace(instanceId)) return;
+        var seguro = new string(instanceId.Where(c => !Path.GetInvalidFileNameChars().Contains(c)).ToArray());
+        if (string.IsNullOrWhiteSpace(seguro)) return;
+        var novoArquivo = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "DockWindows", "widgets", seguro, "notas.txt");
+        if (string.Equals(Path.GetFullPath(_arquivo), Path.GetFullPath(novoArquivo), StringComparison.OrdinalIgnoreCase)) return;
+
+        if (_pendenteSalvar) SalvarNotas();
+        var arquivoLegado = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DockWindows", "notas.txt");
+        _arquivo = novoArquivo;
+        if (!File.Exists(_arquivo) && File.Exists(arquivoLegado))
+        {
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(_arquivo)!);
+                File.Copy(arquivoLegado, _arquivo, overwrite: false);
+            }
+            catch { }
+        }
+        _textoNotas = string.Empty;
+        CarregarNotas();
+        OnPropertyChanged(nameof(QuantidadeLinhas));
     }
 
     public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)

@@ -606,8 +606,41 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    
-                    
+
+                    <Border Grid.Row="1" Margin="0,10,0,0" Padding="14" CornerRadius="12"
+                            Background="#16161C" BorderBrush="#2C2C36" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Configuração da instância" Foreground="White" FontWeight="SemiBold"/>
+                            <TextBlock Text="Nome" Foreground="#A9B8C9" FontSize="11" Margin="0,10,0,4"/>
+                            <TextBox Text="{Binding NomeWidgetSelecionado, UpdateSourceTrigger=LostFocus}"
+                                     Background="#202936" Foreground="White" BorderBrush="#3B4657" Padding="8,5"/>
+                            <StackPanel Visibility="{Binding EhWidgetRelogio, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="Fuso horário" Foreground="#A9B8C9" FontSize="11" Margin="0,10,0,4"/>
+                                <ComboBox ItemsSource="{Binding FusosHorarios}" DisplayMemberPath="DisplayName" SelectedValuePath="Id"
+                                          SelectedValue="{Binding FusoHorarioWidgetSelecionado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Background="#202936" Foreground="White" Padding="8,5"
+                                          AutomationProperties.Name="Fuso horário desta instância"/>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding EhWidgetAgua, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="Intervalo em minutos" Foreground="#A9B8C9" FontSize="11" Margin="0,10,0,4"/>
+                                <TextBox Text="{Binding IntervaloAguaSelecionado, UpdateSourceTrigger=LostFocus}" Background="#202936" Foreground="White" Padding="8,5"/>
+                                <TextBlock Text="Horário ativo (início e fim)" Foreground="#A9B8C9" FontSize="11" Margin="0,10,0,4"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Width="70" Text="{Binding HoraInicioAguaSelecionada, UpdateSourceTrigger=LostFocus}" Background="#202936" Foreground="White" Padding="8,5"/>
+                                    <TextBlock Text="até" Foreground="#A9B8C9" Margin="10,6"/>
+                                    <TextBox Width="70" Text="{Binding HoraFimAguaSelecionada, UpdateSourceTrigger=LostFocus}" Background="#202936" Foreground="White" Padding="8,5"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding EhWidgetCotacao, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="Moedas (códigos ISO de três letras)" Foreground="#A9B8C9" FontSize="11" Margin="0,10,0,4"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Width="70" MaxLength="3" Text="{Binding MoedaBaseSelecionada, UpdateSourceTrigger=LostFocus}" Background="#202936" Foreground="White" Padding="8,5"/>
+                                    <TextBlock Text="para" Foreground="#A9B8C9" Margin="10,6"/>
+                                    <TextBox Width="70" MaxLength="3" Text="{Binding MoedaDestinoSelecionada, UpdateSourceTrigger=LostFocus}" Background="#202936" Foreground="White" Padding="8,5"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </Grid>
 
                 <!-- 3. ESPAÇADORES -->

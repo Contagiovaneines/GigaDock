@@ -57,7 +57,7 @@ No widget GitHub, o menu de clique direito permite escolher **Cobrinha, Pac-Man,
 ### Controles e prévias
 
 - **Wi-Fi, Bluetooth, modo escuro e foco:** abrem configurações do Windows; os seletores da dock controlam a visibilidade dos atalhos.
-- **Ícones ocultos:** a seta junto à bateria tenta abrir a bandeja nativa por acessibilidade. No modo barra principal, revela a barra do Windows para permitir interação. Essa bandeja contém ícones de notificação, não todos os processos em segundo plano.
+- **Aplicativos em segundo plano:** a seta junto à bateria abre um painel da própria GigaDock, sem revelar a barra nativa. Ele agrupa executáveis em funcionamento na sessão atual, mostra seus ícones e permite abrir ou ativar o aplicativo. A lista é uma visão de processos de usuário; a API pública do Windows não permite copiar exatamente os ícones registrados na bandeja do Explorer.
 - **Bloquear teclado:** bloqueio temporário de 30 segundos, com liberação por F12, clique, troca de ambiente ou encerramento. Não substitui o bloqueio da sessão.
 - **Bloquear tela e suspender:** ações nativas; suspensão solicita confirmação.
 - **Miniaturas de janelas:** usam DWM, com paginação, ativação e fechamento. Representam janelas, não abas internas dos aplicativos.
@@ -180,7 +180,7 @@ Os itens abaixo possuem implementação parcial, dependências externas ou valid
 | --- | --- |
 | Instalação e assinatura | Assinatura confiável pendente; validar instalação, atualização e desinstalação em Windows 10/11, preservando dados e restaurando a barra. |
 | Interface e acessibilidade | Conferir estilos, galerias, menus, teclado, leitor de tela, múltiplos monitores e escalas de 100% a 200%. |
-| Bandeja nativa | Depende do botão disponibilizado pelo Explorer via acessibilidade; abertura real ainda precisa de conferência. |
+| Aplicativos em segundo plano | Painel próprio baseado em processos da sessão; precisa de validação com aplicativos empacotados/protegidos e não reproduz exatamente a bandeja do Explorer. |
 | Alertas WhatsApp/Teams | Dependem de permissões e notificações. No WhatsApp, o término do contorno de chamada depende da remoção da notificação, sem confirmação direta de atendimento. |
 | Tela cheia | Ocultação por processo/título de players e serviços conhecidos; não confirma reprodução de vídeo. |
 | Mídia e métricas | Conferir players reais, troca de capas, bateria física e métricas sob carga; VPN pode duplicar tráfego. |
@@ -193,6 +193,8 @@ Os itens abaixo possuem implementação parcial, dependências externas ou valid
 ## Ideias futuras
 
 Propostas para evolução do projeto, **sem prazo ou compromisso de entrega**:
+
+O diagnóstico arquitetural, a ordem recomendada, os limites das APIs do Windows e os critérios de aceite estão no [plano de implementação das ideias futuras](docs/PLANO-IMPLEMENTACAO-IDEIAS-FUTURAS.md).
 
 - Exibir rede Wi-Fi, intensidade do sinal e dispositivos Bluetooth conectados.
 - Selecionar saída de áudio, controlar volume por aplicativo e silenciar microfone.

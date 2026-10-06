@@ -120,7 +120,7 @@ public class AppAreaAndWindowTrackingTests
         var vm = new MainViewModel(repo, new FakeLauncherService(), new FakeIconExtractionService(),
             new FakeAutostartService(), taskbarService: null, windowTrackingService: tracking);
 
-        Assert.DoesNotContain(vm.Aplicativos, a => a.NomeProcesso == "chat");
+        Assert.False(Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "chat").EstaFixado);
         Assert.Equal(exibirNaoFixados, vm.Aplicativos.Any(a => a.NomeProcesso == "outro"));
         Assert.True(Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "editor").EstaAberto);
         vm.AmbienteAtivo = vm.Ambientes.Single(a => a.Id == "pessoal");
@@ -128,7 +128,7 @@ public class AppAreaAndWindowTrackingTests
         Assert.True(Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "chat").EstaFixado);
         vm.AmbienteAtivo = vm.Ambientes.Single(a => a.Id == "trabalho");
         vm.AtualizarAplicativosAbertos();
-        Assert.DoesNotContain(vm.Aplicativos, a => a.NomeProcesso == "chat");
+        Assert.False(Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "chat").EstaFixado);
         vm.SalvarPreferencias();
         Assert.Empty(repo.Prefs.AppsPermanentes);
         Assert.Single(repo.Prefs.Ambientes[0].Itens);
@@ -137,7 +137,7 @@ public class AppAreaAndWindowTrackingTests
         var reaberto = new MainViewModel(repo, new FakeLauncherService(), new FakeIconExtractionService(),
             new FakeAutostartService(), taskbarService: null, windowTrackingService: tracking);
         Assert.Single(reaberto.Ambientes.Single(a => a.Id == "trabalho").Model.Itens);
-        Assert.DoesNotContain(reaberto.Aplicativos, a => a.NomeProcesso == "chat");
+        Assert.False(Assert.Single(reaberto.Aplicativos, a => a.NomeProcesso == "chat").EstaFixado);
         Assert.Equal(3, tracking.Janelas.Count);
         Assert.Equal(IntPtr.Zero, tracking.JanelaMinimizadaUltima);
     }
@@ -283,6 +283,55 @@ public class AppAreaAndWindowTrackingTests
         var salvo = repo.Prefs.Ambientes.Single(a => a.Id == outro.Id).WidgetsInstalados.Single(w => w.Tipo == TipoWidget.Clima);
         Assert.Equal("sol", salvo.Estilo);
         Assert.Equal(9, EstilosWidget.Para(TipoWidget.Clima).Count);
+    }
+
+    [Fact]
+    public void AppFixadoEmOutroAmbiente_ApareceEnquantoAberto()
+    {
+        var prefs = Preferencias.CriarPadrao();
+        prefs.ExibirAppsAbertosNaoFixados = false;
+        foreach (var ambiente in prefs.Ambientes) ambiente.Itens.Clear();
+        var ativo = prefs.Ambientes.First(a => a.Id == prefs.AmbienteAtivoId);
+        var outro = prefs.Ambientes.First(a => a.Id != ativo.Id);
+        outro.Itens.Add(new ItemFixado
+        {
+            Id = "app-outro-ambiente",
+            Titulo = "Aplicativo de outro ambiente",
+            CaminhoOuUrl = @"C:\Apps\OutroApp.exe",
+            Tipo = TipoItem.Aplicativo
+        });
+        var tracking = new FakeWindowTrackingService
+        {
+            Janelas = new List<JanelaInfo>
+            {
+                new() { Hwnd = (nint)404, Titulo = "Outro App", NomeProcesso = "OutroApp", CaminhoExecutavel = @"C:\Apps\OutroApp.exe" }
+            }
+        };
+
+        using var vm = new MainViewModel(new FakeSettingsRepository(prefs), new FakeLauncherService(),
+            new FakeIconExtractionService(), new FakeAutostartService(), windowTrackingService: tracking);
+
+        var exibido = Assert.Single(vm.Aplicativos, a => a.CaminhoExecutavel.EndsWith("OutroApp.exe", StringComparison.OrdinalIgnoreCase));
+        Assert.False(exibido.EstaFixado);
+        Assert.True(exibido.EstaAberto);
+    }
+
+    [Fact]
+    public void FecharUltimaJanela_LimpaEstadoAtivoImediatamente()
+    {
+        var janela = new JanelaInfo
+        {
+            Hwnd = (nint)405, Titulo = "Editor", NomeProcesso = "Editor",
+            CaminhoExecutavel = @"C:\Apps\Editor.exe", EstaAtiva = true
+        };
+        var tracking = new FakeWindowTrackingService { Janelas = new List<JanelaInfo> { janela } };
+        var app = new AppItemViewModel(janela, tracking, new FakeIconExtractionService(), _ => { }, _ => { });
+
+        app.FecharTodasJanelasCommand.Execute(null);
+
+        Assert.False(app.EstaAberto);
+        Assert.False(app.EstaAtivo);
+        Assert.Equal(0, app.QuantidadeJanelas);
     }
 
     private class FakeWindowTrackingService : IWindowTrackingService

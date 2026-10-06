@@ -225,6 +225,15 @@ public class AjustesViewModel : ObservableObject
                 OnPropertyChanged(nameof(EhWidgetRelogio));
                 OnPropertyChanged(nameof(EhWidgetPomodoro));
                 OnPropertyChanged(nameof(EhWidgetCalendario));
+                OnPropertyChanged(nameof(EhWidgetAgua));
+                OnPropertyChanged(nameof(EhWidgetCotacao));
+                OnPropertyChanged(nameof(NomeWidgetSelecionado));
+                OnPropertyChanged(nameof(FusoHorarioWidgetSelecionado));
+                OnPropertyChanged(nameof(IntervaloAguaSelecionado));
+                OnPropertyChanged(nameof(HoraInicioAguaSelecionada));
+                OnPropertyChanged(nameof(HoraFimAguaSelecionada));
+                OnPropertyChanged(nameof(MoedaBaseSelecionada));
+                OnPropertyChanged(nameof(MoedaDestinoSelecionada));
             }
         }
     }
@@ -232,6 +241,68 @@ public class AjustesViewModel : ObservableObject
     public bool EhWidgetRelogio => WidgetSelecionado?.Tipo == TipoWidget.Relogio;
     public bool EhWidgetPomodoro => WidgetSelecionado?.Tipo == TipoWidget.Pomodoro;
     public bool EhWidgetCalendario => WidgetSelecionado?.Tipo == TipoWidget.CalendarioCompromissos;
+    public bool EhWidgetAgua => WidgetSelecionado?.Tipo == TipoWidget.LembreteAgua;
+    public bool EhWidgetCotacao => WidgetSelecionado?.Tipo == TipoWidget.CotacaoMoedas;
+    public IReadOnlyList<TimeZoneInfo> FusosHorarios { get; } = TimeZoneInfo.GetSystemTimeZones();
+    public string NomeWidgetSelecionado
+    {
+        get => WidgetSelecionado?.Nome ?? string.Empty;
+        set
+        {
+            if (WidgetSelecionado == null || string.IsNullOrWhiteSpace(value) || WidgetSelecionado.Nome == value.Trim()) return;
+            WidgetSelecionado.Nome = value.Trim();
+            OnPropertyChanged();
+            AlternarVisibilidadeWidget(WidgetSelecionado);
+        }
+    }
+    public string FusoHorarioWidgetSelecionado
+    {
+        get => WidgetSelecionado?.ObterConfiguracao("fusoHorarioId") ?? string.Empty;
+        set
+        {
+            if (WidgetSelecionado?.Tipo != TipoWidget.Relogio) return;
+            WidgetSelecionado.DefinirConfiguracao("fusoHorarioId", value);
+            OnPropertyChanged();
+            AlternarVisibilidadeWidget(WidgetSelecionado);
+        }
+    }
+    public int IntervaloAguaSelecionado
+    {
+        get => int.TryParse(WidgetSelecionado?.ObterConfiguracao("intervaloMinutos", "60"), out var valor) ? valor : 60;
+        set => SalvarConfiguracaoAgua("intervaloMinutos", Math.Clamp(value, 15, 240));
+    }
+    public int HoraInicioAguaSelecionada
+    {
+        get => int.TryParse(WidgetSelecionado?.ObterConfiguracao("horaInicio", "8"), out var valor) ? valor : 8;
+        set => SalvarConfiguracaoAgua("horaInicio", Math.Clamp(value, 0, 23));
+    }
+    public int HoraFimAguaSelecionada
+    {
+        get => int.TryParse(WidgetSelecionado?.ObterConfiguracao("horaFim", "22"), out var valor) ? valor : 22;
+        set => SalvarConfiguracaoAgua("horaFim", Math.Clamp(value, 1, 24));
+    }
+    private void SalvarConfiguracaoAgua(string chave, int valor)
+    {
+        if (WidgetSelecionado?.Tipo != TipoWidget.LembreteAgua) return;
+        WidgetSelecionado.DefinirConfiguracao(chave, valor.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        AlternarVisibilidadeWidget(WidgetSelecionado);
+    }
+    public string MoedaBaseSelecionada
+    {
+        get => WidgetSelecionado?.ObterConfiguracao("base", "USD") ?? "USD";
+        set => SalvarConfiguracaoTexto("base", value, TipoWidget.CotacaoMoedas);
+    }
+    public string MoedaDestinoSelecionada
+    {
+        get => WidgetSelecionado?.ObterConfiguracao("destino", "BRL") ?? "BRL";
+        set => SalvarConfiguracaoTexto("destino", value, TipoWidget.CotacaoMoedas);
+    }
+    private void SalvarConfiguracaoTexto(string chave, string? valor, TipoWidget tipo)
+    {
+        if (WidgetSelecionado?.Tipo != tipo || string.IsNullOrWhiteSpace(valor)) return;
+        WidgetSelecionado.DefinirConfiguracao(chave, valor.ToUpperInvariant());
+        AlternarVisibilidadeWidget(WidgetSelecionado);
+    }
 
     public CompromissoLocal? CompromissoSelecionado
     {
@@ -1461,7 +1532,9 @@ public bool ExibirLixeira
             if (janelaLoja.Removeu && janelaLoja.WidgetParaRemover != null)
             {
                 // Remover widget do tipo especificado
-                var wgtRemover = WidgetsAmbiente.FirstOrDefault(w => w.Tipo == janelaLoja.WidgetParaRemover);
+                var wgtRemover = !string.IsNullOrWhiteSpace(janelaLoja.WidgetIdParaRemover)
+                    ? WidgetsAmbiente.FirstOrDefault(w => w.Id == janelaLoja.WidgetIdParaRemover)
+                    : WidgetsAmbiente.FirstOrDefault(w => w.Tipo == janelaLoja.WidgetParaRemover);
                 if (wgtRemover != null)
                 {
                     wgtRemover.Visivel = false; // <<< OBRIGATORIO: desativa antes de atualizar o MainViewModel
@@ -1476,7 +1549,9 @@ public bool ExibirLixeira
             {
                 // Adicionar novo widget
                 var novoWidget = janelaLoja.WidgetSelecionado;
-                var existente = WidgetsAmbiente.FirstOrDefault(w => w.Tipo == novoWidget.Tipo);
+                var existente = WidgetCapabilities.PermiteMultiplasInstancias(novoWidget.Tipo)
+                    ? null
+                    : WidgetsAmbiente.FirstOrDefault(w => w.Tipo == novoWidget.Tipo);
                 if (existente != null)
                 {
                     AplicarEstiloWidget(existente, novoWidget.Estilo);

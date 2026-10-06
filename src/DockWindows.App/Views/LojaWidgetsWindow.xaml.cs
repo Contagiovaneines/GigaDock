@@ -14,6 +14,7 @@ public partial class LojaWidgetsWindow : Window
 {
     public WidgetInstanceConfig? WidgetSelecionado { get; private set; }
     public TipoWidget? WidgetParaRemover { get; private set; }
+    public string? WidgetIdParaRemover { get; private set; }
     public bool Removeu { get; private set; }
 
     private readonly List<WidgetInstanceConfig> _widgetsInstalados;
@@ -50,6 +51,13 @@ public partial class LojaWidgetsWindow : Window
             new ItemLoja { Tipo = TipoWidget.Midia, Nome = "Mídia", Categoria = "Mídia", Descricao = "Capa, tocando agora, mini ou barra de reprodução da sessão de mídia do Windows.", PreviewTitle = "Nome da música", DescricaoFormato = "Quatro estilos com controles" },
             new ItemLoja { Tipo = TipoWidget.Bateria, Nome = "Bateria", Categoria = "Sistema", Descricao = "Porcentagem compacta ou anel com a carga real da bateria.", PreviewTitle = "78%", DescricaoFormato = "Compacto ou anel" },
             new ItemLoja { Tipo = TipoWidget.Notas, Nome = "Notas", Categoria = "Produtividade", Descricao = "Editor de texto local com salvamento automático. Não exige internet ou conta.", PreviewTitle = "Minhas notas", PreviewSubtitle = "Dados ilustrativos", DescricaoFormato = "Texto local" },
+            new ItemLoja { Tipo = TipoWidget.LembreteAgua, Nome = "Lembrete de água", Categoria = "Produtividade", Descricao = "Lembretes locais com intervalo e período ativo configuráveis.", PreviewTitle = "Água · 3 hoje", PreviewSubtitle = "Próximo às 15:30", DescricaoFormato = "Intervalo local" },
+            new ItemLoja { Tipo = TipoWidget.CotacaoMoedas, Nome = "Cotação de moedas", Categoria = "Utilidade", Descricao = "Taxas de referência diárias do Banco Central Europeu, com cache offline.", PreviewTitle = "1 USD = 5,20 BRL", PreviewSubtitle = "Atualização diária", DescricaoFormato = "Par de moedas" },
+            new ItemLoja { Tipo = TipoWidget.AreaTransferencia, Nome = "Área de transferência", Categoria = "Produtividade", Descricao = "Histórico de textos copiados, limitado e mantido somente nesta sessão.", PreviewTitle = "3 itens copiados", PreviewSubtitle = "Dados locais", DescricaoFormato = "Até 20 textos" },
+            new ItemLoja { Tipo = TipoWidget.ArquivosRecentes, Nome = "Downloads e capturas", Categoria = "Produtividade", Descricao = "Arquivos recentes de Downloads e Imagens, com acesso à captura segura do Windows.", PreviewTitle = "Arquivos recentes", PreviewSubtitle = "Downloads e capturas", DescricaoFormato = "Até 20 arquivos" },
+            new ItemLoja { Tipo = TipoWidget.Conectividade, Nome = "Wi-Fi e Bluetooth", Categoria = "Sistema", Descricao = "Rede Wi-Fi atual, intensidade do sinal e dispositivos Bluetooth conectados.", PreviewTitle = "Wi-Fi 82%", PreviewSubtitle = "2 dispositivos Bluetooth", DescricaoFormato = "Estado local" },
+            new ItemLoja { Tipo = TipoWidget.AudioSistema, Nome = "Áudio do sistema", Categoria = "Sistema", Descricao = "Volume e mudo por aplicativo, além de mudo explícito do microfone padrão.", PreviewTitle = "Áudio por aplicativo", PreviewSubtitle = "Microfone ativo", DescricaoFormato = "Core Audio" },
+            new ItemLoja { Tipo = TipoWidget.EstanteArquivos, Nome = "Estante de arquivos", Categoria = "Produtividade", Descricao = "Referências locais com prévias seguras de texto e imagem, sem executar conteúdo incorporado.", PreviewTitle = "Meus arquivos", PreviewSubtitle = "Até 30 referências", DescricaoFormato = "Texto, imagem e metadados" },
             new ItemLoja { 
                 Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Expandido, Nome = "Relógio", 
                 Descricao = "Hora, segundos, data e mostradores analógicos com estilos por ambiente.",
@@ -106,7 +114,7 @@ public partial class LojaWidgetsWindow : Window
             },
             new ItemLoja { 
                 Tipo = TipoWidget.OBSStudio, Formato = FormatoWidget.Expandido, Nome = "OBS Studio Control", 
-                Descricao = "Abre o OBS instalado. Controle de gravação indisponível sem conexão OBS WebSocket.", TagStatus = "BETA",
+                Descricao = "Conecta ao OBS WebSocket v5 local, confirma gravação e transmissão e protege a senha no Windows.", TagStatus = "BETA",
                 DescricaoFormato = "Rec e Status", Icone = "\uE714", CorIcone = "#1C1C22", Categoria = "Mídia", Custo = "Gratuito",
                 PreviewTitle = "OBS Studio", PreviewSubtitle = "Pronto", PreviewIcone = "\uE714", PreviewCor = "#FF3B30", ShowPreviewBar = false
             }
@@ -178,6 +186,7 @@ public partial class LojaWidgetsWindow : Window
                 // Instead of a new property, let's just return a "RemoveMe" dummy configuration
                 Removeu = true;
                 WidgetParaRemover = item.Tipo;
+                WidgetIdParaRemover = w.Id;
                 DialogResult = true;
                 Close();
             }
@@ -209,7 +218,9 @@ public class ItemLoja
     public bool ShowPreviewBar { get; set; } = false;
 
     // UI Helpers
-    public string TextoBotao => JaAdicionado ? "Mudar estilo" : "Escolher estilo";
+    public string TextoBotao => JaAdicionado && WidgetCapabilities.PermiteMultiplasInstancias(Tipo)
+        ? "Adicionar outro"
+        : JaAdicionado ? "Mudar estilo" : "Escolher estilo";
     public string CorBotao => JaAdicionado ? "Transparent" : "#0A84FF"; 
     public string CorBordaBotao => JaAdicionado ? "#1DB954" : "#0A84FF";
     public string CorTextoBotao => JaAdicionado ? "#1DB954" : "#FFFFFF";

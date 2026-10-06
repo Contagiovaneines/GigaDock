@@ -70,7 +70,7 @@ public class EstilosWidgetWindow : Window
         TipoWidget.TeamsStatus => "Presença estimada por processos e títulos. Alertas exigem acesso às notificações do Windows.",
         TipoWidget.WhatsAppNotificacoes => "Requer acesso às notificações do Windows. Contagem não confirma mensagens não lidas.",
         TipoWidget.DiscordVoz => "Abre o aplicativo instalado. Canal e participantes indisponíveis sem RPC autenticado.",
-        TipoWidget.OBSStudio => "Abre o OBS instalado. Gravação ainda indisponível sem integração OBS WebSocket.",
+        TipoWidget.OBSStudio => "Conecta ao OBS WebSocket v5 local e confirma os estados de gravação e transmissão.",
         TipoWidget.GitHubContribuicoes => "Requer internet e nome público. Lê HTML de contribuições; não é integração com Actions.",
         TipoWidget.MonitorSistema => "Leituras locais do Windows somente quando visível. Valores nesta prévia são ilustrativos.",
         TipoWidget.Bateria => "Depende de bateria e leitura de energia disponíveis no Windows. Valor na prévia é ilustrativo.",

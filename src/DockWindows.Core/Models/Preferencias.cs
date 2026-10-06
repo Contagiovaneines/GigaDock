@@ -5,7 +5,7 @@ namespace DockWindows.Core.Models;
 public class Preferencias
 {
     public bool AppsGlobaisMigrados { get; set; }
-    public int SchemaVersion { get; set; } = 6;
+    public int SchemaVersion { get; set; } = 7;
     public string AmbienteAtivoId { get; set; } = string.Empty;
     public TemaModo Tema { get; set; } = TemaModo.Escuro;
     public EstiloTema EstiloTema { get; set; } = EstiloTema.Escuro;
@@ -129,7 +129,7 @@ public class Preferencias
     {
         var prefs = new Preferencias
         {
-            SchemaVersion = 6,
+            SchemaVersion = 7,
             Tema = TemaModo.Escuro,
             EstiloTema = EstiloTema.Escuro,
             TamanhoIcones = TamanhoIcone.Medio,

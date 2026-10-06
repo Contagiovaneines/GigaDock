@@ -254,6 +254,52 @@ public class JsonSettingsRepository : ISettingsRepository
                 prefs.ExibirBotoesAcao = false;
             }
 
+            // Migração v6 -> v7: identidade e configuração própria por instância.
+            if (prefs.SchemaVersion < 7)
+            {
+                prefs.SchemaVersion = 7;
+                foreach (var ambiente in prefs.Ambientes)
+                {
+                    ambiente.WidgetsInstalados ??= new List<WidgetInstanceConfig>();
+                    var ids = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                    foreach (var widget in ambiente.WidgetsInstalados)
+                    {
+                        widget.Configuracao ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                        if (string.IsNullOrWhiteSpace(widget.Id) || !ids.Add(widget.Id))
+                        {
+                            widget.Id = Guid.NewGuid().ToString("N");
+                            ids.Add(widget.Id);
+                        }
+
+                        if (widget.Tipo == TipoWidget.GitHubContribuicoes)
+                        {
+                            if (!string.IsNullOrWhiteSpace(prefs.GitHubUsuario)) widget.Configuracao.TryAdd("usuario", prefs.GitHubUsuario);
+                            if (!string.IsNullOrWhiteSpace(prefs.GitHubAnimacao)) widget.Configuracao.TryAdd("animacao", prefs.GitHubAnimacao);
+                        }
+                        else if (widget.Tipo == TipoWidget.Clima && !string.IsNullOrWhiteSpace(prefs.LocalizacaoClima))
+                        {
+                            widget.Configuracao.TryAdd("localizacao", prefs.LocalizacaoClima);
+                        }
+                    }
+                }
+            }
+
+            // Normalização também protege arquivos v7 editados manualmente ou parcialmente gravados.
+            foreach (var ambiente in prefs.Ambientes)
+            {
+                ambiente.WidgetsInstalados ??= new List<WidgetInstanceConfig>();
+                var ids = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                foreach (var widget in ambiente.WidgetsInstalados)
+                {
+                    widget.Configuracao ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    if (string.IsNullOrWhiteSpace(widget.Id) || !ids.Add(widget.Id))
+                    {
+                        widget.Id = Guid.NewGuid().ToString("N");
+                        ids.Add(widget.Id);
+                    }
+                }
+            }
+
             try
             {
                 SalvarInterno(prefs, criarBackup: true);

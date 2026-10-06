@@ -24,6 +24,11 @@ public class MainViewModel : ObservableObject, IDisposable
     private void AtualizarAtividade()
     {
         Atividade.DefinirDock(VisualAtivo, AnimacoesAtivas);
+        foreach (var runtime in WidgetsInstanciadosAdicionais)
+        {
+            if (VisualAtivo) runtime.Ativar(true);
+            else runtime.Suspender();
+        }
         OnPropertyChanged(nameof(VisualAtivo)); OnPropertyChanged(nameof(AnimacoesAtivas));
         if (Midia != null) Atividade.Definir("Midia", Midia.Habilitado, ModoRgbMedia);
         if (VisualAtivo) { AgendarNotificacoes(); AtualizarAplicativosAbertos(); }
@@ -58,7 +63,12 @@ public class MainViewModel : ObservableObject, IDisposable
     private void ToastPermissaoAlterada() => Application.Current?.Dispatcher?.InvokeAsync(() =>
     { if (_disposed) return; WhatsApp.EstadoNotificacoes = _toastService.EstadoPermissao; Teams.EstadoNotificacoes = _toastService.EstadoPermissao; });
     private void ToastContagemAlterada() => Application.Current?.Dispatcher?.InvokeAsync(AgendarNotificacoes);
-    private void JanelasMudaram() => Application.Current?.Dispatcher?.InvokeAsync(() => { if (VisualAtivo) AtualizarAplicativosAbertos(); });
+    private void JanelasMudaram() => Application.Current?.Dispatcher?.InvokeAsync(() =>
+    {
+        if (_disposed) return;
+        AtualizarAplicativosAbertos();
+        if (PainelAppsSegundoPlanoAberto) _ = AtualizarAplicativosSegundoPlanoAsync();
+    });
     private void JanelaMudou(IntPtr hwnd) => JanelasMudaram();
     private void TelaCheiaMudou(bool telaCheia) => Application.Current?.Dispatcher?.InvokeAsync(() => { if (!_disposed) OcultoPorTelaCheia = telaCheia; });
     private void WinTapped() => Application.Current?.Dispatcher?.InvokeAsync(() =>
@@ -74,6 +84,7 @@ public class MainViewModel : ObservableObject, IDisposable
         _toastService.PermissaoAlterada -= ToastPermissaoAlterada;
         _toastService.ContagensAlteradas -= ToastContagemAlterada; _toastService.Dispose();
         foreach (var remover in _desassinar) remover(); _desassinar.Clear();
+        LimparWidgetsInstanciadosAdicionais();
         Atividade.Dispose(); ControlesRapidos.Dispose();
         _windowTrackingService.JanelasAlteradas -= JanelasMudaram;
         _windowTrackingService.JanelaAtivada -= JanelaMudou;
@@ -91,6 +102,7 @@ public class MainViewModel : ObservableObject, IDisposable
     private readonly ILixeiraDesktopService _lixeiraDesktop;
     private readonly ITaskbarService _taskbarService;
     private readonly IWindowTrackingService _windowTrackingService;
+    private readonly IAplicativosSegundoPlanoService _aplicativosSegundoPlanoService;
     private readonly IWinKeyHookService _winKeyHookService;
     private int _whatsappGhosts = 0;
     private int _teamsGhosts = 0;
@@ -329,7 +341,11 @@ public class MainViewModel : ObservableObject, IDisposable
         ITaskbarService? taskbarService = null,
         IWindowTrackingService? windowTrackingService = null,
         IWinKeyHookService? winKeyHookService = null,
-        ILixeiraDesktopService? lixeiraDesktopService = null)
+        ILixeiraDesktopService? lixeiraDesktopService = null,
+        IAplicativosSegundoPlanoService? aplicativosSegundoPlanoService = null,
+        IClipboardNotificationService? clipboardNotificationService = null,
+        IConectividadeService? conectividadeService = null,
+        IAudioSystemService? audioSystemService = null)
     {
         _repository = repository;
         _launcher = launcher;
@@ -338,6 +354,7 @@ public class MainViewModel : ObservableObject, IDisposable
         _lixeiraDesktop = lixeiraDesktopService ?? new LixeiraDesktopService();
         _taskbarService = taskbarService ?? new Win32TaskbarService();
         _windowTrackingService = windowTrackingService ?? new Win32WindowTrackingService();
+        _aplicativosSegundoPlanoService = aplicativosSegundoPlanoService ?? new AplicativosSegundoPlanoService();
         _winKeyHookService = winKeyHookService ?? new WinKeyHookService();
         _toastService = new DockWindows.Infrastructure.Windows.ToastNotificationService();
         _toastService.OnNotificationReceived += ToastRecebido;
@@ -391,10 +408,14 @@ public class MainViewModel : ObservableObject, IDisposable
 
         Ambientes = new ObservableCollection<EnvironmentViewModel>();
         Aplicativos = new ObservableCollection<AppItemViewModel>();
+        AplicativosSegundoPlano = new ObservableCollection<AplicativoSegundoPlanoViewModel>();
         ColecoesGlobais = new ObservableCollection<ColecaoAppViewModel>();
         TodasColecoesAtivas = new ObservableCollection<ColecaoAppViewModel>();
         Espacadores = new ObservableCollection<EspacadorConfig>();
         OrdemSecoes = new ObservableCollection<ConfigSecaoDock>();
+        WidgetsInstanciadosAdicionais = new ObservableCollection<WidgetInstanceRuntimeViewModel>();
+        RelogiosAdicionais = new ObservableCollection<WidgetInstanceRuntimeViewModel>();
+        NotasAdicionais = new ObservableCollection<WidgetInstanceRuntimeViewModel>();
         PersonalizarWidgetCommand = new RelayCommand<TipoWidget>(PersonalizarWidget);
         Clock = new ClockWidgetViewModel();
         Pomodoro = new PomodoroWidgetViewModel();
@@ -407,6 +428,13 @@ public class MainViewModel : ObservableObject, IDisposable
             }
         };
         Notas = new NotasWidgetViewModel();
+        LembreteAgua = new LembreteAguaViewModel();
+        CotacaoMoedas = new CotacaoMoedasViewModel();
+        AreaTransferencia = new AreaTransferenciaViewModel(clipboardNotificationService ?? new ClipboardNotificationService());
+        ArquivosRecentes = new ArquivosRecentesViewModel();
+        Conectividade = new ConectividadeViewModel(conectividadeService ?? new ConectividadeService());
+        AudioSistema = new AudioSistemaViewModel(audioSystemService ?? new AudioSystemService());
+        EstanteArquivos = new EstanteArquivosViewModel(SalvarEstanteArquivos);
         MonitorSistema = new MonitorSistemaViewModel();
                         GitHub = new GitHubWidgetViewModel();
         GitHub.SincronizarUsuario(_preferencias.GitHubUsuario);
@@ -415,6 +443,8 @@ public class MainViewModel : ObservableObject, IDisposable
         {
             if (args.PropertyName != nameof(GitHubWidgetViewModel.AnimacaoSelecionada)) return;
             _preferencias.GitHubAnimacao = GitHub.AnimacaoSelecionada;
+            AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.GitHubContribuicoes)
+                ?.DefinirConfiguracao("animacao", GitHub.AnimacaoSelecionada);
             SalvarPreferencias();
         };
         Clima = new ClimaWidgetViewModel();
@@ -450,6 +480,7 @@ public class MainViewModel : ObservableObject, IDisposable
         AlternarVisibilidadeCommand = new RelayCommand(AlternarVisibilidade);
         SairCommand = new RelayCommand(() => SolicitarFechamento?.Invoke());
         AbrirLixeiraCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "explorer.exe", Arguments = "shell:RecycleBinFolder", UseShellExecute = true }); } catch { } });
+        AbrirBandejaOcultaCommand = new RelayCommand(() => PainelAppsSegundoPlanoAberto = !PainelAppsSegundoPlanoAberto);
 
         _winKeyHookService.WinKeyTapped += WinTapped;
 
@@ -465,6 +496,13 @@ public class MainViewModel : ObservableObject, IDisposable
         RegistrarWidget("Pomodoro", Pomodoro, Pomodoro, () => Pomodoro.Habilitado, () => Pomodoro.EstaExecutando, independente: true);
         RegistrarWidget("Calendario", Calendario, Calendario, () => Calendario.Habilitado);
         RegistrarWidget("Notas", Notas, Notas, () => Notas.Habilitado);
+        RegistrarWidget("LembreteAgua", LembreteAgua, LembreteAgua, () => LembreteAgua.Habilitado, () => LembreteAgua.Habilitado, independente: true);
+        RegistrarWidget("CotacaoMoedas", CotacaoMoedas, CotacaoMoedas, () => CotacaoMoedas.Habilitado);
+        RegistrarWidget("AreaTransferencia", AreaTransferencia, AreaTransferencia, () => AreaTransferencia.Habilitado);
+        RegistrarWidget("ArquivosRecentes", ArquivosRecentes, ArquivosRecentes, () => ArquivosRecentes.Habilitado);
+        RegistrarWidget("Conectividade", Conectividade, Conectividade, () => Conectividade.Habilitado);
+        RegistrarWidget("AudioSistema", AudioSistema, AudioSistema, () => AudioSistema.Habilitado);
+        RegistrarWidget("EstanteArquivos", EstanteArquivos, EstanteArquivos, () => EstanteArquivos.Habilitado);
         RegistrarWidget("Monitor", MonitorSistema, MonitorSistema, () => MonitorSistema.Habilitado);
         RegistrarWidget("Bateria", Bateria, Bateria, () => Bateria.Habilitado);
         RegistrarWidget("Clima", Clima, Clima, () => Clima.Habilitado);
@@ -486,10 +524,14 @@ public class MainViewModel : ObservableObject, IDisposable
     public Preferencias Preferencias => _preferencias;
     public ObservableCollection<EnvironmentViewModel> Ambientes { get; }
     public ObservableCollection<AppItemViewModel> Aplicativos { get; }
+    public ObservableCollection<AplicativoSegundoPlanoViewModel> AplicativosSegundoPlano { get; }
     public ObservableCollection<ColecaoAppViewModel> ColecoesGlobais { get; }
     public ObservableCollection<ColecaoAppViewModel> TodasColecoesAtivas { get; }
     public ObservableCollection<EspacadorConfig> Espacadores { get; }
     public ObservableCollection<ConfigSecaoDock> OrdemSecoes { get; }
+    public ObservableCollection<WidgetInstanceRuntimeViewModel> WidgetsInstanciadosAdicionais { get; }
+    public ObservableCollection<WidgetInstanceRuntimeViewModel> RelogiosAdicionais { get; }
+    public ObservableCollection<WidgetInstanceRuntimeViewModel> NotasAdicionais { get; }
     public ClockWidgetViewModel Clock { get; }
     public ICommand PersonalizarWidgetCommand { get; }
     private void PersonalizarWidget(TipoWidget tipo)
@@ -514,6 +556,13 @@ public class MainViewModel : ObservableObject, IDisposable
     public CalendarioWidgetViewModel Calendario { get; }
     public MidiaWidgetViewModel Midia { get; }
     public NotasWidgetViewModel Notas { get; }
+    public LembreteAguaViewModel LembreteAgua { get; }
+    public CotacaoMoedasViewModel CotacaoMoedas { get; }
+    public AreaTransferenciaViewModel AreaTransferencia { get; }
+    public ArquivosRecentesViewModel ArquivosRecentes { get; }
+    public ConectividadeViewModel Conectividade { get; }
+    public AudioSistemaViewModel AudioSistema { get; }
+    public EstanteArquivosViewModel EstanteArquivos { get; }
     public MonitorSistemaViewModel MonitorSistema { get; }
     public GitHubWidgetViewModel GitHub { get; }
         public ClimaWidgetViewModel Clima { get; }
@@ -674,7 +723,9 @@ public class MainViewModel : ObservableObject, IDisposable
     public bool EhVidroLiquido => EstiloTema == EstiloTema.VidroLiquido;
     public bool TemEfeitoVidro => EstiloTema == EstiloTema.VidroLiquido || EstiloTema == EstiloTema.ComBrilho;
 
-    public bool WidgetsHabilitados => Clock.Habilitado || Pomodoro.Habilitado || Calendario.Habilitado || Notas.Habilitado || MonitorSistema.Habilitado;
+    public bool WidgetsHabilitados => Clock.Habilitado || Pomodoro.Habilitado || Calendario.Habilitado ||
+        Notas.Habilitado || MonitorSistema.Habilitado || LembreteAgua.Habilitado || CotacaoMoedas.Habilitado ||
+        AreaTransferencia.Habilitado || ArquivosRecentes.Habilitado || Conectividade.Habilitado || AudioSistema.Habilitado || EstanteArquivos.Habilitado || WidgetsInstanciadosAdicionais.Count > 0;
 
     public void AtualizarCoresTema()
     {
@@ -882,15 +933,19 @@ public class MainViewModel : ObservableObject, IDisposable
 
         public string GitHubUsuario
         {
-            get => _preferencias.GitHubUsuario;
+            get => AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.GitHubContribuicoes)
+                ?.ObterConfiguracao("usuario", _preferencias.GitHubUsuario) ?? _preferencias.GitHubUsuario;
             set
             {
-                if (_preferencias.GitHubUsuario != value)
+                var normalizado = value?.Trim() ?? string.Empty;
+                var widget = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.GitHubContribuicoes);
+                if (GitHubUsuario != normalizado)
                 {
-                    _preferencias.GitHubUsuario = value;
+                    _preferencias.GitHubUsuario = normalizado;
+                    widget?.DefinirConfiguracao("usuario", normalizado);
                     SalvarPreferencias();
                     OnPropertyChanged();
-                    GitHub.SincronizarUsuario(value);
+                    GitHub.SincronizarUsuario(normalizado);
                 }
             }
         }
@@ -1209,32 +1264,56 @@ public bool ExibirLixeira
     public ICommand AlternarVisibilidadeCommand { get; }
     public ICommand SairCommand { get; }
     public ICommand AbrirLixeiraCommand { get; }
-    public ICommand AbrirBandejaOcultaCommand => _abrirBandejaOcultaCommand ??= new RelayCommand(() => _ = AbrirBandejaOcultaAsync());
-    private ICommand? _abrirBandejaOcultaCommand;
-    private bool _abrindoBandeja;
+    public ICommand AbrirBandejaOcultaCommand { get; }
 
-    private async System.Threading.Tasks.Task AbrirBandejaOcultaAsync()
+    private bool _painelAppsSegundoPlanoAberto;
+    public bool PainelAppsSegundoPlanoAberto
     {
-        if (_abrindoBandeja || _disposed) return;
-        _abrindoBandeja = true;
+        get => _painelAppsSegundoPlanoAberto;
+        set
+        {
+            if (!SetProperty(ref _painelAppsSegundoPlanoAberto, value) || !value) return;
+            _ = AtualizarAplicativosSegundoPlanoAsync();
+        }
+    }
+
+    private bool _carregandoAppsSegundoPlano;
+    public bool CarregandoAppsSegundoPlano
+    {
+        get => _carregandoAppsSegundoPlano;
+        private set => SetProperty(ref _carregandoAppsSegundoPlano, value);
+    }
+
+    private async System.Threading.Tasks.Task AtualizarAplicativosSegundoPlanoAsync()
+    {
+        if (_disposed || CarregandoAppsSegundoPlano) return;
+        CarregandoAppsSegundoPlano = true;
         try
         {
-            // A bandeja pertence ao Explorer e precisa da barra nativa habilitada.
-            // Mantemos a barra visível para permitir interação com os ícones.
-            if (_preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente)
+            var encontrados = await System.Threading.Tasks.Task.Run(_aplicativosSegundoPlanoService.ObterAplicativos);
+            if (_disposed || !PainelAppsSegundoPlanoAberto) return;
+
+            AplicativosSegundoPlano.Clear();
+            foreach (var info in encontrados)
             {
-                if (!_taskbarService.RestaurarBarraNativa(_preferencias.EstadoAnteriorBarraTarefas))
-                {
-                    MostrarAlerta?.Invoke("Ícones ocultos", "Não foi possível exibir a barra do Windows para abrir sua bandeja.");
-                    return;
-                }
-                _barraNativaVisivelTemporariamente = true;
-                await System.Threading.Tasks.Task.Delay(250);
+                var appDock = Aplicativos.FirstOrDefault(a =>
+                    string.Equals(IconExtractionService.ResolverCaminhoCompleto(a.CaminhoExecutavel), info.CaminhoExecutavel, StringComparison.OrdinalIgnoreCase));
+                var icone = _iconService.ObterIcone(info.CaminhoExecutavel, TipoItem.Aplicativo);
+                AplicativosSegundoPlano.Add(new AplicativoSegundoPlanoViewModel(
+                    info.Nome, info.CaminhoExecutavel, info.PossuiJanela, icone,
+                    () =>
+                    {
+                        PainelAppsSegundoPlanoAberto = false;
+                        if (appDock?.EstaAberto == true) appDock.ClicarCommand.Execute(null);
+                        else
+                        {
+                            var resultado = _launcher.ExecutarCaminho(info.CaminhoExecutavel);
+                            if (!resultado.Sucesso) MostrarAlerta?.Invoke("Não foi possível abrir", resultado.MensagemErro ?? info.Nome);
+                        }
+                    }));
             }
-            var erro = await System.Threading.Tasks.Task.Run(() => new BandejaOcultaService().Abrir());
-            if (erro != null && !_disposed) MostrarAlerta?.Invoke("Ícones ocultos", erro);
         }
-        finally { _abrindoBandeja = false; }
+        finally { CarregandoAppsSegundoPlano = false; }
     }
 
     public Action? FocarBuscaLaunchpad;
@@ -1500,7 +1579,7 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         if (Clock.EstaExecutando && !Ambientes.Any(a => a.WidgetsInstalados.Any(w => w.Tipo == TipoWidget.Relogio))) Clock.ReiniciarControleCommand.Execute(null);
         var wRelogio = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Relogio);
         Clock.Habilitado = wRelogio?.Visivel ?? false;
-        if (wRelogio != null) { Clock.Formato = wRelogio.Formato; Clock.Estilo = EstilosWidget.Resolver(wRelogio, _preferencias.RelogioAnalogico); }
+        if (wRelogio != null) { Clock.Formato = wRelogio.Formato; Clock.Estilo = EstilosWidget.Resolver(wRelogio, _preferencias.RelogioAnalogico); Clock.FusoHorarioId = wRelogio.ObterConfiguracao("fusoHorarioId"); }
         OnPropertyChanged(nameof(RelogioAnalogico));
         OnPropertyChanged(nameof(ClimaExpandido));
 
@@ -1516,7 +1595,31 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
 
         var wNotas = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Notas);
         Notas.Habilitado = wNotas?.Visivel ?? false;
-        if (wNotas != null) Notas.Formato = wNotas.Formato;
+        if (wNotas != null) { Notas.Formato = wNotas.Formato; Notas.SincronizarInstancia($"{amb.Id}-{wNotas.Id}"); }
+
+        var wAgua = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.LembreteAgua);
+        LembreteAgua.Habilitado = wAgua?.Visivel ?? false;
+        if (wAgua != null)
+        {
+            _ = int.TryParse(wAgua.ObterConfiguracao("intervaloMinutos", "60"), out var intervalo);
+            _ = int.TryParse(wAgua.ObterConfiguracao("horaInicio", "8"), out var inicio);
+            _ = int.TryParse(wAgua.ObterConfiguracao("horaFim", "22"), out var fim);
+            LembreteAgua.Carregar(intervalo <= 0 ? 60 : intervalo, inicio, fim <= 0 ? 22 : fim);
+        }
+        var wCotacao = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CotacaoMoedas);
+        CotacaoMoedas.Habilitado = wCotacao?.Visivel ?? false;
+        if (wCotacao != null) CotacaoMoedas.Configurar(wCotacao.ObterConfiguracao("base", "USD"), wCotacao.ObterConfiguracao("destino", "BRL"));
+        var wClipboard = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.AreaTransferencia);
+        AreaTransferencia.Habilitado = wClipboard?.Visivel ?? false;
+        var wArquivos = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.ArquivosRecentes);
+        ArquivosRecentes.Habilitado = wArquivos?.Visivel ?? false;
+        var wConectividade = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Conectividade);
+        Conectividade.Habilitado = wConectividade?.Visivel ?? false;
+        var wAudio = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.AudioSistema);
+        AudioSistema.Habilitado = wAudio?.Visivel ?? false;
+        var wEstante = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.EstanteArquivos);
+        EstanteArquivos.Habilitado = wEstante?.Visivel ?? false;
+        if (wEstante != null) EstanteArquivos.Configurar(wEstante.ObterConfiguracao("arquivos", "[]"));
 
                 var wMonitor = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.MonitorSistema);
         if (wMonitor != null)
@@ -1542,6 +1645,8 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         {
             GitHub.Habilitado = wGitHub.Visivel;
             GitHub.Formato = wGitHub.Formato;
+            GitHub.SincronizarUsuario(wGitHub.ObterConfiguracao("usuario", _preferencias.GitHubUsuario));
+            GitHub.SelecionarAnimacao(wGitHub.ObterConfiguracao("animacao", _preferencias.GitHubAnimacao));
         }
         else 
         {
@@ -1566,11 +1671,58 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             ("Calendario", TipoWidget.CalendarioCompromissos), ("Notas", TipoWidget.Notas),
             ("Monitor", TipoWidget.MonitorSistema), ("Bateria", TipoWidget.Bateria), ("Clima", TipoWidget.Clima),
             ("GitHub", TipoWidget.GitHubContribuicoes), ("Midia", TipoWidget.Midia), ("Teams", TipoWidget.TeamsStatus),
-            ("WhatsApp", TipoWidget.WhatsAppNotificacoes), ("Discord", TipoWidget.DiscordVoz), ("OBS", TipoWidget.OBSStudio) })
+            ("WhatsApp", TipoWidget.WhatsAppNotificacoes), ("Discord", TipoWidget.DiscordVoz), ("OBS", TipoWidget.OBSStudio),
+            ("LembreteAgua", TipoWidget.LembreteAgua), ("CotacaoMoedas", TipoWidget.CotacaoMoedas),
+            ("AreaTransferencia", TipoWidget.AreaTransferencia), ("ArquivosRecentes", TipoWidget.ArquivosRecentes),
+            ("Conectividade", TipoWidget.Conectividade), ("AudioSistema", TipoWidget.AudioSistema),
+            ("EstanteArquivos", TipoWidget.EstanteArquivos) })
             Atividade.DefinirInstalado(id, Ambientes.Any(a => a.WidgetsInstalados.Any(w => w.Tipo == tipo)));
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
+        SincronizarWidgetsInstanciadosAdicionais(amb);
+    }
+
+    private void SalvarEstanteArquivos(string json)
+    {
+        var widget = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.EstanteArquivos);
+        if (widget == null) return;
+        widget.DefinirConfiguracao("arquivos", json);
+        SalvarPreferencias();
+    }
+
+    private void SincronizarWidgetsInstanciadosAdicionais(EnvironmentViewModel ambiente)
+    {
+        LimparWidgetsInstanciadosAdicionais();
+
+        foreach (var config in ambiente.WidgetsInstalados
+                     .Where(w => w.Visivel && WidgetCapabilities.PermiteMultiplasInstancias(w.Tipo))
+                     .GroupBy(w => w.Tipo)
+                     .SelectMany(grupo => grupo.OrderBy(w => w.Ordem).Skip(1)))
+        {
+            try
+            {
+                var runtime = new WidgetInstanceRuntimeViewModel(config, ambiente.Id);
+                WidgetsInstanciadosAdicionais.Add(runtime);
+                if (runtime.EhRelogio) RelogiosAdicionais.Add(runtime);
+                if (runtime.EhNotas) NotasAdicionais.Add(runtime);
+                if (VisualAtivo) runtime.Ativar(true);
+            }
+            catch (NotSupportedException)
+            {
+                // A loja só libera duplicação depois que o tipo recebe runtime próprio.
+            }
+        }
+
+        OnPropertyChanged(nameof(WidgetsHabilitados));
+    }
+
+    private void LimparWidgetsInstanciadosAdicionais()
+    {
+        foreach (var runtime in WidgetsInstanciadosAdicionais) runtime.Dispose();
+        WidgetsInstanciadosAdicionais.Clear();
+        RelogiosAdicionais.Clear();
+        NotasAdicionais.Clear();
     }
 
     private void CarregarOrdemSecoes()
@@ -1756,18 +1908,15 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             .SelectMany(a => a.Model.Itens)
             .Where(i => i.Tipo == TipoItem.Aplicativo)
             .ToList();
-        janelasNaoProcessadas.RemoveAll(j => itensOutrosAmbientes
-            .Any(i => CorrespondeAoCaminho(i.CaminhoOuUrl, j)));
-
         var grupos = janelasNaoProcessadas
             .GroupBy(j => !string.IsNullOrEmpty(j.CaminhoExecutavel) ? j.CaminhoExecutavel.ToLowerInvariant() : j.NomeProcesso.ToLowerInvariant())
             .ToList();
 
-        // Cada ambiente mostra só os seus apps: janelas de apps não fixados neste
-        // ambiente ficam de fora da dock (continuam na barra de tarefas do Windows).
+        // Um app fixado em outro ambiente continua visível enquanto estiver aberto.
+        // Apps nunca fixados respeitam a preferência geral de exibição.
         if (!_preferencias.ExibirAppsAbertosNaoFixados)
         {
-            grupos.Clear();
+            grupos = grupos.Where(g => itensOutrosAmbientes.Any(i => CorrespondeAoCaminho(i.CaminhoOuUrl, g.First()))).ToList();
         }
 
         var appsNaoFixados = Aplicativos.Where(a => !a.EstaFixado).ToList();

@@ -295,18 +295,20 @@ public class AppItemViewModel : ObservableObject
 
     private void FecharJanela(JanelaInfo? janela)
     {
-        if (janela != null)
+        if (janela != null && _windowService.FecharJanela(janela.Hwnd))
         {
-            _windowService.FecharJanela(janela.Hwnd);
+            SincronizarJanelas(Janelas.Where(j => j.Hwnd != janela.Hwnd).ToList());
         }
     }
 
     private void FecharTodasJanelas()
     {
+        var restantes = Janelas.ToList();
         foreach (var jan in Janelas.ToList())
         {
-            _windowService.FecharJanela(jan.Hwnd);
+            if (_windowService.FecharJanela(jan.Hwnd)) restantes.RemoveAll(j => j.Hwnd == jan.Hwnd);
         }
+        SincronizarJanelas(restantes);
         MenuJanelasAberto = false;
     }
 

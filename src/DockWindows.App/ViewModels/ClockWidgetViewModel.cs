@@ -19,6 +19,15 @@ public class ClockWidgetViewModel : ObservableObject, IAtividadeWidget
     private string _dataResumida = string.Empty;
     private DateTime _horario;
     public DateTime Horario { get => _horario; private set => SetProperty(ref _horario, value); }
+    private string _fusoHorarioId = string.Empty;
+    public string FusoHorarioId
+    {
+        get => _fusoHorarioId;
+        set
+        {
+            if (SetProperty(ref _fusoHorarioId, value ?? string.Empty)) AtualizarHorario();
+        }
+    }
     private bool _calendarioAberto;
     private bool _habilitado = true;
     private FormatoWidget _formato = FormatoWidget.Compacto;
@@ -182,7 +191,7 @@ public class ClockWidgetViewModel : ObservableObject, IAtividadeWidget
 
     private void AtualizarHorario()
     {
-        var agora = DateTime.Now;
+        var agora = ObterHorarioAtual();
         Horario = agora;
         HoraFormatada = agora.ToString("HH:mm", CulturaBrasil);
         HoraComSegundos = agora.ToString("HH:mm:ss", CulturaBrasil);
@@ -190,6 +199,18 @@ public class ClockWidgetViewModel : ObservableObject, IAtividadeWidget
         DataResumida = CulturaBrasil.TextInfo.ToTitleCase(agora.ToString("ddd, dd MMM", CulturaBrasil).Replace(".", ""));
         DataFormatada = agora.ToString("dddd, dd 'de' MMMM 'de' yyyy", CulturaBrasil);
         OnPropertyChanged(nameof(TextoExibicao));
+    }
+
+    private DateTime ObterHorarioAtual()
+    {
+        if (string.IsNullOrWhiteSpace(FusoHorarioId)) return DateTime.Now;
+        try
+        {
+            var fuso = TimeZoneInfo.FindSystemTimeZoneById(FusoHorarioId);
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, fuso);
+        }
+        catch (TimeZoneNotFoundException) { return DateTime.Now; }
+        catch (InvalidTimeZoneException) { return DateTime.Now; }
     }
 }
 

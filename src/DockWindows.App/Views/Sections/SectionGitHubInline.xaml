@@ -6,7 +6,7 @@
     
     <Grid>
         <Border CornerRadius="12" Padding="12,6" Background="#0D1117" BorderBrush="#30363D" BorderThickness="1"
-                Cursor="Hand"  ToolTip="{Binding GitHub.TextoResumo}">
+                Cursor="Hand"  ToolTip="{Binding GitHub.ResumoCompleto}">
                                     <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding GitHub.AbrirPerfilCommand}"/>
             </Border.InputBindings>

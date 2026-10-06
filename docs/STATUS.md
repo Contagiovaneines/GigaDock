@@ -540,3 +540,51 @@ Removido fundo permanente do aplicativo ativo na seção Apps; indicador de exec
 
 Build Release em icones-dicas-visual-build.txt. Aparência real em diferentes escalas ainda pendente; instalador anterior não contém o ajuste. Etapa visual sem benchmark de desempenho.
 
+## 06/10/2026 — Painel próprio de aplicativos em segundo plano
+
+A seta junto à bateria deixa de abrir a bandeja do Explorer e passa a exibir um popup da GigaDock ancorado acima do botão. A lista agrupa executáveis da sessão atual, ignora processos do Windows e protegidos, limita-se a 40 itens, usa ícones locais e abre/ativa o aplicativo selecionado. A API pública do Windows não oferece enumeração fiel dos ícones da bandeja; portanto o painel representa aplicativos em execução, não uma cópia do painel nativo.
+
+Aplicativos abertos e fixados em outro ambiente agora aparecem no ambiente atual como não fixados, mesmo quando a opção geral de apps não fixados está desabilitada. Fechar a última janela atualiza imediatamente os estados aberto/ativo; sincronização de janelas continua ocorrendo mesmo quando a dock está temporariamente oculta. Build Release e quatro casos direcionados aprovados; logs em painel-apps-segundo-plano-build.txt e painel-apps-segundo-plano-tests.txt. A primeira tentativa da suíte completa encontrou duas expectativas antigas de isolamento, atualizadas para o novo requisito; registro em painel-apps-segundo-plano-suite.txt. Validação visual e comparação com aplicativos reais ainda pendentes; instalador anterior não inclui a alteração.
+
+## 06/10/2026 — Plano das ideias futuras
+
+Análise arquitetural e roteiro registrados em `PLANO-IMPLEMENTACAO-IDEIAS-FUTURAS.md`. O plano identifica como etapa bloqueadora a substituição do runtime singleton por instâncias identificadas pelo `WidgetInstanceConfig.Id`, acompanhada da separação explícita entre configurações do aplicativo, ambiente e instância. As ideias foram organizadas em fases com dependências, APIs públicas, critérios de aceite, estratégia de migração, testes e controle de recursos.
+
+Foram documentados limites relevantes: a troca da saída padrão do Windows precisa de prova de API pública e, no MVP, deve encaminhar às configurações de Som; o estado de chamada do Discord não deve usar IPC privado; compartilhamento próprio entre dispositivos exige análise de ameaça e projeto separado. Etapa somente documental: nenhum código funcional foi alterado, portanto build e testes não foram executados. Próximo passo recomendado: implementar e validar a Fase 0 com duas instâncias independentes de Relógio e Notas antes de iniciar novos widgets.
+
+## 06/10/2026 — Fase 0 iniciada: widgets por instância
+
+Implementada a primeira entrega executável do plano. O esquema local passa para v7 e cada `WidgetInstanceConfig` possui bloco de configuração versionado. A migração normaliza IDs vazios/duplicados por ambiente e copia configurações legadas de GitHub e Clima para as respectivas instâncias. Foi adicionada política explícita de múltiplas instâncias, inicialmente liberada para Relógio e Notas.
+
+Relógios adicionais recebem ViewModel, timer, estilo e fuso próprios. Notas passam a usar arquivos separados pelo ID do ambiente e da instância, com migração do arquivo legado quando aplicável; runtimes adicionais são suspensos, recriados e descartados ao trocar ambiente ou encerrar. A loja oferece “Adicionar outro” somente nos tipos já migrados, e os ajustes permitem editar nome e fuso da instância selecionada.
+
+Build Release executado com zero erros e um aviso CS0067 preexistente. Testes novos de configuração/migração foram compilados, mas a execução foi bloqueada pelo Controle de Aplicativo ao carregar `DockWindows.Tests.dll` (0x800711C7); portanto não são declarados como aprovados. Validação visual manual de dois relógios e duas notas ainda pendente. Próxima entrega: concluir a migração dos demais runtimes antes de iniciar widgets da Fase 1.
+
+## 06/10/2026 — Fase 1 e moedas em andamento
+
+Adicionado Lembrete de Água à loja e à dock, com intervalo de 15 a 240 minutos, faixa diária, ações Bebi e Adiar 10 minutos e agendamento por próximo vencimento, sem polling por segundo. Configuração pertence à instância do ambiente. As durações configuráveis de Pomodoro já existentes foram preservadas.
+
+Adicionado widget Cotação de Moedas com pares ISO configuráveis, taxas diárias oficiais do Banco Central Europeu, conversão cruzada via EUR, cache local de 24 horas, atualização manual e indicação de cache quando offline. Build Release aprovado com zero erros e um aviso CS0067 preexistente. Validação real de rede, alertas e interface ainda pendente; instalador ainda não regenerado porque as fases seguintes continuam em implementação.
+
+## 06/10/2026 — Histórico local da área de transferência
+
+Adicionado widget opcional de área de transferência com `AddClipboardFormatListener`, janela de mensagens própria e ausência de polling. O histórico aceita texto, limita cada item a 4.000 caracteres e a coleção a 20 itens, elimina duplicação consecutiva e permanece somente em memória durante a sessão. O usuário pode copiar novamente, remover um item ou limpar tudo. O listener é registrado somente enquanto o widget estiver habilitado e é removido no descarte.
+
+Build Release aprovado com zero erros e um aviso CS0067 preexistente. Teste manual com aplicativos externos e conteúdos bloqueados pela área de transferência ainda pendente. Próxima entrega da Fase 2: Downloads, arquivos recentes e acesso explícito à captura do Windows.
+
+## 06/10/2026 — Arquivos recentes, capturas e conectividade
+
+Adicionado widget Downloads e Capturas. Ele observa somente as pastas conhecidas Downloads e Imagens/Capturas, sem indexar o disco, agrupa eventos com debounce de 500 ms, limita a lista a 20 arquivos e valida a existência antes de abrir. O botão Capturar tela invoca `ms-screenclip:`, mantendo a seleção e o consentimento na interface do Windows. Watchers são removidos quando o widget é desativado.
+
+Adicionado widget Wi-Fi e Bluetooth. Wi-Fi usa a Native Wi-Fi API documentada (`wlanapi.dll`) para obter SSID e qualidade do sinal; Bluetooth usa `DeviceWatcher` e `System.Devices.Aep.IsConnected`, mantendo somente dispositivos conectados no painel. O watcher existe apenas enquanto o widget está habilitado. Os botões de configuração encaminham às páginas oficiais do Windows e não conectam, pareiam ou alteram redes automaticamente.
+
+Build Release aprovado com zero erros e um aviso CS0067 preexistente. Validação real com adaptadores Wi-Fi/Bluetooth, nomes de pastas localizados e Ferramenta de Captura ainda pendente. Próxima fase: Core Audio para sessões por aplicativo e mudo explícito do microfone.
+
+## 06/10/2026 — Core Audio e OBS WebSocket
+
+Adicionado widget Áudio do Sistema sobre as APIs públicas Core Audio: enumeração das sessões do dispositivo padrão, volume e mudo por aplicativo e leitura/alteração explícita do mudo no microfone padrão. A seleção de saída encaminha para `ms-settings:sound`, pois definir o endpoint padrão por `IPolicyConfig` usaria uma interface não documentada. O painel não altera o microfone ou volumes sem ação do usuário.
+
+O placeholder do OBS foi substituído por cliente WebSocket v5 em `127.0.0.1:4455`. O cliente implementa Hello/Identify, desafio SHA-256, consulta confirmada de gravação/transmissão e StartRecord/StopRecord com atualização posterior do estado. A senha é lida e gravada no Gerenciador de Credenciais do Windows, nunca em `settings.json`. O botão existente conecta antes de agir quando necessário.
+
+Build Release aprovado com zero erros e um aviso CS0067 preexistente. Validação real com múltiplas sessões de áudio, microfone físico e OBS 28+ ainda pendente. Eventos contínuos e reconexão automática do OBS permanecem para endurecimento da integração.
+
