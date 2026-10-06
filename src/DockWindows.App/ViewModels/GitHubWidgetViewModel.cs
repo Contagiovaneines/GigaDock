@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,15 +19,41 @@ public enum EstiloAnimacaoGitHub
     PacMan
 }
 
-public class GitHubWidgetViewModel : ObservableObject
+public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 {
+    public bool? EmExecucao => TimerAtivo || AnimacaoAtiva || _ocupado;
+
     private string? _nomeUsuario = string.Empty;
     private bool _carregando;
     private int _totalContribuicoes;
     private bool _painelAberto;
-    private readonly HttpClient _http = new();
+    private readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(10), MaxResponseContentBufferSize = 2 * 1024 * 1024 };
+    private string _erroAtualizacao = "";
+    public string ErroAtualizacao { get => _erroAtualizacao; private set => SetProperty(ref _erroAtualizacao, value); }
+    public DockWindows.Core.Widgets.SaudeWidget Saude => string.IsNullOrEmpty(ErroAtualizacao) ? DockWindows.Core.Widgets.SaudeWidget.Disponivel : DockWindows.Core.Widgets.SaudeWidget.Erro;
+    public string? MotivoEstado => ErroAtualizacao;
+    public bool TotalConfirmado { get; private set; }
     private readonly DispatcherTimer _timer;
     private readonly DispatcherTimer _animTimer;
+    private bool _visual, _animacoes, _disposed, _ocupado;
+    private DateTimeOffset _cacheAte;
+    private System.Threading.CancellationTokenSource? _consulta, _reinicio;
+    public int Requisicoes { get; private set; }
+    public bool TimerAtivo => _timer.IsEnabled;
+    public bool AnimacaoAtiva => _animTimer.IsEnabled;
+    public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)
+    {
+        _visual = estado.Visual && !_disposed; _animacoes = estado.Animacoes && !_disposed;
+        _timer.Stop();
+        if (!_visual) _consulta?.Cancel();
+        if (!_animacoes) { _reinicio?.Cancel(); LimparEstadoAnimacao(); }
+        if (_visual) { _ = CarregarContribuicoesAsync(); AgendarConsulta(); if (AnimacaoAutomatica && _animacoes) IniciarAnimacao(); }
+        else PainelAberto = false;
+        if (!estado.Habilitado) { Contribuicoes.Clear(); _niveisOriginais.Clear(); _corpo.Clear(); _cacheAte = default; }
+    }
+    public void Dispose()
+    { _disposed = true; _visual = _animacoes = false; _timer.Stop(); _animTimer.Stop(); _consulta?.Cancel(); _reinicio?.Cancel(); _http.Dispose(); Contribuicoes.Clear(); }
+
     
     // Animação State
     private bool _animacaoRodando;
@@ -86,7 +112,13 @@ public class GitHubWidgetViewModel : ObservableObject
     public bool PainelAberto { get => _painelAberto; set => SetProperty(ref _painelAberto, value); }
     public ObservableCollection<ContribuicaoDia> Contribuicoes { get; } = new();
 
-    public string TextoResumo => "$TotalContribuicoes contribuições";
+    public string TextoResumo => TotalConfirmado ? $"{TotalContribuicoes} contribuições" : $"{Contribuicoes.Count(d => d.Nivel > 0)} dias com atividade";
+    private void AgendarConsulta()
+    {
+        _timer.Stop(); if (!_visual || _disposed || string.IsNullOrWhiteSpace(_nomeUsuario)) return;
+        var espera = _cacheAte - DateTimeOffset.UtcNow;
+        _timer.Interval = espera > TimeSpan.Zero ? espera : TimeSpan.FromSeconds(30); _timer.Start();
+    }
 
     public ICommand AlternarPainelCommand { get; }
     public ICommand AbrirPerfilCommand { get; }
@@ -123,7 +155,7 @@ public class GitHubWidgetViewModel : ObservableObject
         });
 
         _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(30) };
-        _timer.Tick += (_, _) => _ = CarregarContribuicoesAsync();
+        _timer.Tick += (_, _) => { _timer.Stop(); _ = CarregarContribuicoesAsync(); };
 
         _animTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
         _animTimer.Tick += (_, _) => TickAnimacao();
@@ -137,7 +169,8 @@ public class GitHubWidgetViewModel : ObservableObject
             {
                 _nomeUsuario = usuario;
                 OnPropertyChanged(nameof(NomeUsuario));
-                _ = CarregarContribuicoesAsync();
+                _cacheAte = default; _consulta?.Cancel();
+                if (_visual) _ = CarregarContribuicoesAsync();
             }
             else
             {
@@ -146,18 +179,22 @@ public class GitHubWidgetViewModel : ObservableObject
                 TotalContribuicoes = 0;
             }
         }
-        if (!_timer.IsEnabled) _timer.Start();
+        if (_visual) AgendarConsulta();
     }
 
 
     private async Task CarregarContribuicoesAsync()
     {
-        if (string.IsNullOrWhiteSpace(_nomeUsuario)) return;
+        if (string.IsNullOrWhiteSpace(_nomeUsuario) || !_visual || _disposed || _ocupado || _cacheAte > DateTimeOffset.UtcNow) return;
+        _ocupado = true;
+        var usuario = _nomeUsuario;
+        using var consulta = new System.Threading.CancellationTokenSource(); _consulta = consulta;
         Carregando = true;
         try
         {
-            var url = $"https://github.com/users/{_nomeUsuario}/contributions";
-            var html = await _http.GetStringAsync(url);
+            var url = $"https://github.com/users/{Uri.EscapeDataString(usuario)}/contributions";
+            Requisicoes++;
+            var html = await _http.GetStringAsync(url, consulta.Token);
             var dias = new List<ContribuicaoDia>();
             int total = 0;
 
@@ -188,10 +225,13 @@ public class GitHubWidgetViewModel : ObservableObject
             {
                 foreach (Match mt in matchesTooltip) total += int.Parse(mt.Groups[1].Value);
             }
-            else total = dias.Count(d => d.Nivel > 0);
+            if (dias.Count == 0) throw new FormatException("Não foi possível interpretar as contribuições públicas.");
 
-            Application.Current?.Dispatcher.Invoke(() =>
+            void Aplicar()
             {
+                if (!_visual || _disposed || consulta.IsCancellationRequested || usuario != _nomeUsuario) return;
+                _cacheAte = DateTimeOffset.UtcNow.AddMinutes(30);
+                LimparEstadoAnimacao();
                 Contribuicoes.Clear();
                 var ultimos = dias.OrderByDescending(d => d.Data).Take(91).Reverse().ToList();
                 foreach (var d in ultimos) Contribuicoes.Add(d);
@@ -199,16 +239,25 @@ public class GitHubWidgetViewModel : ObservableObject
                 
                 if (AnimacaoAutomatica) IniciarAnimacao();
 
-                TotalContribuicoes = total;
+                ErroAtualizacao = ""; TotalConfirmado = matchesTooltip.Count > 0;
+                TotalContribuicoes = total; OnPropertyChanged(nameof(TextoResumo));
                 Carregando = false;
-            });
+            }
+            if (Application.Current?.Dispatcher is { } dispatcher) await dispatcher.InvokeAsync(Aplicar); else Aplicar();
         }
-        catch { Application.Current?.Dispatcher.Invoke(() => { Carregando = false; }); }
+        catch (OperationCanceledException) { }
+        catch { if (!_disposed && _visual && usuario == _nomeUsuario) { ErroAtualizacao = "Não foi possível atualizar as contribuições. Dados anteriores preservados."; _cacheAte = DateTimeOffset.UtcNow.AddSeconds(30); } }
+        finally
+        {
+            _ocupado = false; Carregando = false; AgendarConsulta();
+            if (ReferenceEquals(_consulta, consulta)) _consulta = null;
+            if (_visual && !_disposed && (consulta.IsCancellationRequested || usuario != _nomeUsuario)) _ = CarregarContribuicoesAsync();
+        }
     }
 
     public void IniciarAnimacao()
     {
-        if (_animacaoRodando || Contribuicoes.Count < 91) return;
+        if (_animacaoRodando || Contribuicoes.Count < 91 || !_visual || !_animacoes || _disposed) return;
         _corpo.Clear();
         _corpo.Add((0, 0));
         _fantasma = (12, 6);
@@ -235,13 +284,15 @@ public class GitHubWidgetViewModel : ObservableObject
 
         if (AnimacaoAutomatica)
         {
-            Task.Run(async () => {
-                await Task.Delay(3000);
-                Application.Current?.Dispatcher.Invoke(() => {
-                    if (AnimacaoAutomatica) IniciarAnimacao();
-                });
-            });
+            _reinicio?.Cancel(); _reinicio?.Dispose(); _reinicio = new();
+            _ = ReiniciarDepoisAsync(_reinicio.Token);
         }
+    }
+
+    private async Task ReiniciarDepoisAsync(System.Threading.CancellationToken token)
+    {
+        try { await Task.Delay(3000, token); if (!token.IsCancellationRequested && _visual && _animacoes && AnimacaoAutomatica && !_disposed) IniciarAnimacao(); }
+        catch (OperationCanceledException) { }
     }
 
     private void TickAnimacao()

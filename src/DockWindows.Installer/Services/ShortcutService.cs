@@ -5,6 +5,34 @@ namespace DockWindows.Installer.Services;
 
 public static class ShortcutService
 {
+    public static void RemoverLegados(string pasta, string executavelEsperado)
+    {
+        foreach (var nome in new[] { "Dock Windows.lnk", "DockWindows.lnk" })
+        {
+            var caminho = Path.Combine(pasta, nome);
+            if (!File.Exists(caminho)) continue;
+            object? shell = null;
+            object? link = null;
+            try
+            {
+                var tipo = Type.GetTypeFromProgID("WScript.Shell");
+                if (tipo == null) continue;
+                shell = Activator.CreateInstance(tipo);
+                if (shell == null) continue;
+                link = ((dynamic)shell).CreateShortcut(caminho);
+                string alvo = ((dynamic)link).TargetPath;
+                if (!string.IsNullOrWhiteSpace(alvo) &&
+                    Path.GetFullPath(alvo).Equals(Path.GetFullPath(executavelEsperado), StringComparison.OrdinalIgnoreCase))
+                    File.Delete(caminho);
+            }
+            finally
+            {
+                if (link != null && System.Runtime.InteropServices.Marshal.IsComObject(link)) System.Runtime.InteropServices.Marshal.FinalReleaseComObject(link);
+                if (shell != null && System.Runtime.InteropServices.Marshal.IsComObject(shell)) System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
+            }
+        }
+    }
+
     public static void CriarAtalho(string caminhoAtalho, string caminhoAlvo, string diretorioTrabalho, string descricao)
     {
         try

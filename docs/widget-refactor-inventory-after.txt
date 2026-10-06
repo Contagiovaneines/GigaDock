@@ -1,0 +1,31 @@
+﻿src\DockWindows.Infrastructure\Windows\ToastNotificationService.cs:19:        public void Dispose() { _disposed = true; if (_listener != null) _listener.NotificationChanged -= Listener_NotificationChanged; OnNotificationReceived = null; ContagensAlteradas = null; PermissaoAlterada = null; }
+src\DockWindows.Infrastructure\Windows\ToastNotificationService.cs:35:                    _listener.NotificationChanged += Listener_NotificationChanged;
+src\DockWindows.Infrastructure\Windows\Win32WindowTrackingService.cs:159:        _pollTimer = new System.Timers.Timer(600)
+src\DockWindows.Infrastructure\Windows\ControlesRapidosService.cs:29:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
+src\DockWindows.Infrastructure\Windows\TeamsIntegrationService.cs:26:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+src\DockWindows.Infrastructure\Windows\WhatsAppNotificationService.cs:23:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+src\DockWindows.Infrastructure\Windows\Win32TaskbarService.cs:68:        _watchdogTimer = new System.Timers.Timer(250)
+src\DockWindows.App\MainWindow.xaml.cs:77:        _autoHideTimer = new DispatcherTimer
+src\DockWindows.App\MainWindow.xaml.cs:91:        Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+src\DockWindows.App\MainWindow.xaml.cs:92:        Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
+src\DockWindows.App\MainWindow.xaml.cs:100:    private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
+src\DockWindows.App\MainWindow.xaml.cs:105:    private void SystemEvents_TimeChanged(object? sender, EventArgs e)
+src\DockWindows.App\MainWindow.xaml.cs:649:        Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+src\DockWindows.App\MainWindow.xaml.cs:650:        Microsoft.Win32.SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
+src\DockWindows.App\ViewModels\CalendarioWidgetViewModel.cs:75:        _timer = new DispatcherTimer
+src\DockWindows.App\ViewModels\BateriaViewModel.cs:25:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
+src\DockWindows.App\ViewModels\ClockWidgetViewModel.cs:44:        _timer = new DispatcherTimer
+src\DockWindows.App\ViewModels\GitHubWidgetViewModel.cs:157:        _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(30) };
+src\DockWindows.App\ViewModels\GitHubWidgetViewModel.cs:160:        _animTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
+src\DockWindows.App\ViewModels\GitHubWidgetViewModel.cs:294:        try { await Task.Delay(3000, token); if (!token.IsCancellationRequested && _visual && _animacoes && AnimacaoAutomatica && !_disposed) IniciarAnimacao(); }
+src\DockWindows.App\ViewModels\ClimaWidgetViewModel.cs:106:        _timer = new DispatcherTimer { Interval = TimeSpan.FromHours(1) };
+src\DockWindows.App\ViewModels\MidiaWidgetViewModel.cs:53:        if (_currentSession != null) { _currentSession.MediaPropertiesChanged -= Session_MediaPropertiesChanged; _currentSession.PlaybackInfoChanged -= Session_PlaybackInfoChanged; _currentSession.TimelinePropertiesChanged -= Session_TimelinePropertiesChanged; }
+src\DockWindows.App\ViewModels\MidiaWidgetViewModel.cs:137:        _timelineTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+src\DockWindows.App\ViewModels\MidiaWidgetViewModel.cs:241:            _currentSession.PlaybackInfoChanged -= Session_PlaybackInfoChanged; _currentSession.TimelinePropertiesChanged -= Session_TimelinePropertiesChanged;
+src\DockWindows.App\ViewModels\MidiaWidgetViewModel.cs:250:            _currentSession.TimelinePropertiesChanged += Session_TimelinePropertiesChanged;
+src\DockWindows.App\ViewModels\MidiaWidgetViewModel.cs:256:    private void Session_TimelinePropertiesChanged(GlobalSystemMediaTransportControlsSession sender, TimelinePropertiesChangedEventArgs args)
+src\DockWindows.App\ViewModels\MainViewModel.cs:148:        try { await Task.Delay(15000, token); if (!_disposed && !token.IsCancellationRequested) EstaEmAlerta = false; }
+src\DockWindows.App\ViewModels\MainViewModel.cs:440:        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromMilliseconds(250) };
+src\DockWindows.App\ViewModels\NotasWidgetViewModel.cs:68:        _timerSalvar = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+src\DockWindows.App\ViewModels\MonitorSistemaViewModel.cs:29:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+src\DockWindows.App\ViewModels\PomodoroWidgetViewModel.cs:25:        _timer = new DispatcherTimer

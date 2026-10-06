@@ -13,18 +13,22 @@ public class PomodoroEngine
 {
     private WidgetConfig _config;
     private int _segundosTotais;
+    private int _restantes;
+    private DateTimeOffset? _fim;
+    private readonly TimeProvider _relogio;
 
     public event EventHandler? CicloConcluido;
     public event EventHandler? EstadoMudou;
 
-    public PomodoroEngine(WidgetConfig? config = null)
+    public PomodoroEngine(WidgetConfig? config = null, TimeProvider? relogio = null)
     {
+        _relogio = relogio ?? TimeProvider.System;
         _config = config ?? new WidgetConfig();
         ConfigurarEstado(PomodoroEstado.Foco);
     }
 
     public PomodoroEstado Estado { get; private set; } = PomodoroEstado.Foco;
-    public int SegundosRestantes { get; private set; }
+    public int SegundosRestantes { get => _fim.HasValue ? Math.Max(0, (int)Math.Ceiling((_fim.Value - _relogio.GetUtcNow()).TotalSeconds)) : _restantes; private set => _restantes = value; }
     public int CiclosConcluidos { get; private set; }
     public bool EstaExecutando { get; private set; }
 
@@ -63,8 +67,8 @@ public class PomodoroEngine
         }
     }
 
-    public void Iniciar() => EstaExecutando = true;
-    public void Pausar() => EstaExecutando = false;
+    public void Iniciar() { if (EstaExecutando) return; _fim = _relogio.GetUtcNow().AddSeconds(_restantes); EstaExecutando = true; }
+    public void Pausar() { _restantes = SegundosRestantes; _fim = null; EstaExecutando = false; }
 
     public void Alternar()
     {
@@ -85,7 +89,7 @@ public class PomodoroEngine
         if (Estado == PomodoroEstado.Foco)
         {
             CiclosConcluidos++;
-            if (CiclosConcluidos % _config.CiclosAtePausaLonga == 0)
+            if (CiclosConcluidos % Math.Max(1, _config.CiclosAtePausaLonga) == 0)
             {
                 Estado = PomodoroEstado.PausaLonga;
             }
@@ -106,14 +110,11 @@ public class PomodoroEngine
     {
         if (!EstaExecutando) return;
 
-        if (SegundosRestantes > 0)
+        if (SegundosRestantes == 0)
         {
-            SegundosRestantes--;
-        }
-        else
-        {
-            CicloConcluido?.Invoke(this, EventArgs.Empty);
+            // Fase termina uma vez; não simula ciclos que não foram iniciados.
             AvancarFase();
+            CicloConcluido?.Invoke(this, EventArgs.Empty);
         }
     }
 

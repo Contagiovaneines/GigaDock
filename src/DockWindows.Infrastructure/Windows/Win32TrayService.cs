@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
 namespace DockWindows.Infrastructure.Windows;
@@ -46,6 +46,9 @@ public class Win32TrayService : IDisposable
     [DllImport("user32.dll")]
     private static extern IntPtr LoadIcon(IntPtr hInstance, IntPtr lpIconName);
 
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
+
     private readonly IntPtr _hwnd;
     private readonly HwndSource? _source;
     private bool _adicionado;
@@ -70,8 +73,10 @@ public class Win32TrayService : IDisposable
     {
         try
         {
-            // IDI_APPLICATION = 32512
-            var hIcon = LoadIcon(IntPtr.Zero, new IntPtr(32512));
+            // WM_GETICON: usa o ?cone da janela WPF; handle emprestado, sem DestroyIcon.
+            var hIcon = SendMessage(_hwnd, 0x007F, new IntPtr(2), IntPtr.Zero);
+            if (hIcon == IntPtr.Zero) hIcon = SendMessage(_hwnd, 0x007F, new IntPtr(1), IntPtr.Zero);
+            if (hIcon == IntPtr.Zero) hIcon = LoadIcon(IntPtr.Zero, new IntPtr(32512));
 
             var data = new NOTIFYICONDATA
             {

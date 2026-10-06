@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -40,6 +40,15 @@ public partial class MainWindow : Window
     private readonly DispatcherTimer _autoHideTimer;
     private bool _estaOcultoPorAutoHide;
 
+    public void ExibirInstanciaExistente()
+    {
+        _viewModel.DockVisivel = true;
+        if (WindowState == WindowState.Minimized) WindowState = WindowState.Normal;
+        Show();
+        RevelarDock();
+        Activate();
+    }
+
     private Views.Sections.SectionIniciarPesquisa? _secIniciarPesquisa;
     private Views.Sections.SectionApps? _secApps;
     private Views.Sections.SectionColecoes? _secColecoes;
@@ -53,7 +62,7 @@ public partial class MainWindow : Window
     protected override void OnPreviewMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
     {
         base.OnPreviewMouseLeftButtonDown(e);
-        if (_viewModel.EstaEmAlerta) _viewModel.EstaEmAlerta = false;
+        // Alertas seguem o ciclo da notificação; cliques na dock não os encerram.
     }
 
     public MainWindow()
@@ -67,6 +76,9 @@ public partial class MainWindow : Window
 
                 _viewModel = new MainViewModel(_settingsRepo, _launcherService, _iconService, _autostartService);
         DataContext = _viewModel;
+        IsVisibleChanged += (_, _) => InformarVisibilidadeReal();
+        StateChanged += (_, _) => InformarVisibilidadeReal();
+        Loaded += (_, _) => InformarVisibilidadeReal();
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         ConectarCallbacksViewModel();
@@ -85,6 +97,23 @@ public partial class MainWindow : Window
         MouseLeave += MainWindow_MouseLeave;
 
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+        Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+        Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
+        SystemParameters.StaticPropertyChanged += SystemParameters_Changed;
+    }
+    private void SystemParameters_Changed(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SystemParameters.ClientAreaAnimation)) Dispatcher.InvokeAsync(InformarVisibilidadeReal);
+    }
+
+    private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
+    {
+        if (e.Mode is Microsoft.Win32.PowerModes.Suspend or Microsoft.Win32.PowerModes.Resume)
+            Dispatcher.InvokeAsync(() => _viewModel.Atividade.Suspender(e.Mode == Microsoft.Win32.PowerModes.Suspend));
+    }
+    private void SystemEvents_TimeChanged(object? sender, EventArgs e)
+    {
+        Dispatcher.InvokeAsync(() => { TimeZoneInfo.ClearCachedData(); _viewModel.Atividade.Atualizar("Relogio"); _viewModel.Atividade.Atualizar("Calendario"); });
     }
 
     private void SystemEvents_DisplaySettingsChanged(object? sender, EventArgs e)
@@ -329,6 +358,10 @@ public partial class MainWindow : Window
 
         menu.Items.Add(new Separator());
 
+        var itemGamerRgb = new MenuItem { Header = "Modo gamer RGB", IsCheckable = true, IsChecked = _viewModel.ModoGamerRgb };
+        itemGamerRgb.Click += (_, _) => _viewModel.ModoGamerRgb = itemGamerRgb.IsChecked;
+        menu.Items.Add(itemGamerRgb);
+
         // Submenu de ambientes
         var menuAmbientes = new MenuItem { Header = "ðŸ’¼ Ambientes" };
         foreach (var amb in _viewModel.Ambientes)
@@ -499,12 +532,19 @@ public partial class MainWindow : Window
         }
     }
 
+    private void InformarVisibilidadeReal() => _viewModel.DefinirVisibilidadeReal(
+        IsVisible && WindowState != WindowState.Minimized && !_estaOcultoPorAutoHide);
+
     private void MainWindow_MouseEnter(object sender, MouseEventArgs e)
+        => RevelarDock();
+
+    private void RevelarDock()
     {
         _autoHideTimer.Stop();
         if (_estaOcultoPorAutoHide)
         {
             _estaOcultoPorAutoHide = false;
+            InformarVisibilidadeReal();
             double screenBottom = _viewModel.UsarComoBarraPrincipal
                 ? SystemParameters.PrimaryScreenHeight
                 : SystemParameters.WorkArea.Bottom;
@@ -528,6 +568,7 @@ public partial class MainWindow : Window
         if (_viewModel.OcultarAutomaticamente && !IsMouseOver && !_estaOcultoPorAutoHide)
         {
             _estaOcultoPorAutoHide = true;
+            InformarVisibilidadeReal();
             double screenBottom = _viewModel.UsarComoBarraPrincipal
                 ? SystemParameters.PrimaryScreenHeight
                 : SystemParameters.WorkArea.Bottom;
@@ -617,6 +658,9 @@ public partial class MainWindow : Window
     private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
+        Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+        Microsoft.Win32.SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
+        SystemParameters.StaticPropertyChanged -= SystemParameters_Changed;
         _autoHideTimer.Stop();
         _hotkeyService?.Dispose();
         _trayService?.Dispose();
@@ -629,6 +673,9 @@ public partial class MainWindow : Window
         DockWindows.Infrastructure.Windows.AppBarHelper.RemoveBar(this);
 
         _viewModel.SalvarPreferencias();
+        _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+        PararAnimacaoAlerta();
+        _viewModel.Dispose();
     }
     private System.Windows.Media.Animation.Storyboard? _alertaStoryboard;
 
@@ -643,9 +690,9 @@ public partial class MainWindow : Window
             }
         }
         
-        if (e.PropertyName == nameof(_viewModel.EstaEmAlerta))
+        if (e.PropertyName is nameof(MainViewModel.EstaEmAlerta) or nameof(MainViewModel.AnimacoesAtivas) or nameof(MainViewModel.AlertaChamada))
         {
-            if (_viewModel.EstaEmAlerta)
+            if (_viewModel.EstaEmAlerta && !_viewModel.AlertaChamada && _viewModel.AnimacoesAtivas)
             {
                 IniciarAnimacaoAlerta();
             }
@@ -660,7 +707,7 @@ public partial class MainWindow : Window
     {
         if (_alertaStoryboard != null)
         {
-            _alertaStoryboard.Stop();
+            _alertaStoryboard.Remove(this);
         }
 
         try
@@ -672,18 +719,18 @@ public partial class MainWindow : Window
             {
                 From = System.Windows.Media.Colors.Black,
                 To = cor,
-                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.8)),
+                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.35)),
                 AutoReverse = true,
-                RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever
+                RepeatBehavior = new System.Windows.Media.Animation.RepeatBehavior(1)
             };
 
             var animacaoRaio = new System.Windows.Media.Animation.DoubleAnimation
             {
                 From = 16.0,
                 To = 30.0,
-                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.8)),
+                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.35)),
                 AutoReverse = true,
-                RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever
+                RepeatBehavior = new System.Windows.Media.Animation.RepeatBehavior(1)
             };
 
             System.Windows.Media.Animation.Storyboard.SetTarget(animacaoSombra, DockShadow);
@@ -695,7 +742,7 @@ public partial class MainWindow : Window
             _alertaStoryboard = new System.Windows.Media.Animation.Storyboard();
             _alertaStoryboard.Children.Add(animacaoSombra);
             _alertaStoryboard.Children.Add(animacaoRaio);
-            _alertaStoryboard.Begin();
+            _alertaStoryboard.Begin(this, true);
         }
         catch { }
     }
@@ -704,13 +751,12 @@ public partial class MainWindow : Window
     {
         if (_alertaStoryboard != null)
         {
-            _alertaStoryboard.Stop();
+            _alertaStoryboard.Remove(this);
             _alertaStoryboard = null;
         }
         
         // Restaura valores originais (ClearValue restaura o Binding ou valor do XAML original)
-        DockShadow.ClearValue(System.Windows.Media.Effects.DropShadowEffect.ColorProperty);
-        DockShadow.ClearValue(System.Windows.Media.Effects.DropShadowEffect.BlurRadiusProperty);
+        // Remove restaura os valores-base e conserva os bindings da sombra.
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

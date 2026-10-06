@@ -1,0 +1,50 @@
+<UserControl x:Class="DockWindows.App.Views.ClimaDetalhesControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Width="302" Padding="18" CornerRadius="20" BorderBrush="#7196BD" BorderThickness="1">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#3799DA" Offset="0"/><GradientStop Color="#182D74" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <StackPanel>
+            <TextBlock Text="{Binding Local}" Foreground="#D4E7F6" FontSize="14" FontWeight="SemiBold"/>
+            <Grid Margin="0,6,0,0">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Temperatura}" FontSize="48" Foreground="White" FontWeight="Bold"/>
+                <TextBlock Grid.Column="1" Text="{Binding Condicao}" TextWrapping="Wrap" MaxWidth="120" Foreground="#D8EDFA"
+                           HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="13"/>
+            </Grid>
+            <TextBlock Text="{Binding Sensacao, StringFormat=Sensação de {0}}" Foreground="#D4E7F6" FontSize="12"/>
+            <Border Height="1" Background="#407AB1D3" Margin="0,16"/>
+            <TextBlock Text="Próximas horas" Foreground="White" FontSize="12" Margin="0,0,0,10"/>
+            <ItemsControl ItemsSource="{Binding Horas}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Rows="1"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Hora}" Foreground="#C3DBED" FontSize="10" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Icone}" Foreground="#FFDE74" FontFamily="Segoe UI Symbol" FontSize="22" HorizontalAlignment="Center" Margin="0,4"/>
+                            <TextBlock Text="{Binding Temperatura}" Foreground="White" FontSize="12" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Border Height="1" Background="#407AB1D3" Margin="0,16"/>
+            <TextBlock Text="Previsão · mínima / máxima" Foreground="#D4E7F6" FontSize="11" Margin="0,0,0,10"/>
+            <ItemsControl ItemsSource="{Binding Previsoes}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,5">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="40"/><ColumnDefinition Width="42"/><ColumnDefinition Width="42"/></Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Dia}" Foreground="White" FontSize="13" FontWeight="SemiBold"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Icone}" Foreground="#FFDE74" FontFamily="Segoe UI Symbol" FontSize="17"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Minima}" Foreground="#ADCFE4" FontSize="13"/>
+                            <TextBlock Grid.Column="3" Text="{Binding Temperatura}" Foreground="White" FontSize="13"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Border>
+</UserControl>

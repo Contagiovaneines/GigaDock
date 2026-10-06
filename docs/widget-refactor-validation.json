@@ -1,0 +1,39 @@
+{
+  "data_utc": "2026-10-06T11:38:08.947898+00:00",
+  "build": {
+    "comando": "dotnet build DockWindows.slnx -c Release --no-restore --no-incremental --nologo",
+    "exit_code": 0,
+    "erros": 0,
+    "avisos": 1,
+    "aviso": "CS0067 em FakeWindowTrackingService.TelaCheiaAlterada (teste existente)"
+  },
+  "testes": {
+    "comando": "dotnet test tests/DockWindows.Tests/DockWindows.Tests.csproj -c Release --no-restore --filter Category!=SystemIntegration",
+    "resultados": {
+      "Passed": 140
+    },
+    "total": 140,
+    "casos_novos": 20,
+    "excluidos_por_categoria": 2,
+    "motivo_exclusao": "Alteram autostart/barra de tarefas do Windows.",
+    "trx": "TestResults/refatoracao-final.trx"
+  },
+  "estabilidade": {
+    "alternancias_simuladas": 10000,
+    "dispatcher_minutos": 2,
+    "perfil_real_cpu_ram_executado": false
+  },
+  "dependencias": {
+    "ical_net": "5.2.0",
+    "nodatime_transitiva": "3.2.2",
+    "vulnerabilidades_nuget_listadas": 0
+  },
+  "manual_nao_executado": [
+    "instalar/atualizar/desinstalar",
+    "DPI e renderização de todos os estilos",
+    "players e notificações reais com permissões",
+    "bateria física/métricas sob carga",
+    "suspensão física do computador"
+  ],
+  "instalador_reempacotado": false
+}

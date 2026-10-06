@@ -1,10 +1,11 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace DockWindows.Core.Models;
 
 public class Preferencias
 {
-    public int SchemaVersion { get; set; } = 4;
+    public bool AppsGlobaisMigrados { get; set; }
+    public int SchemaVersion { get; set; } = 6;
     public string AmbienteAtivoId { get; set; } = string.Empty;
     public TemaModo Tema { get; set; } = TemaModo.Escuro;
     public EstiloTema EstiloTema { get; set; } = EstiloTema.Escuro;
@@ -25,12 +26,19 @@ public class Preferencias
     public int? EstadoAnteriorBarraTarefas { get; set; } = null;
     public bool ExibirSeletorAmbientes { get; set; } = true;
     public bool ExibirItensFixados { get; set; } = true;
+    public bool ExibirAppsAbertosNaoFixados { get; set; } = false;
     public bool ExibirBotoesAcao { get; set; } = false;
     public bool ExibirContagemColecoes { get; set; } = false;
     public bool ExibirClima { get; set; } = true;
     public bool ExibirMidia { get; set; } = true;
+    public bool PreviaJanelas { get; set; }
+    public bool ClimaExpandido { get; set; }
+    public bool RelogioAnalogico { get; set; }
+    public bool PreviaPastas { get; set; }
+    public bool ExibirBateria { get; set; } = false;
     public bool ExibirLixeira { get; set; } = false;
     public bool AlertasVisuaisHabilitados { get; set; } = true;
+    public bool ModoGamerRgb { get; set; } = false;
     public bool ModoRgbMedia { get; set; } = false;
     public bool AbrirPlayerAoDuploClique { get; set; } = true;
     public string GitHubUsuario { get; set; } = string.Empty;
@@ -120,7 +128,7 @@ public class Preferencias
     {
         var prefs = new Preferencias
         {
-            SchemaVersion = 4,
+            SchemaVersion = 6,
             Tema = TemaModo.Escuro,
             EstiloTema = EstiloTema.Escuro,
             TamanhoIcones = TamanhoIcone.Medio,
@@ -142,7 +150,8 @@ public class Preferencias
             DesativarAnimacoes = false,
             EspacamentoItens = 6,
             AppsFixadosGlobais = true,
-            AppsPermanentes = CriarAppsPermanentesPadrao(),
+            AppsPermanentes = new List<ItemFixado>(),
+            AppsGlobaisMigrados = true,
             OrdemSecoes = CriarOrdemSecoesPadrao(),
             ColecoesGlobais = CriarColecoesGlobaisPadrao(),
             Espacadores = CriarEspacadoresPadrao(),

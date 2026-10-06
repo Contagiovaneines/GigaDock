@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -84,12 +84,14 @@ public class AjustesViewModel : ObservableObject
                 RemoverWidgetCommand = new RelayCommand(RemoverWidget, () => WidgetSelecionado != null);
         MoverWidgetCimaCommand = new RelayCommand(MoverWidgetCima, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) > 0);
         MoverWidgetBaixoCommand = new RelayCommand(MoverWidgetBaixo, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) < WidgetsAmbiente.Count - 1);
+        EscolherEstiloWidgetCommand = new RelayCommand<WidgetInstanceConfig>(EscolherEstiloWidget);
         AlternarFormatoWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarFormatoWidget);
         AlternarVisibilidadeWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarVisibilidadeWidget);
         NovoCompromissoCommand = new RelayCommand(NovoCompromisso);
         RemoverCompromissoCommand = new RelayCommand(RemoverCompromisso, () => CompromissoSelecionado != null);
         ProcurarArquivoIcsCommand = new RelayCommand(ProcurarArquivoIcs);
         AbrirLojaWidgetsCommand = new RelayCommand(AbrirLojaWidgets);
+        AbrirGaleriaAppsCommand = new RelayCommand(AbrirGaleriaApps);
 
         // Comandos de Espaçadores
         NovoEspacadorCommand = new RelayCommand(NovoEspacador);
@@ -118,7 +120,7 @@ public class AjustesViewModel : ObservableObject
     public Func<string, string, bool>? ConfirmarAcao { get; set; }
 
     public string AppNome => "GigaDock";
-    public string AppVersao => "2.0.0";
+    public string AppVersao => typeof(AjustesViewModel).Assembly.GetName().Version?.ToString(3) ?? "GigaDock";
     public EnvironmentViewModel? AmbienteAtivo => _mainVm.AmbienteAtivo;
 
     public string SecaoAtiva
@@ -135,10 +137,12 @@ public class AjustesViewModel : ObservableObject
                 OnPropertyChanged(nameof(EhSecaoGeral));
                 OnPropertyChanged(nameof(EhSecaoUtilitarios));
                 OnPropertyChanged(nameof(EhSecaoSobre));
+                OnPropertyChanged(nameof(EhSecaoVisualizacoes));
             }
         }
     }
 
+    public bool EhSecaoVisualizacoes => SecaoAtiva == "Visualizacoes";
     public bool EhSecaoAmbientes => SecaoAtiva == "Ambientes";
     public bool EhSecaoWidgets => SecaoAtiva == "Widgets";
     public bool EhSecaoEspacadores => SecaoAtiva == "Espacadores";
@@ -405,7 +409,7 @@ public class AjustesViewModel : ObservableObject
                 {
                     w.Visivel = value;
                 }
-                
+
                 _mainVm.Calendario.Habilitado = value;
                 _mainVm.ForcarAtualizacaoLayout();
                 _mainVm.SalvarPreferencias();
@@ -565,8 +569,13 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
-    
-            public bool ModoRgbMedia
+
+    public bool ModoGamerRgb
+    {
+        get => _mainVm.ModoGamerRgb;
+        set { _mainVm.ModoGamerRgb = value; OnPropertyChanged(); }
+    }
+    public bool ModoRgbMedia
     {
         get => _mainVm.ModoRgbMedia;
         set
@@ -586,6 +595,42 @@ public bool AlertasVisuaisHabilitados
         }
     }
 
+    public string ModoAberturaPaineis
+    {
+        get => _mainVm.ModoAberturaPaineis;
+        set { _mainVm.ModoAberturaPaineis = value; OnPropertyChanged(); }
+    }
+    public bool PreviaJanelas
+    {
+        get => _mainVm.PreviaJanelas;
+        set { if (_mainVm.PreviaJanelas == value) return; _mainVm.PreviaJanelas = value; OnPropertyChanged(); }
+    }
+    public bool ClimaExpandido
+    {
+        get => _mainVm.ClimaExpandido;
+        set { if (_mainVm.ClimaExpandido == value) return; _mainVm.ClimaExpandido = value; OnPropertyChanged(); }
+    }
+    public bool RelogioAnalogico
+    {
+        get => _mainVm.RelogioAnalogico;
+        set { if (_mainVm.RelogioAnalogico == value) return; _mainVm.RelogioAnalogico = value; OnPropertyChanged(); }
+    }
+    public bool PreviaPastas
+    {
+        get => _mainVm.PreviaPastas;
+        set { if (_mainVm.PreviaPastas == value) return; _mainVm.PreviaPastas = value; OnPropertyChanged(); }
+    }
+public bool ExibirBateria
+    {
+        get => _mainVm.ExibirBateria;
+        set
+        {
+            if (_mainVm.ExibirBateria == value) return;
+            _mainVm.ExibirBateria = value;
+            OnPropertyChanged();
+        }
+    }
+
 public bool ExibirLixeira
     {
         get => _mainVm.ExibirLixeira;
@@ -599,7 +644,17 @@ public bool ExibirLixeira
         }
     }
 
-    
+
+    public bool ExibirAppsAbertosNaoFixados
+    {
+        get => _mainVm.ExibirAppsAbertosNaoFixados;
+        set
+        {
+            _mainVm.ExibirAppsAbertosNaoFixados = value;
+            OnPropertyChanged();
+        }
+    }
+
     public bool ExibirClima
     {
         get => _mainVm.ExibirClima;
@@ -780,12 +835,14 @@ public bool ExibirLixeira
 
     public ICommand MoverWidgetCimaCommand { get; }
     public ICommand MoverWidgetBaixoCommand { get; }
+    public ICommand EscolherEstiloWidgetCommand { get; }
     public ICommand AlternarFormatoWidgetCommand { get; }
     public ICommand AlternarVisibilidadeWidgetCommand { get; }
     public ICommand NovoCompromissoCommand { get; }
     public ICommand RemoverCompromissoCommand { get; }
     public ICommand ProcurarArquivoIcsCommand { get; }
     public ICommand AbrirLojaWidgetsCommand { get; }
+    public ICommand AbrirGaleriaAppsCommand { get; }
     public ICommand RemoverWidgetCommand { get; }
 
     public ICommand NovoEspacadorCommand { get; }
@@ -828,7 +885,7 @@ public bool ExibirLixeira
 
         if (AmbienteSelecionado != null)
         {
-            foreach (var it in AmbienteSelecionado.Itens.OrderBy(i => i.Ordem))
+            foreach (var it in _mainVm.Preferencias.AppsPermanentes.Concat(AmbienteSelecionado.Itens).GroupBy(i => i.Id).Select(g => g.First()).OrderBy(i => i.Ordem))
             {
                 ItensAmbiente.Add(it);
             }
@@ -1157,11 +1214,14 @@ public bool ExibirLixeira
             $"Deseja remover o item '{ItemSelecionado.Titulo}' deste ambiente?") ?? true;
         if (!confirmar) return;
 
-        AmbienteSelecionado.Itens.Remove(ItemSelecionado);
-        ItensAmbiente.Remove(ItemSelecionado);
+        var item = ItemSelecionado;
+        if (ItemSelecionadoEhGlobal) _mainVm.RemoverAppPermanenteDireto(item.Id, item.CaminhoOuUrl);
+        else AmbienteSelecionado.Itens.Remove(item);
+        ItensAmbiente.Remove(item);
         var vm = Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado.Id);
         vm?.RecarregarItens();
         _mainVm.SalvarPreferencias();
+        _mainVm.CarregarAplicativos();
         ItemSelecionado = ItensAmbiente.FirstOrDefault();
     }
 
@@ -1172,7 +1232,10 @@ public bool ExibirLixeira
         if (idx > 0)
         {
             ItensAmbiente.Move(idx, idx - 1);
-            AmbienteSelecionado.Itens = ItensAmbiente.ToList();
+            var globais = _mainVm.Preferencias.AppsPermanentes.Select(i => i.Id).ToHashSet();
+            _mainVm.Preferencias.AppsPermanentes = ItensAmbiente.Where(i => globais.Contains(i.Id)).ToList();
+            AmbienteSelecionado.Itens = ItensAmbiente.Where(i => !globais.Contains(i.Id)).ToList();
+            for (int i = 0; i < _mainVm.Preferencias.AppsPermanentes.Count; i++) _mainVm.Preferencias.AppsPermanentes[i].Ordem = i;
             for (int i = 0; i < AmbienteSelecionado.Itens.Count; i++) AmbienteSelecionado.Itens[i].Ordem = i;
             var vm = Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado.Id);
             vm?.RecarregarItens();
@@ -1187,7 +1250,10 @@ public bool ExibirLixeira
         if (idx >= 0 && idx < ItensAmbiente.Count - 1)
         {
             ItensAmbiente.Move(idx, idx + 1);
-            AmbienteSelecionado.Itens = ItensAmbiente.ToList();
+            var globais = _mainVm.Preferencias.AppsPermanentes.Select(i => i.Id).ToHashSet();
+            _mainVm.Preferencias.AppsPermanentes = ItensAmbiente.Where(i => globais.Contains(i.Id)).ToList();
+            AmbienteSelecionado.Itens = ItensAmbiente.Where(i => !globais.Contains(i.Id)).ToList();
+            for (int i = 0; i < _mainVm.Preferencias.AppsPermanentes.Count; i++) _mainVm.Preferencias.AppsPermanentes[i].Ordem = i;
             for (int i = 0; i < AmbienteSelecionado.Itens.Count; i++) AmbienteSelecionado.Itens[i].Ordem = i;
             var vm = Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado.Id);
             vm?.RecarregarItens();
@@ -1199,30 +1265,32 @@ public bool ExibirLixeira
     {
         if (AmbienteSelecionado == null || ItemSelecionado == null) return;
 
+        var item = ItemSelecionado;
         if (ItemSelecionadoEhGlobal)
         {
             // Mover de Global para Ambiente
-            _mainVm.RemoverAppPermanenteDireto(ItemSelecionado.Id, ItemSelecionado.CaminhoOuUrl);
-            if (!AmbienteSelecionado.Itens.Any(i => i.Id == ItemSelecionado.Id))
+            _mainVm.RemoverAppPermanenteDireto(item.Id, item.CaminhoOuUrl);
+            if (!AmbienteSelecionado.Itens.Any(i => i.Id == item.Id))
             {
-                ItemSelecionado.Ordem = AmbienteSelecionado.Itens.Count;
-                AmbienteSelecionado.Itens.Add(ItemSelecionado);
-                ItensAmbiente.Add(ItemSelecionado);
+                item.Ordem = AmbienteSelecionado.Itens.Count;
+                AmbienteSelecionado.Itens.Add(item);
+                if (!ItensAmbiente.Contains(item)) ItensAmbiente.Add(item);
             }
         }
         else
         {
             // Mover de Ambiente para Global
-            AmbienteSelecionado.Itens.Remove(ItemSelecionado);
-            ItensAmbiente.Remove(ItemSelecionado);
-            _mainVm.RemoverAppPermanenteDireto(ItemSelecionado.Id, ItemSelecionado.CaminhoOuUrl);
-            _mainVm.AdicionarAppPermanenteDireto(ItemSelecionado);
+            AmbienteSelecionado.Itens.Remove(item);
+            _mainVm.RemoverAppPermanenteDireto(item.Id, item.CaminhoOuUrl);
+            _mainVm.AdicionarAppPermanenteDireto(item);
         }
 
         var vm = Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado.Id);
         vm?.RecarregarItens();
         _mainVm.SalvarPreferencias();
 
+        ItemSelecionado = item;
+        _mainVm.CarregarAplicativos();
         OnPropertyChanged(nameof(ItemSelecionadoEhGlobal));
         OnPropertyChanged(nameof(TextoEscopoItemSelecionado));
     }
@@ -1316,38 +1384,48 @@ public bool ExibirLixeira
         }
     }
 
-    private void AlternarFormatoWidget(WidgetInstanceConfig? wgt)
+    private void EscolherEstiloWidget(WidgetInstanceConfig? widget)
     {
-        if (wgt != null)
+        if (widget == null || AmbienteSelecionado == null) return;
+        var janela = new Views.EstilosWidgetWindow(widget, AmbienteSelecionado.Nome)
         {
-            wgt.Formato = wgt.Formato == FormatoWidget.Compacto ? FormatoWidget.Expandido : FormatoWidget.Compacto;
-            if (wgt.Tipo == TipoWidget.Relogio) _mainVm.Clock.Formato = wgt.Formato;
-            if (wgt.Tipo == TipoWidget.Pomodoro) _mainVm.Pomodoro.Formato = wgt.Formato;
-            if (wgt.Tipo == TipoWidget.CalendarioCompromissos) _mainVm.Calendario.Formato = wgt.Formato;
-            _mainVm.SalvarPreferencias();
-        }
+            Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(w => w is Views.AjustesWindow) ?? System.Windows.Application.Current.MainWindow
+        };
+        if (janela.ShowDialog() == true && janela.EstiloSelecionado != null)
+            AplicarEstiloWidget(widget, janela.EstiloSelecionado);
     }
+
+    public void AplicarEstiloWidget(WidgetInstanceConfig widget, string estilo)
+    {
+        if (AmbienteSelecionado == null || !AmbienteSelecionado.WidgetsInstalados.Contains(widget)) return;
+        if (!EstilosWidget.Aplicar(widget, estilo)) return;
+        AlternarVisibilidadeWidget(widget);
+        var index = WidgetsAmbiente.IndexOf(widget);
+        if (index >= 0) { WidgetsAmbiente.RemoveAt(index); WidgetsAmbiente.Insert(index, widget); }
+        WidgetSelecionado = widget;
+    }
+
+    private void AlternarFormatoWidget(WidgetInstanceConfig? widget) => EscolherEstiloWidget(widget);
 
         private void AlternarVisibilidadeWidget(WidgetInstanceConfig? wgt)
     {
         if (wgt != null)
         {
-            if (wgt.Tipo == TipoWidget.Relogio) _mainVm.Clock.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.Pomodoro) _mainVm.Pomodoro.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.CalendarioCompromissos) _mainVm.Calendario.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.Notas) _mainVm.Notas.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.MonitorSistema) _mainVm.MonitorSistema.Habilitado = wgt.Visivel;
-                        if (wgt.Tipo == TipoWidget.GitHubContribuicoes) _mainVm.GitHub.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.Clima) _mainVm.Clima.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.WhatsAppNotificacoes) _mainVm.WhatsApp.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.TeamsStatus) _mainVm.Teams.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.DiscordVoz) _mainVm.Discord.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.OBSStudio) _mainVm.Obs.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.WhatsAppNotificacoes) _mainVm.WhatsApp.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.TeamsStatus) _mainVm.Teams.Habilitado = wgt.Visivel;
-            if (wgt.Tipo == TipoWidget.DiscordVoz) _mainVm.Discord.Habilitado = wgt.Visivel;
-            
-            _mainVm.AtualizarCoresTema(); // Update visibility states in UI
+            var ambienteVm = _mainVm.Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado?.Id);
+            if (ambienteVm != null && AmbienteSelecionado != null)
+            {
+                ambienteVm.WidgetsInstalados.Clear();
+                foreach (var widget in AmbienteSelecionado.WidgetsInstalados)
+                    ambienteVm.WidgetsInstalados.Add(widget);
+            }
+            // Cada ambiente tem sua própria configuração de widgets.
+            // Só reflete na dock se o ambiente sendo editado for o ambiente ativo.
+            if (_mainVm.AmbienteAtivo != null && AmbienteSelecionado != null &&
+                _mainVm.AmbienteAtivo.Id == AmbienteSelecionado.Id)
+            {
+                _mainVm.SincronizarWidgetsAmbiente(_mainVm.AmbienteAtivo);
+                _mainVm.AtualizarCoresTema(); // Update visibility states in UI
+            }
             _mainVm.SalvarPreferencias();
         }
     }
@@ -1355,14 +1433,15 @@ public bool ExibirLixeira
         private void RemoverWidget()
     {
         if (AmbienteSelecionado == null || WidgetSelecionado == null) return;
-        
+
         // Remove do ViewModel Principal se estiver visível
         WidgetSelecionado.Visivel = false;
         AlternarVisibilidadeWidget(WidgetSelecionado);
-        
+
         AmbienteSelecionado.WidgetsInstalados.Remove(WidgetSelecionado);
         WidgetsAmbiente.Remove(WidgetSelecionado);
-        
+        AlternarVisibilidadeWidget(WidgetSelecionado);
+
         for (int i = 0; i < WidgetsAmbiente.Count; i++) WidgetsAmbiente[i].Ordem = i;
         _mainVm.SalvarPreferencias();
         WidgetSelecionado = WidgetsAmbiente.FirstOrDefault();
@@ -1371,10 +1450,10 @@ public bool ExibirLixeira
     private void AbrirLojaWidgets()
     {
         if (AmbienteSelecionado == null) return;
-        
+
         // Passa os tipos já instalados para a loja saber o que mostrar como "Remover"
         var tiposJaInstalados = WidgetsAmbiente.Select(w => w.Tipo).ToList();
-        var janelaLoja = new Views.LojaWidgetsWindow(WidgetsAmbiente.ToList());
+        var janelaLoja = new Views.LojaWidgetsWindow(WidgetsAmbiente.ToList(), AmbienteSelecionado.Nome);
         janelaLoja.Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(w => w.GetType().Name == "AjustesWindow") ?? System.Windows.Application.Current.MainWindow;
         janelaLoja.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
         if (janelaLoja.ShowDialog() == true)
@@ -1397,13 +1476,47 @@ public bool ExibirLixeira
             {
                 // Adicionar novo widget
                 var novoWidget = janelaLoja.WidgetSelecionado;
-                novoWidget.Ordem = WidgetsAmbiente.Count;
-                WidgetsAmbiente.Add(novoWidget);
-                AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
-                AlternarVisibilidadeWidget(novoWidget); // Enable in MainVM immediately
-                _mainVm.SalvarPreferencias();
-                WidgetSelecionado = novoWidget;
+                var existente = WidgetsAmbiente.FirstOrDefault(w => w.Tipo == novoWidget.Tipo);
+                if (existente != null)
+                {
+                    AplicarEstiloWidget(existente, novoWidget.Estilo);
+                }
+                else
+                {
+                    novoWidget.Ordem = WidgetsAmbiente.Count;
+                    WidgetsAmbiente.Add(novoWidget);
+                    AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
+                    AlternarVisibilidadeWidget(novoWidget);
+                    WidgetSelecionado = novoWidget;
+                }
             }
+        }
+    }
+
+    private void AbrirGaleriaApps()
+    {
+        if (AmbienteSelecionado == null) return;
+
+        var iconService = new DockWindows.Infrastructure.Windows.IconExtractionService();
+        var janelaGaleria = new Views.AppGalleryWindow(iconService, AmbienteSelecionado.Itens);
+        janelaGaleria.Owner = System.Windows.Application.Current.Windows.OfType<System.Windows.Window>().FirstOrDefault(w => w.GetType().Name == "AjustesWindow") ?? System.Windows.Application.Current.MainWindow;
+        janelaGaleria.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+
+        if (janelaGaleria.ShowDialog() == true)
+        {
+            // Sincroniza a seleção
+            AmbienteSelecionado.Itens = janelaGaleria.ItensSelecionadosFinal;
+
+            ItensAmbiente.Clear();
+            foreach (var it in AmbienteSelecionado.Itens)
+                ItensAmbiente.Add(it);
+
+            var vm = Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado.Id);
+            vm?.RecarregarItens();
+            if (_mainVm.AmbienteAtivo?.Id == AmbienteSelecionado.Id)
+                _mainVm.CarregarAplicativos();
+
+            _mainVm.SalvarPreferencias();
         }
     }
 

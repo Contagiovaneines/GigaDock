@@ -149,7 +149,7 @@ public class InstallService
             FecharProcessosDock(pastaDestino);
 
             // 3. Preparar diretório e extrair arquivos (substituição limpa)
-            notificarProgresso(ehAtualizacao ? "Atualizando arquivos do aplicativo para a versão 2.0.0..." : "Copiando e descompactando arquivos do aplicativo...");
+            notificarProgresso(ehAtualizacao ? $"Atualizando arquivos do aplicativo para a versão {CurrentVersion}..." : "Copiando e descompactando arquivos do aplicativo...");
             Directory.CreateDirectory(pastaDestino);
             ExtrairArquivosAplicativo(pastaDestino);
 
@@ -185,6 +185,10 @@ public class InstallService
                 ShortcutService.CriarAtalho(atalhoDesk, exePrincipal, pastaDestino, "GigaDock — Barra de produtividade e ambientes");
             }
 
+            // Migração de nome: remove apenas atalhos antigos que apontem para esta instalação.
+            ShortcutService.RemoverLegados(Environment.GetFolderPath(Environment.SpecialFolder.Programs), exePrincipal);
+            ShortcutService.RemoverLegados(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), exePrincipal);
+
             // 6. Atualizar registro de inicialização automática
             notificarProgresso("Configurando inicialização automática...");
             ConfigurarInicializacao(exePrincipal, iniciarComWindows);
@@ -193,24 +197,8 @@ public class InstallService
             notificarProgresso("Atualizando registro do sistema...");
             RegistrarNoPainelControle(pastaDestino, exePrincipal);
 
-            // 8. Configurar preferências locais e ativar modo de barra principal com ocultação da barra do Windows
-            try
-            {
-                notificarProgresso("Validando e configurando preferências locais...");
-                var repo = new JsonSettingsRepository();
-                var prefs = repo.Carregar();
-                prefs.UsarComoBarraPrincipal = true;
-                prefs.EstiloTema = EstiloTema.VidroLiquido;
-
-                notificarProgresso("Ocultando barra nativa do Windows para o GigaDock...");
-                var taskbarService = new Win32TaskbarService();
-                if (taskbarService.OcultarBarraNativa(out var estadoAnt))
-                {
-                    prefs.EstadoAnteriorBarraTarefas = estadoAnt;
-                }
-                repo.Salvar(prefs);
-            }
-            catch { }
+            // Instalar/atualizar preserva preferências e a barra nativa.
+            // Modo de barra principal exige ação explícita dentro do aplicativo.
 
             notificarProgresso(ehAtualizacao ? "GigaDock atualizado com sucesso!" : "Instalação concluída com sucesso!");
             return true;
@@ -309,12 +297,12 @@ public class InstallService
             {
                 if (string.IsNullOrEmpty(entry.Name))
                 {
-                    var dir = Path.Combine(destino, entry.FullName);
+                    var dir = CaminhoPacoteSeguro.Resolver(destino, entry.FullName);
                     Directory.CreateDirectory(dir);
                     continue;
                 }
 
-                var arquivoDestino = Path.Combine(destino, entry.FullName);
+                var arquivoDestino = CaminhoPacoteSeguro.Resolver(destino, entry.FullName);
                 var pastaPai = Path.GetDirectoryName(arquivoDestino);
                 if (!string.IsNullOrEmpty(pastaPai))
                 {
@@ -322,7 +310,6 @@ public class InstallService
                 }
 
                 ExtrairArquivoComRetry(entry, arquivoDestino);
-                try { System.IO.File.Delete(arquivoDestino + ":Zone.Identifier"); } catch { }
             }
             return;
         }

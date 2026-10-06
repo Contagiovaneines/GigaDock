@@ -6,12 +6,14 @@ using System.Windows.Threading;
 namespace DockWindows.Infrastructure.Windows;
 
 /// <summary>
-/// Le o estado real do Microsoft Teams monitorando os processos e titulos de janela.
+/// Estima o estado do Microsoft Teams monitorando os processos e titulos de janela.
 /// Nao requer conta, API nem internet — tudo local via Win32.
 /// </summary>
-public class TeamsIntegrationService
+public class TeamsIntegrationService : IDisposable
 {
     private readonly DispatcherTimer _timer;
+    private bool _disposed;
+    public bool TimerAtivo => _timer.IsEnabled;
 
     public event Action<string, string>? OnStatusChanged;
     public event Action<string>? OnMeetingChanged;
@@ -27,9 +29,13 @@ public class TeamsIntegrationService
 
     public void Iniciar()
     {
+        if (_disposed || _timer.IsEnabled) return;
         _timer.Start();
         VerificarStatus();
     }
+
+    public void Parar() => _timer.Stop();
+    public void Dispose() { _disposed = true; Parar(); OnStatusChanged = null; OnMeetingChanged = null; }
 
     private void VerificarStatus()
     {
@@ -39,7 +45,6 @@ public class TeamsIntegrationService
             var teamsProcs = Process.GetProcessesByName("ms-teams")
                 .Concat(Process.GetProcessesByName("Teams"))
                 .Concat(Process.GetProcessesByName("msteams"))
-                .Where(p => !p.HasExited)
                 .ToArray();
 
             if (teamsProcs.Length == 0)
@@ -64,6 +69,7 @@ public class TeamsIntegrationService
             {
                 try
                 {
+                    if (proc.HasExited) continue;
                     string title = proc.MainWindowTitle ?? string.Empty;
                     if (string.IsNullOrWhiteSpace(title)) continue;
 
@@ -89,7 +95,9 @@ public class TeamsIntegrationService
                     }
                 }
                 catch { }
+                finally { proc.Dispose(); }
             }
+
 
             string newStatus;
             string newCor;

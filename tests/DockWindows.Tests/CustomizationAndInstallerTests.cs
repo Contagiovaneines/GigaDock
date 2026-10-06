@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Infrastructure.Windows;
 using DockWindows.Installer.Services;
@@ -22,7 +22,7 @@ public class CustomizationAndInstallerTests
         var prefs = new Preferencias();
         Assert.True(prefs.ExibirSeletorAmbientes);
         Assert.True(prefs.ExibirItensFixados);
-        Assert.True(prefs.ExibirBotoesAcao);
+        Assert.False(prefs.ExibirBotoesAcao);
         Assert.False(prefs.DesativarAnimacoes);
         Assert.Equal(6, prefs.EspacamentoItens);
     }
@@ -83,11 +83,12 @@ public class CustomizationAndInstallerTests
 
         var trabalhoRestaurado = prefs.Ambientes.First(a => a.Id == "ambiente-trabalho");
         Assert.Equal("#0078D4", trabalhoRestaurado.CorHex);
-        Assert.True(trabalhoRestaurado.Widgets.RelogioHabilitado);
+        Assert.Equal(Preferencias.CriarAmbienteTrabalhoPadrao().Widgets.RelogioHabilitado, trabalhoRestaurado.Widgets.RelogioHabilitado);
         Assert.NotEmpty(trabalhoRestaurado.Itens);
     }
 
     [Fact]
+    [Trait("Category", "SystemIntegration")]
     public void TaskbarService_RestaurarBarraNativa_IdempotenteENaoFalha()
     {
         var service = new Win32TaskbarService();

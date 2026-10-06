@@ -1,0 +1,116 @@
+[
+  {
+    "width": 1418,
+    "checks": [
+      {
+        "label": "14 cartões do catálogo",
+        "pass": true
+      },
+      {
+        "label": "Filtro sistema",
+        "pass": true
+      },
+      {
+        "label": "Restaurar todos",
+        "pass": true
+      },
+      {
+        "label": "Ambiente independente",
+        "pass": true
+      },
+      {
+        "label": "Dialog abre",
+        "pass": true
+      },
+      {
+        "label": "Ativar mídia",
+        "pass": true
+      },
+      {
+        "label": "Preserva ajuste por ambiente",
+        "pass": true
+      },
+      {
+        "label": "Reset independente",
+        "pass": true
+      },
+      {
+        "label": "Pausa mídia",
+        "pass": true
+      },
+      {
+        "label": "Próxima faixa",
+        "pass": true
+      },
+      {
+        "label": "Abre prévia",
+        "pass": true
+      },
+      {
+        "label": "Fecha prévia",
+        "pass": true
+      },
+      {
+        "label": "Sem overflow da página",
+        "pass": true
+      }
+    ]
+  },
+  {
+    "width": 512,
+    "checks": [
+      {
+        "label": "14 cartões do catálogo",
+        "pass": true
+      },
+      {
+        "label": "Filtro sistema",
+        "pass": true
+      },
+      {
+        "label": "Restaurar todos",
+        "pass": true
+      },
+      {
+        "label": "Ambiente independente",
+        "pass": true
+      },
+      {
+        "label": "Dialog abre",
+        "pass": true
+      },
+      {
+        "label": "Ativar mídia",
+        "pass": true
+      },
+      {
+        "label": "Preserva ajuste por ambiente",
+        "pass": true
+      },
+      {
+        "label": "Reset independente",
+        "pass": true
+      },
+      {
+        "label": "Pausa mídia",
+        "pass": true
+      },
+      {
+        "label": "Próxima faixa",
+        "pass": true
+      },
+      {
+        "label": "Abre prévia",
+        "pass": true
+      },
+      {
+        "label": "Fecha prévia",
+        "pass": true
+      },
+      {
+        "label": "Sem overflow da página",
+        "pass": true
+      }
+    ]
+  }
+]

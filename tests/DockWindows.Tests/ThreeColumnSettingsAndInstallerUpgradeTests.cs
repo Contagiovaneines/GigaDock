@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,6 +34,7 @@ public class ThreeColumnSettingsAndInstallerUpgradeTests
         public System.Windows.Media.ImageSource? ObterIcone(ItemFixado item) => null;
         public System.Windows.Media.ImageSource? ObterIcone(string caminhoOuUrl, TipoItem tipo = TipoItem.Aplicativo) => null;
         public System.Windows.Media.ImageSource? ObterIconeJanela(IntPtr hWnd) => null;
+        public System.Windows.Media.ImageSource? ObterIconeAppModernoJanela(IntPtr hWnd) => null;
     }
 
     private class FakeAutostartService : IAutostartService
@@ -239,11 +240,11 @@ public class ThreeColumnSettingsAndInstallerUpgradeTests
     }
 
     [Fact]
-    public void InstallService_ConstantesEVersionamento_SaoVersao1_6_0()
+    public void InstallService_ConstantesEVersionamento_CoerentesComGigaDock()
     {
         var installService = new InstallService();
-        Assert.Equal("1.6.0", InstallService.CurrentVersion);
-        Assert.Equal("Dock Windows", InstallService.AppName);
+        Assert.Equal("3.0.0", InstallService.CurrentVersion);
+        Assert.Equal("GigaDock", InstallService.AppName);
         Assert.Equal("DockWindows.App.exe", InstallService.AppExeName);
     }
 

@@ -1,4 +1,4 @@
-﻿using DockWindows.App.Common;
+using DockWindows.App.Common;
 using DockWindows.Core.Models;
 using DockWindows.Infrastructure.Windows;
 using System.Collections.ObjectModel;
@@ -17,13 +17,28 @@ public class DiscordUsuario : ObservableObject
     public bool EstaFalando { get => _estaFalando; set => SetProperty(ref _estaFalando, value); }
 }
 
-public class DiscordWidgetViewModel : ObservableObject
+public class DiscordWidgetViewModel : ObservableObject, IAtividadeWidget
 {
+    public bool? EmExecucao => false;
+
+    public DockWindows.Core.Widgets.SaudeWidget Saude => DockWindows.Core.Widgets.SaudeWidget.Indisponivel;
+    public string? MotivoEstado => EstadoIntegracao;
+
     private bool _habilitado;
     private FormatoWidget _formato = FormatoWidget.Compacto;
-    private string _salaVoz = "Conectando...";
+    private string _salaVoz = "Integração de voz indisponível";
     private bool _estaEmCall = false;
     private readonly DiscordIpcService _service;
+    private bool _visual, _disposed;
+    public string EstadoIntegracao => "Sem RPC autenticado: canal e participantes não são confirmados.";
+
+    public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)
+    {
+        _visual = estado.Visual && !_disposed;
+        if (_visual) _service.Iniciar(); else _service.Parar();
+        if (!estado.Habilitado) { UsuariosNaCall.Clear(); EstaEmCall = false; }
+    }
+    public void Dispose() { _disposed = true; _visual = false; _service.Dispose(); UsuariosNaCall.Clear(); }
 
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
     public FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
@@ -40,30 +55,12 @@ public class DiscordWidgetViewModel : ObservableObject
         TestarAlertaCommand = new RelayCommand(() => onAlerta?.Invoke("#5865F2"));
         AbrirAppCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "discord:", UseShellExecute = true }); } catch { } });
         _service = new DiscordIpcService();
-        _service.OnCanalVozAlterado += (sala) =>
+        _service.EstadoAlterado += estado =>
         {
-            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
-            {
-                SalaVoz = sala;
-                EstaEmCall = true;
-            });
+            SalaVoz = estado; EstaEmCall = false; UsuariosNaCall.Clear();
         };
-        _service.OnUsuarioFlando += (nome, inicial, cor, falando) =>
-        {
-            System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
-            {
-                var usr = UsuariosNaCall.FirstOrDefault(u => u.Nome == nome);
-                if (usr != null)
-                {
-                    usr.EstaFalando = falando;
-                }
-                else
-                {
-                    UsuariosNaCall.Add(new DiscordUsuario { Nome = nome, AvatarInicial = inicial, CorAvatar = cor, EstaFalando = falando });
-                }
-            });
-        };
-        _service.Iniciar();
+
+
     }
 }
 

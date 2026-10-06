@@ -1,0 +1,129 @@
+﻿src/DockWindows.Infrastructure/Windows\DiscordIpcService.cs:31:            await pipe.ConnectAsync(5000, token);
+src/DockWindows.Infrastructure/Windows\TeamsIntegrationService.cs:14:    private readonly DispatcherTimer _timer;
+src/DockWindows.Infrastructure/Windows\TeamsIntegrationService.cs:24:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+src/DockWindows.Infrastructure/Windows\TeamsIntegrationService.cs:25:        _timer.Tick += (s, e) => VerificarStatus();
+src/DockWindows.App/ViewModels\BateriaViewModel.cs:10:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\BateriaViewModel.cs:20:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
+src/DockWindows.App/ViewModels\BateriaViewModel.cs:21:        _timer.Tick += (_, _) => Atualizar();
+src/DockWindows.App/ViewModels\BateriaViewModel.cs:46:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:7:using System.Timers;
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:19:    private readonly System.Timers.Timer _pollTimer;
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:159:        _pollTimer = new System.Timers.Timer(600)
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:163:        _pollTimer.Elapsed += (s, e) => VerificarMudancas();
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:194:            _pollTimer.Start();
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:202:            _pollTimer.Stop();
+src/DockWindows.Infrastructure/Windows\Win32WindowTrackingService.cs:492:            _pollTimer.Dispose();
+src/DockWindows.Infrastructure/Windows\ControlesRapidosService.cs:21:    private readonly DispatcherTimer _timer;
+src/DockWindows.Infrastructure/Windows\ControlesRapidosService.cs:29:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
+src/DockWindows.Infrastructure/Windows\ControlesRapidosService.cs:30:        _timer.Tick += (_, _) => { try { LiberarTeclado(); } catch { /* Repete a liberação no próximo tick. */ } };
+src/DockWindows.App/ViewModels\ClimaWidgetViewModel.cs:33:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\ClimaWidgetViewModel.cs:41:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.App/ViewModels\ClimaWidgetViewModel.cs:84:        _timer = new DispatcherTimer { Interval = TimeSpan.FromHours(1) };
+src/DockWindows.App/ViewModels\ClimaWidgetViewModel.cs:85:        _timer.Tick += (_, _) => _ = AtualizarClimaAsync();
+src/DockWindows.App/ViewModels\ClimaWidgetViewModel.cs:133:        while (previsoes.Count < 3)
+src/DockWindows.App/ViewModels\ClockWidgetViewModel.cs:12:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\ClockWidgetViewModel.cs:42:        _timer = new DispatcherTimer
+src/DockWindows.App/ViewModels\ClockWidgetViewModel.cs:46:        _timer.Tick += (_, _) => AtualizarVisual();
+src/DockWindows.App/ViewModels\ClockWidgetViewModel.cs:63:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:3:using System.Timers;
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:61:    private readonly System.Timers.Timer _watchdogTimer;
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:68:        _watchdogTimer = new System.Timers.Timer(250)
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:72:        _watchdogTimer.Elapsed += (s, e) =>
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:126:                _watchdogTimer.Start();
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:162:            while ((hWndSec = FindWindowEx(IntPtr.Zero, hWndSec, "Shell_SecondaryTrayWnd", null)) != IntPtr.Zero)
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:179:            _watchdogTimer.Stop();
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:192:                    while ((hWndSec = FindWindowEx(IntPtr.Zero, hWndSec, "Shell_SecondaryTrayWnd", null)) != IntPtr.Zero)
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:221:        _watchdogTimer?.Stop();
+src/DockWindows.Infrastructure/Windows\Win32TaskbarService.cs:222:        _watchdogTimer?.Dispose();
+src/DockWindows.Infrastructure/Windows\MetricasSistemaService.cs:47:                    recebidos += Taxa(anterior.Recebidos, stat.BytesReceived, segundos);
+src/DockWindows.Infrastructure/Windows\MetricasSistemaService.cs:48:                    enviados += Taxa(anterior.Enviados, stat.BytesSent, segundos);
+src/DockWindows.App/ViewModels\CalendarioWidgetViewModel.cs:29:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\CalendarioWidgetViewModel.cs:70:        _timer = new DispatcherTimer
+src/DockWindows.App/ViewModels\CalendarioWidgetViewModel.cs:74:        _timer.Tick += (_, _) => { AtualizarDataECompromisso(); _ = AtualizarDoIcalAsync(); AgendarVisual(); };
+src/DockWindows.App/ViewModels\CalendarioWidgetViewModel.cs:131:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.Infrastructure/Windows\IconExtractionService.cs:41:        while (CacheIcones.Count > 512 && OrdemCache.TryDequeue(out var antiga)) CacheIcones.TryRemove(antiga, out _);
+src/DockWindows.Infrastructure/Windows\IconExtractionService.cs:695:            for (int i = 3; i < buffer.Length; i += 4)
+src/DockWindows.Infrastructure/Windows\IconExtractionService.cs:701:                for (int i = 3; i < buffer.Length; i += 4) buffer[i] = 255;
+src/DockWindows.App/ViewModels\DiscordWidgetViewModel.cs:50:        _service.OnCanalVozAlterado += (sala) =>
+src/DockWindows.App/ViewModels\DiscordWidgetViewModel.cs:58:        _service.OnUsuarioFlando += (nome, inicial, cor, falando) =>
+src/DockWindows.App/ViewModels\MainViewModel.cs:39:        vm.PropertyChanged += Changed;
+src/DockWindows.App/ViewModels\MainViewModel.cs:45:        if (_disposed || _syncNotificacoesTimer == null) return;
+src/DockWindows.App/ViewModels\MainViewModel.cs:46:        _syncNotificacoesTimer.Stop(); _syncNotificacoesTimer.Start();
+src/DockWindows.App/ViewModels\MainViewModel.cs:61:        _syncNotificacoesTimer?.Stop();
+src/DockWindows.App/ViewModels\MainViewModel.cs:84:    private System.Windows.Threading.DispatcherTimer? _syncNotificacoesTimer;
+src/DockWindows.App/ViewModels\MainViewModel.cs:137:        try { await Task.Delay(15000, token); if (!_disposed && !token.IsCancellationRequested) EstaEmAlerta = false; }
+src/DockWindows.App/ViewModels\MainViewModel.cs:230:            if (proc.Contains("whatsapp")) wappCount += kvp.Value;
+src/DockWindows.App/ViewModels\MainViewModel.cs:231:            if (proc.Contains("teams") || proc.Contains("msteams")) teamsCount += kvp.Value;
+src/DockWindows.App/ViewModels\MainViewModel.cs:301:        _toastService.OnNotificationReceived += ToastRecebido;
+src/DockWindows.App/ViewModels\MainViewModel.cs:302:        _toastService.ContagensAlteradas += ToastContagemAlterada;
+src/DockWindows.App/ViewModels\MainViewModel.cs:359:        Midia.PropertyChanged += (s, e) => {
+src/DockWindows.App/ViewModels\MainViewModel.cs:403:        _winKeyHookService.WinKeyTapped += WinTapped;
+src/DockWindows.App/ViewModels\MainViewModel.cs:410:        _windowTrackingService.JanelasAlteradas += JanelasMudaram;
+src/DockWindows.App/ViewModels\MainViewModel.cs:411:        _windowTrackingService.JanelaAtivada += JanelaMudou;
+src/DockWindows.App/ViewModels\MainViewModel.cs:412:        _windowTrackingService.TelaCheiaAlterada += TelaCheiaMudou;
+src/DockWindows.App/ViewModels\MainViewModel.cs:428:        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromMilliseconds(250) };
+src/DockWindows.App/ViewModels\MainViewModel.cs:429:        _syncNotificacoesTimer.Tick += async (_, _) => { _syncNotificacoesTimer.Stop(); await SincronizarNotificacoesComWindowsAsync(); };
+src/DockWindows.App/ViewModels\MainViewModel.cs:430:        _syncNotificacoesTimer.Start();
+src/DockWindows.App/ViewModels\MainViewModel.cs:431:        _windowTrackingService.JanelaAtivada += OnJanelaAtivada;
+src/DockWindows.App/ViewModels\MainViewModel.cs:1530:        vm.PropertyChanged += async (s, e) => {
+src/DockWindows.App/ViewModels\MainViewModel.cs:1577:        vm.PropertyChanged += async (s, e) => {
+src/DockWindows.App/ViewModels\ControlesRapidosViewModel.cs:88:        _service.BloqueioAlterado += BloqueioAlterado;
+src/DockWindows.App/ViewModels\CustomizeViewModel.cs:29:            sec.PropertyChanged += (o, e) => AtualizarPreview();
+src/DockWindows.App/ViewModels\CustomizeViewModel.cs:434:            s.PropertyChanged += (o, e) => AtualizarPreview();
+src/DockWindows.Infrastructure/Windows\ToastNotificationService.cs:31:                    _listener.NotificationChanged += Listener_NotificationChanged;
+src/DockWindows.App/ViewModels\TeamsWidgetViewModel.cs:64:        _service.OnStatusChanged += (status, cor) =>
+src/DockWindows.App/ViewModels\TeamsWidgetViewModel.cs:73:        _service.OnMeetingChanged += (reuniao) =>
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:13:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:20:        _engine.CicloConcluido += (_, _) => { TocarAlerta(); OnPropertyChanged(nameof(EstaExecutando)); };
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:21:        _engine.EstadoMudou += (_, _) => { if (_visual) NotificarMudancas(); };
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:23:        _timer = new DispatcherTimer
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:27:        _timer.Tick += (s, e) =>
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:31:            AtualizarTimer();
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:47:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:53:        AtualizarTimer();
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:55:    private void AtualizarTimer()
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:121:        AtualizarTimer();
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:127:        AtualizarTimer();
+src/DockWindows.App/ViewModels\PomodoroWidgetViewModel.cs:134:        AtualizarTimer();
+src/DockWindows.App/ViewModels\NotasWidgetViewModel.cs:15:    private readonly DispatcherTimer _timerSalvar;
+src/DockWindows.App/ViewModels\NotasWidgetViewModel.cs:58:        _timerSalvar = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+src/DockWindows.App/ViewModels\NotasWidgetViewModel.cs:59:        _timerSalvar.Tick += (_, _) =>
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:29:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:30:    private readonly DispatcherTimer _animTimer;
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:35:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:36:    public bool AnimacaoAtiva => _animTimer.IsEnabled;
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:48:    { _disposed = true; _visual = _animacoes = false; _timer.Stop(); _animTimer.Stop(); _consulta?.Cancel(); _reinicio?.Cancel(); _http.Dispose(); Contribuicoes.Clear(); }
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:144:        _timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(30) };
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:145:        _timer.Tick += (_, _) => _ = CarregarContribuicoesAsync();
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:147:        _animTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:148:        _animTimer.Tick += (_, _) => TickAnimacao();
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:213:                foreach (Match mt in matchesTooltip) total += int.Parse(mt.Groups[1].Value);
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:250:        _animTimer.Start();
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:255:        _animTimer.Stop();
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:279:        try { await Task.Delay(3000, token); if (!token.IsCancellationRequested && _visual && _animacoes && AnimacaoAutomatica && !_disposed) IniciarAnimacao(); }
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:287:            _animTimer.Stop();
+src/DockWindows.App/ViewModels\GitHubWidgetViewModel.cs:372:        while (fila.Count > 0)
+src/DockWindows.App/ViewModels\MonitorSistemaViewModel.cs:14:    private readonly DispatcherTimer _timer;
+src/DockWindows.App/ViewModels\MonitorSistemaViewModel.cs:22:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+src/DockWindows.App/ViewModels\MonitorSistemaViewModel.cs:23:        _timer.Tick += (_, _) => AtualizarMetricas();
+src/DockWindows.App/ViewModels\MonitorSistemaViewModel.cs:55:    public bool TimerAtivo => _timer.IsEnabled;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:19:    public bool TimerAtivo => _timelineTimer.IsEnabled;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:30:        AtualizarTimer();
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:32:    private void AtualizarTimer()
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:34:        _timelineTimer.Stop();
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:37:        if (EstaTocando && TemMidia) _timelineTimer.Start();
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:44:        _currentSession = null; _sessionManager = null; _timelineTimer.Stop();
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:55:    private readonly System.Windows.Threading.DispatcherTimer _timelineTimer;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:127:        _timelineTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:128:        _timelineTimer.Tick += (_, _) => AtualizarTimeline();
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:146:            if (EstaTocando) position += DateTimeOffset.UtcNow - timeline.LastUpdatedTime;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:166:                _sessionManager.CurrentSessionChanged += SessionManager_CurrentSessionChanged;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:167:                _sessionManager.SessionsChanged += SessionManager_SessionsChanged;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:238:            _currentSession.MediaPropertiesChanged += Session_MediaPropertiesChanged;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:239:            _currentSession.PlaybackInfoChanged += Session_PlaybackInfoChanged;
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:251:            AtualizarTimer();
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:393:                        for (int i = 0; i < pixels.Length; i += bytesPerPixel)
+src/DockWindows.App/ViewModels\MidiaWidgetViewModel.cs:413:                AtualizarTimer();
+src/DockWindows.Infrastructure/Windows\WhatsAppNotificationService.cs:13:    private readonly DispatcherTimer _timer;
+src/DockWindows.Infrastructure/Windows\WhatsAppNotificationService.cs:23:        _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+src/DockWindows.Infrastructure/Windows\WhatsAppNotificationService.cs:24:        _timer.Tick += async (s, e) => await VerificarNotificacoesAsync();

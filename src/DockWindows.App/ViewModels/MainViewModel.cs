@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -12,12 +12,83 @@ using DockWindows.Infrastructure.Windows;
 
 namespace DockWindows.App.ViewModels;
 
-public class MainViewModel : ObservableObject
+public class MainViewModel : ObservableObject, IDisposable
 {
+    public DockWindows.Core.Widgets.GerenciadorAtividade Atividade { get; } = new();
+    private readonly List<Action> _desassinar = new();
+    private bool _disposed, _dockRenderizada, _syncOcupado, _syncPendente;
+    private System.Threading.CancellationTokenSource? _alertaCancelamento;
+    public bool VisualAtivo => !_disposed && _dockRenderizada && DockVisivel && !OcultoPorTelaCheia;
+    public bool AnimacoesAtivas => VisualAtivo && !DesativarAnimacoes && SystemParameters.ClientAreaAnimation;
+    public void DefinirVisibilidadeReal(bool visivel) { _dockRenderizada = visivel; AtualizarAtividade(); }
+    private void AtualizarAtividade()
+    {
+        Atividade.DefinirDock(VisualAtivo, AnimacoesAtivas);
+        OnPropertyChanged(nameof(VisualAtivo)); OnPropertyChanged(nameof(AnimacoesAtivas));
+        if (Midia != null) Atividade.Definir("Midia", Midia.Habilitado, ModoRgbMedia);
+        if (VisualAtivo) { AgendarNotificacoes(); AtualizarAplicativosAbertos(); }
+    }
+    private void RegistrarWidget(string id, ObservableObject vm, IAtividadeWidget atividade,
+        Func<bool> habilitado, Func<bool>? background = null, bool independente = false, bool observarMontado = false)
+    {
+        Atividade.Registrar(id, atividade.DefinirAtividade, atividade.Dispose, independente, observarMontado, () => atividade.EmExecucao);
+        void Changed(object? sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            Atividade.InformarSaude(id, atividade.Saude, atividade.MotivoEstado);
+            if (args.PropertyName is "Habilitado" or "EstaExecutando") Atividade.Definir(id, habilitado(), background?.Invoke() == true);
+        }
+        vm.PropertyChanged += Changed;
+        _desassinar.Add(() => vm.PropertyChanged -= Changed);
+        Atividade.Definir(id, habilitado(), background?.Invoke() == true);
+        Atividade.InformarSaude(id, atividade.Saude, atividade.MotivoEstado);
+    }
+    private void AgendarNotificacoes()
+    {
+        if (_disposed || _syncNotificacoesTimer == null) return;
+        if (_syncOcupado) { _syncPendente = true; return; }
+        _syncNotificacoesTimer.Stop(); _syncNotificacoesTimer.Start();
+    }
+    private void ToastRecebido(string appName, bool isCall, string senderName) =>
+        Application.Current?.Dispatcher?.InvokeAsync(() => { if (!_disposed) TratarNotificacaoToast(appName, isCall, senderName); });
+    private void FinalizarSincronizacao()
+    {
+        _syncOcupado = false;
+        if (_syncPendente) { _syncPendente = false; AgendarNotificacoes(); }
+    }
+    private void ToastPermissaoAlterada() => Application.Current?.Dispatcher?.InvokeAsync(() =>
+    { if (_disposed) return; WhatsApp.EstadoNotificacoes = _toastService.EstadoPermissao; Teams.EstadoNotificacoes = _toastService.EstadoPermissao; });
+    private void ToastContagemAlterada() => Application.Current?.Dispatcher?.InvokeAsync(AgendarNotificacoes);
+    private void JanelasMudaram() => Application.Current?.Dispatcher?.InvokeAsync(() => { if (VisualAtivo) AtualizarAplicativosAbertos(); });
+    private void JanelaMudou(IntPtr hwnd) => JanelasMudaram();
+    private void TelaCheiaMudou(bool telaCheia) => Application.Current?.Dispatcher?.InvokeAsync(() => { if (!_disposed) OcultoPorTelaCheia = telaCheia; });
+    private void WinTapped() => Application.Current?.Dispatcher?.InvokeAsync(() =>
+    { if (_disposed) return; DockVisivel = true; AtivarJanelaPrincipal?.Invoke(); AbrirMenuIniciar(); });
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+        _alertaCancelamento?.Cancel(); _alertaCancelamento?.Dispose();
+        _syncNotificacoesTimer?.Stop();
+        _toastService.OnNotificationReceived -= ToastRecebido;
+        _toastService.ChamadasEncerradas -= ChamadaToastEncerrada;
+        _toastService.PermissaoAlterada -= ToastPermissaoAlterada;
+        _toastService.ContagensAlteradas -= ToastContagemAlterada; _toastService.Dispose();
+        foreach (var remover in _desassinar) remover(); _desassinar.Clear();
+        Atividade.Dispose(); ControlesRapidos.Dispose();
+        _windowTrackingService.JanelasAlteradas -= JanelasMudaram;
+        _windowTrackingService.JanelaAtivada -= JanelaMudou;
+        _windowTrackingService.JanelaAtivada -= OnJanelaAtivada;
+        _windowTrackingService.TelaCheiaAlterada -= TelaCheiaMudou;
+        _windowTrackingService.Parar(); (_windowTrackingService as IDisposable)?.Dispose();
+        _winKeyHookService.WinKeyTapped -= WinTapped; _winKeyHookService.Parar();
+        (_winKeyHookService as IDisposable)?.Dispose();
+        (_taskbarService as IDisposable)?.Dispose();
+    }
     private readonly ISettingsRepository _repository;
     private readonly ILauncherService _launcher;
     private readonly IIconExtractionService _iconService;
     private readonly IAutostartService _autostart;
+    private readonly ILixeiraDesktopService _lixeiraDesktop;
     private readonly ITaskbarService _taskbarService;
     private readonly IWindowTrackingService _windowTrackingService;
     private readonly IWinKeyHookService _winKeyHookService;
@@ -37,7 +108,10 @@ public class MainViewModel : ObservableObject
     private bool _estaEmAlerta;
     private string _corAlerta = "#128C7E";
 
-    public bool EstaEmAlerta { get => _estaEmAlerta; set => SetProperty(ref _estaEmAlerta, value); }
+    public bool EstaEmAlerta { get => _estaEmAlerta; set { if (SetProperty(ref _estaEmAlerta, value)) OnPropertyChanged(nameof(GlowRgbVisivel)); } }
+    public bool AlertaChamada { get; private set; }
+    private readonly Queue<string> _pulsosAlerta = new();
+    private bool _processandoPulsos;
         public string CorAlerta 
     { 
         get => _corAlerta; 
@@ -56,32 +130,53 @@ public class MainViewModel : ObservableObject
         } 
     }
 
-                public void DispararAlertaGlobal(string corHex, bool isCall = false)
+    public void DispararAlertaGlobal(string corHex, bool isCall = false)
     {
-        CorAlerta = corHex;
-        
-        // Força o gatilho da animação no WPF alternando pra false antes
-        if (EstaEmAlerta)
+        void Aplicar()
         {
-            EstaEmAlerta = false;
-            OnPropertyChanged(nameof(EstaEmAlerta));
-        }
-        
-        System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() => 
-        {
-            EstaEmAlerta = true;
-            
-            // Auto-desligar o alerta após 15 segundos (simulando o tempo de tocar)
-            System.Threading.Tasks.Task.Delay(15000).ContinueWith(_ => 
+            if (_disposed || !AlertasVisuaisHabilitados) return;
+            if (isCall)
             {
-                System.Windows.Application.Current?.Dispatcher?.InvokeAsync(() =>
-                {
-                    EstaEmAlerta = false;
-                });
-            });
-        }, System.Windows.Threading.DispatcherPriority.Background);
+                AlertaChamada = true;
+                OnPropertyChanged(nameof(AlertaChamada));
+                CorAlerta = corHex;
+                EstaEmAlerta = true;
+                return;
+            }
+            _pulsosAlerta.Enqueue(corHex);
+            if (!_processandoPulsos) _ = ProcessarPulsosAsync();
+        }
+        if (Application.Current?.Dispatcher is { } dispatcher && !dispatcher.CheckAccess()) dispatcher.InvokeAsync(Aplicar);
+        else Aplicar();
     }
 
+    private void ChamadaToastEncerrada() => Application.Current?.Dispatcher?.InvokeAsync(() =>
+    {
+        AlertaChamada = false;
+        OnPropertyChanged(nameof(AlertaChamada));
+        EstaEmAlerta = false;
+    });
+
+    private async Task ProcessarPulsosAsync()
+    {
+        _processandoPulsos = true;
+        _alertaCancelamento ??= new();
+        var token = _alertaCancelamento.Token;
+        try
+        {
+            while (_pulsosAlerta.Count > 0 && !_disposed && AlertasVisuaisHabilitados)
+            {
+                while (AlertaChamada) await Task.Delay(200, token);
+                CorAlerta = _pulsosAlerta.Dequeue();
+                EstaEmAlerta = true;
+                await Task.Delay(700, token);
+                if (!AlertaChamada) EstaEmAlerta = false;
+                await Task.Delay(150, token);
+            }
+        }
+        catch (OperationCanceledException) { _pulsosAlerta.Clear(); }
+        finally { _processandoPulsos = false; }
+    }
 
             private void TratarNotificacaoToast(string appName, bool isCall = false, string senderName = "")
     {
@@ -98,18 +193,10 @@ public class MainViewModel : ObservableObject
         {
             app.NumeroNotificacoes++;
         }
-        else
-        {
-            if (proc.Contains("teams") || proc.Contains("msteams"))
-                Teams.MensagensNaoLidas++;
-            else if (proc.Contains("whatsapp"))
-                WhatsApp.MensagensNaoLidas++;
-        }
-
         if (AlertasVisuaisHabilitados)
         {
             string cor = string.Empty;
-            if (proc.Contains("teams") || proc.Contains("msteams")) cor = "#4A448C"; // Roxo
+            if (proc.Contains("teams") || proc.Contains("msteams")) cor = "#8B7CFF"; // Roxo
             else if (proc.Contains("whatsapp")) cor = "#25D366"; // Verde
             else if (proc.Contains("discord")) cor = "#5865F2"; // Azul discord
             
@@ -119,7 +206,8 @@ public class MainViewModel : ObservableObject
             }
         }
         
-        // Update Widgets
+        if (proc.Contains("whatsapp")) WhatsApp.MensagensNaoLidas++;
+        // Cada notificação incrementa cada indicador uma única vez.
         if (proc.Contains("teams") || proc.Contains("msteams"))
         {
             Teams.MensagensNaoLidas++;
@@ -141,14 +229,24 @@ public class MainViewModel : ObservableObject
 
             if (exec.Contains("whatsapp") || name.Contains("whatsapp") || title.Contains("whatsapp"))
             {
-                var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
                 _whatsappGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("whatsapp")).Sum(x => x.Value);
                 WhatsApp.MensagensNaoLidas = 0;
             }
 
             if (exec.Contains("teams") || exec.Contains("msteams") || name.Contains("teams") || name.Contains("msteams") || title.Contains("teams") || title.Contains("msteams"))
             {
-                var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
                 _teamsGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("teams") || x.Key.ToLowerInvariant().Contains("msteams")).Sum(x => x.Value);
                 Teams.MensagensNaoLidas = 0;
             }
@@ -157,7 +255,12 @@ public class MainViewModel : ObservableObject
 
     private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsAsync()
     {
-        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+        if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
         int wappCount = 0;
         int teamsCount = 0;
 
@@ -192,7 +295,7 @@ public class MainViewModel : ObservableObject
                 string proc = (app.Titulo ?? string.Empty).ToLowerInvariant();
                 string cor = string.Empty;
                 
-                if (proc.Contains("teams") || proc.Contains("msteams")) cor = "#4A448C"; // Roxo
+                if (proc.Contains("teams") || proc.Contains("msteams")) cor = "#8B7CFF"; // Roxo
                 else if (proc.Contains("whatsapp")) cor = "#25D366"; // Verde
                 else if (proc.Contains("discord")) cor = "#5865F2"; // Azul discord
                 
@@ -212,7 +315,7 @@ public class MainViewModel : ObservableObject
     public bool OcultoPorTelaCheia
     {
         get => _ocultoPorTelaCheia;
-        set => SetProperty(ref _ocultoPorTelaCheia, value);
+        set { if (SetProperty(ref _ocultoPorTelaCheia, value)) AtualizarAtividade(); }
     }
 
     [DllImport("user32.dll")]
@@ -225,28 +328,49 @@ public class MainViewModel : ObservableObject
         IAutostartService autostart,
         ITaskbarService? taskbarService = null,
         IWindowTrackingService? windowTrackingService = null,
-        IWinKeyHookService? winKeyHookService = null)
+        IWinKeyHookService? winKeyHookService = null,
+        ILixeiraDesktopService? lixeiraDesktopService = null)
     {
         _repository = repository;
         _launcher = launcher;
         _iconService = iconService;
         _autostart = autostart;
+        _lixeiraDesktop = lixeiraDesktopService ?? new LixeiraDesktopService();
         _taskbarService = taskbarService ?? new Win32TaskbarService();
         _windowTrackingService = windowTrackingService ?? new Win32WindowTrackingService();
         _winKeyHookService = winKeyHookService ?? new WinKeyHookService();
         _toastService = new DockWindows.Infrastructure.Windows.ToastNotificationService();
-        _toastService.OnNotificationReceived += (appName, isCall, senderName) => {
-            Application.Current?.Dispatcher?.InvokeAsync(() => {
-                TratarNotificacaoToast(appName, isCall, senderName);
-            });
-        };
-        _ = _toastService.Iniciar();
+        _toastService.OnNotificationReceived += ToastRecebido;
+        _toastService.ChamadasEncerradas += ChamadaToastEncerrada;
+        _toastService.ContagensAlteradas += ToastContagemAlterada;
+        _toastService.PermissaoAlterada += ToastPermissaoAlterada;
+        if (Application.Current != null) _ = _toastService.Iniciar();
 
 
 
 
 
         _preferencias = _repository.Carregar();
+
+        // Migração: Move apps globais antigos para o primeiro ambiente
+        if (!_preferencias.AppsGlobaisMigrados && _preferencias.AppsPermanentes != null)
+        {
+            var primeiroAmbiente = _preferencias.Ambientes?.FirstOrDefault();
+            if (primeiroAmbiente != null)
+            {
+                foreach (var app in _preferencias.AppsPermanentes)
+                {
+                    if (!primeiroAmbiente.Itens.Any(i => i.CaminhoOuUrl == app.CaminhoOuUrl))
+                    {
+                        app.Ordem = primeiroAmbiente.Itens.Count;
+                        primeiroAmbiente.Itens.Add(app);
+                    }
+                }
+            }
+            _preferencias.AppsPermanentes.Clear();
+            _preferencias.AppsGlobaisMigrados = true;
+            _repository.Salvar(_preferencias);
+        }
 
         // Garante que as novas seÃ§Ãµes de mÃ­dia e clima existam (para usuÃ¡rios de versÃµes antigas)
         if (_preferencias.OrdemSecoes != null)
@@ -271,6 +395,7 @@ public class MainViewModel : ObservableObject
         TodasColecoesAtivas = new ObservableCollection<ColecaoAppViewModel>();
         Espacadores = new ObservableCollection<EspacadorConfig>();
         OrdemSecoes = new ObservableCollection<ConfigSecaoDock>();
+        PersonalizarWidgetCommand = new RelayCommand<TipoWidget>(PersonalizarWidget);
         Clock = new ClockWidgetViewModel();
         Pomodoro = new PomodoroWidgetViewModel();
         Calendario = new CalendarioWidgetViewModel(onAbrirAjustes: () => AbrirAjustes("Widgets"));
@@ -286,6 +411,14 @@ public class MainViewModel : ObservableObject
                         GitHub = new GitHubWidgetViewModel();
         GitHub.SincronizarUsuario(_preferencias.GitHubUsuario);
         Clima = new ClimaWidgetViewModel();
+        Bateria = new BateriaViewModel { Habilitado = _preferencias.ExibirBateria };
+
+        ControlesRapidos = new ControlesRapidosViewModel(SalvarPreferencias,
+            mensagem => MostrarAlerta?.Invoke("Controles rápidos", mensagem),
+            () => System.Windows.MessageBox.Show("Suspender o computador agora?", "Suspender",
+                System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question,
+                System.Windows.MessageBoxResult.No) == System.Windows.MessageBoxResult.Yes);
+
         WhatsApp = new WhatsAppWidgetViewModel(cor => DispararAlertaGlobal(cor));
         Teams = new TeamsWidgetViewModel(cor => DispararAlertaGlobal(cor));
         Discord = new DiscordWidgetViewModel(cor => DispararAlertaGlobal(cor));
@@ -311,43 +444,33 @@ public class MainViewModel : ObservableObject
         SairCommand = new RelayCommand(() => SolicitarFechamento?.Invoke());
         AbrirLixeiraCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "explorer.exe", Arguments = "shell:RecycleBinFolder", UseShellExecute = true }); } catch { } });
 
-        _winKeyHookService.WinKeyTapped += () =>
-        {
-            Application.Current?.Dispatcher?.InvokeAsync(() =>
-            {
-                if (!DockVisivel)
-                {
-                    DockVisivel = true;
-                }
-                AtivarJanelaPrincipal?.Invoke();
-                AbrirMenuIniciar();
-            });
-        };
+        _winKeyHookService.WinKeyTapped += WinTapped;
 
         if (_preferencias.UsarComoBarraPrincipal && Application.Current != null)
         {
             _winKeyHookService.Iniciar();
         }
 
-        _windowTrackingService.JanelasAlteradas += () =>
-        {
-            Application.Current?.Dispatcher?.InvokeAsync(AtualizarAplicativosAbertos);
-        };
-                _windowTrackingService.JanelaAtivada += hwnd =>
-        {
-            Application.Current?.Dispatcher?.InvokeAsync(AtualizarAplicativosAbertos);
-        };
-        _windowTrackingService.TelaCheiaAlterada += (ehTelaCheia) =>
-        {
-            Application.Current?.Dispatcher?.InvokeAsync(() =>
-            {
-                OcultoPorTelaCheia = ehTelaCheia;
-            });
-        };
+        _windowTrackingService.JanelasAlteradas += JanelasMudaram;
+        _windowTrackingService.JanelaAtivada += JanelaMudou;
+        _windowTrackingService.TelaCheiaAlterada += TelaCheiaMudou;
+        RegistrarWidget("Relogio", Clock, Clock, () => Clock.Habilitado, () => Clock.EstaExecutando, independente: true);
+        RegistrarWidget("Pomodoro", Pomodoro, Pomodoro, () => Pomodoro.Habilitado, () => Pomodoro.EstaExecutando, independente: true);
+        RegistrarWidget("Calendario", Calendario, Calendario, () => Calendario.Habilitado);
+        RegistrarWidget("Notas", Notas, Notas, () => Notas.Habilitado);
+        RegistrarWidget("Monitor", MonitorSistema, MonitorSistema, () => MonitorSistema.Habilitado);
+        RegistrarWidget("Bateria", Bateria, Bateria, () => Bateria.Habilitado);
+        RegistrarWidget("Clima", Clima, Clima, () => Clima.Habilitado);
+        RegistrarWidget("GitHub", GitHub, GitHub, () => GitHub.Habilitado);
+        RegistrarWidget("Midia", Midia, Midia, () => Midia.Habilitado, () => ModoRgbMedia, observarMontado: true);
+        RegistrarWidget("Teams", Teams, Teams, () => Teams.Habilitado);
+        RegistrarWidget("WhatsApp", WhatsApp, WhatsApp, () => WhatsApp.Habilitado);
+        RegistrarWidget("Discord", Discord, Discord, () => Discord.Habilitado);
+        RegistrarWidget("OBS", Obs, Obs, () => Obs.Habilitado);
 
         CarregarDados();
-        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromSeconds(3) };
-        _syncNotificacoesTimer.Tick += async (s, e) => await SincronizarNotificacoesComWindowsAsync();
+        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromMilliseconds(250) };
+        _syncNotificacoesTimer.Tick += async (_, _) => { _syncNotificacoesTimer.Stop(); await SincronizarNotificacoesComWindowsAsync(); };
         _syncNotificacoesTimer.Start();
         _windowTrackingService.JanelaAtivada += OnJanelaAtivada;
         _windowTrackingService.Iniciar();
@@ -361,6 +484,25 @@ public class MainViewModel : ObservableObject
     public ObservableCollection<EspacadorConfig> Espacadores { get; }
     public ObservableCollection<ConfigSecaoDock> OrdemSecoes { get; }
     public ClockWidgetViewModel Clock { get; }
+    public ICommand PersonalizarWidgetCommand { get; }
+    private void PersonalizarWidget(TipoWidget tipo)
+    {
+        var ambiente = AmbienteAtivo;
+        var widget = ambiente?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == tipo);
+        if (widget == null || ambiente == null || Application.Current == null) return;
+        var picker = new Views.EstilosWidgetWindow(widget, ambiente.Nome) { Owner = Application.Current.MainWindow };
+        if (picker.ShowDialog() != true || picker.EstiloSelecionado == null) return;
+        AplicarEstiloAmbiente(ambiente.Id, widget.Id, picker.EstiloSelecionado);
+    }
+    public bool AplicarEstiloAmbiente(string ambienteId, string widgetId, string estilo)
+    {
+        var ambiente = Ambientes.FirstOrDefault(a => a.Id == ambienteId);
+        var widget = ambiente?.WidgetsInstalados.FirstOrDefault(w => w.Id == widgetId);
+        if (widget == null || !EstilosWidget.Aplicar(widget, estilo)) return false;
+        if (ambiente == AmbienteAtivo) SincronizarWidgetsAmbiente(ambiente);
+        SalvarPreferencias();
+        return true;
+    }
     public PomodoroWidgetViewModel Pomodoro { get; }
     public CalendarioWidgetViewModel Calendario { get; }
     public MidiaWidgetViewModel Midia { get; }
@@ -368,6 +510,8 @@ public class MainViewModel : ObservableObject
     public MonitorSistemaViewModel MonitorSistema { get; }
     public GitHubWidgetViewModel GitHub { get; }
         public ClimaWidgetViewModel Clima { get; }
+    public ControlesRapidosViewModel ControlesRapidos { get; }
+    public BateriaViewModel Bateria { get; }
     public WhatsAppWidgetViewModel WhatsApp { get; }
     public TeamsWidgetViewModel Teams { get; }
     public DiscordWidgetViewModel Discord { get; }
@@ -393,9 +537,12 @@ public class MainViewModel : ObservableObject
                     Pomodoro.CarregarConfiguracao(value.Widgets);
                     Clock.Habilitado = value.Widgets.RelogioHabilitado;
                     SincronizarWidgetsAmbiente(value);
+                    // Cada ambiente tem seus próprios apps fixados: recarrega a lista da dock
+                    if (Aplicativos != null) CarregarAplicativos();
                     RecarregarTodasColecoes();
                     SalvarPreferencias();
                     OnPropertyChanged(nameof(WidgetsHabilitados));
+                    OnPropertyChanged(nameof(ModoAberturaPaineis));
                 }
             }
         }
@@ -404,7 +551,7 @@ public class MainViewModel : ObservableObject
     public bool DockVisivel
     {
         get => _dockVisivel;
-        set => SetProperty(ref _dockVisivel, value);
+        set { if (SetProperty(ref _dockVisivel, value)) AtualizarAtividade(); }
     }
 
     // Temas e AparÃªncia V1.3
@@ -549,6 +696,7 @@ public class MainViewModel : ObservableObject
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(TamanhoIconeNumerico));
                 OnPropertyChanged(nameof(EscalaUI));
+                OnPropertyChanged(nameof(MargemDock));
                 OnPropertyChanged(nameof(AlturaBarra));
                 SalvarPreferencias();
             }
@@ -556,6 +704,8 @@ public class MainViewModel : ObservableObject
     }
 
             public double EscalaUI => AlturaBarra / 64.0;
+
+    public Thickness MargemDock => new(8, 10 + TamanhoIconeNumerico * EscalaUI * .6, 8, 4);
 
     public double TamanhoIconeNumerico
     {
@@ -579,6 +729,7 @@ public class MainViewModel : ObservableObject
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(TamanhoIconeNumerico));
                 OnPropertyChanged(nameof(EscalaUI));
+                OnPropertyChanged(nameof(MargemDock));
                 SalvarPreferencias();
             }
         }
@@ -739,12 +890,13 @@ public class MainViewModel : ObservableObject
 
     public bool ExibirMidia
     {
-        get => _preferencias.ExibirMidia;
+        get => Midia.Habilitado;
         set
         {
-            if (_preferencias.ExibirMidia != value)
+            if (ExibirMidia != value)
             {
-                _preferencias.ExibirMidia = value;
+                if (AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Midia) is { } midia) midia.Visivel = value;
+                else _preferencias.ExibirMidia = value;
                 Midia.Habilitado = value;
                 SalvarPreferencias();
                 OnPropertyChanged();
@@ -753,7 +905,19 @@ public class MainViewModel : ObservableObject
     }
 
     
-            public bool ModoRgbMedia
+    public bool ModoGamerRgb
+    {
+        get => _preferencias.ModoGamerRgb;
+        set
+        {
+            if (_preferencias.ModoGamerRgb == value) return;
+            _preferencias.ModoGamerRgb = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(GlowRgbVisivel));
+            SalvarPreferencias();
+        }
+    }
+    public bool ModoRgbMedia
     {
         get => _preferencias.ModoRgbMedia;
         set
@@ -761,6 +925,7 @@ public class MainViewModel : ObservableObject
             if (_preferencias.ModoRgbMedia != value)
             {
                 _preferencias.ModoRgbMedia = value;
+                AtualizarAtividade();
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(CorSombraDock));
                 OnPropertyChanged(nameof(GlowRgbVisivel));
@@ -777,7 +942,7 @@ public class MainViewModel : ObservableObject
         }
     }
 
-    public bool GlowRgbVisivel => ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia;
+    public bool GlowRgbVisivel => !EstaEmAlerta && (ModoGamerRgb || (ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia));
 public bool AlertasVisuaisHabilitados
     {
         get => _preferencias.AlertasVisuaisHabilitados;
@@ -786,9 +951,88 @@ public bool AlertasVisuaisHabilitados
             if (_preferencias.AlertasVisuaisHabilitados != value)
             {
                 _preferencias.AlertasVisuaisHabilitados = value;
+                if (!value) { _alertaCancelamento?.Cancel(); _alertaCancelamento?.Dispose(); _alertaCancelamento = null; AlertaChamada = false; OnPropertyChanged(nameof(AlertaChamada)); EstaEmAlerta = false; }
                 OnPropertyChanged();
                 SalvarPreferencias();
             }
+        }
+    }
+
+    public string ModoAberturaPaineis
+    {
+        get => AmbienteAtivo?.Model.ModoAberturaPaineis == "Mouse" ? "Mouse" : "Clique";
+        set
+        {
+            if (AmbienteAtivo == null) return;
+            var modo = value == "Mouse" ? "Mouse" : "Clique";
+            if (ModoAberturaPaineis == modo) return;
+            AmbienteAtivo.Model.ModoAberturaPaineis = modo;
+            OnPropertyChanged();
+            SalvarPreferencias();
+        }
+    }
+    public bool PreviaJanelas
+    {
+        get => _preferencias.PreviaJanelas;
+        set
+        {
+            if (_preferencias.PreviaJanelas == value) return;
+            _preferencias.PreviaJanelas = value;
+            OnPropertyChanged();
+            SalvarPreferencias();
+        }
+    }
+    public bool ClimaExpandido
+    {
+        get => AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima) is { } clima ? EstilosWidget.Resolver(clima, climaLegado: _preferencias.ClimaExpandido) == "detalhado" : _preferencias.ClimaExpandido;
+        set
+        {
+            if (ClimaExpandido == value) return;
+            if (AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima) is { } clima)
+            {
+                EstilosWidget.Aplicar(clima, value ? "detalhado" : "compacto");
+                Clima.Estilo = clima.Estilo;
+            }
+            else _preferencias.ClimaExpandido = value;
+            OnPropertyChanged();
+            SalvarPreferencias();
+        }
+    }
+    public bool RelogioAnalogico
+    {
+        get => Clock.Estilo.StartsWith("analogico-", StringComparison.Ordinal);
+        set
+        {
+            if (RelogioAnalogico == value) return;
+            if (AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Relogio) is { } relogio)
+                EstilosWidget.Aplicar(relogio, value ? "analogico-digital" : "hora-data");
+            Clock.Estilo = value ? "analogico-digital" : "hora-data";
+            OnPropertyChanged();
+            SalvarPreferencias();
+        }
+    }
+    public bool PreviaPastas
+    {
+        get => _preferencias.PreviaPastas;
+        set
+        {
+            if (_preferencias.PreviaPastas == value) return;
+            _preferencias.PreviaPastas = value;
+            OnPropertyChanged();
+            SalvarPreferencias();
+        }
+    }
+public bool ExibirBateria
+    {
+        get => Bateria.Habilitado;
+        set
+        {
+            if (ExibirBateria == value) return;
+            if (AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Bateria) is { } bateria) bateria.Visivel = value;
+            else _preferencias.ExibirBateria = value;
+            Bateria.Habilitado = value;
+            OnPropertyChanged();
+            SalvarPreferencias();
         }
     }
 
@@ -799,9 +1043,30 @@ public bool ExibirLixeira
         {
             if (_preferencias.ExibirLixeira != value)
             {
+                if (!_lixeiraDesktop.ConfigurarVisibilidade(!value, out var erro))
+                {
+                    OnPropertyChanged();
+                    MostrarAlerta?.Invoke("Lixeira", erro ?? "Não foi possível atualizar a Lixeira na área de trabalho.");
+                    return;
+                }
                 _preferencias.ExibirLixeira = value;
                 OnPropertyChanged();
                 SalvarPreferencias();
+            }
+        }
+    }
+
+    public bool ExibirAppsAbertosNaoFixados
+    {
+        get => _preferencias.ExibirAppsAbertosNaoFixados;
+        set
+        {
+            if (_preferencias.ExibirAppsAbertosNaoFixados != value)
+            {
+                _preferencias.ExibirAppsAbertosNaoFixados = value;
+                OnPropertyChanged();
+                SalvarPreferencias();
+                AtualizarAplicativosAbertos();
             }
         }
     }
@@ -845,6 +1110,7 @@ public bool ExibirLixeira
             if (_preferencias.DesativarAnimacoes != value)
             {
                 _preferencias.DesativarAnimacoes = value;
+                AtualizarAtividade();
                 OnPropertyChanged();
                 SalvarPreferencias();
             }
@@ -936,6 +1202,21 @@ public bool ExibirLixeira
     public ICommand AlternarVisibilidadeCommand { get; }
     public ICommand SairCommand { get; }
     public ICommand AbrirLixeiraCommand { get; }
+    public ICommand AbrirBandejaOcultaCommand => _abrirBandejaOcultaCommand ??= new RelayCommand(() => _ = AbrirBandejaOcultaAsync());
+    private ICommand? _abrirBandejaOcultaCommand;
+    private bool _abrindoBandeja;
+
+    private async System.Threading.Tasks.Task AbrirBandejaOcultaAsync()
+    {
+        if (_abrindoBandeja || _disposed) return;
+        _abrindoBandeja = true;
+        try
+        {
+            var erro = await System.Threading.Tasks.Task.Run(() => new BandejaOcultaService().Abrir());
+            if (erro != null && !_disposed) MostrarAlerta?.Invoke("Ícones ocultos", erro);
+        }
+        finally { _abrindoBandeja = false; }
+    }
 
     public Action? FocarBuscaLaunchpad;
     public Action? AtivarJanelaPrincipal;
@@ -1056,10 +1337,6 @@ public bool ExibirLixeira
         try
         {
             _preferencias.Ambientes = Ambientes.Select(a => a.Model).ToList();
-            if (Aplicativos.Count > 0)
-            {
-                _preferencias.AppsPermanentes = Aplicativos.Where(a => a.EstaFixado).Select((a, idx) => a.ToModel(idx)).ToList();
-            }
             _preferencias.OrdemSecoes = OrdemSecoes.ToList();
             _preferencias.ColecoesGlobais = ColecoesGlobais.Select((c, idx) => { c.Model.Ordem = idx; return c.Model; }).ToList();
             _preferencias.Espacadores = Espacadores.ToList();
@@ -1076,9 +1353,8 @@ public bool ExibirLixeira
     {
         _preferencias = novasPrefs;
         CarregarDados();
-        _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromSeconds(3) };
-        _syncNotificacoesTimer.Tick += async (s, e) => await SincronizarNotificacoesComWindowsAsync();
-        _syncNotificacoesTimer.Start();
+        AgendarNotificacoes();
+        AtualizarAtividade();
         SalvarPreferencias();
         NotificarReposicionamento?.Invoke();
     }
@@ -1097,7 +1373,7 @@ public bool ExibirLixeira
         CarregarAplicativos();
 
         // Pré-carrega aplicativos instalados do sistema em background para a busca ser rápida
-        System.Threading.Tasks.Task.Run(() => DockWindows.Infrastructure.Windows.AppSearchService.BuscarAppsInstalados());
+
 
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
@@ -1113,7 +1389,16 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         OnPropertyChanged(nameof(ExibirBotoesAcao));
         OnPropertyChanged(nameof(ExibirClima));
         OnPropertyChanged(nameof(ExibirLixeira));
+        Bateria.Habilitado = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Bateria)?.Visivel ?? false;
+        OnPropertyChanged(nameof(ExibirBateria));
+        OnPropertyChanged(nameof(PreviaJanelas));
+        OnPropertyChanged(nameof(ClimaExpandido));
+        OnPropertyChanged(nameof(RelogioAnalogico));
+        OnPropertyChanged(nameof(PreviaPastas));
         OnPropertyChanged(nameof(DesativarAnimacoes));
+        OnPropertyChanged(nameof(ModoGamerRgb));
+        OnPropertyChanged(nameof(ModoRgbMedia));
+        OnPropertyChanged(nameof(GlowRgbVisivel));
         OnPropertyChanged(nameof(EspacamentoItens));
         OnPropertyChanged(nameof(MargemItem));
         OnPropertyChanged(nameof(TamanhoIcones));
@@ -1168,16 +1453,16 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
     public void SincronizarWidgetsAmbiente(EnvironmentViewModel? amb)
     {
         if (amb == null) return;
+        ControlesRapidos.Carregar(amb.Model);
+        var migrarWidgets = !amb.Model.WidgetsSistemaMigrados;
+        if (!amb.Model.WidgetsSistemaMigrados && !amb.WidgetsInstalados.Any(w => w.Tipo == TipoWidget.Midia))
+            amb.WidgetsInstalados.Add(new WidgetInstanceConfig { Tipo = TipoWidget.Midia, Nome = "Mídia", Estilo = "capa", Visivel = _preferencias.ExibirMidia, Ordem = amb.WidgetsInstalados.Count });
+        if (!amb.Model.WidgetsSistemaMigrados && !amb.WidgetsInstalados.Any(w => w.Tipo == TipoWidget.Bateria))
+            amb.WidgetsInstalados.Add(new WidgetInstanceConfig { Tipo = TipoWidget.Bateria, Nome = "Bateria", Estilo = "compacto", Visivel = _preferencias.ExibirBateria, Ordem = amb.WidgetsInstalados.Count });
+        amb.Model.WidgetsSistemaMigrados = true;
 
                 var def = Preferencias.CriarWidgetsPadrao();
-        if (amb.WidgetsInstalados.Count == 0)
-        {
-            foreach (var w in def)
-            {
-                amb.WidgetsInstalados.Add(w);
-            }
-        }
-        else
+        if (migrarWidgets)
         {
             // Migração para usuários existentes: adiciona widgets novos que faltam
             foreach (var wDef in def)
@@ -1189,17 +1474,26 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             }
         }
 
+        foreach (var widget in amb.WidgetsInstalados)
+            if (string.IsNullOrEmpty(widget.Estilo))
+                widget.Estilo = EstilosWidget.Resolver(widget, _preferencias.RelogioAnalogico, _preferencias.ClimaExpandido);
+
+        if (Clock.EstaExecutando && !Ambientes.Any(a => a.WidgetsInstalados.Any(w => w.Tipo == TipoWidget.Relogio))) Clock.ReiniciarControleCommand.Execute(null);
         var wRelogio = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Relogio);
         Clock.Habilitado = wRelogio?.Visivel ?? false;
-        if (wRelogio != null) Clock.Formato = wRelogio.Formato;
+        if (wRelogio != null) { Clock.Formato = wRelogio.Formato; Clock.Estilo = EstilosWidget.Resolver(wRelogio, _preferencias.RelogioAnalogico); }
+        OnPropertyChanged(nameof(RelogioAnalogico));
+        OnPropertyChanged(nameof(ClimaExpandido));
 
+        if (Pomodoro.EstaExecutando && !Ambientes.Any(a => a.WidgetsInstalados.Any(w => w.Tipo == TipoWidget.Pomodoro)))
+            Pomodoro.ReiniciarCommand.Execute(null);
         var wPomodoro = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Pomodoro);
         Pomodoro.Habilitado = wPomodoro?.Visivel ?? false;
         if (wPomodoro != null) Pomodoro.Formato = wPomodoro.Formato;
 
         var wCalendario = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CalendarioCompromissos);
         Calendario.Habilitado = wCalendario?.Visivel ?? false;
-        if (wCalendario != null) Calendario.Formato = wCalendario.Formato;
+        if (wCalendario != null) { Calendario.Formato = wCalendario.Formato; Calendario.Estilo = EstilosWidget.Resolver(wCalendario); }
 
         var wNotas = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Notas);
         Notas.Habilitado = wNotas?.Visivel ?? false;
@@ -1210,7 +1504,19 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         {
             MonitorSistema.Habilitado = wMonitor.Visivel;
             MonitorSistema.Formato = wMonitor.Formato;
+            MonitorSistema.Estilo = EstilosWidget.Resolver(wMonitor);
         }
+        else MonitorSistema.Habilitado = false;
+
+        var wMidia = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Midia);
+        Midia.Habilitado = wMidia?.Visivel ?? false;
+        Midia.Estilo = wMidia == null ? "capa" : EstilosWidget.Resolver(wMidia);
+        var wBateria = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Bateria);
+        Bateria.Habilitado = wBateria?.Visivel ?? false;
+        Bateria.Estilo = wBateria == null ? "compacto" : EstilosWidget.Resolver(wBateria);
+        OnPropertyChanged(nameof(ExibirMidia));
+        OnPropertyChanged(nameof(ExibirBateria));
+        amb.Model.WidgetsInstalados = amb.WidgetsInstalados.ToList();
 
                 var wGitHub = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.GitHubContribuicoes);
         if (wGitHub != null)
@@ -1224,7 +1530,7 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         }
 
                 var wClima = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
-        if (wClima != null) { Clima.Habilitado = wClima.Visivel; Clima.Formato = wClima.Formato; } else { Clima.Habilitado = false; }
+        if (wClima != null) { Clima.Habilitado = wClima.Visivel; Clima.Formato = wClima.Formato; Clima.Estilo = EstilosWidget.Resolver(wClima, climaLegado: _preferencias.ClimaExpandido); } else { Clima.Habilitado = false; }
 
         var wWhatsApp = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.WhatsAppNotificacoes);
         if (wWhatsApp != null) { WhatsApp.Habilitado = wWhatsApp.Visivel; WhatsApp.Formato = wWhatsApp.Formato; } else { WhatsApp.Habilitado = false; }
@@ -1237,6 +1543,12 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
 
         var wObs = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.OBSStudio);
         if (wObs != null) { Obs.Habilitado = wObs.Visivel; } else { Obs.Habilitado = false; }
+        foreach (var (id, tipo) in new[] { ("Relogio", TipoWidget.Relogio), ("Pomodoro", TipoWidget.Pomodoro),
+            ("Calendario", TipoWidget.CalendarioCompromissos), ("Notas", TipoWidget.Notas),
+            ("Monitor", TipoWidget.MonitorSistema), ("Bateria", TipoWidget.Bateria), ("Clima", TipoWidget.Clima),
+            ("GitHub", TipoWidget.GitHubContribuicoes), ("Midia", TipoWidget.Midia), ("Teams", TipoWidget.TeamsStatus),
+            ("WhatsApp", TipoWidget.WhatsAppNotificacoes), ("Discord", TipoWidget.DiscordVoz), ("OBS", TipoWidget.OBSStudio) })
+            Atividade.DefinirInstalado(id, Ambientes.Any(a => a.WidgetsInstalados.Any(w => w.Tipo == tipo)));
 Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
         Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
@@ -1265,10 +1577,27 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
     public void CarregarAplicativos()
     {
         Aplicativos.Clear();
-        var lista = _preferencias.AppsPermanentes ?? Preferencias.CriarAppsPermanentesPadrao();
-        foreach (var item in lista.OrderBy(a => a.Ordem))
+        if (AmbienteAtivo != null)
         {
-            Aplicativos.Add(CriarAppItemViewModel(item));
+            var itens = _preferencias.AppsPermanentes.Concat(AmbienteAtivo.Model.Itens).ToList();
+            string Chave(ItemFixado item)
+            {
+                if (item.Tipo != TipoItem.Aplicativo) return item.CaminhoOuUrl;
+                var caminho = item.CaminhoOuUrl;
+                if (Path.GetFileName(caminho) == caminho)
+                {
+                    var explicitos = itens.Where(i => i.Tipo == TipoItem.Aplicativo && Path.IsPathRooted(i.CaminhoOuUrl)
+                        && string.Equals(Path.GetFileName(i.CaminhoOuUrl), caminho, StringComparison.OrdinalIgnoreCase))
+                        .Select(i => i.CaminhoOuUrl).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+                    if (explicitos.Length == 1) return explicitos[0];
+                }
+                return IconExtractionService.ResolverCaminhoCompleto(caminho);
+            }
+            var lista = itens.GroupBy(Chave, StringComparer.OrdinalIgnoreCase).Select(g => g.First());
+            foreach (var item in lista.OrderBy(a => a.Ordem))
+            {
+                Aplicativos.Add(CriarAppItemViewModel(item));
+            }
         }
         AtualizarAplicativosAbertos();
     }
@@ -1294,13 +1623,23 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
                     string exec = (vm.CaminhoExecutavel ?? "").ToLowerInvariant();
                     if (t.Contains("whatsapp") || exec.Contains("whatsapp")) 
                     {
-                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
                         _whatsappGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("whatsapp")).Sum(x => x.Value);
                         WhatsApp.MensagensNaoLidas = 0;
                     }
                     else if (t.Contains("teams") || t.Contains("msteams") || exec.Contains("teams") || exec.Contains("msteams"))
                     {
-                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
                         _teamsGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("teams") || x.Key.ToLowerInvariant().Contains("msteams")).Sum(x => x.Value);
                         Teams.MensagensNaoLidas = 0;
                     }
@@ -1331,13 +1670,23 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
                     string exec = (vm.CaminhoExecutavel ?? "").ToLowerInvariant();
                     if (t.Contains("whatsapp") || exec.Contains("whatsapp")) 
                     {
-                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
                         _whatsappGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("whatsapp")).Sum(x => x.Value);
                         WhatsApp.MensagensNaoLidas = 0;
                     }
                     else if (t.Contains("teams") || t.Contains("msteams") || exec.Contains("teams") || exec.Contains("msteams"))
                     {
-                        var dict = await _toastService.ObterContagemNotificacoesPorAppAsync();
+                        if (_disposed || _syncOcupado) return;
+        _syncOcupado = true;
+        Dictionary<string, int> dict;
+        try { dict = await _toastService.ObterContagemNotificacoesPorAppAsync(); }
+        finally { FinalizarSincronizacao(); }
+        if (_disposed) return;
                         _teamsGhosts = dict.Where(x => x.Key.ToLowerInvariant().Contains("teams") || x.Key.ToLowerInvariant().Contains("msteams")).Sum(x => x.Value);
                         Teams.MensagensNaoLidas = 0;
                     }
@@ -1383,9 +1732,24 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         }
 
         // 2. Agrupar janelas abertas nÃ£o fixadas por executÃ¡vel ou processo
+        var itensOutrosAmbientes = Ambientes
+            .Where(a => a.Id != AmbienteAtivo?.Id)
+            .SelectMany(a => a.Model.Itens)
+            .Where(i => i.Tipo == TipoItem.Aplicativo)
+            .ToList();
+        janelasNaoProcessadas.RemoveAll(j => itensOutrosAmbientes
+            .Any(i => CorrespondeAoCaminho(i.CaminhoOuUrl, j)));
+
         var grupos = janelasNaoProcessadas
             .GroupBy(j => !string.IsNullOrEmpty(j.CaminhoExecutavel) ? j.CaminhoExecutavel.ToLowerInvariant() : j.NomeProcesso.ToLowerInvariant())
             .ToList();
+
+        // Cada ambiente mostra só os seus apps: janelas de apps não fixados neste
+        // ambiente ficam de fora da dock (continuam na barra de tarefas do Windows).
+        if (!_preferencias.ExibirAppsAbertosNaoFixados)
+        {
+            grupos.Clear();
+        }
 
         var appsNaoFixados = Aplicativos.Where(a => !a.EstaFixado).ToList();
 
@@ -1416,18 +1780,21 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
     }
 
     private static bool CorrespondeAoApp(AppItemViewModel app, JanelaInfo janela)
+        => CorrespondeAoCaminho(app.CaminhoExecutavel, janela);
+
+    private static bool CorrespondeAoCaminho(string caminho, JanelaInfo janela)
     {
-        if (string.Equals(app.CaminhoExecutavel, janela.CaminhoExecutavel, StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(caminho, janela.CaminhoExecutavel, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        var exeNomeApp = Path.GetFileName(app.CaminhoExecutavel);
+        var exeNomeApp = Path.GetFileName(caminho);
         var exeNomeJanela = Path.GetFileName(janela.CaminhoExecutavel);
 
         if (!string.IsNullOrEmpty(exeNomeApp) && !string.IsNullOrEmpty(exeNomeJanela) &&
             string.Equals(exeNomeApp, exeNomeJanela, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        var procNomeApp = Path.GetFileNameWithoutExtension(app.CaminhoExecutavel);
+        var procNomeApp = Path.GetFileNameWithoutExtension(caminho);
         if (!string.IsNullOrEmpty(procNomeApp) && !string.IsNullOrEmpty(janela.NomeProcesso) &&
             string.Equals(procNomeApp, janela.NomeProcesso, StringComparison.OrdinalIgnoreCase))
             return true;
@@ -1437,10 +1804,12 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
 
     private void AlternarFixadoApp(AppItemViewModel app)
     {
+        if (AmbienteAtivo == null) return;
         if (app.EstaFixado)
         {
             app.EstaFixado = false;
-            _preferencias.AppsPermanentes.RemoveAll(a => a.Id == app.Id || CorrespondeAoApp(app, new JanelaInfo { CaminhoExecutavel = a.CaminhoOuUrl }));
+            AmbienteAtivo.Model.Itens.RemoveAll(a => a.Id == app.Id || CorrespondeAoApp(app, new JanelaInfo { CaminhoExecutavel = a.CaminhoOuUrl }));
+            AmbienteAtivo.RecarregarItens();
             SalvarPreferencias();
 
             if (!app.EstaAberto)
@@ -1451,9 +1820,10 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         else
         {
             app.EstaFixado = true;
-            if (!_preferencias.AppsPermanentes.Any(a => a.Id == app.Id || CorrespondeAoApp(app, new JanelaInfo { CaminhoExecutavel = a.CaminhoOuUrl })))
+            if (!AmbienteAtivo.Model.Itens.Any(a => a.Id == app.Id || CorrespondeAoApp(app, new JanelaInfo { CaminhoExecutavel = a.CaminhoOuUrl })))
             {
-                _preferencias.AppsPermanentes.Add(app.ToModel(_preferencias.AppsPermanentes.Count));
+                AmbienteAtivo.Model.Itens.Add(app.ToModel(AmbienteAtivo.Model.Itens.Count));
+                AmbienteAtivo.RecarregarItens();
             }
             SalvarPreferencias();
         }
@@ -1530,44 +1900,21 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
 
     public void AdicionarAppPermanenteDireto(ItemFixado item)
     {
+        _preferencias.AppsGlobaisMigrados = true;
         if (!_preferencias.AppsPermanentes.Any(a => string.Equals(a.CaminhoOuUrl, item.CaminhoOuUrl, StringComparison.OrdinalIgnoreCase)))
         {
             item.Ordem = _preferencias.AppsPermanentes.Count;
             _preferencias.AppsPermanentes.Add(item);
-            var vm = CriarAppItemViewModel(item);
-            int ultimoFixado = -1;
-            for (int i = 0; i < Aplicativos.Count; i++)
-            {
-                if (Aplicativos[i].EstaFixado) ultimoFixado = i;
-            }
-            if (ultimoFixado >= 0 && ultimoFixado + 1 < Aplicativos.Count)
-            {
-                Aplicativos.Insert(ultimoFixado + 1, vm);
-            }
-            else
-            {
-                Aplicativos.Add(vm);
-            }
-            SalvarPreferencias();
-            AtualizarAplicativosAbertos();
         }
+        CarregarAplicativos();
+        SalvarPreferencias();
     }
 
     public void RemoverAppPermanenteDireto(string id, string caminho)
     {
         _preferencias.AppsPermanentes.RemoveAll(a => a.Id == id || string.Equals(a.CaminhoOuUrl, caminho, StringComparison.OrdinalIgnoreCase));
-        var appVm = Aplicativos.FirstOrDefault(a => a.Id == id || string.Equals(a.CaminhoExecutavel, caminho, StringComparison.OrdinalIgnoreCase));
-        if (appVm != null)
-        {
-            if (!appVm.EstaAberto)
-            {
-                Aplicativos.Remove(appVm);
-            }
-            else
-            {
-                appVm.EstaFixado = false;
-            }
-        }
+        CarregarAplicativos();
+        SalvarPreferencias();
     }
 
     private void AdicionarAppPermanentePrompt()

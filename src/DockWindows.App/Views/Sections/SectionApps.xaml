@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionApps"
+<UserControl x:Class="DockWindows.App.Views.Sections.SectionApps"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:conv="clr-namespace:DockWindows.App.Converters"
@@ -34,7 +34,7 @@
 
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
         <!-- Lista de Aplicativos Fixados e Abertos -->
-        <ItemsControl ItemsSource="{Binding Aplicativos}">
+        <ItemsControl x:Name="AppsItems" ItemsSource="{Binding Aplicativos}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -42,12 +42,24 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:AppItemViewModel}">
-                    <Grid Margin="6,0,6,0">
-                        <Button Command="{Binding ClicarCommand}"
+                    <Grid Margin="9,0,9,0">
+                        <Button Command="{Binding ClicarCommand}" PreviewMouseLeftButtonDown="App_PreviewMouseLeftButtonDown" PreviewKeyDown="App_PreviewKeyDown" MouseEnter="App_MouseEnter" MouseLeave="App_MouseLeave" GotKeyboardFocus="App_GotKeyboardFocus" LostKeyboardFocus="App_LostKeyboardFocus"
                                 ContextMenu="{StaticResource AppContextMenu}"
-                                ToolTip="{Binding TextoDica}"
+                                ToolTipService.InitialShowDelay="650" ToolTipService.ShowDuration="5000"
                                 Padding="0"
                                 Cursor="Hand">
+                            <Button.ToolTip>
+                                <ToolTip Placement="Top" VerticalOffset="-14" HorizontalOffset="0" HasDropShadow="False"
+                                         Background="#171F26" Foreground="#EDF3F6" BorderBrush="#4B5C69" BorderThickness="1" Padding="10,7">
+                                    <ToolTip.Template><ControlTemplate TargetType="ToolTip">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9" Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate></ToolTip.Template>
+                                    <TextBlock Text="{Binding TextoDica}" MaxWidth="260" TextWrapping="Wrap" FontSize="12"/>
+                                </ToolTip>
+                            </Button.ToolTip>
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border x:Name="BtnBorder" CornerRadius="10" Padding="0" Background="Transparent">
@@ -60,7 +72,7 @@
 
                                             <!-- Ícone e Badge com Magnificação Suave -->
                                             <Grid Grid.Row="0"
-                                                  RenderTransformOrigin="0.5,0.5"
+                                                  RenderTransformOrigin="0.5,1"
                                                   Width="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
                                                   Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}">
                                                 <Grid.RenderTransform>
@@ -99,18 +111,18 @@
                                                     <Border.Style>
                                                         <Style TargetType="Border">
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding TemNotificacao}" Value="True">
-                                                                    <DataTrigger.EnterActions>
+                                                                <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding TemNotificacao}" Value="True"/><Condition Binding="{Binding DataContext.AnimacoesAtivas, RelativeSource={RelativeSource AncestorType=Window}}" Value="True"/><Condition Binding="{Binding IsVisible, RelativeSource={RelativeSource Self}}" Value="True"/></MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.EnterActions>
                                                                         <BeginStoryboard Name="BlinkNotifBadgeAnim">
                                                                             <Storyboard RepeatBehavior="Forever">
                                                                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1.0" To="0.3" Duration="0:0:1" AutoReverse="True"/>
                                                                             </Storyboard>
                                                                         </BeginStoryboard>
-                                                                    </DataTrigger.EnterActions>
-                                                                    <DataTrigger.ExitActions>
-                                                                        <StopStoryboard BeginStoryboardName="BlinkNotifBadgeAnim"/>
-                                                                    </DataTrigger.ExitActions>
-                                                                </DataTrigger>
+                                                                    </MultiDataTrigger.EnterActions>
+                                                                    <MultiDataTrigger.ExitActions>
+                                                                        <RemoveStoryboard BeginStoryboardName="BlinkNotifBadgeAnim"/>
+                                                                    </MultiDataTrigger.ExitActions>
+                                                                </MultiDataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Border.Style>
@@ -144,42 +156,6 @@
                                         </DataTrigger>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter TargetName="BtnBorder" Property="Background" Value="#25FFFFFF"/>
-                                            <Trigger.EnterActions>
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation Storyboard.TargetName="AppScale" Storyboard.TargetProperty="ScaleX"
-                                                                         To="1.18" Duration="0:0:0.12">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <CubicEase EasingMode="EaseOut"/>
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <DoubleAnimation Storyboard.TargetName="AppScale" Storyboard.TargetProperty="ScaleY"
-                                                                         To="1.18" Duration="0:0:0.12">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <CubicEase EasingMode="EaseOut"/>
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </Trigger.EnterActions>
-                                            <Trigger.ExitActions>
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation Storyboard.TargetName="AppScale" Storyboard.TargetProperty="ScaleX"
-                                                                         To="1.0" Duration="0:0:0.12">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <CubicEase EasingMode="EaseOut"/>
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                        <DoubleAnimation Storyboard.TargetName="AppScale" Storyboard.TargetProperty="ScaleY"
-                                                                         To="1.0" Duration="0:0:0.12">
-                                                            <DoubleAnimation.EasingFunction>
-                                                                <CubicEase EasingMode="EaseOut"/>
-                                                            </DoubleAnimation.EasingFunction>
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </Trigger.ExitActions>
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
                                             <Setter TargetName="BtnBorder" Property="Background" Value="#40FFFFFF"/>

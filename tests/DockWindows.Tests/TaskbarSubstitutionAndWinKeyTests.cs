@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,6 +39,7 @@ public class TaskbarSubstitutionAndWinKeyTests
         public ImageSource? ObterIcone(ItemFixado item) => null;
         public ImageSource? ObterIcone(string caminhoOuUrl, TipoItem tipo = TipoItem.Aplicativo) => null;
         public ImageSource? ObterIconeJanela(IntPtr hWnd) => null;
+        public System.Windows.Media.ImageSource? ObterIconeAppModernoJanela(IntPtr hWnd) => null;
     }
 
     private class FakeAutostart : IAutostartService
@@ -209,7 +210,7 @@ public class TaskbarSubstitutionAndWinKeyTests
         var (vm, _, _) = CriarSut();
 
         vm.Aplicativos.Add(new AppItemViewModel(
-            new ItemFixado { Id = "app1", Titulo = "Google Chrome", CaminhoOuUrl = "chrome.exe" },
+            new ItemFixado { Id = "app1", Titulo = "AplicativoTesteFiltroIsolado", CaminhoOuUrl = "chrome.exe" },
             new FakeWindowTracking(),
             new FakeIconExtraction(),
             _ => { },
@@ -222,11 +223,11 @@ public class TaskbarSubstitutionAndWinKeyTests
             _ => { },
             _ => { }));
 
-        vm.TextoFiltroLaunchpad = "Chrome";
+        vm.TextoFiltroLaunchpad = "TesteFiltroIsolado";
         var itens = vm.ItensLaunchpadFiltrados.ToList();
 
         Assert.Single(itens);
-        Assert.Equal("Google Chrome", itens[0].Titulo);
+        Assert.Equal("AplicativoTesteFiltroIsolado", itens[0].Titulo);
 
         vm.TextoFiltroLaunchpad = "inexistente";
         Assert.Empty(vm.ItensLaunchpadFiltrados);

@@ -4,10 +4,19 @@ using System.Windows.Input;
 
 namespace DockWindows.App.ViewModels
 {
-    public class ObsWidgetViewModel : ObservableObject
+    public class ObsWidgetViewModel : ObservableObject, IAtividadeWidget
     {
+    public bool? EmExecucao => false;
+
+    public DockWindows.Core.Widgets.SaudeWidget Saude => DockWindows.Core.Widgets.SaudeWidget.Indisponivel;
+    public string? MotivoEstado => EstadoIntegracao;
+
         private bool _habilitado;
-        public bool Habilitado
+        public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado) { }
+        public string EstadoIntegracao => "Indisponível: controle de gravação requer integração OBS WebSocket.";
+        public string ErroIntegracao { get; private set; } = "";
+    public void Dispose() { }
+    public bool Habilitado
         {
             get => _habilitado;
             set => SetProperty(ref _habilitado, value);
@@ -28,7 +37,7 @@ namespace DockWindows.App.ViewModels
             }
         }
 
-        public string TextoBotaoGravar => EstaGravando ? "Parar" : "Gravar";
+        public string TextoBotaoGravar => EstaGravando ? "Parar" : "Sem conexão";
         public string CorBotaoGravar => EstaGravando ? "#FF3B30" : "#8E8E93"; 
         public string CorGlowGravar => EstaGravando ? "#FF3B30" : "Transparent";
 
@@ -58,15 +67,17 @@ namespace DockWindows.App.ViewModels
                 }
                 catch
                 {
-                    // Ignora erro
+                    ErroIntegracao = "Não foi possível abrir o OBS. Verifique se está instalado.";
+                    OnPropertyChanged(nameof(ErroIntegracao));
                 }
             }
         }
 
         private void AlternarGravacao()
         {
-            EstaGravando = !EstaGravando;
-            // TODO: Integrar OBS WebSocket no futuro para acionar gravao real
+            ErroIntegracao = EstadoIntegracao;
+            OnPropertyChanged(nameof(ErroIntegracao));
+            // Não confirmar gravação sem resposta do OBS.
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Infrastructure.Persistence;
 using Xunit;
@@ -128,15 +128,16 @@ public class PersistenceTests : IDisposable
         var repo = new JsonSettingsRepository(_tempDir);
         var prefsMigradas = repo.Carregar();
 
-        Assert.Equal(4, prefsMigradas.SchemaVersion);
+        Assert.Equal(6, prefsMigradas.SchemaVersion);
         Assert.Single(prefsMigradas.Ambientes);
         Assert.Equal("Meu Trabalho V1", prefsMigradas.Ambientes[0].Nome);
         Assert.Equal("Editor Antigo", prefsMigradas.Ambientes[0].Itens[0].Titulo);
-        Assert.True(prefsMigradas.ExibirSeletorAmbientes);
+        Assert.False(prefsMigradas.ExibirSeletorAmbientes);
         Assert.True(prefsMigradas.ExibirItensFixados);
         Assert.Equal(6, prefsMigradas.EspacamentoItens);
         Assert.NotEmpty(prefsMigradas.AppsPermanentes);
-        Assert.Equal(8, prefsMigradas.OrdemSecoes.Count);
+        Assert.Contains(prefsMigradas.OrdemSecoes, s => s.Tipo == TipoSecaoDock.ClimaInline);
+        Assert.Contains(prefsMigradas.OrdemSecoes, s => s.Tipo == TipoSecaoDock.MidiaInline);
         Assert.NotNull(prefsMigradas.ColecoesGlobais);
         Assert.NotNull(prefsMigradas.Espacadores);
     }
@@ -165,10 +166,11 @@ public class PersistenceTests : IDisposable
         var repo = new JsonSettingsRepository(_tempDir);
         var prefsMigradas = repo.Carregar();
 
-        Assert.Equal(4, prefsMigradas.SchemaVersion);
+        Assert.Equal(6, prefsMigradas.SchemaVersion);
         Assert.True(prefsMigradas.UsarComoBarraPrincipal);
         Assert.NotEmpty(prefsMigradas.AppsPermanentes);
-        Assert.Equal(8, prefsMigradas.OrdemSecoes.Count);
+        Assert.Contains(prefsMigradas.OrdemSecoes, s => s.Tipo == TipoSecaoDock.ClimaInline);
+        Assert.Contains(prefsMigradas.OrdemSecoes, s => s.Tipo == TipoSecaoDock.MidiaInline);
         Assert.NotNull(prefsMigradas.ColecoesGlobais);
         Assert.NotNull(prefsMigradas.Espacadores);
     }

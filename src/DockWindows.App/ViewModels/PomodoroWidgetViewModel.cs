@@ -7,8 +7,10 @@ using DockWindows.Core.Widgets;
 
 namespace DockWindows.App.ViewModels;
 
-public class PomodoroWidgetViewModel : ObservableObject
+public class PomodoroWidgetViewModel : ObservableObject, IAtividadeWidget
 {
+    public bool? EmExecucao => TimerAtivo;
+
     private readonly PomodoroEngine _engine;
     private readonly DispatcherTimer _timer;
     private bool _painelAberto;
@@ -17,8 +19,8 @@ public class PomodoroWidgetViewModel : ObservableObject
     public PomodoroWidgetViewModel(WidgetConfig? config = null)
     {
         _engine = new PomodoroEngine(config);
-        _engine.CicloConcluido += (s, e) => TocarAlerta();
-        _engine.EstadoMudou += (s, e) => NotificarMudancas();
+        _engine.CicloConcluido += (_, _) => { TocarAlerta(); OnPropertyChanged(nameof(EstaExecutando)); };
+        _engine.EstadoMudou += (_, _) => { if (_visual) NotificarMudancas(); };
 
         _timer = new DispatcherTimer
         {
@@ -27,9 +29,9 @@ public class PomodoroWidgetViewModel : ObservableObject
         _timer.Tick += (s, e) =>
         {
             _engine.Tick();
-            NotificarMudancas();
+            if (_visual) NotificarMudancas();
+            AtualizarTimer();
         };
-        _timer.Start();
 
         IniciarPausarCommand = new RelayCommand(AlternarExecucao);
         ReiniciarCommand = new RelayCommand(Reiniciar);
@@ -42,6 +44,26 @@ public class PomodoroWidgetViewModel : ObservableObject
             Habilitado = config.PomodoroHabilitado;
         }
     }
+
+    private bool _visual, _background, _disposed;
+    public bool TimerAtivo => _timer.IsEnabled;
+    public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)
+    {
+        if (_disposed) return;
+        _visual = estado.Visual; _background = estado.SegundoPlano;
+        _engine.Tick();
+        if (_visual) NotificarMudancas(); else PainelAberto = false;
+        AtualizarTimer();
+    }
+    private void AtualizarTimer()
+    {
+        _timer.Stop();
+        if (_disposed || !_engine.EstaExecutando) return;
+        // Oculto: apenas a conclusão precisa despertar o dispatcher.
+        _timer.Interval = _visual ? TimeSpan.FromSeconds(1) : TimeSpan.FromSeconds(Math.Max(1, _engine.SegundosRestantes));
+        if (_visual || _background) _timer.Start();
+    }
+    public void Dispose() { _disposed = true; _visual = _background = false; _timer.Stop(); _engine.Pausar(); }
 
     private FormatoWidget _formato = FormatoWidget.Compacto;
 
@@ -97,19 +119,25 @@ public class PomodoroWidgetViewModel : ObservableObject
 
     private void AlternarExecucao()
     {
+        if (_disposed) return;
         _engine.Alternar();
         NotificarMudancas();
+        AtualizarTimer();
     }
 
     private void Reiniciar()
     {
+        if (_disposed) return;
         _engine.Reiniciar();
+        AtualizarTimer();
         NotificarMudancas();
     }
 
     private void AvancarFase()
     {
+        if (_disposed) return;
         _engine.AvancarFase();
+        AtualizarTimer();
         NotificarMudancas();
     }
 

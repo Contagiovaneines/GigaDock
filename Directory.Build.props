@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <Version>3.0.0</Version>
+    <Deterministic>true</Deterministic>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,73 @@
+name: GigaDock - Build Windows
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-windows-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Compilar, testar e gerar instalador
+    runs-on: windows-2025
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Instalar .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restaurar dependências
+        run: dotnet restore DockWindows.slnx
+
+      - name: Compilar Release
+        run: dotnet build DockWindows.slnx -c Release --no-restore
+
+      - name: Executar testes sem alterações globais no Windows
+        run: >-
+          dotnet test tests/DockWindows.Tests/DockWindows.Tests.csproj
+          -c Release --no-build --no-restore
+          --filter "Category!=SystemIntegration"
+          --logger "trx;LogFileName=windows-ci.trx"
+          --results-directory docs/TestResults/ci
+
+      - name: Gerar instalador de desenvolvimento sem assinatura
+        run: ./build_release.ps1
+
+      - name: Disponibilizar instalador
+        uses: actions/upload-artifact@v4
+        with:
+          name: GigaDock-Windows-x64-${{ github.run_number }}
+          path: |
+            release/GigaDock-Setup.exe
+            docs/installer-validation.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+
+      - name: Disponibilizar resultados dos testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testes-windows-${{ github.run_number }}
+          path: docs/TestResults/ci/*.trx
+          if-no-files-found: ignore
+          retention-days: 14

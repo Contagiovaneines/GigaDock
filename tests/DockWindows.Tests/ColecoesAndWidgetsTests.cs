@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -184,7 +184,7 @@ public class ColecoesAndWidgetsTests
         repo.Salvar(prefs);
 
         var carregadas = repo.Carregar();
-        Assert.Equal(4, carregadas.SchemaVersion);
+        Assert.Equal(6, carregadas.SchemaVersion);
         Assert.Equal(EstiloTema.ComBrilho, carregadas.EstiloTema);
         Assert.Contains(carregadas.ColecoesGlobais, c => c.Nome == "Design");
         Assert.Single(carregadas.CompromissosLocais);

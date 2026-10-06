@@ -1,0 +1,19 @@
+{
+  "data": "2026-10-06",
+  "xaml_xml_valido": true,
+  "comandos_diretos_inspecionados": 29,
+  "comandos_ausentes": [],
+  "build": {
+    "erros": 0,
+    "avisos": 1,
+    "aviso": "CS0067 existente no fake de teste"
+  },
+  "testes_runtime": "Bloqueados pelo Controle de Aplicativo: 0x800711C7; não contornado",
+  "layout_visual_runtime": "Não executado",
+  "breakpoints_dip": {
+    "largo": ">=1050",
+    "compacto": "760–1049",
+    "empilhado": "600–759"
+  },
+  "suite_desktop_anterior": "119 executados, 107 aprovados, 12 falhas antes destas correções; não é resultado atual"
+}

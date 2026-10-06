@@ -20,11 +20,47 @@ public interface IIconExtractionService
     ImageSource? ObterIcone(ItemFixado item);
     ImageSource? ObterIcone(string caminhoOuUrl, TipoItem tipo = TipoItem.Aplicativo);
     ImageSource? ObterIconeJanela(IntPtr hWnd);
+
+    /// <summary>
+    /// Ícone oficial de um app empacotado (Loja do Windows) dono da janela, via AUMID.
+    /// Retorna null se a janela pertence a um programa clássico.
+    /// </summary>
+    ImageSource? ObterIconeAppModernoJanela(IntPtr hWnd);
 }
 
 public class IconExtractionService : IIconExtractionService
 {
-    private static readonly ConcurrentDictionary<string, ImageSource?> CacheIcones = new();
+    private static readonly ConcurrentDictionary<string, ImageSource?> CacheIcones = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly System.Collections.Generic.Queue<(string Chave, long Bytes)> OrdemCache = new();
+    private static readonly object CacheLock = new();
+    private const int LimiteEntradas = 128;
+    private const long LimiteBytes = 8 * 1024 * 1024;
+    private static long _bytesCache;
+    public static int QuantidadeCache => CacheIcones.Count;
+    public static long BytesEstimadosCache { get { lock (CacheLock) return _bytesCache; } }
+
+    private static bool GuardarIcone(string chave, ImageSource? imagem)
+    {
+        if (imagem == null) return false;
+        // Orçamento dos pixels, não do arquivo comprimido; exclui overhead WPF/GPU.
+        long bytes = imagem is BitmapSource bitmap
+            ? (long)((bitmap.PixelWidth * (long)bitmap.Format.BitsPerPixel + 7) / 8) * bitmap.PixelHeight
+            : 64 * 1024;
+        if (bytes <= 0 || bytes > LimiteBytes) return false;
+        lock (CacheLock)
+        {
+            if (CacheIcones.ContainsKey(chave)) return false;
+            while ((CacheIcones.Count >= LimiteEntradas || _bytesCache + bytes > LimiteBytes) && OrdemCache.Count > 0)
+            {
+                var antiga = OrdemCache.Dequeue();
+                if (CacheIcones.TryRemove(antiga.Chave, out _)) _bytesCache -= antiga.Bytes;
+            }
+            if (!CacheIcones.TryAdd(chave, imagem)) return false;
+            OrdemCache.Enqueue((chave, bytes));
+            _bytesCache += bytes;
+            return true;
+        }
+    }
 
     // Constantes do Shell Win32
     private const uint SHGFI_ICON = 0x000000100;
@@ -132,11 +168,20 @@ public class IconExtractionService : IIconExtractionService
                 var ib = ExtrairIconeAltaResolucao(browserExe, TipoItem.Aplicativo);
                 if (ib != null)
                 {
-                    CacheIcones.TryAdd(browserExe, ib);
+                    GuardarIcone(browserExe, ib);
                     return ib;
                 }
             }
             return null;
+        }
+
+        if (item.CaminhoOuUrl.StartsWith(InstalledAppsScanner.PrefixoAppsFolder, StringComparison.OrdinalIgnoreCase))
+        {
+            var chave = item.CaminhoOuUrl;
+            if (CacheIcones.TryGetValue(chave, out var iconShell)) return iconShell;
+            var extraido = ObterIconeShellItem(chave, 128);
+            if (extraido != null) GuardarIcone(chave, extraido);
+            return extraido;
         }
 
         var caminhoResolvido = ResolverCaminhoCompleto(item.CaminhoOuUrl);
@@ -148,7 +193,7 @@ public class IconExtractionService : IIconExtractionService
         var iconExtraido = ExtrairIconeAltaResolucao(caminhoResolvido, item.Tipo);
         if (iconExtraido != null)
         {
-            CacheIcones.TryAdd(caminhoResolvido, iconExtraido);
+            GuardarIcone(caminhoResolvido, iconExtraido);
         }
         return iconExtraido;
     }
@@ -158,9 +203,34 @@ public class IconExtractionService : IIconExtractionService
         return ObterIcone(new ItemFixado { CaminhoOuUrl = caminhoOuUrl, Tipo = tipo });
     }
 
+    public ImageSource? ObterIconeAppModernoJanela(IntPtr hWnd)
+    {
+        if (hWnd == IntPtr.Zero) return null;
+        try
+        {
+            var aumid = ObterAumidJanela(hWnd);
+            if (string.IsNullOrEmpty(aumid)) return null;
+
+            var chave = InstalledAppsScanner.PrefixoAppsFolder + aumid;
+            if (CacheIcones.TryGetValue(chave, out var existente) && existente != null) return existente;
+
+            var icone = ObterIconeShellItem(chave, 128);
+            if (icone != null) GuardarIcone(chave, icone);
+            return icone;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
     public ImageSource? ObterIconeJanela(IntPtr hWnd)
     {
         if (hWnd == IntPtr.Zero) return null;
+
+        // 0. Apps da Loja do Windows: o ícone oficial do pacote é muito melhor que WM_GETICON
+        var iconeModerno = ObterIconeAppModernoJanela(hWnd);
+        if (iconeModerno != null) return iconeModerno;
 
         try
         {
@@ -267,6 +337,16 @@ public class IconExtractionService : IIconExtractionService
     {
         try
         {
+            // 0. Executável de app da Loja (pasta WindowsApps protegida): usa o ícone oficial do pacote
+            if (tipo == TipoItem.Aplicativo && caminho.Contains(@"\WindowsApps\", StringComparison.OrdinalIgnoreCase))
+            {
+                var aumid = InstalledAppsScanner.ObterAumidPorCaminhoPacote(caminho);
+                if (!string.IsNullOrEmpty(aumid))
+                {
+                    var iconPacote = ObterIconeShellItem(InstalledAppsScanner.PrefixoAppsFolder + aumid, 128);
+                    if (iconPacote != null) return iconPacote;
+                }
+            }
             // 1. Para arquivos executáveis reais (.exe), tenta PrivateExtractIcons para obter os 256x256 nativos
             if (tipo == TipoItem.Aplicativo && File.Exists(caminho) && caminho.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
             {
@@ -431,6 +511,224 @@ public class IconExtractionService : IIconExtractionService
         catch { }
 
         return null;
+    }
+
+    // ===================== Apps modernos (AUMID) e ícones do Shell =====================
+
+    [ComImport, Guid("bcc18b79-ba16-442f-80c4-8a59c30c463b"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    private interface IShellItemImageFactory
+    {
+        [PreserveSig]
+        int GetImage(NativeSize size, int flags, out IntPtr phbm);
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeSize
+    {
+        public int cx;
+        public int cy;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeBitmap
+    {
+        public int bmType;
+        public int bmWidth;
+        public int bmHeight;
+        public int bmWidthBytes;
+        public ushort bmPlanes;
+        public ushort bmBitsPixel;
+        public IntPtr bmBits;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeBitmapInfoHeader
+    {
+        public uint biSize;
+        public int biWidth;
+        public int biHeight;
+        public ushort biPlanes;
+        public ushort biBitCount;
+        public uint biCompression;
+        public uint biSizeImage;
+        public int biXPelsPerMeter;
+        public int biYPelsPerMeter;
+        public uint biClrUsed;
+        public uint biClrImportant;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeDibSection
+    {
+        public NativeBitmap dsBm;
+        public NativeBitmapInfoHeader dsBmih;
+        public uint dsBitfields0;
+        public uint dsBitfields1;
+        public uint dsBitfields2;
+        public IntPtr dshSection;
+        public uint dsOffset;
+    }
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool EnumChildWindows(IntPtr hWndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+    private static extern int GetApplicationUserModelId(IntPtr hProcess, ref uint applicationUserModelIdLength, StringBuilder? applicationUserModelId);
+
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    private static extern int SHCreateItemFromParsingName(
+        string pszPath,
+        IntPtr pbc,
+        ref Guid riid,
+        [MarshalAs(UnmanagedType.Interface)] out IShellItemImageFactory? ppv);
+
+    [DllImport("gdi32.dll", EntryPoint = "GetObject")]
+    private static extern int GetObjectDib(IntPtr hgdiobj, int cbBuffer, ref NativeDibSection lpvObject);
+
+    [DllImport("gdi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DeleteObject(IntPtr hObject);
+
+    private const int ERROR_INSUFFICIENT_BUFFER = 122;
+
+    /// <summary>AUMID do processo dono da janela (null para programas clássicos não empacotados).</summary>
+    private static string? ObterAumidJanela(IntPtr hWnd)
+    {
+        GetWindowThreadProcessId(hWnd, out uint pid);
+        if (pid == 0) return null;
+
+        var aumid = ObterAumidProcesso(pid);
+        if (!string.IsNullOrEmpty(aumid)) return aumid;
+
+        // Apps UWP rodam hospedados no ApplicationFrameHost: o processo real é dono da janela-filha
+        var exe = ObterCaminhoProcesso(pid);
+        if (!exe.EndsWith("ApplicationFrameHost.exe", StringComparison.OrdinalIgnoreCase)) return null;
+
+        string? encontrado = null;
+        EnumChildWindows(hWnd, (filho, _) =>
+        {
+            GetWindowThreadProcessId(filho, out uint pidFilho);
+            if (pidFilho != 0 && pidFilho != pid)
+            {
+                var a = ObterAumidProcesso(pidFilho);
+                if (!string.IsNullOrEmpty(a))
+                {
+                    encontrado = a;
+                    return false;
+                }
+            }
+            return true;
+        }, IntPtr.Zero);
+
+        return encontrado;
+    }
+
+    private static string? ObterAumidProcesso(uint pid)
+    {
+        IntPtr hProc = OpenProcess(0x1000, false, pid); // PROCESS_QUERY_LIMITED_INFORMATION
+        if (hProc == IntPtr.Zero) return null;
+        try
+        {
+            uint tamanho = 0;
+            int r = GetApplicationUserModelId(hProc, ref tamanho, null);
+            if (r != ERROR_INSUFFICIENT_BUFFER || tamanho == 0) return null;
+
+            var sb = new StringBuilder((int)tamanho);
+            r = GetApplicationUserModelId(hProc, ref tamanho, sb);
+            return r == 0 ? sb.ToString() : null;
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            CloseHandle(hProc);
+        }
+    }
+
+    /// <summary>Ícone de qualquer item do Shell (ex.: "shell:AppsFolder\AUMID") via IShellItemImageFactory.</summary>
+    private static ImageSource? ObterIconeShellItem(string parsingPath, int tamanho)
+    {
+        IShellItemImageFactory? fabrica = null;
+        IntPtr hbm = IntPtr.Zero;
+        try
+        {
+            var iid = typeof(IShellItemImageFactory).GUID;
+            if (SHCreateItemFromParsingName(parsingPath, IntPtr.Zero, ref iid, out fabrica) != 0 || fabrica == null)
+                return null;
+
+            const int SIIGBF_BIGGERSIZEOK = 0x1;
+            const int SIIGBF_ICONONLY = 0x4;
+            var tamanhoNativo = new NativeSize { cx = tamanho, cy = tamanho };
+            if (fabrica.GetImage(tamanhoNativo, SIIGBF_BIGGERSIZEOK | SIIGBF_ICONONLY, out hbm) != 0 || hbm == IntPtr.Zero)
+                return null;
+
+            return HBitmapParaImagem(hbm);
+        }
+        catch
+        {
+            return null;
+        }
+        finally
+        {
+            if (hbm != IntPtr.Zero) DeleteObject(hbm);
+            if (fabrica != null && Marshal.IsComObject(fabrica)) Marshal.ReleaseComObject(fabrica);
+        }
+    }
+
+    /// <summary>Converte HBITMAP 32bpp preservando o canal alfa (CreateBitmapSourceFromHBitmap o descarta).</summary>
+    private static ImageSource? HBitmapParaImagem(IntPtr hbm)
+    {
+        var dib = new NativeDibSection();
+        int tamanhoStruct = Marshal.SizeOf<NativeDibSection>();
+        int lidos = GetObjectDib(hbm, tamanhoStruct, ref dib);
+
+        if (lidos == tamanhoStruct && dib.dsBm.bmBits != IntPtr.Zero && dib.dsBm.bmBitsPixel == 32)
+        {
+            int largura = dib.dsBm.bmWidth;
+            int altura = Math.Abs(dib.dsBm.bmHeight);
+            int stride = dib.dsBm.bmWidthBytes;
+            if (largura <= 0 || altura <= 0 || stride <= 0) return null;
+
+            var buffer = new byte[stride * altura];
+            Marshal.Copy(dib.dsBm.bmBits, buffer, 0, buffer.Length);
+
+            // DIB "bottom-up" (altura positiva no cabeçalho) precisa ser invertido
+            if (dib.dsBmih.biHeight > 0)
+            {
+                var linha = new byte[stride];
+                for (int y = 0; y < altura / 2; y++)
+                {
+                    int topo = y * stride;
+                    int baixo = (altura - 1 - y) * stride;
+                    Buffer.BlockCopy(buffer, topo, linha, 0, stride);
+                    Buffer.BlockCopy(buffer, baixo, buffer, topo, stride);
+                    Buffer.BlockCopy(linha, 0, buffer, baixo, stride);
+                }
+            }
+
+            bool temAlfa = false;
+            for (int i = 3; i < buffer.Length; i += 4)
+            {
+                if (buffer[i] != 0) { temAlfa = true; break; }
+            }
+            if (!temAlfa)
+            {
+                for (int i = 3; i < buffer.Length; i += 4) buffer[i] = 255;
+            }
+
+            var bs = BitmapSource.Create(largura, altura, 96, 96, PixelFormats.Pbgra32, null, buffer, stride);
+            bs.Freeze();
+            return bs;
+        }
+
+        var fallback = Imaging.CreateBitmapSourceFromHBitmap(hbm, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        fallback.Freeze();
+        return fallback;
     }
 
     private static string ObterCaminhoProcesso(uint pid)

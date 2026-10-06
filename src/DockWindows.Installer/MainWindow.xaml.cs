@@ -35,6 +35,12 @@ public partial class MainWindow : Window
         _modoDesinstalacao = Array.Exists(args, a => a.Equals("--uninstall", StringComparison.OrdinalIgnoreCase) || a.Equals("/uninstall", StringComparison.OrdinalIgnoreCase));
 
         ConfigurarInterfaceInicial();
+        Closing += (_, e) => { if (_estadoAtual == EstadoWizard.Progresso) e.Cancel = true; };
+        Loaded += (_, _) =>
+        {
+            Width = Math.Max(MinWidth, Math.Min(Width, SystemParameters.WorkArea.Width - 32));
+            Height = Math.Max(MinHeight, Math.Min(Height, SystemParameters.WorkArea.Height - 32));
+        };
     }
 
     private void ConfigurarInterfaceInicial()
@@ -90,7 +96,7 @@ public partial class MainWindow : Window
     }
 
     private void DragWindow(object sender, System.Windows.Input.MouseButtonEventArgs e) { if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) DragMove(); }
-        private void BtnSair_Click(object sender, RoutedEventArgs e) { Application.Current.Shutdown(); }
+        private void BtnSair_Click(object sender, RoutedEventArgs e) { Close(); }
 
         private async void BtnAcaoPrincipal_Click(object sender, RoutedEventArgs e)
     {
@@ -121,7 +127,10 @@ public partial class MainWindow : Window
                             });
                         }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(this, $"O GigaDock foi instalado, mas não foi possível iniciá-lo: {ex.Message}", "Abrir GigaDock", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
                 }
                 Close();
             }
@@ -207,6 +216,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        _estadoAtual = EstadoWizard.Progresso;
         PanelDesinstalacao.Visibility = Visibility.Collapsed;
         PanelProgresso.Visibility = Visibility.Visible;
         BtnCancelar.Visibility = Visibility.Collapsed;
@@ -228,6 +238,7 @@ public partial class MainWindow : Window
                 });
         });
 
+        _estadoAtual = sucesso ? EstadoWizard.Concluido : EstadoWizard.Opcoes;
         if (sucesso)
         {
             MessageBox.Show(this, "GigaDock foi desinstalado com sucesso do seu computador.\nA barra de tarefas nativa do Windows foi restaurada.", "Desinstalação Concluída", MessageBoxButton.OK, MessageBoxImage.Information);

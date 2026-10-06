@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -7,10 +7,13 @@ using Windows.UI.Notifications;
 
 namespace DockWindows.Infrastructure.Windows;
 
-public class WhatsAppNotificationService
+public class WhatsAppNotificationService : IDisposable
 {
     private readonly UserNotificationListener _listener;
     private readonly DispatcherTimer _timer;
+    private bool _ocupado, _disposed;
+    public void Parar() => _timer.Stop();
+    public void Dispose() { _disposed = true; Parar(); OnNotificacoesAtualizadas = null; }
 
     public event Action<int, string>? OnNotificacoesAtualizadas;
 
@@ -23,10 +26,11 @@ public class WhatsAppNotificationService
 
     public async Task IniciarAsync()
     {
+        if (_disposed || _timer.IsEnabled) return;
         try
         {
             var accessStatus = await _listener.RequestAccessAsync();
-            if (accessStatus == UserNotificationListenerAccessStatus.Allowed)
+            if (!_disposed && accessStatus == UserNotificationListenerAccessStatus.Allowed)
             {
                 _timer.Start();
                 await VerificarNotificacoesAsync();
@@ -40,6 +44,8 @@ public class WhatsAppNotificationService
 
     private async Task VerificarNotificacoesAsync()
     {
+        if (_disposed || _ocupado) return;
+        _ocupado = true;
         try
         {
             var notificacoes = await _listener.GetNotificationsAsync(NotificationKinds.Toast);
@@ -66,5 +72,6 @@ public class WhatsAppNotificationService
         catch 
         { 
         }
+        finally { _ocupado = false; }
     }
 }

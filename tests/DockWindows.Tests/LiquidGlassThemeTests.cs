@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using DockWindows.App.ViewModels;
@@ -32,6 +32,7 @@ public class LiquidGlassThemeTests
         public System.Windows.Media.ImageSource? ObterIcone(ItemFixado item) => null;
         public System.Windows.Media.ImageSource? ObterIcone(string caminhoOuUrl, TipoItem tipo = TipoItem.Aplicativo) => null;
         public System.Windows.Media.ImageSource? ObterIconeJanela(IntPtr hWnd) => null;
+        public System.Windows.Media.ImageSource? ObterIconeAppModernoJanela(IntPtr hWnd) => null;
     }
 
     private class FakeAutostartService : IAutostartService

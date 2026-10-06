@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,10 +17,15 @@ public partial class LojaWidgetsWindow : Window
     public bool Removeu { get; private set; }
 
     private readonly List<WidgetInstanceConfig> _widgetsInstalados;
+    private readonly string _ambiente;
 
-    public LojaWidgetsWindow(IEnumerable<WidgetInstanceConfig>? widgetsInstalados = null)
+    public LojaWidgetsWindow(IEnumerable<WidgetInstanceConfig>? widgetsInstalados = null, string ambiente = "Ambiente atual")
     {
+        _ambiente = ambiente;
         InitializeComponent();
+        Title = $"Loja de widgets · {ambiente}";
+        MaxHeight = SystemParameters.WorkArea.Height;
+        MaxWidth = SystemParameters.WorkArea.Width;
         _widgetsInstalados = widgetsInstalados?.ToList() ?? new List<WidgetInstanceConfig>();
         CarregarLoja();
     }
@@ -42,51 +47,54 @@ public partial class LojaWidgetsWindow : Window
     {
         _catalogoCompleto = new List<ItemLoja>
         {
+            new ItemLoja { Tipo = TipoWidget.Midia, Nome = "Mídia", Categoria = "Mídia", Descricao = "Capa, tocando agora, mini ou barra de reprodução da sessão de mídia do Windows.", PreviewTitle = "Nome da música", DescricaoFormato = "Quatro estilos com controles" },
+            new ItemLoja { Tipo = TipoWidget.Bateria, Nome = "Bateria", Categoria = "Sistema", Descricao = "Porcentagem compacta ou anel com a carga real da bateria.", PreviewTitle = "78%", DescricaoFormato = "Compacto ou anel" },
+            new ItemLoja { Tipo = TipoWidget.Notas, Nome = "Notas", Categoria = "Produtividade", Descricao = "Editor de texto local com salvamento automático. Não exige internet ou conta.", PreviewTitle = "Minhas notas", PreviewSubtitle = "Dados ilustrativos", DescricaoFormato = "Texto local" },
             new ItemLoja { 
                 Tipo = TipoWidget.Relogio, Formato = FormatoWidget.Expandido, Nome = "Relógio", 
-                Descricao = "Relógio digital fluido com fusos horários, marcador de segundos milissegundo e estilo customizável.",
+                Descricao = "Hora, segundos, data e mostradores analógicos com estilos por ambiente.",
                 DescricaoFormato = "Hora e Data", Icone = "\uE121", CorIcone = "#253342", Categoria = "Sistema",
                 PreviewTitle = "14:48", PreviewSubtitle = "São Paulo", PreviewIcone = "", PreviewCor = "#0A84FF", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.Clima, Formato = FormatoWidget.Expandido, Nome = "Clima", 
-                Descricao = "Radar meteorológico compacto com alertas de chuva imediata, índice UV e qualidade do ar em tempo real.",
+                Descricao = "Previsão por wttr.in. Requer internet; cache de uma hora e indicação de dados antigos.",
                 DescricaoFormato = "Detalhado com Local", Icone = "\uE9CA", CorIcone = "#21313A", Categoria = "Utilidade",
                 PreviewTitle = "24°C", PreviewSubtitle = "Céu Limpo   Umid 60%", PreviewIcone = "\uE9CA", PreviewCor = "#FF9F0A", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.WhatsAppNotificacoes, Formato = FormatoWidget.Expandido, Nome = "WhatsApp", 
-                Descricao = "Visualizador de mensagens prioritárias e contador de notificações com suporte a leitura rápida.",
+                Descricao = "Notificações acessíveis do Windows; exige permissão e não confirma mensagens não lidas.",
                 DescricaoFormato = "Última Mensagem", Icone = "\uE8BD", CorIcone = "#193524", Categoria = "Comunicação", Custo = "v1.2",
                 PreviewTitle = "3 Conversas", PreviewSubtitle = "1 Nova", PreviewIcone = "\uE8BD", PreviewCor = "#25D366", ShowPreviewBar = true
             },
             new ItemLoja { 
                 Tipo = TipoWidget.TeamsStatus, Formato = FormatoWidget.Expandido, Nome = "Teams", 
-                Descricao = "Exibe alertas de mensagens e chamadas baseando-se nas notificacoes do Windows. Status de cores (login) em analise.",
+                Descricao = "Notificações do Windows exigem permissão. Presença estimada por processos e títulos, sem API oficial.",
                 DescricaoFormato = "Status Detalhado", Icone = "\uE716", CorIcone = "#292138", Categoria = "Comunicação",
                 PreviewTitle = "Em Reunião", PreviewSubtitle = "Mic Mudo", PreviewIcone = "\uE716", PreviewCor = "#FF453A", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.DiscordVoz, Formato = FormatoWidget.Expandido, Nome = "Discord", 
-                Descricao = "MOCK: Exibe interface visual de salas de voz. API Oficial em desenvolvimento.", TagStatus = "BETA",
+                Descricao = "Abre o Discord. Canal e participantes indisponíveis: RPC autenticado ainda não implementado.", TagStatus = "BETA",
                 DescricaoFormato = "Canal de Voz", Icone = "\uE716", CorIcone = "#20242B", Categoria = "Comunicação",
                 PreviewTitle = "Gamer Room", PreviewSubtitle = "Você, Alex, Sam", PreviewIcone = "\uE716", PreviewCor = "#5865F2", ShowPreviewBar = false
             },
             new ItemLoja { 
-                Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub Actions", 
-                Descricao = "MOCK: Grafico de contribuicoes. Conexao oficial com GitHub em desenvolvimento.", TagStatus = "BETA",
+                Tipo = TipoWidget.GitHubContribuicoes, Formato = FormatoWidget.Expandido, Nome = "GitHub contribuições",
+                Descricao = "Contribuições públicas por leitura HTML do GitHub. Requer internet; não monitora Actions ou PRs.", TagStatus = "BETA",
                 DescricaoFormato = "Gráfico de Commits", Icone = "\uE943", CorIcone = "#20242B", Categoria = "Dev Tools", Custo = "Pro",
-                PreviewTitle = "2 PRs", PreviewSubtitle = "#412 pass", PreviewIcone = "\uE943", PreviewCor = "#1DB954", ShowPreviewBar = false
+                PreviewTitle = "Contribuições", PreviewSubtitle = "Dados ilustrativos", PreviewIcone = "\uE943", PreviewCor = "#1DB954", ShowPreviewBar = false
             },
             new ItemLoja { 
                 Tipo = TipoWidget.CalendarioCompromissos, Formato = FormatoWidget.Expandido, Nome = "Calendário", 
-                Descricao = "Agenda instantânea sincronizada com Outlook e Google Calendar com contagem regressiva para eventos.",
+                Descricao = "Eventos locais ou iCalendar (arquivo/link). Links exigem internet; fusos e recorrências são importados.",
                 DescricaoFormato = "Próximo Evento", Icone = "\uE163", CorIcone = "#28303D", Categoria = "Produtividade",
                 PreviewTitle = "Sync de Design", PreviewSubtitle = "em 12m", PreviewIcone = "\uE163", PreviewCor = "#0A84FF", ShowPreviewBar = true
             },
             new ItemLoja { 
                 Tipo = TipoWidget.MonitorSistema, Formato = FormatoWidget.Expandido, Nome = "Monitor de Sistema", 
-                Descricao = "Medidor per-core de CPU, RAM e clock de GPU sem consumir recursos de primeiro plano da máquina.",
+                Descricao = "CPU, RAM, rede e disco do Windows em anéis, indicadores ou gráficos com leituras locais.",
                 DescricaoFormato = "CPU e RAM", Icone = "\uE950", CorIcone = "#1F2342", Categoria = "Sistema", Custo = "Core Lab",
                 PreviewTitle = "CPU 28%", PreviewSubtitle = "RAM 14.2 GB", PreviewIcone = "\uE950", PreviewCor = "#5E5CE6", ShowPreviewBar = false
             },
@@ -98,7 +106,7 @@ public partial class LojaWidgetsWindow : Window
             },
             new ItemLoja { 
                 Tipo = TipoWidget.OBSStudio, Formato = FormatoWidget.Expandido, Nome = "OBS Studio Control", 
-                Descricao = "MOCK: Botoes visuais de Rec. Integracao com WebSockets do OBS chegando em breve.", TagStatus = "BETA",
+                Descricao = "Abre o OBS instalado. Controle de gravação indisponível sem conexão OBS WebSocket.", TagStatus = "BETA",
                 DescricaoFormato = "Rec e Status", Icone = "\uE714", CorIcone = "#1C1C22", Categoria = "Mídia", Custo = "Gratuito",
                 PreviewTitle = "OBS Studio", PreviewSubtitle = "Pronto", PreviewIcone = "\uE714", PreviewCor = "#FF3B30", ShowPreviewBar = false
             }
@@ -136,7 +144,7 @@ public partial class LojaWidgetsWindow : Window
 
     private void AplicarFiltros()
     {
-        if (_catalogoCompleto == null) return;
+        if (_catalogoCompleto == null || TxtBusca == null || ListaLoja == null) return;
         var termo = TxtBusca.Text.ToLowerInvariant();
         var filtrados = _catalogoCompleto.Where(x => 
             (_filtroCategoria == "Todos" || x.Categoria == _filtroCategoria) &&
@@ -149,21 +157,14 @@ public partial class LojaWidgetsWindow : Window
 
     private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is Button btn && btn.Tag is ItemLoja item && !item.JaAdicionado)
-        {
-            WidgetSelecionado = new WidgetInstanceConfig
-            {
-                Id = "wgt-" + Guid.NewGuid().ToString().Substring(0, 8),
-                Tipo = item.Tipo,
-                Nome = item.Nome,
-                Formato = item.Formato,
-                Visivel = true,
-                Ordem = 99
-            };
-
-            DialogResult = true;
-            Close();
-        }
+        if (sender is not Button btn || btn.Tag is not ItemLoja item) return;
+        var instalado = _widgetsInstalados.FirstOrDefault(w => w.Tipo == item.Tipo);
+        var widget = new WidgetInstanceConfig { Tipo = item.Tipo, Nome = item.Nome, Formato = instalado?.Formato ?? item.Formato, Estilo = instalado?.Estilo ?? "", Visivel = instalado?.Visivel ?? true };
+        var estilos = new EstilosWidgetWindow(widget, _ambiente) { Owner = this };
+        if (estilos.ShowDialog() != true || estilos.EstiloSelecionado == null) return;
+        EstilosWidget.Aplicar(widget, estilos.EstiloSelecionado);
+        WidgetSelecionado = widget;
+        DialogResult = true;
     }
 
     private void BtnRemover_Click(object sender, RoutedEventArgs e)
@@ -208,7 +209,7 @@ public class ItemLoja
     public bool ShowPreviewBar { get; set; } = false;
 
     // UI Helpers
-    public string TextoBotao => JaAdicionado ? "Instalado" : "+ Adicionar";
+    public string TextoBotao => JaAdicionado ? "Mudar estilo" : "Escolher estilo";
     public string CorBotao => JaAdicionado ? "Transparent" : "#0A84FF"; 
     public string CorBordaBotao => JaAdicionado ? "#1DB954" : "#0A84FF";
     public string CorTextoBotao => JaAdicionado ? "#1DB954" : "#FFFFFF";

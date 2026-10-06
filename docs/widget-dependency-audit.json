@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "parameters": "--vulnerable --include-transitive",
+  "sources": [
+    "https://api.nuget.org/v3/index.json",
+    "C:/Program Files (x86)/Microsoft SDKs/NuGetPackages/"
+  ],
+  "projects": [
+    {
+      "path": "src/DockWindows.App/DockWindows.App.csproj"
+    },
+    {
+      "path": "src/DockWindows.Core/DockWindows.Core.csproj"
+    },
+    {
+      "path": "src/DockWindows.Infrastructure/DockWindows.Infrastructure.csproj"
+    },
+    {
+      "path": "src/DockWindows.Installer/DockWindows.Installer.csproj"
+    },
+    {
+      "path": "tests/DockWindows.Tests/DockWindows.Tests.csproj"
+    }
+  ]
+}

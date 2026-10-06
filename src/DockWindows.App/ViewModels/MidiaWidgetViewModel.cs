@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,11 +11,61 @@ using System.Diagnostics;
 
 namespace DockWindows.App.ViewModels;
 
-public class MidiaWidgetViewModel : ObservableObject
+public class MidiaWidgetViewModel : ObservableObject, IAtividadeWidget
 {
+    public bool? EmExecucao => !_disposed && (_iniciando || _escutar && _sessionManager != null);
+
+    private int _revisaoMidia;
+    private bool _visual, _escutar, _iniciando, _disposed;
+    private string _chaveCapa = "";
+    private readonly Dictionary<string, (DateTimeOffset Criada, System.Windows.Media.Imaging.BitmapSource Imagem)> _capas = new();
+    public int CapasEmCache => _capas.Count;
+    private void GuardarCapa(string chave, System.Windows.Media.Imaging.BitmapSource? imagem)
+    {
+        if (imagem == null) return;
+        _capas[chave] = (DateTimeOffset.UtcNow, imagem);
+        while (_capas.Count > 8) _capas.Remove(_capas.MinBy(p => p.Value.Criada).Key);
+    }
+    public bool TimerAtivo => _timelineTimer.IsEnabled;
+    public int ListenersAtivos => (_sessionManager == null ? 0 : 2) + (_currentSession == null ? 0 : 3);
+    public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)
+    {
+        var eraVisual = _visual;
+        _visual = estado.Visual;
+        _escutar = _visual || estado.SegundoPlano;
+        if (!_escutar) Desconectar();
+        else if (_sessionManager == null) _ = InitializeAsync();
+        else if (_visual && !eraVisual) _ = UpdateMediaPropertiesAsync();
+        if (!estado.Habilitado) { CapaAlbumUrl = null; _chaveCapa = ""; _capas.Clear(); }
+        AtualizarTimer();
+    }
+    private void AtualizarTimer()
+    {
+        _timelineTimer.Stop();
+        if (!_visual || _disposed) return;
+        AtualizarTimeline();
+        if (EstaTocando && TemMidia) _timelineTimer.Start();
+    }
+    private void Desconectar()
+    {
+        System.Threading.Interlocked.Increment(ref _revisaoMidia);
+        if (_sessionManager != null) { _sessionManager.CurrentSessionChanged -= SessionManager_CurrentSessionChanged; _sessionManager.SessionsChanged -= SessionManager_SessionsChanged; }
+        if (_currentSession != null) { _currentSession.MediaPropertiesChanged -= Session_MediaPropertiesChanged; _currentSession.PlaybackInfoChanged -= Session_PlaybackInfoChanged; _currentSession.TimelinePropertiesChanged -= Session_TimelinePropertiesChanged; }
+        _currentSession = null; _sessionManager = null; _timelineTimer.Stop();
+    }
+    public void Dispose() { _disposed = true; _visual = _escutar = false; Desconectar(); CapaAlbumUrl = null; _capas.Clear(); }
+
+    private string _estilo = "capa";
+    public string Estilo { get => _estilo; set => SetProperty(ref _estilo, value); }
+    private double _progresso;
+    public double Progresso { get => _progresso; private set => SetProperty(ref _progresso, value); }
+    private string _posicao = "—", _duracao = "—";
+    public string Posicao { get => _posicao; private set => SetProperty(ref _posicao, value); }
+    public string Duracao { get => _duracao; private set => SetProperty(ref _duracao, value); }
+    private readonly System.Windows.Threading.DispatcherTimer _timelineTimer;
     private string? _titulo = string.Empty;
     private string? _artista = string.Empty;
-    private string? _capaAlbumUrl = string.Empty;
+    private System.Windows.Media.Imaging.BitmapSource? _capaAlbumUrl;
     private string _corPredominanteHex = "#000000";
     private bool _estaTocando;
     private bool _habilitado = true;
@@ -57,7 +107,7 @@ public class MidiaWidgetViewModel : ObservableObject
     
     public string CorPredominanteHex { get => _corPredominanteHex; set => SetProperty(ref _corPredominanteHex, value); }
 
-    public string? CapaAlbumUrl
+    public System.Windows.Media.Imaging.BitmapSource? CapaAlbumUrl
     {
         get => _capaAlbumUrl;
         set => SetProperty(ref _capaAlbumUrl, value);
@@ -82,22 +132,45 @@ public class MidiaWidgetViewModel : ObservableObject
     public ICommand AbrirPlayerCommand { get; }
 
     private readonly Func<bool> _canOpenPlayer;
-    public MidiaWidgetViewModel(Func<bool> canOpenPlayer = null)
+    public MidiaWidgetViewModel(Func<bool>? canOpenPlayer = null)
     {
+        _timelineTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        _timelineTimer.Tick += (_, _) => AtualizarTimeline();
+
         _canOpenPlayer = canOpenPlayer ?? (() => true);
         PlayPauseCommand = new RelayCommand(() => _ = TogglePlayPauseAsync());
         AnteriorCommand = new RelayCommand(() => _ = SkipPreviousAsync());
                 ProximoCommand = new RelayCommand(() => _ = SkipNextAsync());
         AbrirPlayerCommand = new RelayCommand(AbrirPlayer);
+    }
 
-        _ = InitializeAsync();
+    private void AtualizarTimeline()
+    {
+        if (!TemMidia || _currentSession == null) { Progresso = 0; Posicao = Duracao = "—"; return; }
+        try
+        {
+            var timeline = _currentSession.GetTimelineProperties();
+            var total = timeline.EndTime - timeline.StartTime;
+            if (total <= TimeSpan.Zero) { Progresso = 0; Posicao = Duracao = "—"; return; }
+            var position = timeline.Position - timeline.StartTime;
+            if (EstaTocando) position += DateTimeOffset.UtcNow - timeline.LastUpdatedTime;
+            var seconds = Math.Clamp(position.TotalSeconds, 0, total.TotalSeconds);
+            Progresso = seconds / total.TotalSeconds;
+            Posicao = $"{(int)(seconds / 60)}:{(int)seconds % 60:00}";
+            Duracao = $"{(int)total.TotalMinutes}:{total.Seconds:00}";
+        }
+        catch { Progresso = 0; Posicao = Duracao = "—"; }
     }
 
     private async Task InitializeAsync()
     {
+        if (_disposed || !_escutar || _iniciando) return;
+        _iniciando = true;
         try
         {
-            _sessionManager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+            var manager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+            if (_disposed || !_escutar) return;
+            _sessionManager = manager;
             if (_sessionManager != null)
             {
                 _sessionManager.CurrentSessionChanged += SessionManager_CurrentSessionChanged;
@@ -107,8 +180,9 @@ public class MidiaWidgetViewModel : ObservableObject
         }
         catch
         {
-            // Ignorar erros de inicialização caso a API não esteja disponível ou haja erro de permissão
+            // API indisponível/permissão negada: sem polling de retry.
         }
+        finally { _iniciando = false; }
     }
 
     private GlobalSystemMediaTransportControlsSession? GetBestSession()
@@ -151,12 +225,12 @@ public class MidiaWidgetViewModel : ObservableObject
 
     private void SessionManager_SessionsChanged(GlobalSystemMediaTransportControlsSessionManager sender, SessionsChangedEventArgs args)
     {
-        UpdateCurrentSession(GetBestSession());
+        _ = RunOnUiAsync(() => { if (_escutar && !_disposed) UpdateCurrentSession(GetBestSession()); });
     }
 
     private void SessionManager_CurrentSessionChanged(GlobalSystemMediaTransportControlsSessionManager sender, CurrentSessionChangedEventArgs args)
     {
-        UpdateCurrentSession(GetBestSession());
+        _ = RunOnUiAsync(() => { if (_escutar && !_disposed) UpdateCurrentSession(GetBestSession()); });
     }
 
     private void UpdateCurrentSession(GlobalSystemMediaTransportControlsSession? session)
@@ -164,7 +238,7 @@ public class MidiaWidgetViewModel : ObservableObject
         if (_currentSession != null)
         {
             _currentSession.MediaPropertiesChanged -= Session_MediaPropertiesChanged;
-            _currentSession.PlaybackInfoChanged -= Session_PlaybackInfoChanged;
+            _currentSession.PlaybackInfoChanged -= Session_PlaybackInfoChanged; _currentSession.TimelinePropertiesChanged -= Session_TimelinePropertiesChanged;
         }
 
         _currentSession = session;
@@ -173,19 +247,28 @@ public class MidiaWidgetViewModel : ObservableObject
         {
             _currentSession.MediaPropertiesChanged += Session_MediaPropertiesChanged;
             _currentSession.PlaybackInfoChanged += Session_PlaybackInfoChanged;
+            _currentSession.TimelinePropertiesChanged += Session_TimelinePropertiesChanged;
         }
 
         _ = UpdateMediaPropertiesAsync();
     }
 
+    private void Session_TimelinePropertiesChanged(GlobalSystemMediaTransportControlsSession sender, TimelinePropertiesChangedEventArgs args)
+    { _ = RunOnUiAsync(() => { if (_visual && !_disposed && ReferenceEquals(sender, _currentSession)) AtualizarTimeline(); }); }
+
     private void Session_PlaybackInfoChanged(GlobalSystemMediaTransportControlsSession sender, PlaybackInfoChangedEventArgs args)
     {
-        _ = UpdateMediaPropertiesAsync();
+        _ = RunOnUiAsync(() =>
+        {
+            if (!_escutar || _disposed || !ReferenceEquals(sender, _currentSession)) return;
+            EstaTocando = sender.GetPlaybackInfo()?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
+            AtualizarTimer();
+        });
     }
 
     private void Session_MediaPropertiesChanged(GlobalSystemMediaTransportControlsSession sender, MediaPropertiesChangedEventArgs args)
     {
-        _ = UpdateMediaPropertiesAsync();
+        _ = RunOnUiAsync(() => { if (ReferenceEquals(sender, _currentSession)) _ = UpdateMediaPropertiesAsync(); });
     }
 
     private string? _fonteNome = string.Empty;
@@ -210,31 +293,51 @@ public class MidiaWidgetViewModel : ObservableObject
         set => SetProperty(ref _fonteIcone, value);
     }
 
+    private bool _atualizandoMidia, _atualizarNovamente;
     private async Task UpdateMediaPropertiesAsync()
     {
-        if (_currentSession == null)
+        if (_disposed || !_escutar) return;
+        if (_atualizandoMidia) { _atualizarNovamente = true; return; }
+        _atualizandoMidia = true;
+        try { await LerMediaPropertiesAsync(); }
+        finally
+        {
+            _atualizandoMidia = false;
+            if (_atualizarNovamente) { _atualizarNovamente = false; if (!_disposed && _escutar) _ = UpdateMediaPropertiesAsync(); }
+        }
+    }
+    private async Task LerMediaPropertiesAsync()
+    {
+        if (_disposed || !_escutar) return;
+        var revisao = System.Threading.Interlocked.Increment(ref _revisaoMidia);
+        var sessao = _currentSession;
+        if (sessao == null)
         {
             await RunOnUiAsync(() =>
             {
+                if (revisao != System.Threading.Volatile.Read(ref _revisaoMidia) || _disposed || _currentSession != null) return;
                 Titulo = string.Empty;
                 Artista = string.Empty;
-                CapaAlbumUrl = string.Empty;
+                CapaAlbumUrl = null;
                 EstaTocando = false;
                 FonteNome = string.Empty;
+                CorPredominanteHex = "#000000";
+                AtualizarTimer();
             });
             return;
         }
 
         try
         {
-            var properties = await _currentSession.TryGetMediaPropertiesAsync();
-            var playbackInfo = _currentSession.GetPlaybackInfo();
-            string sourceId = _currentSession.SourceAppUserModelId?.ToLower() ?? "";
+            var properties = await sessao.TryGetMediaPropertiesAsync();
+            var playbackInfo = sessao.GetPlaybackInfo();
+            string sourceId = sessao.SourceAppUserModelId?.ToLower() ?? "";
 
             string titulo = properties?.Title ?? string.Empty;
             string artista = properties?.Artist ?? string.Empty;
             bool estaTocando = playbackInfo?.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing;
-            string capaPath = string.Empty;
+            System.Windows.Media.Imaging.BitmapSource? capa = null;
+            var chaveCapa = sourceId + "|" + titulo + "|" + artista;
             
             string cor = "#555555";
             string icone = "♫";
@@ -269,70 +372,83 @@ public class MidiaWidgetViewModel : ObservableObject
                 nome = "Netflix";
             }
 
-            if (properties?.Thumbnail != null)
+            if (_visual && _capas.TryGetValue(chaveCapa, out var existente) && DateTimeOffset.UtcNow - existente.Criada < TimeSpan.FromHours(1)) capa = existente.Imagem;
+            else if (_visual && properties?.Thumbnail != null)
             {
                 try
                 {
                     using var stream = await properties.Thumbnail.OpenReadAsync();
-                    if (stream != null)
+                    if (stream != null && stream.Size <= 8 * 1024 * 1024)
                     {
-                        capaPath = Path.Combine(Path.GetTempPath(), $"dockwindows_media_thumb_{Guid.NewGuid():N}.jpg");
-                        using var fileStream = File.Create(capaPath);
                         using var netStream = stream.AsStreamForRead();
-                        await netStream.CopyToAsync(fileStream);
+                        var bitmap = new System.Windows.Media.Imaging.BitmapImage();
+                        bitmap.BeginInit(); bitmap.StreamSource = netStream;
+                        bitmap.DecodePixelWidth = 256; bitmap.DecodePixelHeight = 256;
+                        bitmap.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                        bitmap.EndInit(); bitmap.Freeze(); capa = bitmap;
                     }
                 }
-                catch
-                {
-                    // Falha ao carregar thumbnail, manter em branco
-                }
+                catch { }
             }
 
             await RunOnUiAsync(() =>
             {
+                if (revisao != System.Threading.Volatile.Read(ref _revisaoMidia) || _disposed || !_escutar || !ReferenceEquals(sessao, _currentSession)) return;
                 Titulo = titulo;
                 Artista = artista;
-                CapaAlbumUrl = capaPath;
+                if (_visual) { CapaAlbumUrl = capa; _chaveCapa = chaveCapa; GuardarCapa(chaveCapa, capa); }
                 EstaTocando = estaTocando;
                 FonteCor = cor;
                 FonteIcone = icone;
                 FonteNome = nome;
                 
                 string dominColor = "#000000";
-                if (!string.IsNullOrEmpty(capaPath))
+                if (_visual && capa != null)
                 {
                     try
                     {
-                        var bmp = new System.Windows.Media.Imaging.BitmapImage();
-                        bmp.BeginInit();
-                        bmp.UriSource = new Uri(capaPath);
-                        bmp.DecodePixelWidth = 10;
-                        bmp.DecodePixelHeight = 10;
-                        bmp.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                        bmp.EndInit();
-                        var formatted = new System.Windows.Media.Imaging.FormatConvertedBitmap(bmp, System.Windows.Media.PixelFormats.Pbgra32, null, 0);
+                        var pequeno = new System.Windows.Media.Imaging.TransformedBitmap(capa,
+                            new System.Windows.Media.ScaleTransform(32.0 / capa.PixelWidth, 32.0 / capa.PixelHeight));
+                        var formatted = new System.Windows.Media.Imaging.FormatConvertedBitmap(pequeno, System.Windows.Media.PixelFormats.Bgra32, null, 0);
                         int bwidth = formatted.PixelWidth;
                         int bheight = formatted.PixelHeight;
                         int bytesPerPixel = 4;
                         byte[] pixels = new byte[bwidth * bheight * bytesPerPixel];
                         formatted.CopyPixels(pixels, bwidth * bytesPerPixel, 0);
-                        long pr = 0, pg = 0, pb = 0;
-                        for (int i = 0; i < pixels.Length; i += bytesPerPixel) { pb += pixels[i]; pg += pixels[i + 1]; pr += pixels[i + 2]; }
-                        int count = pixels.Length / bytesPerPixel;
-                        if (count > 0) dominColor = $"#{(byte)(pr/count):X2}{(byte)(pg/count):X2}{(byte)(pb/count):X2}";
+                        // Agrupa cores semelhantes para preservar a identidade da capa,
+                        // sem deixar fundos pretos/brancos dominarem a m?dia.
+                        var grupos = new Dictionary<int, (double Peso, double R, double G, double B)>();
+                        for (int i = 0; i < pixels.Length; i += bytesPerPixel)
+                        {
+                            if (pixels[i + 3] < 128) continue;
+                            int r = pixels[i + 2], g = pixels[i + 1], b = pixels[i];
+                            int max = Math.Max(r, Math.Max(g, b)), min = Math.Min(r, Math.Min(g, b));
+                            if (max < 32 || min > 225) continue;
+                            double peso = .25 + (max - min) / 255.0;
+                            int chave = ((r / 32) << 6) | ((g / 32) << 3) | (b / 32);
+                            grupos.TryGetValue(chave, out var grupo);
+                            grupos[chave] = (grupo.Peso + peso, grupo.R + r * peso, grupo.G + g * peso, grupo.B + b * peso);
+                        }
+                        if (grupos.Count > 0)
+                        {
+                            var dominante = grupos.Values.MaxBy(v => v.Peso);
+                            dominColor = $"#{(byte)(dominante.R/dominante.Peso):X2}{(byte)(dominante.G/dominante.Peso):X2}{(byte)(dominante.B/dominante.Peso):X2}";
+                        }
                     }
                     catch { }
                 }
-                CorPredominanteHex = dominColor;
+                if (_visual) CorPredominanteHex = dominColor;
+                AtualizarTimer();
             });
         }
         catch
         {
             await RunOnUiAsync(() =>
             {
+                if (revisao != System.Threading.Volatile.Read(ref _revisaoMidia) || _disposed) return;
                 Titulo = string.Empty;
                 Artista = string.Empty;
-                CapaAlbumUrl = string.Empty;
+                CapaAlbumUrl = null;
                 EstaTocando = false;
                 FonteNome = string.Empty;
                 CorPredominanteHex = "#000000";

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using DockWindows.Core.Models;
 using DockWindows.Core.Services;
 using DockWindows.Infrastructure.Persistence;
@@ -137,6 +137,7 @@ public class IntegrationTests : IDisposable
     }
 
     [Fact]
+    [Trait("Category", "SystemIntegration")]
     public void AutostartService_ConfigurarLeituraEGravacao_OperaEmHKCU()
     {
         var autostart = new AutostartService();

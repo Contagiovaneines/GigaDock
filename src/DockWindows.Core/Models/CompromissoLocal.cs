@@ -7,4 +7,5 @@ public class CompromissoLocal
     public DateTime DataHora { get; set; } = DateTime.Today.AddHours(14);
     public string? Descricao { get; set; }
     public string? Local { get; set; }
+    public bool DiaInteiro { get; set; }
 }

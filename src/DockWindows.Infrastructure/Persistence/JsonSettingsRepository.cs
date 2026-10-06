@@ -221,6 +221,8 @@ public class JsonSettingsRepository : ISettingsRepository
                 }
             }
 
+        }
+
             // Migração v4 -> v5
             if (prefs.SchemaVersion < 5)
             {
@@ -257,6 +259,5 @@ public class JsonSettingsRepository : ISettingsRepository
                 SalvarInterno(prefs, criarBackup: true);
             }
             catch { }
-        }
     }
 }

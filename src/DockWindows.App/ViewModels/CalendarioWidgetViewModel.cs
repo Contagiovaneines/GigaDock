@@ -9,8 +9,27 @@ using DockWindows.Core.Models;
 
 namespace DockWindows.App.ViewModels;
 
-public class CalendarioWidgetViewModel : ObservableObject
+public class CalendarioWidgetViewModel : ObservableObject, IAtividadeWidget
 {
+    public bool? EmExecucao => TimerAtivo || _ocupado;
+
+    public DockWindows.Core.Widgets.SaudeWidget Saude => string.IsNullOrEmpty(ErroSincronizacao) ? DockWindows.Core.Widgets.SaudeWidget.Disponivel : DockWindows.Core.Widgets.SaudeWidget.Erro;
+    public string? MotivoEstado => ErroSincronizacao;
+
+    private string _estilo = "proximo";
+    public string Estilo { get => _estilo; set { if (SetProperty(ref _estilo, value)) { AgendarVisual(); OnPropertyChanged(nameof(EhReuniao)); OnPropertyChanged(nameof(EhCentral)); } } }
+    public bool EhReuniao => Estilo is "reuniao" or "central-reuniao";
+    public bool EhCentral => Estilo == "central-reuniao";
+    public CompromissoLocal? ProximaReuniao => TodosCompromissos.FirstOrDefault(c => !c.DiaInteiro && c.DataHora >= DateTime.Now);
+    public string TituloReuniao => ProximaReuniao?.Titulo ?? "Nenhuma reunião futura";
+    public string HorarioReuniao => ProximaReuniao?.DataHora.ToString("dd/MM · HH:mm", PtBr) ?? "Configure seus compromissos nos Ajustes";
+    public string LocalReuniao => ProximaReuniao?.Local ?? "";
+    public string ContagemReuniao => ProximaReuniao == null ? "" : $"Começa em {Math.Max(0, (int)Math.Ceiling((ProximaReuniao.DataHora - DateTime.Now).TotalMinutes))} min";
+    public static string? LinkReuniao(CompromissoLocal? compromisso) => Uri.TryCreate(compromisso?.Local, UriKind.Absolute, out var uri) && uri.Scheme == "https" && string.IsNullOrEmpty(uri.UserInfo) ? uri.AbsoluteUri : null;
+    public bool TemLinkReuniao => LinkReuniao(ProximaReuniao) != null;
+    private string _erroReuniao = "";
+    public string ErroReuniao { get => _erroReuniao; private set => SetProperty(ref _erroReuniao, value); }
+    public ICommand EntrarReuniaoCommand { get; }
     private static readonly CultureInfo PtBr = new("pt-BR");
     private readonly DispatcherTimer _timer;
     private readonly Action? _onAbrirAjustes;
@@ -36,6 +55,13 @@ public class CalendarioWidgetViewModel : ObservableObject
     public CalendarioWidgetViewModel(Action? onAbrirAjustes = null)
     {
         _onAbrirAjustes = onAbrirAjustes;
+        EntrarReuniaoCommand = new RelayCommand(() =>
+        {
+            var link = LinkReuniao(ProximaReuniao);
+            if (link == null) { ErroReuniao = "Informe um link HTTPS no campo Local do compromisso."; return; }
+            var result = new DockWindows.Infrastructure.Windows.LauncherService().Executar(new ItemFixado { Tipo = TipoItem.WebUrl, CaminhoOuUrl = link, Titulo = TituloReuniao });
+            ErroReuniao = result.Sucesso ? "" : "Não foi possível abrir o link da reunião.";
+        });
         Compromissos = new ObservableCollection<CompromissoLocal>();
 
         AlternarPainelCommand = new RelayCommand(AlternarPainel);
@@ -50,8 +76,7 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             Interval = TimeSpan.FromMinutes(1)
         };
-        _timer.Tick += (s, e) => AtualizarDataECompromisso();
-        _timer.Start();
+        _timer.Tick += (_, _) => { AtualizarDataECompromisso(); _ = AtualizarDoIcalAsync(); AgendarVisual(); };
 
         AtualizarDataECompromisso();
     }
@@ -69,6 +94,8 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             if (SetProperty(ref _formato, value))
             {
+                OnPropertyChanged(nameof(EventosVisiveis));
+                OnPropertyChanged(nameof(TemEventosVisiveis));
                 OnPropertyChanged(nameof(EhExpandido));
                 OnPropertyChanged(nameof(TextoExibicao));
             }
@@ -103,92 +130,99 @@ public class CalendarioWidgetViewModel : ObservableObject
     }
 
     private string _urlIcal = string.Empty;
+    private string? _textoIcal;
+    private string _fusoImportacao = TimeZoneInfo.Local.Id;
+    private bool _visual, _ocupado, _disposed;
+    private DateTimeOffset _cacheAte;
+    private string _erroSincronizacao = "";
+    public string ErroSincronizacao { get => _erroSincronizacao; private set { if (SetProperty(ref _erroSincronizacao, value)) OnPropertyChanged(nameof(TextoDica)); } }
+    public DateTimeOffset? UltimaSincronizacao { get; private set; }
+    private System.Threading.CancellationTokenSource? _consulta;
+    public bool TimerAtivo => _timer.IsEnabled;
+    public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)
+    {
+        _visual = estado.Visual && !_disposed; _timer.Stop();
+        if (!_visual) { _consulta?.Cancel(); PainelAberto = false; return; }
+        AtualizarDataECompromisso(); _ = AtualizarDoIcalAsync(); AgendarVisual();
+    }
+    private void AgendarVisual()
+    {
+        _timer.Stop(); if (!_visual || _disposed) return;
+        var agora = DateTime.Now;
+        var limite = DateTime.Today.AddDays(1);
+        var evento = TodosCompromissos.FirstOrDefault(c => c.DataHora > agora)?.DataHora;
+        if (evento.HasValue && evento.Value < limite) limite = evento.Value;
+        if (Estilo is "reuniao" or "central-reuniao") limite = agora.AddSeconds(60 - agora.Second);
+        if (!string.IsNullOrWhiteSpace(_urlIcal)) { var proxima = _cacheAte > DateTimeOffset.UtcNow ? _cacheAte.LocalDateTime : agora.AddMinutes(15); if (limite > proxima) limite = proxima; }
+        _timer.Interval = TimeSpan.FromSeconds(Math.Max(1, (limite - agora).TotalSeconds)); _timer.Start();
+    }
+    public void Dispose() { _disposed = true; _visual = false; _timer.Stop(); _consulta?.Cancel(); }
+
 
     public void SincronizarUrlIcal(string url)
     {
-        _urlIcal = url ?? string.Empty;
-        _ = AtualizarDoIcalAsync();
+        var novo = url ?? string.Empty;
+        if (_urlIcal == novo) return;
+        _urlIcal = novo; _cacheAte = default; _consulta?.Cancel(); _eventosIcal.Clear(); _textoIcal = null;
+        if (_visual) _ = AtualizarDoIcalAsync();
     }
 
     private async System.Threading.Tasks.Task AtualizarDoIcalAsync()
     {
-        _eventosIcal.Clear();
-
-        if (!string.IsNullOrWhiteSpace(_urlIcal))
+        if (!_visual || _disposed || _ocupado || _cacheAte > DateTimeOffset.UtcNow) return;
+        _ocupado = true;
+        var url = _urlIcal;
+        using var consulta = new System.Threading.CancellationTokenSource();
+        _consulta = consulta;
+        var eventos = new List<CompromissoLocal>();
+        try
+        {
+        if (!string.IsNullOrWhiteSpace(url))
         {
             try
             {
                 string icalData = string.Empty;
-                if (_urlIcal.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                if (url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 {
                     using var client = new System.Net.Http.HttpClient();
+                    if (!DockWindows.Core.Validation.ItemValidator.ValidarUrl(url).Valido) throw new FormatException("Link inválido.");
+                    client.MaxResponseContentBufferSize = 2 * 1024 * 1024;
                     client.Timeout = TimeSpan.FromSeconds(15);
-                    icalData = await client.GetStringAsync(_urlIcal);
+                    icalData = await client.GetStringAsync(url, consulta.Token);
                 }
-                else if (System.IO.File.Exists(_urlIcal))
+                else if (System.IO.File.Exists(url))
                 {
-                    icalData = await System.IO.File.ReadAllTextAsync(_urlIcal);
+                    if (new System.IO.FileInfo(url).Length > 2 * 1024 * 1024) throw new FormatException("Arquivo excede 2 MB.");
+                    icalData = await System.IO.File.ReadAllTextAsync(url, consulta.Token);
                 }
 
-                if (string.IsNullOrWhiteSpace(icalData)) return;
+                if (string.IsNullOrWhiteSpace(icalData)) throw new FormatException("Calendário vazio ou caminho indisponível.");
 
-                var linhas = icalData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                bool inEvent = false;
-                string titulo = "Evento Importado";
-                DateTime? dataHora = null;
+                eventos.AddRange(await Task.Run(() => DockWindows.Core.Widgets.ImportadorCalendario.Importar(
+                    icalData, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(30), cancelamento: consulta.Token), consulta.Token));
+                if (!consulta.IsCancellationRequested && _visual && !_disposed && url == _urlIcal) { _textoIcal = icalData; _fusoImportacao = TimeZoneInfo.Local.Id; }
 
-                foreach (var linha in linhas)
-                {
-                    if (linha.StartsWith("BEGIN:VEVENT"))
-                    {
-                        inEvent = true;
-                        titulo = "Evento Importado";
-                        dataHora = null;
-                    }
-                    else if (linha.StartsWith("END:VEVENT"))
-                    {
-                        inEvent = false;
-                        if (dataHora.HasValue && dataHora.Value > DateTime.Now.AddDays(-1) && dataHora.Value < DateTime.Now.AddDays(30))
-                        {
-                            _eventosIcal.Add(new CompromissoLocal
-                            {
-                                Titulo = titulo,
-                                DataHora = dataHora.Value
-                            });
-                        }
-                    }
-                    else if (inEvent)
-                    {
-                        if (linha.StartsWith("SUMMARY:"))
-                        {
-                            titulo = linha.Substring(8).Trim();
-                        }
-                        else if (linha.StartsWith("DTSTART;") || linha.StartsWith("DTSTART:"))
-                        {
-                            var parts = linha.Split(':');
-                            if (parts.Length == 2)
-                            {
-                                var val = parts[1].Replace("Z", "");
-                                if (DateTime.TryParseExact(val, "yyyyMMdd'T'HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
-                                {
-                                    // Se for UTC, ajustar para local
-                                    if (linha.Contains("Z")) dt = dt.ToLocalTime();
-                                    dataHora = dt;
-                                }
-                                else if (DateTime.TryParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dtDia))
-                                {
-                                    dataHora = dtDia;
-                                }
-                            }
-                        }
-                    }
-                }
             }
-            catch { }
+            catch (OperationCanceledException) { return; }
+            catch { ErroSincronizacao = "Não foi possível importar o calendário. Dados anteriores preservados; confira o arquivo, link e fusos."; _cacheAte = DateTimeOffset.UtcNow.AddSeconds(30); AgendarVisual(); return; }
         }
-
-        System.Windows.Application.Current?.Dispatcher?.InvokeAsync(AtualizarDataECompromisso);
+        if (consulta.IsCancellationRequested || !_visual || _disposed || url != _urlIcal) return;
+        _eventosIcal.Clear(); _eventosIcal.AddRange(eventos);
+        _cacheAte = DateTimeOffset.UtcNow.AddMinutes(15); ErroSincronizacao = ""; UltimaSincronizacao = DateTimeOffset.UtcNow;
+        AtualizarDataECompromisso(); AgendarVisual();
+        }
+        finally
+        {
+            _ocupado = false;
+            if (ReferenceEquals(_consulta, consulta)) _consulta = null;
+            if (_visual && !_disposed && (consulta.IsCancellationRequested || url != _urlIcal)) _ = AtualizarDoIcalAsync();
+        }
     }
+
+    public System.Collections.Generic.IEnumerable<CompromissoLocal> EventosVisiveis => EhExpandido
+        ? TodosCompromissos.Where(c => c.DataHora.Date == DateTime.Today).Take(2)
+        : TodosCompromissos.Where(c => c.DataHora >= DateTime.Now).Take(1);
+    public bool TemEventosVisiveis => EventosVisiveis.Any();
 
     public bool TemCompromissos => ProximoCompromisso != null;
 
@@ -198,7 +232,7 @@ public class CalendarioWidgetViewModel : ObservableObject
     public string DiaDoMes => DateTime.Now.Day.ToString();
 
     public string TituloEventoCurto => ProximoCompromisso != null ? ProximoCompromisso.Titulo : "Compromissos";
-    public string HoraEventoCurto => ProximoCompromisso != null ? ProximoCompromisso.DataHora.ToString("HH:mm") : DataCurta;
+    public string HoraEventoCurto => ProximoCompromisso != null ? (ProximoCompromisso.DiaInteiro ? "Dia inteiro" : ProximoCompromisso.DataHora.ToString("HH:mm")) : DataCurta;
 
     public string TextoCompacto
     {
@@ -206,7 +240,7 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             if (ProximoCompromisso != null)
             {
-                var hora = ProximoCompromisso.DataHora.ToString("HH:mm");
+                var hora = (ProximoCompromisso.DiaInteiro ? "Dia inteiro" : ProximoCompromisso.DataHora.ToString("HH:mm"));
                 return $"{hora} {ProximoCompromisso.Titulo}";
             }
             return DataCurta;
@@ -220,7 +254,7 @@ public class CalendarioWidgetViewModel : ObservableObject
             var hoje = DateTime.Now.ToString("ddd, dd MMM", PtBr);
             if (ProximoCompromisso != null)
             {
-                var hora = ProximoCompromisso.DataHora.ToString("HH:mm");
+                var hora = (ProximoCompromisso.DiaInteiro ? "Dia inteiro" : ProximoCompromisso.DataHora.ToString("HH:mm"));
                 return $"{hoje} • {hora} {ProximoCompromisso.Titulo}";
             }
             return $"{hoje} • Sem eventos pendentes";
@@ -252,12 +286,24 @@ public class CalendarioWidgetViewModel : ObservableObject
         {
             Compromissos.Add(c);
         }
-        AtualizarDataECompromisso();
+        if (_visual) { AtualizarDataECompromisso(); AgendarVisual(); }
     }
 
     public void AtualizarDataECompromisso()
     {
+        if (_textoIcal != null && _fusoImportacao != TimeZoneInfo.Local.Id)
+        {
+            try
+            {
+                var eventos = DockWindows.Core.Widgets.ImportadorCalendario.Importar(_textoIcal, DateTime.Today.AddDays(-1), DateTime.Today.AddDays(30));
+                _eventosIcal.Clear(); _eventosIcal.AddRange(eventos); _fusoImportacao = TimeZoneInfo.Local.Id;
+            }
+            catch { ErroSincronizacao = "Não foi possível converter o calendário para o novo fuso."; }
+        }
+        foreach (var p in new[] { nameof(ProximaReuniao), nameof(TituloReuniao), nameof(HorarioReuniao), nameof(LocalReuniao), nameof(ContagemReuniao), nameof(TemLinkReuniao) }) OnPropertyChanged(p);
         OnPropertyChanged(nameof(ProximoCompromisso));
+        OnPropertyChanged(nameof(EventosVisiveis));
+        OnPropertyChanged(nameof(TemEventosVisiveis));
         OnPropertyChanged(nameof(TemCompromissos));
         OnPropertyChanged(nameof(DataCurta));
         OnPropertyChanged(nameof(DataCompleta));

@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 using DockWindows.App.ViewModels;
 using DockWindows.Core.Models;
 
@@ -12,8 +14,107 @@ public partial class SectionApps : UserControl
     public SectionApps()
     {
         InitializeComponent();
+        _hover = new(() => _main?.ModoAberturaPaineis == "Mouse", anchor =>
+        {
+            return AbrirVisualizacao(anchor) ? _visualizacao : null;
+        });
+        Loaded += Section_Loaded;
     }
 
+    private readonly DockWindows.App.Views.HoverFlyout _hover;
+    private void App_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (sender is FrameworkElement anchor) _hover.Entrar(anchor);
+        AtualizarMagnificacao(sender as Button);
+    }
+    private void App_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        _hover.Sair();
+        AtualizarMagnificacao(null);
+    }
+    private void App_GotKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e) => AtualizarMagnificacao(sender as Button);
+    private void App_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e) => AtualizarMagnificacao(null);
+
+    private static Button? EncontrarBotao(DependencyObject? root)
+    {
+        if (root is Button button) return button;
+        if (root == null) return null;
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+            if (EncontrarBotao(VisualTreeHelper.GetChild(root, i)) is { } child) return child;
+        return null;
+    }
+    private void AtualizarMagnificacao(Button? alvo, bool imediato = false)
+    {
+        var buttons = new List<Button>();
+        for (int i = 0; i < AppsItems.Items.Count; i++)
+            if (EncontrarBotao(AppsItems.ItemContainerGenerator.ContainerFromIndex(i)) is { } button) buttons.Add(button);
+        int selected = alvo == null ? -1 : buttons.IndexOf(alvo);
+        bool animar = !imediato && _main?.DesativarAnimacoes != true && SystemParameters.ClientAreaAnimation;
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            var button = buttons[i];
+            if (button.Template?.FindName("AppScale", button) is not ScaleTransform scale) continue;
+            double destino = animar && selected >= 0 ? (i == selected ? 1.30 : Math.Abs(i - selected) == 1 ? 1.08 : 1) : 1;
+            if (button.Parent is UIElement container) Panel.SetZIndex(container, i == selected ? 2 : 0);
+            foreach (var property in new[] { ScaleTransform.ScaleXProperty, ScaleTransform.ScaleYProperty })
+            {
+                if (!animar) { scale.BeginAnimation(property, null); scale.SetValue(property, 1.0); }
+                else if (scale.HasAnimatedProperties || Math.Abs((double)scale.GetValue(property) - destino) > .001)
+                    scale.BeginAnimation(property, new DoubleAnimation(destino, TimeSpan.FromMilliseconds(180))
+                { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } }, HandoffBehavior.SnapshotAndReplace);
+            }
+        }
+    }
+    private Window? _visualizacao;
+    private MainViewModel? _main;
+    private void Section_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (_main != null) _main.PropertyChanged -= Main_PropertyChanged;
+        _main = DataContext as MainViewModel;
+        if (_main != null) _main.PropertyChanged += Main_PropertyChanged;
+        Unloaded -= Section_Unloaded;
+        Unloaded += Section_Unloaded;
+    }
+    private void Main_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(MainViewModel.DesativarAnimacoes) or nameof(MainViewModel.AmbienteAtivo) or nameof(MainViewModel.VisualAtivo))
+            AtualizarMagnificacao(null, imediato: true);
+        if (e.PropertyName is nameof(MainViewModel.AmbienteAtivo) or nameof(MainViewModel.PreviaJanelas) or nameof(MainViewModel.PreviaPastas) or nameof(MainViewModel.ModoAberturaPaineis) or nameof(MainViewModel.VisualAtivo))
+        { _hover.Parar(); _visualizacao?.Close(); }
+    }
+    private void App_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (_main?.ModoAberturaPaineis != "Mouse" && AbrirVisualizacao(sender)) e.Handled = true;
+    }
+    private void App_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if ((e.Key == System.Windows.Input.Key.Enter || e.Key == System.Windows.Input.Key.Space) && AbrirVisualizacao(sender))
+            e.Handled = true;
+    }
+    private bool AbrirVisualizacao(object sender)
+    {
+        if (DataContext is not MainViewModel main || sender is not FrameworkElement { DataContext: AppItemViewModel app } anchor) return false;
+        DockWindows.App.Views.DockFlyoutWindow? visual = null;
+        if (main.PreviaPastas && app.Tipo == TipoItem.Pasta)
+            visual = new DockWindows.App.Views.PastaPreviewWindow(app.CaminhoExecutavel);
+        else if (main.PreviaJanelas && app.Janelas.Count > 0)
+            visual = new DockWindows.App.Views.JanelasPreviewWindow(app);
+        if (visual == null) return false;
+        _visualizacao?.Close();
+        _visualizacao = visual;
+        Unloaded -= Section_Unloaded;
+        Unloaded += Section_Unloaded;
+        visual.MostrarPerto(anchor);
+        return true;
+    }
+    private void Section_Unloaded(object sender, RoutedEventArgs e)
+    {
+        AtualizarMagnificacao(null, imediato: true);
+        _hover.Parar();
+        _visualizacao?.Close();
+        if (_main != null) _main.PropertyChanged -= Main_PropertyChanged;
+        _main = null;
+    }
     private void Apps_DragOver(object sender, DragEventArgs e)
     {
         if (e.Data.GetDataPresent(DataFormats.FileDrop))

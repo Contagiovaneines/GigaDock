@@ -104,7 +104,7 @@
 
         <!-- ITENS FIXADOS DO AMBIENTE ATIVO -->
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
-                      Visibility="{Binding ExibirItensFixados, Converter={StaticResource BoolToVis}}">
+                      Visibility="Collapsed">
             <ItemsControl ItemsSource="{Binding AmbienteAtivo.Itens}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

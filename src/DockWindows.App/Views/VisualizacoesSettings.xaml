@@ -1,0 +1,114 @@
+<UserControl x:Class="DockWindows.App.Views.VisualizacoesSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:DockWindows.App.Controls"
+             xmlns:views="clr-namespace:DockWindows.App.Views">
+    <UserControl.Resources>
+        <Style x:Key="VisualCard" TargetType="Border">
+            <Setter Property="Background" Value="#202631"/><Setter Property="BorderBrush" Value="#394559"/>
+            <Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Padding" Value="16"/><Setter Property="Margin" Value="6"/>
+        </Style>
+        <Style x:Key="VisualToggle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#E1E8F3"/><Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/><Setter Property="Padding" Value="4"/>
+            <Setter Property="Template"><Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <StackPanel Orientation="Horizontal">
+                        <Border x:Name="Track" Width="42" Height="23" CornerRadius="12" Background="#3B4657">
+                            <Ellipse x:Name="Thumb" Width="17" Height="17" Fill="#D3DCE9" Margin="3" HorizontalAlignment="Left"/>
+                        </Border>
+                        <ContentPresenter VerticalAlignment="Center" Margin="9,0,0,0"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Track" Property="Background" Value="#377EE2"/>
+                            <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="Track" Property="BorderBrush" Value="#B5D8FF"/>
+                            <Setter TargetName="Track" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value></Setter>
+        </Style>
+        <Style TargetType="ScrollBar">
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Template"><Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="#18202B" CornerRadius="4">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True" Orientation="Vertical"
+                               Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
+                               ViewportSize="{TemplateBinding ViewportSize}"
+                               Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                            <Track.DecreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Opacity="0"/></Track.DecreaseRepeatButton>
+                            <Track.Thumb><Thumb><Thumb.Template><ControlTemplate TargetType="Thumb"><Border Background="#5F718B" CornerRadius="4" Margin="1"/></ControlTemplate></Thumb.Template></Thumb></Track.Thumb>
+                            <Track.IncreaseRepeatButton><RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Opacity="0"/></Track.IncreaseRepeatButton>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value></Setter>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="18">
+            <TextBlock Text="Visualizações" FontSize="25" FontWeight="SemiBold" Foreground="White"/>
+            <TextBlock Text="Escolha como ver janelas, clima, relógio e pastas na dock." Foreground="#9EAFC5" FontSize="13" Margin="0,6,0,3"/>
+            <TextBlock Text="As referências abaixo usam dados ilustrativos. Suas escolhas são salvas automaticamente." TextWrapping="Wrap" Foreground="#8D9AAE" FontSize="11" Margin="0,0,0,14"/>
+            <UniformGrid Columns="2">
+                <Border Style="{StaticResource VisualCard}">
+                    <StackPanel>
+                        <TextBlock Text="Prévias de janelas" Foreground="White" FontSize="17" FontWeight="SemiBold"/>
+                        <TextBlock Text="Referência" Foreground="#7EA8E5" FontSize="10" Margin="0,5"/>
+                        <controls:ReferenciaVisualControl Tipo="Janelas" Height="170" Margin="0,4,0,12"/>
+                        <TextBlock Text="Clique em um app aberto para escolher uma janela pelo painel de miniaturas." TextWrapping="Wrap" Foreground="#AEBACB" FontSize="12" Height="48"/>
+                        <TextBlock Text="Abrir pain?is de clima, janelas e pastas ? ambiente ativo" Foreground="White" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                        <ComboBox SelectedValue="{Binding ModoAberturaPaineis, Mode=TwoWay}" SelectedValuePath="Tag" Margin="0,0,0,10" AutomationProperties.Name="Como abrir os pain?is">
+                            <ComboBoxItem Content="Ao clicar" Tag="Clique"/>
+                            <ComboBoxItem Content="Ao passar o mouse" Tag="Mouse"/>
+                        </ComboBox>
+                        <CheckBox Style="{StaticResource VisualToggle}" IsChecked="{Binding PreviaJanelas, Mode=TwoWay}" Content="Usar prévias de janelas"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource VisualCard}">
+                    <StackPanel>
+                        <TextBlock Text="Clima com detalhes" Foreground="White" FontSize="17" FontWeight="SemiBold"/>
+                        <TextBlock Text="Referência" Foreground="#7EA8E5" FontSize="10" Margin="0,5"/>
+                        <Viewbox Height="170" Stretch="Uniform" Margin="0,4,0,12">
+                            <views:ClimaDetalhesControl x:Name="ClimaReferencia"/>
+                        </Viewbox>
+                        <TextBlock Text="Ícone compacto na dock. Clique para ver sensação, próximas horas e previsão dos dias disponíveis." TextWrapping="Wrap" Foreground="#AEBACB" FontSize="12" Height="48"/>
+                        <CheckBox Style="{StaticResource VisualToggle}" IsChecked="{Binding ClimaExpandido, Mode=TwoWay}" Content="Usar clima com detalhes"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource VisualCard}">
+                    <StackPanel>
+                        <TextBlock Text="Relógio analógico + digital" Foreground="White" FontSize="17" FontWeight="SemiBold"/>
+                        <TextBlock Text="Referência" Foreground="#7EA8E5" FontSize="10" Margin="0,5"/>
+                        <Grid Height="170" Margin="0,4,0,12">
+                            <Border CornerRadius="20" Background="#293C88" BorderBrush="#6684BE" BorderThickness="1" Padding="15" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <controls:RelogioAnalogicoControl Width="63" Height="63" Margin="0,0,12,0"/>
+                                    <StackPanel VerticalAlignment="Center"><TextBlock Text="10:16" FontSize="29" FontWeight="SemiBold" Foreground="White"/><TextBlock Text="Seg, 22 Jun" FontSize="12" Foreground="#B5C8E5"/></StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        <TextBlock Text="Ponteiros acompanhando a hora local, com hora e data ao lado. Clique continua abrindo o calendário." TextWrapping="Wrap" Foreground="#AEBACB" FontSize="12" Height="48"/>
+                        <CheckBox Style="{StaticResource VisualToggle}" IsChecked="{Binding RelogioAnalogico, Mode=TwoWay}" Content="Usar relógio analógico"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource VisualCard}">
+                    <StackPanel>
+                        <TextBlock Text="Pastas com prévia de arquivos" Foreground="White" FontSize="17" FontWeight="SemiBold"/>
+                        <TextBlock Text="Referência" Foreground="#7EA8E5" FontSize="10" Margin="0,5"/>
+                        <controls:ReferenciaVisualControl Tipo="Pastas" Height="170" Margin="0,4,0,12"/>
+                        <TextBlock Text="Clique em uma pasta fixada. Selecione imagens ou textos para visualizar e use Abrir item quando desejar." TextWrapping="Wrap" Foreground="#AEBACB" FontSize="12" Height="48"/>
+                        <CheckBox Style="{StaticResource VisualToggle}" IsChecked="{Binding PreviaPastas, Mode=TwoWay}" Content="Usar prévias de pastas"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+            <TextBlock Text="Clima e relógio precisam estar visíveis no ambiente. Para pastas, fixe uma pasta na dock." TextWrapping="Wrap" Foreground="#8D9AAE" FontSize="12" Margin="6,14"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

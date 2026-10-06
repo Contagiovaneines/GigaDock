@@ -1,0 +1,92 @@
+{
+  "widget_tipos": 14,
+  "viewmodels_registrados": 13,
+  "timers_alocados_widgets_e_teams": 11,
+  "nota": "Contagem estática de donos; não é benchmark de consumo.",
+  "widgets": [
+    {
+      "tipo": "Relogio",
+      "timers_alocados": 1,
+      "frequencia": "segundo/minuto/dia; conclusão absoluta",
+      "origem": "temporal local"
+    },
+    {
+      "tipo": "Pomodoro",
+      "timers_alocados": 1,
+      "frequencia": "visual 1 s; despertar oculto",
+      "origem": "temporal local"
+    },
+    {
+      "tipo": "Calendario",
+      "timers_alocados": 1,
+      "frequencia": "fronteiras; cache 15 min",
+      "origem": "ICS/local"
+    },
+    {
+      "tipo": "Notas",
+      "timers_alocados": 1,
+      "frequencia": "debounce 2 s somente pendente",
+      "origem": "arquivo local"
+    },
+    {
+      "tipo": "MonitorSistema",
+      "timers_alocados": 1,
+      "frequencia": "2 s visível",
+      "origem": "Windows local"
+    },
+    {
+      "tipo": "Bateria",
+      "timers_alocados": 1,
+      "frequencia": "30 s visível",
+      "origem": "Windows local"
+    },
+    {
+      "tipo": "Midia",
+      "timers_alocados": 1,
+      "frequencia": "1 s reproduzindo e visível",
+      "origem": "eventos Windows"
+    },
+    {
+      "tipo": "Clima",
+      "timers_alocados": 1,
+      "frequencia": "cache 1 h; erro 30 s visível",
+      "origem": "wttr.in"
+    },
+    {
+      "tipo": "GitHub",
+      "timers_alocados": 2,
+      "frequencia": "cache 30 min; animação 150 ms",
+      "origem": "HTML público"
+    },
+    {
+      "tipo": "Teams",
+      "timers_alocados": 1,
+      "frequencia": "5 s visível",
+      "origem": "heurística"
+    },
+    {
+      "tipo": "WhatsApp",
+      "timers_alocados": 0,
+      "frequencia": "eventos compartilhados",
+      "origem": "notificações acessíveis"
+    },
+    {
+      "tipo": "Discord",
+      "timers_alocados": 0,
+      "frequencia": "nenhum",
+      "origem": "indisponível"
+    },
+    {
+      "tipo": "OBS",
+      "timers_alocados": 0,
+      "frequencia": "nenhum",
+      "origem": "indisponível"
+    },
+    {
+      "tipo": "CotacaoMoedas",
+      "timers_alocados": 0,
+      "frequencia": "nenhum",
+      "origem": "somente enum"
+    }
+  ]
+}

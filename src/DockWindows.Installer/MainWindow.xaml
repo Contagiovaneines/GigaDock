@@ -1,7 +1,9 @@
-﻿<Window x:Class="DockWindows.Installer.MainWindow"
+<Window x:Class="DockWindows.Installer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="GigaDock Setup" Height="420" Width="680"
+        Icon="Assets/gigadock.ico"
+        Title="GigaDock — Instalação" Height="580" Width="820" MinHeight="540" MinWidth="720"
+        ResizeMode="CanResizeWithGrip" UseLayoutRounding="True" SnapsToDevicePixels="True"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         FontFamily="Segoe UI">
@@ -16,7 +18,8 @@
             <Setter Property="FontSize" Value="12"/>
         </Style>
         <Style TargetType="Button">
-            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Padding" Value="20,11"/>
+            <Setter Property="MinHeight" Value="40"/>
             <Setter Property="BorderThickness" Value="0"/>
             
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -25,13 +28,15 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="6">
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True"><Setter Property="BorderThickness" Value="2"/><Setter Property="BorderBrush" Value="#B3DEFF"/></Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Opacity" Value="0.85"/>
                 </Trigger>
@@ -40,10 +45,10 @@
     </Window.Resources>
 
     <!-- CONTAINER PRINCIPAL -->
-    <Border CornerRadius="12" Background="#161B22" BorderBrush="#30363D" BorderThickness="1" ClipToBounds="True">
+    <Border CornerRadius="20" Background="#111B29" BorderBrush="#35465C" BorderThickness="1" ClipToBounds="True">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -51,7 +56,8 @@
             <Border Grid.ColumnSpan="2" Height="32" VerticalAlignment="Top" Background="Transparent" MouseLeftButtonDown="DragWindow" Panel.ZIndex="10"/>
 
             <!-- COLUNA ESQUERDA: APRESENTAÇÃO E FEATURES -->
-            <Border Grid.Column="0" Background="#0D1117" BorderBrush="#30363D" BorderThickness="0,0,1,0" Padding="20">
+            <Border Grid.Column="0" BorderBrush="#35465C" BorderThickness="0,0,1,0" Padding="28">
+                <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#22394D" Offset="0"/><GradientStop Color="#111B2E" Offset="0.65"/><GradientStop Color="#302641" Offset="1"/></LinearGradientBrush></Border.Background>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -62,11 +68,10 @@
                     <!-- Logo e Título -->
                     <StackPanel Grid.Row="0" Margin="0,10,0,0">
                         <Border Width="56" Height="56" CornerRadius="16" Background="#0A84FF" HorizontalAlignment="Left" Margin="0,0,0,16">
-                            <!-- Ícone de Sorriso Apple/Finder mockado simples -->
-                            <TextBlock Text="🤩" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="Assets/gigadock.ico" Width="44" Height="44" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <TextBlock Text="GigaDock 2.0" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Text="A barra de tarefas definitiva." FontSize="11" Foreground="#8B949E" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                        <TextBlock Text="GigaDock" FontFamily="Segoe UI Semibold" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Seu desktop, do seu jeito." FontSize="11" Foreground="#A9BACF" Margin="0,2,0,0" TextWrapping="Wrap"/>
                     </StackPanel>
 
                     <!-- Lista de Features (O que foi feito) -->
@@ -74,7 +79,7 @@
                         
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                             <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE81E;" Foreground="#34C759" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                            <TextBlock Text="Ambientes Ilimitados" FontSize="12" VerticalAlignment="Center"/>
+                            <TextBlock Text="Ambientes independentes" FontSize="12" VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
@@ -95,7 +100,7 @@
                     </StackPanel>
 
                     <!-- Rodapé Esquerdo -->
-                    <TextBlock Grid.Row="2" Text="Open Source • Zero Telemetria" FontSize="10" Foreground="#8B949E" HorizontalAlignment="Center"/>
+                    <TextBlock Grid.Row="2" Text="Open Source • Zero Telemetria" FontSize="10" Foreground="#A9BACF" HorizontalAlignment="Center"/>
                 </Grid>
             </Border>
 
@@ -110,7 +115,7 @@
                 <!-- CABEÇALHO DIREITO -->
                 <StackPanel Grid.Row="0" Margin="0,0,0,20">
                     <TextBlock x:Name="TxtTituloCabecalho" Text="Instalação do Aplicativo" FontSize="22" FontWeight="SemiBold" Foreground="#FFFFFF"/>
-                    <TextBlock x:Name="TxtSubtituloCabecalho" Text="Bem-vindo ao setup do GigaDock (x64)." FontSize="13" Foreground="#8B949E" Margin="0,4,0,0"/>
+                    <TextBlock x:Name="TxtSubtituloCabecalho" Text="Bem-vindo ao setup do GigaDock (x64)." FontSize="13" Foreground="#A9BACF" Margin="0,4,0,0"/>
                 </StackPanel>
 
                 <!-- PAINÉIS DE CONTEÚDO (WIZARD) -->
@@ -121,34 +126,34 @@
                                    TextWrapping="Wrap" FontSize="12" Foreground="#C9D1D9" Margin="0,0,0,16"/>
 
                         <!-- Pasta de Instalação -->
-                        <TextBlock Text="Diretório de instalação" FontSize="11" FontWeight="Bold" Foreground="#8B949E" Margin="0,0,0,6"/>
+                        <TextBlock Text="Diretório de instalação" FontSize="11" FontWeight="Bold" Foreground="#A9BACF" Margin="0,0,0,6"/>
                         <Border Background="#0D1117" BorderBrush="#30363D" BorderThickness="1" CornerRadius="6" Padding="12,8" Margin="0,0,0,16">
-                            <TextBlock x:Name="TxtCaminhoDestino" Text="C:\Users\...\AppData\Local\GigaDock" FontSize="12" Foreground="#58A6FF" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock x:Name="TxtCaminhoDestino" Text="Pasta de instalação" FontSize="12" Foreground="#58A6FF" TextTrimming="CharacterEllipsis"/>
                         </Border>
 
                         <!-- Opções -->
-                        <TextBlock Text="Opções de atalho" FontSize="11" FontWeight="Bold" Foreground="#8B949E" Margin="0,0,0,6"/>
+                        <TextBlock Text="Opções de atalho" FontSize="11" FontWeight="Bold" Foreground="#A9BACF" Margin="0,0,0,6"/>
                         <CheckBox x:Name="ChkAtalhoIniciar" Content="Criar atalho no Menu Iniciar" IsChecked="True"/>
                         <CheckBox x:Name="ChkAtalhoDesktop" Content="Criar atalho na Área de Trabalho" IsChecked="True"/>
-                        <CheckBox x:Name="ChkIniciarComWindows" Content="Iniciar GigaDock com o Windows" IsChecked="True" Margin="0,4,0,16"/>
+                        <CheckBox x:Name="ChkIniciarComWindows" Content="Iniciar GigaDock com o Windows" IsChecked="False" Margin="0,8,0,16"/>
 
                     </StackPanel>
 
                     <!-- 2. MODO INSTALAÇÃO / DESINSTALAÇÃO: ETAPA PROGRESSO -->
                     <StackPanel x:Name="PanelProgresso" Visibility="Collapsed" VerticalAlignment="Center">
                         <TextBlock x:Name="TxtStatusProgresso" Text="Configurando ambiente..." FontSize="16" FontWeight="SemiBold" Margin="0,0,0,16" HorizontalAlignment="Center"/>
-                        <ProgressBar x:Name="BarraProgresso" IsIndeterminate="True" Height="6" Margin="40,0,40,16" Foreground="#0A84FF" Background="#21262D" BorderThickness="0"/>
-                        <TextBlock x:Name="TxtDetalheProgresso" Text="Copiando arquivos..." FontSize="12" Foreground="#8B949E" HorizontalAlignment="Center"/>
+                        <ProgressBar x:Name="BarraProgresso" IsIndeterminate="True" Height="6" Margin="40,0,40,16" Foreground="#0A84FF" Background="#223247" BorderThickness="0"/>
+                        <TextBlock x:Name="TxtDetalheProgresso" Text="Copiando arquivos..." FontSize="12" Foreground="#A9BACF" HorizontalAlignment="Center"/>
                     </StackPanel>
 
                     <!-- 3. MODO INSTALAÇÃO: ETAPA CONCLUÍDO -->
                     <StackPanel x:Name="PanelConcluido" Visibility="Collapsed" VerticalAlignment="Center">
-                        <Border Width="64" Height="64" CornerRadius="32" Background="#238636" HorizontalAlignment="Center" Margin="0,0,0,16">
+                        <Border Width="64" Height="64" CornerRadius="32" Background="#2772DA" HorizontalAlignment="Center" Margin="0,0,0,16">
                             <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE73E;" FontSize="28" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <TextBlock x:Name="TxtTituloConcluido" Text="Tudo Pronto!" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8"/>
-                        <TextBlock x:Name="TxtSubtituloConcluido" Text="GigaDock 2.0 foi instalado com sucesso e já está configurado na sua máquina."
-                                   FontSize="13" Foreground="#8B949E" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,24"/>
+                        <TextBlock x:Name="TxtSubtituloConcluido" Text="Instalação concluída. Seu próximo ambiente começa aqui."
+                                   FontSize="13" Foreground="#A9BACF" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,24"/>
 
                         <CheckBox x:Name="ChkExecutarAgora" Content="Lançar o GigaDock agora" IsChecked="True" HorizontalAlignment="Center" FontSize="14"/>
                     </StackPanel>
@@ -156,13 +161,13 @@
                     <!-- 4. MODO DESINSTALAÇÃO: CONFIRMAÇÃO -->
                     <StackPanel x:Name="PanelDesinstalacao" Visibility="Collapsed">
                         <TextBlock Text="Desinstalação do GigaDock" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8" Foreground="#FF7B72"/>
-                        <TextBlock Text="Isso removerá o aplicativo e restaurará as configurações originais do Windows."
+                        <TextBlock Text="O aplicativo será removido. Suas configurações locais serão mantidas, a menos que você escolha excluí-las."
                                    TextWrapping="Wrap" FontSize="12" Foreground="#C9D1D9" Margin="0,0,0,20"/>
 
                         <Border Background="#3b1d1e" BorderBrush="#F85149" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,16">
                             <StackPanel>
-                                <TextBlock Text="Restauração Garantida" FontWeight="Bold" FontSize="12" Foreground="#FF7B72"/>
-                                <TextBlock Text="A barra de tarefas nativa será religada imediatamente se estiver oculta."
+                                <TextBlock Text="Restauração da barra nativa" FontWeight="Bold" FontSize="12" Foreground="#FF7B72"/>
+                                <TextBlock Text="O desinstalador tenta restaurar a barra nativa caso o modo de barra principal tenha sido usado."
                                            FontSize="11" Foreground="#FFC1C0" TextWrapping="Wrap" Margin="0,4,0,0"/>
                             </StackPanel>
                         </Border>
@@ -176,13 +181,13 @@
                 <!-- RODAPÉ COM BOTÕES -->
                 <Grid Grid.Row="2" Margin="0,16,0,0">
                     <!-- Botão Invisível para Fechar na Esquerda (útil em setups window-none) -->
-                    <Button Content="Sair" Click="BtnSair_Click" Background="Transparent" Foreground="#8B949E" HorizontalAlignment="Left"/>
+                    <Button Content="Sair" Click="BtnSair_Click" Background="Transparent" Foreground="#A9BACF" HorizontalAlignment="Left"/>
                     
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="BtnCancelar" Content="Cancelar" Click="BtnCancelar_Click"
-                                Background="#21262D" Foreground="#C9D1D9" Margin="0,0,10,0"/>
+                                Background="#223247" Foreground="#C9D1D9" Margin="0,0,10,0"/>
                         <Button x:Name="BtnAcaoPrincipal" Content="Instalar" Click="BtnAcaoPrincipal_Click"
-                                Background="#238636" Foreground="#FFFFFF"/>
+                                Background="#2772DA" Foreground="#FFFFFF"/>
                     </StackPanel>
                 </Grid>
             </Grid>

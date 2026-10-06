@@ -1,67 +1,8 @@
-﻿<UserControl x:Class="DockWindows.App.Views.Sections.SectionMonitorInline"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Margin="{Binding DataContext.MargemItem, RelativeSource={RelativeSource AncestorType=Window}}">
-    <Grid>
-        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" ToolTip="Monitor de Atividade (CPU/RAM)">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>
-            </Border.Effect>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                
-                <!-- Ícone da Esquerda (Compacto) -->
-                <Border Width="38" Height="38" CornerRadius="8" Background="#1B1238" Padding="2">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding MonitorSistema.Formato}" Value="Compacto">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Border Width="15" Height="15" CornerRadius="7.5" BorderThickness="2" BorderBrush="#0A84FF" Margin="0,0,2,0">
-                            <TextBlock Text="{Binding MonitorSistema.UsoCpu}" FontSize="6" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <Border Width="15" Height="15" CornerRadius="7.5" BorderThickness="2" BorderBrush="#BF5AF2">
-                            <TextBlock Text="{Binding MonitorSistema.UsoRam}" FontSize="6" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </StackPanel>
-                </Border>
+<UserControl xmlns:atividade="clr-namespace:DockWindows.App.Common" atividade:AtividadeVisual.Componente="Monitor" x:Class="DockWindows.App.Views.Sections.SectionMonitorInline"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core" xmlns:controls="clr-namespace:DockWindows.App.Controls" Margin="4,0">
+ <UserControl.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"><MenuItem Header="Personalizar&#x2026;" Command="{Binding PersonalizarWidgetCommand}" CommandParameter="{x:Static models:TipoWidget.MonitorSistema}"/></ContextMenu></UserControl.ContextMenu>
 
-                <!-- Pílula da Direita (Expandido) -->
-                <Border CornerRadius="10" Background="#21262D" Padding="12,4">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding MonitorSistema.Formato}" Value="Expandido">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <!-- Circulo CPU -->
-                        <Border Width="28" Height="28" CornerRadius="14" BorderThickness="3" BorderBrush="#0A84FF" Margin="0,0,10,0">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding MonitorSistema.UsoCpu}" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" Margin="0,0,0,-2"/>
-                                <TextBlock Text="CPU" FontSize="5" Foreground="#8E8E93" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-                        
-                        <!-- Circulo RAM -->
-                        <Border Width="28" Height="28" CornerRadius="14" BorderThickness="3" BorderBrush="#BF5AF2">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding MonitorSistema.UsoRam}" FontSize="9" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" Margin="0,0,0,-2"/>
-                                <TextBlock Text="RAM" FontSize="5" Foreground="#8E8E93" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-        </Border>
-    </Grid>
+ <Viewbox MaxHeight="{Binding AlturaBarra}" StretchDirection="DownOnly">
+  <controls:IndicadorSistemaControl Width="{Binding MonitorSistema.Largura}" Height="60" Estilo="{Binding MonitorSistema.Estilo}" Titulo="{Binding MonitorSistema.Titulo}" Texto="{Binding MonitorSistema.TextoValor}" Secundario="{Binding MonitorSistema.TextoSecundario}" Valor="{Binding MonitorSistema.Valor}" Serie="{Binding MonitorSistema.Historico}" SerieSecundaria="{Binding MonitorSistema.HistoricoSecundario}" ToolTip="{Binding MonitorSistema.Descricao}" AutomationProperties.Name="{Binding MonitorSistema.TextoValor}"/>
+ </Viewbox>
 </UserControl>

@@ -1,0 +1,171 @@
+<Window x:Class="DockWindows.App.Views.AppGalleryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Biblioteca de Apps" Height="760" Width="980"
+        WindowStartupLocation="CenterOwner" Background="Transparent" Foreground="#FFFFFF" 
+        WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+
+    <Border Background="#090A0F" CornerRadius="16" BorderBrush="#1C1E26" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/> <!-- Title Bar -->
+                <RowDefinition Height="Auto"/> <!-- Header & Search -->
+                <RowDefinition Height="*"/> <!-- Virtualized List -->
+                <RowDefinition Height="40"/> <!-- Status Bar -->
+            </Grid.RowDefinitions>
+
+            <!-- TITLE BAR -->
+            <Grid Grid.Row="0" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="24,0,0,0">
+                    <Border Width="24" Height="24" Background="#161821" CornerRadius="6" BorderBrush="#252733" BorderThickness="1">
+                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE713;" FontSize="12" Foreground="#0A84FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="GigaDock" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" Margin="10,0,6,0" VerticalAlignment="Center"/>
+                    <Border Background="#252733" CornerRadius="4" Padding="4,2" VerticalAlignment="Center">
+                        <TextBlock Text="v3.4" FontSize="10" Foreground="#8E8E93" FontWeight="Bold"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Widgets" FontSize="13" Foreground="#8E8E93" Margin="0,0,24,0"/>
+                    <Border Background="#0A84FF" CornerRadius="14" Padding="14,6" Margin="0,0,24,0">
+                        <TextBlock Text="Biblioteca de Apps" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    </Border>
+                    <TextBlock Text="Configurações" FontSize="13" Foreground="#8E8E93"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,24,0">
+                    <Button Content="&#xE8BB;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="10" Background="Transparent" Foreground="#8E8E93" BorderThickness="0" Width="32" Height="32" Click="BtnClose_Click" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- HEADER TEXT & SEARCH -->
+            <StackPanel Grid.Row="1" Margin="32,10,32,10">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <TextBlock Text="Biblioteca de Apps" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF"/>
+                </StackPanel>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Selecione e fixe nativamente os programas instalados no seu PC para este Ambiente.&#x0a;Compatível com apps Clássicos (Win32) e Modernos da Loja do Windows (UWP/MSIX)." 
+                               FontSize="14" Foreground="#8E8E93" LineHeight="20"/>
+                    
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <!-- Search Box -->
+                        <Border Background="#161821" CornerRadius="16" BorderBrush="#252733" BorderThickness="1" Padding="12,6" Width="280">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE721;" Foreground="#5C5C66" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox x:Name="TxtBusca" TextChanged="TxtBusca_TextChanged" Text="" Width="220" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="13" VerticalAlignment="Center" VerticalContentAlignment="Center" CaretBrush="#FFFFFF"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,24,0,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="TODOS OS APLICATIVOS" FontSize="11" FontWeight="Bold" Foreground="#5C5C66"/>
+                        <Border Background="#1C1E26" CornerRadius="10" Padding="8,2" Margin="12,0,0,0">
+                            <TextBlock x:Name="TxtTotalBadge" Text="Carregando..." FontSize="10" Foreground="#8E8E93" FontWeight="Bold"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <Separator Grid.Row="1" VerticalAlignment="Bottom" Background="#1C1E26" Margin="0"/>
+
+            <!-- MAIN CONTENT (VIRTUALIZED LIST) -->
+            <ListBox x:Name="ListaApps" Grid.Row="2" Background="Transparent" BorderThickness="0" Margin="32,16,32,16" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0,0,0,8"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="Card" CornerRadius="12" Padding="16,12" Background="#11131A" BorderBrush="#1C1E26" BorderThickness="1">
+                                        <ContentPresenter/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Card" Property="Background" Value="#1A1C24"/>
+                                            <Setter TargetName="Card" Property="BorderBrush" Value="#252733"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!-- Icon -->
+                            <Border Grid.Column="0" Width="42" Height="42" CornerRadius="8" Background="Transparent" Margin="0,0,16,0">
+                                <Image Source="{Binding Icone}" Stretch="Uniform" Width="32" Height="32"/>
+                            </Border>
+                            
+                            <!-- Texts -->
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Nome}" FontSize="15" FontWeight="SemiBold" Foreground="#FFFFFF" Margin="0,0,0,2"/>
+                                <TextBlock Text="{Binding CaminhoCurto}" FontSize="11" Foreground="#8E8E93" TextTrimming="CharacterEllipsis" Opacity="0.8"/>
+                            </StackPanel>
+
+                            <!-- Modern App Badge -->
+                            <Border Grid.Column="2" Visibility="{Binding EhAppModerno, Converter={StaticResource BoolToVis}}" 
+                                    Background="#101F35" BorderBrush="#163866" BorderThickness="1" CornerRadius="4" Padding="6,2" Margin="0,0,16,0" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE714;" FontSize="10" Foreground="#4AA1FF" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                    <TextBlock Text="Store App" FontSize="9" FontWeight="Bold" Foreground="#4AA1FF" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Toggle Button (Ativar/Desativar) -->
+                            <Button Grid.Column="3" Content="{Binding TextoBotao}" Background="{Binding CorBotao}" 
+                                    Foreground="{Binding CorTextoBotao}" BorderBrush="{Binding CorBordaBotao}" BorderThickness="1" 
+                                    FontWeight="Bold" FontSize="12" Width="100" Height="32" Cursor="Hand" Click="BtnToggle_Click" Tag="{Binding}" VerticalAlignment="Center">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="16"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <!-- STATUS BAR -->
+            <Border Grid.Row="3" Background="#090A0F" BorderBrush="#1C1E26" BorderThickness="0,1,0,0" CornerRadius="0,0,16,16">
+                <Grid Margin="24,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE90C;" FontSize="12" Foreground="#1DB954" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Extração de Ícones AUMID de Alta Resolução Ativa" FontSize="11" Foreground="#C8C8CE" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

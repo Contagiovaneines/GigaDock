@@ -1,4 +1,4 @@
-﻿using DockWindows.Core.Models;
+using DockWindows.Core.Models;
 using DockWindows.Core.Widgets;
 using Xunit;
 
@@ -6,6 +6,12 @@ namespace DockWindows.Tests;
 
 public class PomodoroTests
 {
+    private sealed class RelogioManual : TimeProvider
+    {
+        private DateTimeOffset _agora = DateTimeOffset.UtcNow;
+        public override DateTimeOffset GetUtcNow() => _agora;
+        public void Avancar(TimeSpan tempo) => _agora += tempo;
+    }
     [Fact]
     public void Inicializacao_EstadoInicialEhFocoComTempoConfigurado()
     {
@@ -77,9 +83,11 @@ public class PomodoroTests
     public void Tick_DecrementaSegundosQuandoExecutando()
     {
         var config = new WidgetConfig { DuracaoFocoMinutos = 10 };
-        var pomo = new PomodoroEngine(config);
+        var clock = new RelogioManual();
+        var pomo = new PomodoroEngine(config, clock);
         pomo.Iniciar();
 
+        clock.Avancar(TimeSpan.FromSeconds(1));
         pomo.Tick();
         Assert.Equal("09:59", pomo.TempoFormatado);
     }

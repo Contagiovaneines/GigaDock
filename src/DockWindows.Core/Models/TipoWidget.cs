@@ -13,7 +13,9 @@ public enum TipoWidget
     WhatsAppNotificacoes = 8,
     TeamsStatus = 9,
     DiscordVoz = 10,
-    OBSStudio = 11
+    OBSStudio = 11,
+    Midia = 12,
+    Bateria = 13
 }
 
 

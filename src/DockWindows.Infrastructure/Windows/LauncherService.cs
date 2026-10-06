@@ -62,9 +62,22 @@ public class LauncherService : ILauncherService
 
     public LaunchResult ExecutarCaminho(string caminho, string? argumentos = null)
     {
+        var validacao = ItemValidator.ValidarArquivoOuApp(caminho);
+        if (!validacao.Valido) return LaunchResult.Falha(validacao.MensagemErro ?? "Caminho inválido.");
         try
         {
             var expandido = Environment.ExpandEnvironmentVariables(caminho);
+
+            if (expandido.StartsWith(@"shell:AppsFolder\", StringComparison.OrdinalIgnoreCase))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = $"\"{expandido}\"",
+                    UseShellExecute = true
+                });
+                return LaunchResult.Ok();
+            }
 
             var startInfo = new ProcessStartInfo
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -282,7 +282,10 @@ public class Win32WindowTrackingService : IWindowTrackingService
                                 
                                 if ((exStyle & WS_EX_TOOLWINDOW) == 0 && (exStyle & WS_EX_TRANSPARENT) == 0)
                                 {
-                                    ehTelaCheia = true;
+                                    var titulo = new StringBuilder(512);
+                                    GetWindowText(hwnd, titulo, titulo.Capacity);
+                                    var executavel = ObterCaminhoProcesso(pid);
+                                    ehTelaCheia = DockWindows.Core.Services.DeteccaoVideoTelaCheia.Reconhecer(executavel, titulo.ToString());
                                 }
                             }
                         }
@@ -325,7 +328,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
             {
                 try
                 {
-                    nomeProcesso = Process.GetProcessById((int)pid).ProcessName;
+                    using var processo = Process.GetProcessById((int)pid);
+                    nomeProcesso = processo.ProcessName;
                 }
                 catch { }
             }

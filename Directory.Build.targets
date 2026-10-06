@@ -1,0 +1,19 @@
+<Project>
+  <Target Name="GigaDockSignBundle" BeforeTargets="GenerateSingleFileBundle" DependsOnTargets="PrepareForBundle"
+          Condition="'$(GigaDockSigning)' == 'true' and '$(PublishSingleFile)' == 'true'">
+    <Error Condition="'$(CodeSigningThumbprint)' == '' or '$(CodeSigningTool)' == '' or '$(CodeSigningTimestamp)' == ''" Text="Informe certificado, SignTool e timestamp." />
+    <PropertyGroup><GigaDockSignedDir>$(IntermediateOutputPath)signed-bundle\</GigaDockSignedDir></PropertyGroup>
+    <ItemGroup>
+      <GigaDockToSign Include="@(FilesToBundle)" Condition="'%(FilesToBundle.Extension)' == '.dll' and ($([System.String]::Copy('%(FilesToBundle.Filename)').StartsWith('DockWindows.')) or '%(FilesToBundle.Filename)' == 'GigaDock-Setup' or '%(FilesToBundle.Filename)' == 'Ical.Net' or '%(FilesToBundle.Filename)' == 'NodaTime')" />
+    </ItemGroup>
+    <MakeDir Directories="$(GigaDockSignedDir)" />
+    <Copy SourceFiles="@(GigaDockToSign)" DestinationFiles="@(GigaDockToSign->'$(GigaDockSignedDir)%(Filename)%(Extension)')" />
+    <Exec Command="&quot;$(CodeSigningTool)&quot; sign /sha1 $(CodeSigningThumbprint) /s My /fd SHA256 /tr &quot;$(CodeSigningTimestamp)&quot; /td SHA256 &quot;$(GigaDockSignedDir)%(GigaDockToSign.Filename)%(GigaDockToSign.Extension)&quot;" Condition="'@(GigaDockToSign)' != ''" />
+    <ItemGroup>
+      <FilesToBundle Remove="@(GigaDockToSign)" />
+      <FilesToBundle Include="@(GigaDockToSign->'$(GigaDockSignedDir)%(Filename)%(Extension)')"><RelativePath>%(GigaDockToSign.RelativePath)</RelativePath></FilesToBundle>
+      <GigaDockVerify Include="@(FilesToBundle)" Condition="'%(FilesToBundle.Extension)' == '.dll'" />
+    </ItemGroup>
+    <Exec Command="&quot;$(CodeSigningTool)&quot; verify /pa &quot;%(GigaDockVerify.Identity)&quot;" Condition="'@(GigaDockVerify)' != ''" />
+  </Target>
+</Project>
