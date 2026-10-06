@@ -67,7 +67,7 @@
     <Grid>
     <Viewbox Stretch="Uniform" StretchDirection="Both" Height="54">
         <Viewbox.Style><Style TargetType="Viewbox"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Midia.Estilo}" Value="capa"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></Viewbox.Style>
-        <Grid Width="540" Height="120">
+        <Grid Width="630" Height="140">
             <Border Margin="0,8,10,2" CornerRadius="24" BorderThickness="1.2"
                     ToolTip="Dê um duplo clique para abrir o player">
                 <Border.InputBindings>
@@ -76,13 +76,14 @@
                 <Border.BorderBrush><Binding Path="Midia.CorPredominanteHex" Converter="{StaticResource MediaColors}" ConverterParameter="Borda"/></Border.BorderBrush>
                 <Border.Background><Binding Path="Midia.CorPredominanteHex" Converter="{StaticResource MediaColors}"/></Border.Background>
                 <Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="18"/></Grid.RowDefinitions>
                     <!-- A capa atual também cria a textura do vidro, sem imagens externas. -->
-                    <Border Margin="1" CornerRadius="23" Opacity="0.09">
+                    <Border Grid.RowSpan="2" Margin="1" CornerRadius="23" Opacity="0.09">
                         <Border.Background>
                             <ImageBrush ImageSource="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill"/>
                         </Border.Background>
                     </Border>
-                    <Border Margin="1" CornerRadius="23">
+                    <Border Grid.RowSpan="2" Margin="1" CornerRadius="23">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Color="#24FFFFFF" Offset="0"/>
@@ -91,19 +92,19 @@
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
-                    <Grid Margin="14,8,28,8">
+                    <Grid Margin="14,8,28,4">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="92"/>
+                            <ColumnDefinition Width="104"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Border CornerRadius="16" BorderBrush="#45FFFFFF" BorderThickness="1">
                             <Border.Background><ImageBrush ImageSource="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill"/></Border.Background>
                         </Border>
                         <Grid Grid.Column="1" Margin="18,0,0,0">
-                            <Grid.RowDefinitions><RowDefinition Height="28"/><RowDefinition Height="22"/><RowDefinition Height="8"/><RowDefinition Height="36"/></Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Midia.Titulo}" FontSize="23" FontWeight="SemiBold" Foreground="White"
+                            <Grid.RowDefinitions><RowDefinition Height="32"/><RowDefinition Height="24"/><RowDefinition Height="8"/><RowDefinition Height="36"/></Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Midia.Titulo}" FontSize="26" FontWeight="SemiBold" Foreground="White"
                                        TextTrimming="CharacterEllipsis" ToolTip="{Binding Midia.Titulo}"/>
-                            <TextBlock Grid.Row="1" Text="{Binding Midia.Artista}" FontSize="18" Foreground="#E1E7ED"
+                            <TextBlock Grid.Row="1" Text="{Binding Midia.Artista}" FontSize="20" Foreground="#E1E7ED"
                                        TextTrimming="CharacterEllipsis" ToolTip="{Binding Midia.Artista}"/>
                             <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
                                 <Button Style="{StaticResource MediaBtnStyle}" Command="{Binding Midia.AnteriorCommand}" ToolTip="Faixa anterior" AutomationProperties.Name="Faixa anterior">
@@ -118,9 +119,9 @@
                             </StackPanel>
                         </Grid>
                     </Grid>
-                    <ProgressBar Height="3" Minimum="0" Maximum="1" Value="{Binding Midia.Progresso, Mode=OneWay}"
+                    <ProgressBar Grid.Row="1" Height="3" Minimum="0" Maximum="1" Value="{Binding Midia.Progresso, Mode=OneWay}"
                                  Foreground="{Binding Midia.CorPredominanteHex, Converter={StaticResource MediaColors}, ConverterParameter=Destaque}"
-                                 Background="#20FFFFFF" BorderThickness="0" IsTabStop="False" Margin="24,0,28,3" VerticalAlignment="Bottom"
+                                 Background="#20FFFFFF" BorderThickness="0" IsTabStop="False" Margin="24,0,28,4" VerticalAlignment="Center"
                                  AutomationProperties.Name="Progresso da música"/>
                 </Grid>
             </Border>

@@ -16,7 +16,12 @@ namespace DockWindows.App.ViewModels;
 public enum EstiloAnimacaoGitHub
 {
     Cobrinha,
-    PacMan
+    PacMan,
+    Breakout,
+    Galaga,
+    PuzzleBobble,
+    Bomberman,
+    Minesweeper
 }
 
 public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
@@ -57,6 +62,8 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
     
     // Animação State
     private bool _animacaoRodando;
+    private int _quadroArcade;
+    private readonly GitHubArcadeAnimation _arcade = new();
     private List<(int X, int Y)> _corpo = new();
     private (int X, int Y) _fantasma = (12, 6);
 
@@ -69,6 +76,8 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             if (SetProperty(ref _animacaoAutomatica, value))
             {
                 if (value && !_animacaoRodando) IniciarAnimacao();
+                if (!value) { _reinicio?.Cancel(); LimparEstadoAnimacao(); }
+                OnPropertyChanged(nameof(AnimacaoSelecionada));
             }
         }
     }
@@ -81,6 +90,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         {
             if (SetProperty(ref _estiloAtual, value))
             {
+                OnPropertyChanged(nameof(AnimacaoSelecionada));
                 if (_animacaoRodando)
                 {
                     LimparEstadoAnimacao();
@@ -123,10 +133,28 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
     public ICommand AlternarPainelCommand { get; }
     public ICommand AbrirPerfilCommand { get; }
     public ICommand AlternarAnimacaoCommand { get; }
+    public ICommand DefinirAnimacaoCommand { get; }
+    public string AnimacaoSelecionada => AnimacaoAutomatica ? EstiloAtual.ToString() : "Parado";
+
+    public void SelecionarAnimacao(string? estilo)
+    {
+        if (estilo != "Parado" && (!Enum.TryParse<EstiloAnimacaoGitHub>(estilo, out var parsed) || !Enum.IsDefined(parsed))) return;
+        _reinicio?.Cancel();
+        LimparEstadoAnimacao();
+        if (estilo == "Parado") AnimacaoAutomatica = false;
+        else
+        {
+            EstiloAtual = Enum.Parse<EstiloAnimacaoGitHub>(estilo!);
+            AnimacaoAutomatica = true;
+            IniciarAnimacao();
+        }
+        OnPropertyChanged(nameof(AnimacaoSelecionada));
+    }
 
     public GitHubWidgetViewModel()
     {
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
+        DefinirAnimacaoCommand = new RelayCommand<string>(SelecionarAnimacao);
         
         AlternarAnimacaoCommand = new RelayCommand(() => {
             if (AnimacaoAutomatica && EstiloAtual == EstiloAnimacaoGitHub.Cobrinha)
@@ -257,8 +285,10 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
     public void IniciarAnimacao()
     {
-        if (_animacaoRodando || Contribuicoes.Count < 91 || !_visual || !_animacoes || _disposed) return;
+        if (!AnimacaoAutomatica || _animacaoRodando || Contribuicoes.Count < 91 || !_visual || !_animacoes || _disposed) return;
         _corpo.Clear();
+        _quadroArcade = 0;
+        _arcade.Reset();
         _corpo.Add((0, 0));
         _fantasma = (12, 6);
         _animacaoRodando = true;
@@ -273,6 +303,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         { 
             c.EhCobra = false; c.EhCabecaCobra = false; 
             c.EhPacMan = false; c.EhFantasma = false;
+            c.MarcaArcade = 0;
         }
         for(int i = 0; i < Contribuicoes.Count && i < _niveisOriginais.Count; i++)
             Contribuicoes[i].Nivel = _niveisOriginais[i];
@@ -302,6 +333,19 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             _animTimer.Stop();
             return;
         }
+
+        if (!AnimacaoAutomatica || !_visual || !_animacoes || _disposed)
+        {
+            LimparEstadoAnimacao();
+            return;
+        }
+        if (EstiloAtual >= EstiloAnimacaoGitHub.Breakout)
+        {
+            _arcade.Tick(EstiloAtual, _quadroArcade++, Contribuicoes);
+            if (_quadroArcade >= 140) FinalizarCiclo();
+            return;
+        }
+        if (!Contribuicoes.Any(c => c.Nivel > 0)) { FinalizarCiclo(); return; }
 
         var head = _corpo.First();
         var nextStep = EncontrarProximoPasso(head);
@@ -424,6 +468,10 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
 public class ContribuicaoDia : ObservableObject
 {
+    private int _marcaArcade;
+    public int MarcaArcade { get => _marcaArcade; set { if (SetProperty(ref _marcaArcade, value)) { OnPropertyChanged(nameof(Cor)); OnPropertyChanged(nameof(Simbolo)); } } }
+    public string Simbolo => MarcaArcade switch { 5 => "✹", 6 => "⚑", >= 10 and <= 18 => (MarcaArcade - 10).ToString(), _ => "" };
+    private static readonly Brush[] Paleta = new[] { "#161B22", "#0E4429", "#006D32", "#26A641", "#39D353", "#FFFF00", "#FF4040", "#9B59B6", "#8E44AD", "#EAF6FF", "#38BDF8", "#C084FC", "#FB923C", "#FDE047", "#F87171", "#5A718B" }.Select(c => { var b = (SolidColorBrush)new BrushConverter().ConvertFromString(c)!; b.Freeze(); return (Brush)b; }).ToArray();
     private int _nivel;
     private bool _ehCobra;
     private bool _ehCabecaCobra;
@@ -442,19 +490,16 @@ public class ContribuicaoDia : ObservableObject
     {
         get
         {
-            if (EhPacMan) return new SolidColorBrush(Color.FromRgb(255, 255, 0)); 
-            if (EhFantasma) return new SolidColorBrush(Color.FromRgb(255, 0, 0)); 
-            if (EhCabecaCobra) return new SolidColorBrush(Color.FromRgb(0x9B, 0x59, 0xB6));
-            if (EhCobra) return new SolidColorBrush(Color.FromRgb(0x8E, 0x44, 0xAD));
+            if (MarcaArcade > 0) return Paleta[MarcaArcade >= 10 ? 15 : 8 + MarcaArcade];
+            if (EhPacMan) return Paleta[5];
+            if (EhFantasma) return Paleta[6];
+            if (EhCabecaCobra) return Paleta[7];
+            if (EhCobra) return Paleta[8];
             
             return Nivel switch
             {
-                0 => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22)),
-                1 => new SolidColorBrush(Color.FromRgb(0x0E, 0x44, 0x29)),
-                2 => new SolidColorBrush(Color.FromRgb(0x00, 0x6D, 0x32)),
-                3 => new SolidColorBrush(Color.FromRgb(0x26, 0xA6, 0x41)),
-                4 => new SolidColorBrush(Color.FromRgb(0x39, 0xD3, 0x53)),
-                _ => new SolidColorBrush(Color.FromRgb(0x16, 0x1B, 0x22))
+                >= 0 and <= 4 => Paleta[Nivel],
+                _ => Paleta[0]
             };
         }
     }

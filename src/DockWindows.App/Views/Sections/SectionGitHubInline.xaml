@@ -12,8 +12,16 @@
             </Border.InputBindings>
             <Border.ContextMenu>
                 <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                    <MenuItem Header="{Binding GitHub.AnimacaoSelecionada, StringFormat='Atual: {0}'}" IsEnabled="False"/>
+                    <Separator/>
                     <MenuItem Header="Animação: Cobrinha" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Cobrinha"/>
                     <MenuItem Header="Animação: Pac-Man" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="PacMan"/>
+                    <MenuItem Header="Animação: Breakout" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Breakout"/>
+                    <MenuItem Header="Animação: Galaga" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Galaga"/>
+                    <MenuItem Header="Animação: Puzzle Bobble" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="PuzzleBobble"/>
+                    <MenuItem Header="Animação: Bomberman" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Bomberman"/>
+                    <MenuItem Header="Animação: Minesweeper" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Minesweeper"/>
+                    <Separator/>
                     <MenuItem Header="Desativar Animação" Command="{Binding GitHub.DefinirAnimacaoCommand}" CommandParameter="Parado"/>
                 </ContextMenu>
             </Border.ContextMenu>
@@ -31,8 +39,9 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <!-- Quadradinhos um pouco maiores, com margem ajustada -->
-                        <Border Width="4" Height="4" CornerRadius="1" Margin="1"
-                                Background="{Binding Cor}"/>
+                        <Border Width="4" Height="4" CornerRadius="1" Margin="1" Background="{Binding Cor}">
+                            <Viewbox><TextBlock Text="{Binding Simbolo}" FontSize="10" Foreground="White"/></Viewbox>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

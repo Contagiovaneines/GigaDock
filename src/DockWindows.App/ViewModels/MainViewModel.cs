@@ -410,6 +410,13 @@ public class MainViewModel : ObservableObject, IDisposable
         MonitorSistema = new MonitorSistemaViewModel();
                         GitHub = new GitHubWidgetViewModel();
         GitHub.SincronizarUsuario(_preferencias.GitHubUsuario);
+        GitHub.SelecionarAnimacao(_preferencias.GitHubAnimacao);
+        GitHub.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName != nameof(GitHubWidgetViewModel.AnimacaoSelecionada)) return;
+            _preferencias.GitHubAnimacao = GitHub.AnimacaoSelecionada;
+            SalvarPreferencias();
+        };
         Clima = new ClimaWidgetViewModel();
         Bateria = new BateriaViewModel { Habilitado = _preferencias.ExibirBateria };
 
@@ -1212,6 +1219,18 @@ public bool ExibirLixeira
         _abrindoBandeja = true;
         try
         {
+            // A bandeja pertence ao Explorer e precisa da barra nativa habilitada.
+            // Mantemos a barra visível para permitir interação com os ícones.
+            if (_preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente)
+            {
+                if (!_taskbarService.RestaurarBarraNativa(_preferencias.EstadoAnteriorBarraTarefas))
+                {
+                    MostrarAlerta?.Invoke("Ícones ocultos", "Não foi possível exibir a barra do Windows para abrir sua bandeja.");
+                    return;
+                }
+                _barraNativaVisivelTemporariamente = true;
+                await System.Threading.Tasks.Task.Delay(250);
+            }
             var erro = await System.Threading.Tasks.Task.Run(() => new BandejaOcultaService().Abrir());
             if (erro != null && !_disposed) MostrarAlerta?.Invoke("Ícones ocultos", erro);
         }

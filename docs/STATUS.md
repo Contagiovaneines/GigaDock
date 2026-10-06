@@ -493,3 +493,50 @@ Próximo passo do usuário: enviar código/workflow ao repositório e conferir A
 ## 06/10/2026 — Correção do push recusado por arquivo grande
 
 Diagnóstico do log: setup de 165,35 MB no único commit local não enviado, rejeitado por GH001. Setup e app.zip removidos somente do índice Git; arquivos locais preservados e já ignorados. Workflow confirmado no commit local. Commit anterior publicado contém setup menor que 100 MB; a versão grande precisa ser removida do commit não publicado via amend, não apenas por um novo commit. Não alterado histórico nesta etapa nem executado push. Usuário deve revisar e executar commit --amend --no-edit e push. Remote ainda aponta para Contagiovaneines/WinDock-, conferir destino usado no formulário.
+
+
+## 06/10/2026 — Visual das prévias de janelas
+
+Painel-base de flyouts atualizado para grafite com borda discreta e botões arredondados; estados de hover, pressão, foco e desabilitado. Prévias de janelas com cabeçalhos espaçados, título completo em tooltip, cartões e ações de fechar separadas, navegação centralizada com contador e botões indisponíveis desabilitados. Mantidos thumbnails DWM, comandos reais e paginação. Brushes compartilhados congelados, sem animações/timers adicionais.
+
+Build em previas-janelas-visual-build.txt, zero erros. Validação visual e DPI em execução pendentes; mudança do painel-base também se aplica aos demais flyouts. Instalador e artefato Actions anteriores não incluem esta alteração. Próximo passo: conferir ativação/fechamento e diferentes quantidades de janelas, enviar o código e gerar novo pacote.
+
+
+## 06/10/2026 — Separação da linha de progresso da mídia
+
+Progresso do estilo capa movido para uma linha própria de 18 unidades abaixo do conteúdo. Composição-base 630×140 mantém altura normalizada 54 e proporção horizontal anterior; título, artista e capa compensados para preservar legibilidade. Espaço reservado entre área clicável dos botões e progresso, sem sobreposição; textura cobre ambas as linhas. Build em midia-progresso-espaco-build.txt. Visual real pendente; instalador/Actions anteriores não incluem este ajuste.
+# 06/10/2026 — Ajustes de widgets e acesso à loja
+
+Seção Widgets passa a ocupar toda a largura disponível, preservando a lista e os detalhes das demais seções. Cabeçalho com quebra automática e botão Loja de Widgets destacado; cartões esticados, etiquetas com quebra e botão de estilo padronizado. Contador apresenta widgets instalados, eliminando o limite fictício de 9 ativos. Loja existente acessível em Ajustes → Widgets → Loja de Widgets, usando o comando original de adição/remoção.
+
+Compilação Release executada com zero erros e um aviso CS0067 preexistente; log em ajustes-widgets-layout-build.txt. Validação visual em execução e diferentes escalas de tela pendente. Próximo passo: conferir a loja na aplicação e gerar novo instalador; pacote anterior não inclui este ajuste.
+
+# 06/10/2026 — Bandeja com barra principal
+
+Clique na seta da bandeja agora restaura e habilita a barra nativa quando ocultada pelo modo barra principal, antes da busca UI Automation. Barra permanece disponível para interação com os ícones; alternância existente pode ocultá-la novamente. Botões fora da tela por auto-ocultação não são descartados se disponibilizam Invoke/ExpandCollapse. A bandeja contém ícones de notificação, não todos os processos do computador.
+
+Build Release registrado em bandeja-barra-principal-build.txt. Abertura real do popup do Explorer pendente de validação no computador do usuário; ausência do botão nativo ainda pode impedir a abertura. Instalador anterior não inclui esta correção.
+
+# 06/10/2026 — Aparência sem sobreposição
+
+Conteúdo dinâmico dos ajustes organizado verticalmente: cartão de dimensões não se sobrepõe mais aos temas nem ocupa toda a altura do painel. Cartão com largura máxima de 900 unidades, altura conforme conteúdo e espaçamento de 20 unidades. Sliders horizontais estilizados com trilho azul, controle circular, estados de interação e indicação de foco de teclado; preservados bindings, intervalos e comandos nativos de ajuste.
+
+Compilação Release: zero erros, um aviso CS0067 preexistente; log aparencia-layout-build.txt. Validação visual e interação por mouse/teclado no aplicativo pendentes. Próximo passo: conferir temas e dimensões em diferentes escalas; instalador anterior não inclui a alteração.
+
+# 06/10/2026 — Seleção de animações arcade do GitHub
+
+Menu corrigido com comando de seleção real, indicação do estilo atual e opções Pac-Man, Breakout, Galaga, Puzzle Bobble, Bomberman e Minesweeper, além de Cobrinha e desativação. Preferência local persistida; novas simulações nativas na grade existente, com cores compartilhadas e pausa/restauração quando ocultas. Detalhes em GITHUB-ANIMACOES.md; assets SVG não foram fornecidos e os estilos são adaptações compactas.
+
+Build Release executado; testes específicos tentados, mas os 12 casos foram bloqueados pelo Controle de Aplicativo ao carregar DLL (0x800711C7). Logs github-arcade-build.txt e github-arcade-tests.txt. Próximos passos: executar testes no CI, validar visual no Windows e gerar instalador atualizado.
+
+## 06/10/2026 — README consolidado
+
+README reorganizado para apresentação pública: recursos, catálogo, instalação, desempenho, privacidade, desenvolvimento, validação e contribuição. Removidas notas cronológicas repetidas e afirmações contraditórias sobre pacote, RGB e cache; resultados históricos separados da validação recente. Seções finais dedicadas ao que permanece em beta e às ideias futuras, sem promessa de prazo.
+
+Etapa apenas documental, sem alteração de código ou novo build. Links relativos e estrutura Markdown conferidos; próximo passo: validar recursos pendentes e reempacotar alterações recentes antes de atualizar a distribuição.
+# 06/10/2026 — Ícones e dicas de hover
+
+Removido fundo permanente do aplicativo ativo na seção Apps; indicador de execução permanece. Realces de hover/pressão mais discretos e contorno explícito no foco de teclado. Dicas padronizadas no recurso global ToolTip: grafite, cantos arredondados, espaçamento, fonte de 12 unidades, posicionamento superior e limite de largura com quebra de texto. Dica de aplicativos usa o mesmo padrão, preservando atraso de 650 ms e conteúdo atual.
+
+Build Release em icones-dicas-visual-build.txt. Aparência real em diferentes escalas ainda pendente; instalador anterior não contém o ajuste. Etapa visual sem benchmark de desempenho.
+

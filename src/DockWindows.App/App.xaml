@@ -1,11 +1,42 @@
 <Application x:Class="DockWindows.App.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:DockWindows.App"
              xmlns:conv="clr-namespace:DockWindows.App.Converters"
              >
     <Application.Resources>
         <ResourceDictionary>
+            <Style TargetType="ToolTip">
+                <Setter Property="Background" Value="#17212C"/>
+                <Setter Property="Foreground" Value="#E8EFF7"/>
+                <Setter Property="BorderBrush" Value="#34465A"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="12,9"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="MaxWidth" Value="300"/>
+                <Setter Property="Placement" Value="Top"/>
+                <Setter Property="VerticalOffset" Value="-12"/>
+                <Setter Property="HasDropShadow" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip">
+                            <Border CornerRadius="10" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}" MaxWidth="300">
+                                <ContentPresenter RecognizesAccessKey="False">
+                                    <ContentPresenter.Resources>
+                                        <DataTemplate DataType="{x:Type sys:String}">
+                                            <TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="274"/>
+                                        </DataTemplate>
+                                    </ContentPresenter.Resources>
+                                </ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
             <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
             <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>

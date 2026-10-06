@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using DockWindows.App.ViewModels;
 
@@ -78,17 +78,20 @@ public partial class AjustesWindow : Window
         if (_viewModel == null) return;
         bool compacto = ActualWidth < 1050;
         bool empilhado = ActualWidth < 760;
-        bool lista = _viewModel.EhSecaoAmbientes || _viewModel.EhSecaoWidgets || _viewModel.EhSecaoEspacadores;
+        bool widgets = _viewModel.EhSecaoWidgets;
+        bool lista = _viewModel.EhSecaoAmbientes || _viewModel.EhSecaoEspacadores;
         NavigationPanel.Visibility = compacto ? Visibility.Collapsed : Visibility.Visible;
         CompactNavigation.Visibility = compacto ? Visibility.Visible : Visibility.Collapsed;
         CompactHeaderRow.Height = compacto ? GridLength.Auto : new GridLength(0);
         NavigationColumn.Width = compacto ? new GridLength(0) : new GridLength(210);
-        MasterPanel.Visibility = lista ? Visibility.Visible : Visibility.Collapsed;
+        MasterPanel.Visibility = lista || widgets ? Visibility.Visible : Visibility.Collapsed;
+        DetailsPanel.Visibility = widgets ? Visibility.Collapsed : Visibility.Visible;
         MasterColumn.Width = lista && !empilhado ? new GridLength(compacto ? 245 : 290) : new GridLength(0);
         StackedDetailsRow.Height = empilhado && lista ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
         LayoutRoot.RowDefinitions[1].Height = empilhado && lista ? new GridLength(210) : new GridLength(1, GridUnitType.Star);
         Grid.SetRow(DetailsPanel, empilhado && lista ? 2 : 1);
-        Grid.SetColumn(MasterPanel, empilhado ? 2 : 1);
+        Grid.SetColumn(MasterPanel, widgets ? 1 : empilhado ? 2 : 1);
+        Grid.SetColumnSpan(MasterPanel, widgets ? 2 : 1);
         Grid.SetColumn(DetailsPanel, lista ? 2 : 1);
         Grid.SetColumnSpan(DetailsPanel, lista ? 1 : 2);
         Grid.SetRow(VisualizationsPanel, 1);

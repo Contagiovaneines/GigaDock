@@ -42,6 +42,7 @@ public class Preferencias
     public bool ModoRgbMedia { get; set; } = false;
     public bool AbrirPlayerAoDuploClique { get; set; } = true;
     public string GitHubUsuario { get; set; } = string.Empty;
+    public string GitHubAnimacao { get; set; } = "Cobrinha";
     public string LocalizacaoClima { get; set; } = string.Empty;
     public bool DesativarAnimacoes { get; set; } = false;
     public int EspacamentoItens { get; set; } = 6;

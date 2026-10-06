@@ -20,7 +20,9 @@ public sealed class BandejaOcultaService
                     var nome = botao.Current.Name;
                     if (!nome.Contains("ícones ocultos", StringComparison.OrdinalIgnoreCase) &&
                         !nome.Contains("hidden icons", StringComparison.OrdinalIgnoreCase)) continue;
-                    if (!botao.Current.IsEnabled || botao.Current.IsOffscreen) continue;
+                    // Auto-ocultação pode marcar o botão como fora da tela; Invoke
+                    // não depende de coordenadas nem exige simular um clique.
+                    if (!botao.Current.IsEnabled) continue;
                     if (botao.TryGetCurrentPattern(InvokePattern.Pattern, out var invocar))
                     {
                         ((InvokePattern)invocar).Invoke();

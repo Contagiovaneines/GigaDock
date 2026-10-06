@@ -49,20 +49,13 @@
                                 Padding="0"
                                 Cursor="Hand">
                             <Button.ToolTip>
-                                <ToolTip Placement="Top" VerticalOffset="-14" HorizontalOffset="0" HasDropShadow="False"
-                                         Background="#171F26" Foreground="#EDF3F6" BorderBrush="#4B5C69" BorderThickness="1" Padding="10,7">
-                                    <ToolTip.Template><ControlTemplate TargetType="ToolTip">
-                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="9" Padding="{TemplateBinding Padding}">
-                                            <ContentPresenter/>
-                                        </Border>
-                                    </ControlTemplate></ToolTip.Template>
+                                <ToolTip>
                                     <TextBlock Text="{Binding TextoDica}" MaxWidth="260" TextWrapping="Wrap" FontSize="12"/>
                                 </ToolTip>
                             </Button.ToolTip>
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border x:Name="BtnBorder" CornerRadius="10" Padding="0" Background="Transparent">
+                                    <Border x:Name="BtnBorder" CornerRadius="10" Padding="0" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
                                         <Grid>
                                             <!-- Layout Vertical: Ícone no Centro, Indicador embaixo -->
                                             <Grid.RowDefinitions>
@@ -152,13 +145,16 @@
                                     <ControlTemplate.Triggers>
                                         <!-- Realce de fundo para aplicativo ativo -->
                                         <DataTrigger Binding="{Binding EstaAtivo}" Value="True">
-                                             <Setter TargetName="BtnBorder" Property="Background" Value="#250A84FF"/>
+                                             <Setter TargetName="BtnBorder" Property="Background" Value="Transparent"/>
                                         </DataTrigger>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="BtnBorder" Property="Background" Value="#25FFFFFF"/>
+                                            <Setter TargetName="BtnBorder" Property="Background" Value="#0FFFFFFF"/>
                                         </Trigger>
                                         <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="BtnBorder" Property="Background" Value="#40FFFFFF"/>
+                                            <Setter TargetName="BtnBorder" Property="Background" Value="#1FFFFFFF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter TargetName="BtnBorder" Property="BorderBrush" Value="#78BEFF"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
