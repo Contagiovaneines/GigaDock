@@ -402,6 +402,10 @@ public partial class MainWindow : Window
     private void ReposicionarBarra()
     {
         var workArea = SystemParameters.WorkArea;
+        // Mantém 12 px de respiro em cada lado e força o conteúdo excedente a
+        // permanecer dentro do ScrollViewer da dock.
+        MaxWidth = Math.Max(320.0, workArea.Width - 24.0);
+        UpdateLayout();
         Left = workArea.Left + (workArea.Width - ActualWidth) / 2.0;
 
         double screenBottom = _viewModel.UsarComoBarraPrincipal
@@ -433,6 +437,17 @@ public partial class MainWindow : Window
         {
             DockWindows.Infrastructure.Windows.AppBarHelper.RemoveBar(this);
         }
+    }
+
+    private void DockSectionsScrollViewer_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (sender is not ScrollViewer scroll || scroll.ScrollableWidth <= 0) return;
+        var deslocamento = e.Delta > 0 ? -72.0 : 72.0;
+        scroll.ScrollToHorizontalOffset(Math.Clamp(
+            scroll.HorizontalOffset + deslocamento,
+            0,
+            scroll.ScrollableWidth));
+        e.Handled = true;
     }
 
     public void AtualizarLayoutSecoes()

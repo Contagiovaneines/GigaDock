@@ -85,3 +85,29 @@ No modo de barra principal, a AppBar agora reserva somente a altura visível da 
 ## Ativação confiável pelo clique
 
 O clique principal nos ícones deixou de ser consumido pela abertura de prévias e sempre tenta ativar ou restaurar uma janela real do aplicativo. Quando existem várias janelas, a dock escolhe primeiro a ativa, depois uma não minimizada. O foco visual é limpo somente depois da execução do comando, evitando cancelar o clique no intervalo entre pressionar e soltar o mouse. Identificadores de janela inválidos são descartados; para um item fixado, a execução normal é usada como recuperação.
+
+## Cobertura de ícones
+
+Aplicativos em execução agora priorizam o ícone associado à janela e ao AUMID antes do ícone obtido pelo caminho. Isso permite substituir resultados genéricos do Shell em aplicativos MSIX, Electron, processos hospedados e executáveis protegidos. Atalhos `.lnk` também usam a imagem declarada pelo próprio atalho por meio da API pública do Shell.
+
+## Painel de aplicativos em segundo plano
+
+O painel deixou de recarregar a coleção em cada mudança de foco de janela, o que eliminou a barra de carregamento e a piscada dos ícones durante o hover. A lista é consultada quando o painel abre. O clique tenta ativar a janela existente, usa o item correspondente da dock ou inicia a referência estável do aplicativo instalado, inclusive `shell:AppsFolder` para aplicativos empacotados.
+
+## Reaproveitamento de APIs públicas do Windows
+
+O rastreamento de janelas passou a observar também `EVENT_OBJECT_LOCATIONCHANGE`. Mudanças de tamanho e posição da janela ativa reavaliam tela cheia imediatamente; o polling foi reduzido de 600 para 2500 ms e permanece apenas como recuperação. A mudança evita reconstruir listas a cada pixel e reduz consultas contínuas.
+
+A tela **Sobre** recebeu um diagnóstico local, consultado uma única vez ao abrir os ajustes, com versão/build do Windows, arquitetura, memória física e tempo ligado. A implementação usa `GetTickCount64`, `GlobalMemoryStatusEx` e informações do runtime, sem PowerShell, conta, backend ou telemetria.
+
+## Limite horizontal da dock
+
+A largura máxima acompanha a área útil do monitor com 12 pixels livres em cada lateral. Quando aplicativos, seções ou widgets excedem esse limite, a janela não passa da tela: o conteúdo navega horizontalmente pela roda do mouse, gesto de toque ou teclado, sem acrescentar uma barra de rolagem ao visual da dock. Mudanças de resolução recalculam o limite automaticamente.
+
+## Refinamento dos controles rápidos
+
+O popup recebeu largura e espaçamento mais confortáveis, cabeçalho alinhado, botão de fechamento maior, contador contextual e cartões de estilo com áreas de clique uniformes. Estados selecionado, hover e foco usam contraste consistente e preservam navegação por teclado.
+
+## README atualizado
+
+O documento principal agora registra o rastreamento global de aplicativos abertos, ativação confiável por clique, cobertura ampliada de ícones, limite horizontal, mixer, controles rápidos, painel de segundo plano e diagnóstico local. O estado beta foi dividido por área com limites verificáveis, e as ideias futuras foram reduzidas a uma lista de produto sem promessas de prazo.

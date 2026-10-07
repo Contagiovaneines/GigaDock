@@ -88,18 +88,23 @@
         </Button>
         <Popup x:Name="PanelPopup" IsOpen="{Binding Aberto, Mode=TwoWay}" StaysOpen="False" AllowsTransparency="True"
                Placement="Top" PlacementTarget="{Binding ElementName=OpenButton}" Opened="PanelPopup_Opened">
-            <Border x:Name="Panel" Width="340" CornerRadius="26" Padding="16" Margin="0,0,0,10"
-                    Background="#101714" BorderBrush="#3A4941" BorderThickness="1"
+            <Border x:Name="Panel" Width="390" CornerRadius="22" Padding="18" Margin="0,0,0,10"
+                    Background="#F7131916" BorderBrush="#405249" BorderThickness="1"
                     PreviewKeyDown="Panel_PreviewKeyDown">
+                <Border.Effect><DropShadowEffect Color="#000000" BlurRadius="28" ShadowDepth="7" Opacity=".48"/></Border.Effect>
                 <StackPanel>
-                    <Grid Margin="4,4,4,18" Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}">
+                    <Grid Margin="2,0,2,18" Height="36" Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                        <TextBlock Text="Controles rápidos" Foreground="#E4E6DF" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        <Border Grid.Column="1" Background="#171D13" CornerRadius="12" Padding="9,3" Margin="8,0">
-                            <TextBlock Text="{Binding Quantidade}" Foreground="#AFB3A7" FontWeight="Bold" FontSize="15"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Controles rápidos" Foreground="#F2F5F1" FontSize="20" FontWeight="SemiBold"/>
+                        </StackPanel>
+                        <Border Grid.Column="1" Background="#202A24" CornerRadius="14" MinWidth="30" Height="28" Padding="8,0" Margin="10,0,8,0"
+                                ToolTip="Atalhos visíveis na dock">
+                            <TextBlock Text="{Binding Quantidade}" Foreground="#B8C7BD" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <Button Grid.Column="2" Style="{StaticResource QuickButton}" Width="26" Height="26"
-                                Content="×" FontSize="20" Command="{Binding FecharCommand}" AutomationProperties.Name="Fechar controles rápidos"/>
+                        <Button Grid.Column="2" Style="{StaticResource QuickButton}" Width="32" Height="32"
+                                Content="×" FontSize="21" Background="#1B2420" Foreground="#DDE7E1"
+                                Command="{Binding FecharCommand}" AutomationProperties.Name="Fechar controles rápidos"/>
                     </Grid>
                     <Grid Margin="0,0,0,12" Visibility="{Binding ExibindoWifi, Converter={StaticResource QuickBoolToVis}}">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -145,8 +150,8 @@
                         <Button Style="{StaticResource QuickButton}" HorizontalContentAlignment="Left" Padding="12" Margin="0,6,0,0" Command="{Binding Conectividade.AbrirBluetoothCommand}" Content="Mais configurações de Bluetooth"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}">
-                        <StackPanel Margin="0,0,0,12">
-                            <TextBlock Text="Estilo neste ambiente" Foreground="Silver" Margin="0,0,0,6"/>
+                        <StackPanel Margin="0,0,0,14">
+                            <TextBlock Text="APARÊNCIA NESTE AMBIENTE" Foreground="#82948A" FontSize="10" FontWeight="SemiBold" Margin="2,0,0,8"/>
                             <ListBox ItemsSource="{Binding EstilosDisponiveis}" SelectedItem="{Binding Estilo, Mode=TwoWay}"
                                      Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      AutomationProperties.Name="Estilo dos controles rápidos">
@@ -155,20 +160,20 @@
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="Foreground" Value="#B7C5BC"/>
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                        <Setter Property="Margin" Value="0,0,6,0"/>
+                                        <Setter Property="Margin" Value="0,0,8,0"/>
                                         <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
-                                            <Border x:Name="Choice" Background="#1B2520" BorderBrush="#33463B" BorderThickness="1" CornerRadius="12" Padding="9,10">
+                                            <Border x:Name="Choice" Height="58" Background="#1A231F" BorderBrush="#34483E" BorderThickness="1" CornerRadius="14" Padding="10,8">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Border x:Name="Preview" Width="30" Height="30" Background="#24332B" CornerRadius="8" Margin="0,0,8,0">
+                                                    <Border x:Name="Preview" Width="36" Height="36" Background="#213029" CornerRadius="10" Margin="0,0,10,0">
                                                         <TextBlock Text="&#xE701;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="#4CA6FF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Border>
-                                                    <ContentPresenter VerticalAlignment="Center"/>
+                                                    <ContentPresenter VerticalAlignment="Center" TextElement.FontSize="12" TextElement.FontWeight="SemiBold"/>
                                                 </StackPanel>
                                             </Border>
                                             <ControlTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding}" Value="Anéis"><Setter TargetName="Preview" Property="CornerRadius" Value="15"/><Setter TargetName="Preview" Property="BorderBrush" Value="#4CA6FF"/><Setter TargetName="Preview" Property="BorderThickness" Value="2"/></DataTrigger>
-                                                <Trigger Property="IsSelected" Value="True"><Setter TargetName="Choice" Property="BorderBrush" Value="#67C9A1"/><Setter TargetName="Choice" Property="Background" Value="#203C2F"/><Setter Property="Foreground" Value="White"/></Trigger>
-                                                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Choice" Property="Background" Value="#2D4035"/></Trigger>
+                                                <DataTrigger Binding="{Binding}" Value="Anéis"><Setter TargetName="Preview" Property="CornerRadius" Value="18"/><Setter TargetName="Preview" Property="BorderBrush" Value="#4CA6FF"/><Setter TargetName="Preview" Property="BorderThickness" Value="2"/></DataTrigger>
+                                                <Trigger Property="IsSelected" Value="True"><Setter TargetName="Choice" Property="BorderBrush" Value="#58D3A0"/><Setter TargetName="Choice" Property="Background" Value="#1E3A2E"/><Setter Property="Foreground" Value="#FFFFFF"/></Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Choice" Property="Background" Value="#283A31"/><Setter TargetName="Choice" Property="BorderBrush" Value="#4C6A5A"/></Trigger>
                                                 <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Choice" Property="BorderBrush" Value="White"/></Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate></Setter.Value></Setter>

@@ -67,7 +67,8 @@ public class MainViewModel : ObservableObject, IDisposable
     {
         if (_disposed) return;
         AtualizarAplicativosAbertos();
-        if (PainelAppsSegundoPlanoAberto) _ = AtualizarAplicativosSegundoPlanoAsync();
+        // O painel de segundo plano é atualizado ao abrir. Atualizá-lo em toda
+        // mudança de foco recriava os ícones enquanto o ponteiro passava sobre eles.
     });
     private void JanelaMudou(IntPtr hwnd) => JanelasMudaram();
     private void TelaCheiaMudou(bool telaCheia) => Application.Current?.Dispatcher?.InvokeAsync(() => { if (!_disposed) OcultoPorTelaCheia = telaCheia; });
@@ -1368,7 +1369,8 @@ public bool ExibirLixeira
                         else if (appDock?.EstaAberto == true) appDock.ClicarCommand.Execute(null);
                         else
                         {
-                            var resultado = _launcher.ExecutarCaminho(info.CaminhoExecutavel);
+                            var caminhoAbertura = info.ReferenciaIcone ?? info.CaminhoExecutavel;
+                            var resultado = _launcher.ExecutarCaminho(caminhoAbertura);
                             if (!resultado.Sucesso) MostrarAlerta?.Invoke("Não foi possível abrir", resultado.MensagemErro ?? info.Nome);
                         }
                     }));

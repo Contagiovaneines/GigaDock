@@ -1551,6 +1551,25 @@
                             </StackPanel>
                         </Border>
 
+                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="DIAGNÓSTICO LOCAL" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+                                    <TextBlock Text="Sistema" Foreground="#8FA0B2" Margin="0,0,16,5"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding DiagnosticoWindows}" Foreground="#DCE5EE" Margin="0,0,0,5"/>
+                                    <TextBlock Grid.Row="1" Text="Arquitetura" Foreground="#8FA0B2" Margin="0,0,16,5"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DiagnosticoArquitetura}" Foreground="#DCE5EE" Margin="0,0,0,5"/>
+                                    <TextBlock Grid.Row="2" Text="Memória instalada" Foreground="#8FA0B2" Margin="0,0,16,5"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding DiagnosticoMemoria}" Foreground="#DCE5EE" Margin="0,0,0,5"/>
+                                    <TextBlock Grid.Row="3" Text="Tempo ligado" Foreground="#8FA0B2" Margin="0,0,16,0"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DiagnosticoTempoLigado}" Foreground="#DCE5EE"/>
+                                </Grid>
+                                <TextBlock Text="Dados consultados localmente. Nenhuma informação é enviada." FontSize="10" Foreground="#718196" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </Border>
+
                         <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18">
                             <StackPanel>
                                 <TextBlock Text="GUIA DE ATALHOS" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>

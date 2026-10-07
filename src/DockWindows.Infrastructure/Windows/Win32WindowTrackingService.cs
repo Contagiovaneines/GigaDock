@@ -19,8 +19,10 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private readonly System.Timers.Timer _pollTimer;
     private IntPtr _hHookForeground = IntPtr.Zero;
     private IntPtr _hHookWindow = IntPtr.Zero;
+    private IntPtr _hHookLocation = IntPtr.Zero;
     private WinEventDelegate? _procForeground;
     private WinEventDelegate? _procWindow;
+    private WinEventDelegate? _procLocation;
     private bool _isDisposed;
     private IntPtr _ultimaJanelaAtiva = IntPtr.Zero;
     private bool _ultimoEstadoTelaCheia = false;
@@ -38,6 +40,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
     private const uint EVENT_OBJECT_CREATE = 0x8000;
     private const uint EVENT_OBJECT_DESTROY = 0x8001;
+    private const uint EVENT_OBJECT_LOCATIONCHANGE = 0x800B;
     private const uint EVENT_SYSTEM_MINIMIZESTART = 0x0016;
     private const uint EVENT_SYSTEM_MINIMIZEEND = 0x0017;
     private const uint WINEVENT_OUTOFCONTEXT = 0x0000;
@@ -162,7 +165,9 @@ public class Win32WindowTrackingService : IWindowTrackingService
 
     public Win32WindowTrackingService()
     {
-        _pollTimer = new System.Timers.Timer(600)
+        // Fallback pouco frequente. Mudanças normais chegam imediatamente pelos
+        // WinEvent hooks registrados em Iniciar().
+        _pollTimer = new System.Timers.Timer(2500)
         {
             AutoReset = true
         };
@@ -197,6 +202,18 @@ public class Win32WindowTrackingService : IWindowTrackingService
                     WINEVENT_OUTOFCONTEXT);
             }
 
+            if (_procLocation == null)
+            {
+                _procLocation = OnLocationChanged;
+                _hHookLocation = SetWinEventHook(
+                    EVENT_OBJECT_LOCATIONCHANGE,
+                    EVENT_OBJECT_LOCATIONCHANGE,
+                    IntPtr.Zero,
+                    _procLocation,
+                    0, 0,
+                    WINEVENT_OUTOFCONTEXT);
+            }
+
             _pollTimer.Start();
         }
     }
@@ -218,6 +235,12 @@ public class Win32WindowTrackingService : IWindowTrackingService
                 UnhookWinEvent(_hHookWindow);
                 _hHookWindow = IntPtr.Zero;
             }
+
+            if (_hHookLocation != IntPtr.Zero)
+            {
+                UnhookWinEvent(_hHookLocation);
+                _hHookLocation = IntPtr.Zero;
+            }
         }
     }
 
@@ -231,6 +254,14 @@ public class Win32WindowTrackingService : IWindowTrackingService
     {
         if (idObject != 0 || hwnd == IntPtr.Zero) return;
         InvocarSeguro(JanelasAlteradas);
+    }
+
+    private void OnLocationChanged(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+    {
+        if (idObject != 0 || hwnd == IntPtr.Zero || hwnd != GetForegroundWindow()) return;
+        // Reavalia tela cheia imediatamente, sem reconstruir a lista da dock a
+        // cada pixel de uma operação de mover ou redimensionar.
+        ProcessarNovoForeground(hwnd);
     }
 
     private void VerificarMudancas()

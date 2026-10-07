@@ -10,6 +10,7 @@ using System.Windows.Input;
 using DockWindows.App.Common;
 using DockWindows.Core.Models;
 using DockWindows.Core.Services;
+using DockWindows.Infrastructure.Windows;
 using Microsoft.Win32;
 
 namespace DockWindows.App.ViewModels;
@@ -19,6 +20,7 @@ public class AjustesViewModel : ObservableObject
     private readonly MainViewModel _mainVm;
     private readonly ISettingsRepository _repo;
     private readonly IAutostartService _autostart;
+    private readonly DiagnosticoSistemaInfo _diagnosticoSistema;
 
     private string _secaoAtiva = "Ambientes";
     private Ambiente? _ambienteSelecionado;
@@ -36,6 +38,7 @@ public class AjustesViewModel : ObservableObject
         _mainVm = mainVm;
         _repo = repo;
         _autostart = autostart;
+        _diagnosticoSistema = DiagnosticoSistemaService.Obter();
 
         if (!string.IsNullOrWhiteSpace(secaoInicial))
         {
@@ -121,6 +124,10 @@ public class AjustesViewModel : ObservableObject
 
     public string AppNome => "GigaDock";
     public string AppVersao => typeof(AjustesViewModel).Assembly.GetName().Version?.ToString(3) ?? "GigaDock";
+    public string DiagnosticoWindows => _diagnosticoSistema.Windows;
+    public string DiagnosticoArquitetura => _diagnosticoSistema.Arquitetura;
+    public string DiagnosticoMemoria => _diagnosticoSistema.MemoriaInstalada;
+    public string DiagnosticoTempoLigado => _diagnosticoSistema.TempoLigado;
     public EnvironmentViewModel? AmbienteAtivo => _mainVm.AmbienteAtivo;
 
     public string SecaoAtiva

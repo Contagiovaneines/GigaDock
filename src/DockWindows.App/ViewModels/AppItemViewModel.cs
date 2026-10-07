@@ -330,8 +330,10 @@ public class AppItemViewModel : ObservableObject
             Titulo = janelasCorrespondentes[0].NomeProcesso;
         }
 
-        // Se ícone ainda não carregou, tenta recarregar com o caminho da janela ou com o HWND
-        if (_icone == null && janelasCorrespondentes.Count > 0)
+        // Janelas abertas fornecem a identidade mais confiável para apps MSIX,
+        // Electron e executáveis hospedados. Substitui inclusive ícones genéricos
+        // que o Shell possa ter devolvido anteriormente para o caminho fixado.
+        if (janelasCorrespondentes.Count > 0)
         {
             if (!string.IsNullOrEmpty(janelasCorrespondentes[0].CaminhoExecutavel))
             {
@@ -345,16 +347,15 @@ public class AppItemViewModel : ObservableObject
     {
         try
         {
-            bool ehAppFrameHost = !string.IsNullOrEmpty(_caminhoExecutavel) &&
-                _caminhoExecutavel.EndsWith("ApplicationFrameHost.exe", StringComparison.OrdinalIgnoreCase);
-
-            if (ehAppFrameHost && Janelas != null && Janelas.Count > 0)
+            // Primeiro tenta a janela. O serviço resolve AUMID para apps modernos,
+            // WM_GETICON para Win32 e por último o executável do processo.
+            if (Janelas is { Count: > 0 })
             {
-                foreach (var j in Janelas)
+                foreach (var janela in Janelas.OrderByDescending(j => j.EstaAtiva))
                 {
-                    if (j.Hwnd != IntPtr.Zero)
+                    if (janela.Hwnd != IntPtr.Zero)
                     {
-                        var iconJanela = _iconService.ObterIconeJanela(j.Hwnd);
+                        var iconJanela = _iconService.ObterIconeJanela(janela.Hwnd);
                         if (iconJanela != null)
                         {
                             Icone = iconJanela;
@@ -369,7 +370,7 @@ public class AppItemViewModel : ObservableObject
                 Icone = _iconService.ObterIcone(_caminhoExecutavel, Tipo);
             }
 
-            if (Icone == null && Janelas != null && Janelas.Count > 0)
+            if (Icone == null && Janelas is { Count: > 0 })
             {
                 foreach (var j in Janelas)
                 {

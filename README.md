@@ -4,20 +4,24 @@ Dock moderna e personalizável para Windows 10 e 11, criada com C#, .NET 10 e WP
 
 O GigaDock organiza aplicativos, widgets e controles do Windows em ambientes independentes, como **Trabalho**, **Estudos** e **Pessoal**. As configurações ficam no computador, sem conta obrigatória, backend próprio ou telemetria.
 
-> **Status:** versão 3.0.0 em beta. O aplicativo está em desenvolvimento ativo e ainda requer validação em diferentes versões, escalas e configurações do Windows.
+> **Status:** versão 3.0.0 em beta. Os recursos principais estão funcionais, mas instalação, integrações, acessibilidade e comportamento em diferentes computadores ainda passam por validação.
 
 ## Principais recursos
 
 - Ambientes com aplicativos, coleções, widgets e aparência próprios.
-- Aplicativos fixados e aplicativos abertos, inclusive quando pertencem a outro ambiente.
+- Aplicativos fixados e todos os aplicativos abertos em qualquer ambiente.
 - Magnificação suave dos ícones e indicadores de execução, atividade e notificações.
+- Ativação e restauração de janelas pelo clique, inclusive para aplicativos com várias janelas.
 - Miniaturas de janelas pelo DWM, com atrasos de abertura e fechamento configuráveis.
 - Temas, cores, transparência, altura, cantos, divisores e ocultação automática.
+- Largura limitada à tela, com navegação horizontal quando o conteúdo excede o espaço.
 - Reprodução de mídia com capa, faixa, artista, progresso e controles.
 - Mixer com volume principal e por aplicativo, mudo, roda do mouse, valor exato, fixação, ocultação temporária e modo compacto.
 - Contorno RGB para mídia, modo gamer e alertas de WhatsApp e Teams.
-- Controles rápidos com redes Wi-Fi, dispositivos Bluetooth e ações do Windows.
-- Painel filtrado de aplicativos em segundo plano.
+- Controles rápidos com redes Wi-Fi, dispositivos Bluetooth, estilos por ambiente e ações do Windows.
+- Painel estável e filtrado de aplicativos em segundo plano, com abertura pelo clique.
+- Ícones por executável, janela, atalho, Shell e AUMID para aplicativos empacotados.
+- Diagnóstico local do Windows, arquitetura, memória instalada e tempo ligado.
 - Compatibilidade com teclado, foco visível e escalas de tela.
 
 ## Widgets
@@ -62,6 +66,8 @@ Não é recomendado desativar recursos de segurança do Windows. Consulte [Assin
 5. Use **Visualizações** para configurar miniaturas, prévias e abertura por clique ou mouse.
 
 Os botões de Wi-Fi e Bluetooth abrem listas dentro dos Controles rápidos. Redes com perfil salvo podem ser reconectadas pela dock; novas senhas e pareamentos continuam na interface segura do Windows.
+
+Quando aplicativos e widgets ocupam mais espaço que a tela, a dock permanece dentro do monitor. Use a roda do mouse, gesto horizontal ou teclado para navegar pelo conteúdo excedente.
 
 ## Privacidade
 
@@ -108,17 +114,37 @@ Os testes são executados no GitHub Actions. Em computadores com Smart App Contr
 | `docs` | Guias, decisões, status e validações |
 | `tools` | Scripts de build e manutenção |
 
-## Limitações atuais
+## O que ainda está em beta
 
-- O instalador ainda não possui assinatura confiável.
-- Integrações dependem das permissões e APIs disponíveis no Windows e nos aplicativos.
-- O painel de segundo plano é uma visão própria de processos reconhecidos; não replica internamente a bandeja do Explorer.
-- Alertas de WhatsApp e Teams dependem das notificações publicadas no Windows.
-- Troca de saída de áudio e pareamento Bluetooth são encaminhados às páginas oficiais do Windows.
-- OBS exige WebSocket v5 local; Discord mostra apenas o estado do processo sem autorização oficial adicional.
-- Consumo prolongado, múltiplos monitores, leitores de tela e escalas entre 100% e 200% ainda precisam de validação ampla.
+| Área | Estado atual | O que falta validar ou concluir |
+| --- | --- | --- |
+| Instalador | Atualiza por usuário e preserva configurações | Assinatura Authenticode confiável e validação ampla de atualização/desinstalação |
+| Aplicativos e ícones | Win32, atalhos, MSIX/AUMID e múltiplas janelas | Casos específicos de processos protegidos, launchers e aplicativos sem ícone público |
+| Ambientes e widgets | Dados, aparência e ordem por ambiente; Relógio e Notas aceitam várias instâncias | Runtime independente para múltiplas instâncias dos demais widgets |
+| Controles rápidos | Wi-Fi, Bluetooth e ações locais | Pareamento e novas credenciais continuam nas interfaces seguras do Windows |
+| Áudio | Volume principal e por aplicativo, mudo e microfone | Eventos de dispositivos e mais validação com drivers e interfaces diferentes |
+| OBS | WebSocket v5 local e comandos básicos | Cenas, transmissão, eventos completos e reconexão mais robusta |
+| Discord | Estado do processo e abertura do aplicativo | Dados sociais ou de voz exigiriam autorização por integração oficial |
+| Notificações | Alertas locais de WhatsApp e Teams | Dependem do conteúdo disponibilizado pelos próprios aplicativos ao Windows |
+| Interface | Teclado, foco, escala e limite horizontal | Testes manuais extensos com leitores de tela, vários monitores e escalas de 100% a 200% |
+| Desempenho | Widgets ocultos são suspensos e janelas usam eventos Win32 com fallback econômico | Medições prolongadas de memória, handles e consumo em diferentes computadores |
 
-Veja o [status técnico](docs/STATUS.md) e o [plano de evolução](docs/PLANO-IMPLEMENTACAO-IDEIAS-FUTURAS.md) para detalhes.
+## Ideias futuras
+
+Sem prazo ou compromisso de entrega:
+
+- concluir o runtime independente e permitir várias instâncias de todos os widgets;
+- adicionar eventos de conexão e troca de dispositivos ao mixer de áudio;
+- ampliar os estados e controles do OBS;
+- criar atualização opcional de aplicativos por WinGet, sempre após confirmação;
+- oferecer integração opcional com Outlook, OneDrive e Teams por Microsoft Graph, com login e permissões explícitas;
+- ampliar prévias seguras de documentos e recursos da estante de arquivos;
+- melhorar o compartilhamento entre dispositivos Windows após uma análise de segurança;
+- adicionar ferramentas de diagnóstico exportável sem incluir dados pessoais;
+- validar e otimizar o GigaDock em múltiplos monitores, diferentes DPIs e sessões prolongadas;
+- publicar instaladores assinados e releases reproduzíveis.
+
+Veja o [status técnico](docs/STATUS.md) e o [plano de evolução](docs/PLANO-IMPLEMENTACAO-IDEIAS-FUTURAS.md) para detalhes técnicos.
 
 ## Contribuição
 

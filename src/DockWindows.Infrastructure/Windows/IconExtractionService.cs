@@ -190,6 +190,19 @@ public class IconExtractionService : IIconExtractionService
             return iconExistente;
         }
 
+        // Atalhos podem declarar um ícone diferente do executável de destino.
+        // IShellItemImageFactory respeita essa identidade visual do próprio .lnk.
+        if (File.Exists(caminhoResolvido) &&
+            caminhoResolvido.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+        {
+            var iconAtalho = ObterIconeShellItem(caminhoResolvido, 128);
+            if (iconAtalho != null)
+            {
+                GuardarIcone(caminhoResolvido, iconAtalho);
+                return iconAtalho;
+            }
+        }
+
         var iconExtraido = ExtrairIconeAltaResolucao(caminhoResolvido, item.Tipo);
         if (iconExtraido != null)
         {
