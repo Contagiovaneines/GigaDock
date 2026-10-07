@@ -13,23 +13,49 @@
   <section class="hero wrap"><span class="eyebrow">● FEITO PARA WINDOWS 10 E 11</span><h1>Seu desktop.<br>Seu ritmo.<em>Sua dock.</em></h1><div class="hero-bottom"><p>Trabalho, estudos e tempo livre. Um ambiente para cada momento, com seus aplicativos e widgets do seu jeito.</p><div class="hero-actions"><a class="button primary" href="https://github.com/Contagiovaneines/WinDock-/releases">Ver downloads ↗</a><a href="#demo">Experimente abaixo ↓</a></div></div></section>
 
   <section id="demo" class="wrap">
-    <div class="section-top"><div><span class="eyebrow">01 / EXPERIMENTE</span><h2>Use o GigaDock<br>antes de instalar.</h2></div><p>Alterne ambientes, abra os widgets e monte a barra. A experiência abaixo reproduz o visual e as interações principais do aplicativo.</p></div>
-    <div class="demo-toolbar">
-      <div class="tabs" role="group" aria-label="Ambiente"><button data-env="Trabalho" aria-pressed="true">▣ Trabalho</button><button data-env="Estudos" aria-pressed="false">▤ Estudos</button><button data-env="Pessoal" aria-pressed="false">✦ Pessoal</button></div>
-      <div class="demo-actions"><button id="edit-dock" aria-pressed="false">− Remover</button><button id="add-item">＋ Adicionar</button><button id="settings-btn">⚙ Personalizar</button></div>
-    </div>
-    <div class="desktop" id="desktop" data-environment="Trabalho">
-      <div class="desktop-label">DEMONSTRAÇÃO INTERATIVA <span id="environment-caption">AMBIENTE / TRABALHO</span></div>
-      <div class="desktop-copy"><span id="desktop-heading">Hora de produzir.</span><small id="desktop-subtitle">Menos distrações. Mais espaço para criar.</small></div>
-      <section id="widget-panel" class="widget-panel" hidden aria-live="polite"><button id="close-widget-panel" class="panel-close" aria-label="Fechar">×</button><div id="widget-panel-content"></div></section>
-      <div class="dock-stage"><div class="dock-scroll" id="dock-scroll"><div class="dock" id="dock" data-rgb="true" data-size="normal">
-        <button class="dock-control app-launcher" data-action="launcher" aria-label="Aplicativos"><span class="windows-mark">▦</span></button><button class="dock-control search" data-action="search" aria-label="Pesquisar">⌕</button>
-        <div class="dock-sections" id="dock-items"></div><span class="dock-divider"></span>
-        <div class="dock-end"><div class="system-monitor" data-item-id="monitor" tabindex="0" role="button" aria-label="Monitor do sistema"><span class="monitor-bars">▥▥▥▥▥▥▥</span><small>CPU</small></div><div class="clock-widget" data-item-id="clock" tabindex="0" role="button" aria-label="Relógio"><strong><i>1</i><i>6</i><i>1</i><i>4</i></strong></div><span class="dock-divider"></span><button class="dock-control caret" data-action="background" aria-label="Aplicativos em segundo plano">⌃</button><button class="dock-control add-inline" data-action="add" aria-label="Adicionar item">＋</button><button class="dock-control palette" data-action="theme" aria-label="Aparência">◉</button><span class="battery">100% <b></b></span><button class="dock-control caret" data-action="quick" aria-label="Controles rápidos">⌃</button><button class="dock-control settings" data-action="settings" aria-label="Configurações">⚙</button></div>
-      </div></div><p class="dock-hint" id="dock-hint">Clique nos itens para explorar. Passe o mouse sobre os aplicativos.</p></div>
-      <div class="desktop-footer"><span>GigaDock / prévia interativa</span><span>Dados simulados — nenhuma ação afeta seu computador</span></div>
-    </div>
-    <div class="demo-notes"><span>↔ Ambientes independentes</span><span>＋ Adicione e remova itens</span><span>◉ Configuração preservada neste navegador</span></div>
+    <div class="section-top"><div><span class="eyebrow">01 / VISÃO REAL</span><h2>Veja como a dock<br>fica no Windows.</h2></div><p>Uma reprodução visual baseada na interface atual do aplicativo: widgets compactos, aplicativos abertos, monitoramento e controles em uma única barra.</p></div>
+    <div class="environment-strip" aria-label="Exemplo dos ambientes"><span class="active">▦ Trabalho</span><span>▤ Estudos</span><span>✦ Pessoal</span><small>cada ambiente mantém seus próprios itens</small></div>
+    <figure class="dock-showcase">
+      <div class="wallpaper-glow"></div>
+      <div class="real-dock" aria-label="Prévia visual do GigaDock">
+        <div class="square-button windows-icon" title="Iniciar"><i></i><i></i><i></i><i></i></div>
+        <div class="square-button search-icon" title="Pesquisar"><span></span></div>
+
+        <div class="weather-card">
+          <div><strong>Caçapava</strong><small>11 km/h · 0,8 mm</small></div>
+          <b class="weather-symbol">☂</b><em>23°</em>
+        </div>
+
+        <div class="media-card">
+          <div class="album-art"><span>♫</span></div>
+          <div class="media-info"><strong>More Than A Woman</strong><small>Bee Gees</small><span>◀&nbsp;&nbsp;Ⅱ&nbsp;&nbsp;▶</span></div>
+          <span class="spotify-mini">≋</span>
+        </div>
+
+        <div class="apps-row" aria-label="Aplicativos abertos">
+          <div class="app running folder-icon" title="Explorador de Arquivos"><span></span></div>
+          <div class="app running chrome-icon" title="Google Chrome"><span></span><b>3</b></div>
+          <div class="app running teams-icon" title="Microsoft Teams"><span>T</span><b>3</b></div>
+          <div class="app running app-dark" title="Aplicativo"><span>◆</span></div>
+          <div class="app running discord-icon" title="Discord"><span>●</span></div>
+          <div class="app running vscode-icon" title="Visual Studio Code"><span>〈</span></div>
+          <div class="app running edge-icon" title="Microsoft Edge"><span>e</span></div>
+          <div class="app running whatsapp-icon" title="WhatsApp"><span>◔</span></div>
+        </div>
+
+        <div class="contribution-card" title="Contribuições do GitHub"><div class="pixel-grid"></div></div>
+        <div class="system-card"><small>CPU</small><strong>CPU 25% | RAM 89%</strong></div>
+        <div class="whatsapp-widget" title="Notificações">◉</div>
+        <div class="flip-clock" aria-label="16 horas e 52 minutos"><i>1</i><i>6</i><i>5</i><i>2</i></div>
+        <span class="dock-divider"></span>
+        <div class="mini-control trash-icon" title="Lixeira">♜</div>
+        <div class="mini-control" title="Aplicativos em segundo plano">⌃</div>
+        <div class="mini-control gear-icon" title="Ajustes">⚙</div>
+        <div class="mini-control lock-icon" title="Bloquear">▱</div>
+      </div>
+      <figcaption>Prévia visual — os dados exibidos são ilustrativos.</figcaption>
+    </figure>
+    <div class="demo-notes"><span>↔ Ambientes independentes</span><span>● Aplicativos abertos em qualquer ambiente</span><span>✦ Widgets e aparência personalizáveis</span></div>
   </section>
 
   <section id="recursos" class="wrap"><div class="section-top"><div><span class="eyebrow">02 / NA SUA ROTINA</span><h2>A beleza está<br>nos detalhes úteis.</h2></div><p>Uma barra flutuante para reunir o que você usa e acompanhar o que importa.</p></div><div id="feature-grid" class="feature-grid"></div></section>
@@ -38,7 +64,4 @@
 </main>
 <footer class="footer wrap"><a class="brand" href="#">GigaDock</a><span>Seu desktop, do seu jeito.</span><a href="https://github.com/Contagiovaneines/WinDock-">Código e documentação ↗</a></footer>
 
-<dialog id="library-dialog" aria-labelledby="library-title"><form method="dialog"><button class="dialog-close" aria-label="Fechar">×</button></form><span class="eyebrow">BIBLIOTECA</span><h2 id="library-title">Adicionar à dock</h2><p>Escolha um item para o ambiente <strong id="library-environment">Trabalho</strong>.</p><div class="library-tabs tabs" role="group" aria-label="Tipo de item"><button data-library-filter="todos" aria-pressed="true">Todos</button><button data-library-filter="app" aria-pressed="false">Aplicativos</button><button data-library-filter="widget" aria-pressed="false">Widgets</button></div><div id="library-grid" class="library-grid"></div></dialog>
-<dialog id="settings-dialog" aria-labelledby="settings-title"><form method="dialog"><button class="dialog-close" aria-label="Fechar">×</button></form><span class="eyebrow">DEMONSTRAÇÃO / AJUSTES</span><h2 id="settings-title">Do seu jeito.</h2><p>Personalização independente para <strong id="settings-environment">Trabalho</strong>.</p><div class="settings-list"><label>Contorno RGB<input type="checkbox" data-setting="rgb"></label><label>Monitor do sistema<input type="checkbox" data-setting="monitor"></label><label>Relógio<input type="checkbox" data-setting="clock"></label><label>Bateria<input type="checkbox" data-setting="battery"></label><label>Tamanho da dock<select id="dock-size"><option value="compact">Compacto</option><option value="normal">Normal</option><option value="large">Grande</option></select></label></div><button id="reset-demo" class="button secondary" type="button">Restaurar este ambiente</button><p class="settings-footnote">As escolhas ficam somente no armazenamento local deste navegador.</p></dialog>
-<div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
 </body></html>

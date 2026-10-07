@@ -358,7 +358,11 @@ public class AppAreaAndWindowTrackingTests
 
         public event Action? JanelasAlteradas;
         public event Action<IntPtr>? JanelaAtivada;
-        public event Action<bool>? TelaCheiaAlterada;
+        public event Action<bool>? TelaCheiaAlterada
+        {
+            add { }
+            remove { }
+        }
 
         public IReadOnlyList<JanelaInfo> ObterJanelasAbertas() => Janelas;
 

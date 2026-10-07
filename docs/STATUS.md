@@ -127,3 +127,13 @@ O instalador local foi confirmado como `NotSigned`, causa direta do bloqueio de 
 O GitHub Actions agora possui um fluxo SignPath em duas etapas: primeiro assina `DockWindows.App.exe`, monta o instalador usando somente esse aplicativo validado e depois assina `GigaDock-Setup.exe`. O artefato público recebe o nome `ASSINADO` apenas depois de ambas as validações. Builds sem a configuração do serviço continuam claramente identificados como `NAO-ASSINADO` e podem ser bloqueados.
 
 Limite real: não há certificado confiável disponível localmente e a solicitação da SignPath ainda depende de aprovação e configuração no repositório. Portanto, nenhum binário foi declarado assinado nesta etapa e nenhuma proteção do Windows foi desativada.
+
+## Avisos do GitHub Actions
+
+As Actions de checkout e upload de artefatos foram atualizadas para versões baseadas em Node.js 24, removendo os avisos de descontinuação do Node.js 20 nos runners hospedados. O fake de rastreamento usado nos testes passou a implementar o evento opcional de tela cheia sem armazenar um delegado nunca acionado, eliminando o aviso `CS0067` sem alterar o comportamento do teste.
+
+## Prévia visual fiel no site
+
+A demonstração da pasta `vercel` foi revisada a partir dos controles XAML e da ordem padrão das seções do aplicativo. A composição agora segue Iniciar/Pesquisa, clima, mídia, aplicativos, contribuições, monitor, relógio e controles finais, usando altura, raio, fundo translúcido, divisores, indicadores e contorno RGB próximos da interface WPF.
+
+Os símbolos genéricos foram substituídos por representações visuais reconhecíveis de Explorador, Chrome, Teams, Discord, Visual Studio Code, Edge e WhatsApp, com indicadores de execução e notificações. A demonstração passou a ser uma prévia estática; ela não sugere executar aplicativos ou controlar o Windows pelo navegador.

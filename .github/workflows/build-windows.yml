@@ -28,7 +28,7 @@ jobs:
 
     steps:
       - name: Baixar código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           persist-credentials: false
 
@@ -55,7 +55,7 @@ jobs:
         run: ./build_release.ps1
 
       - name: Disponibilizar instalador de desenvolvimento não assinado
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: GigaDock-Windows-x64-NAO-ASSINADO-${{ github.run_number }}
           path: |
@@ -92,7 +92,7 @@ jobs:
           vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
           vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
           vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: GigaDock-App-NAO-ASSINADO-${{ github.run_number }}
           path: unsigned-app/**
@@ -146,7 +146,7 @@ jobs:
           vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
           vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
           vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: GigaDock-Setup-NAO-ASSINADO-${{ github.run_number }}
           path: release/GigaDock-Setup.exe
@@ -199,7 +199,7 @@ jobs:
           vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
           vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
           vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: GigaDock-Windows-x64-ASSINADO-${{ github.run_number }}
           path: signed-installer/**/GigaDock-Setup.exe
@@ -209,7 +209,7 @@ jobs:
 
       - name: Disponibilizar resultados dos testes
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: testes-windows-${{ github.run_number }}
           path: docs/TestResults/ci/*.trx
