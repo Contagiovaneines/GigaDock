@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>..\..\assets\gigadock.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>GigaDock-Setup</AssemblyName>
     <RootNamespace>DockWindows.Installer</RootNamespace>
   </PropertyGroup>

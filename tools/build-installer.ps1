@@ -1,5 +1,12 @@
 # Script para empacotar e compilar o instalador oficial do GigaDock (x64)
-param([switch]$Assinar, [string]$CertificadoThumbprint, [string]$SignToolPath, [string]$TimestampUrl)
+param(
+    [switch]$Assinar,
+    [string]$CertificadoThumbprint,
+    [string]$SignToolPath,
+    [string]$TimestampUrl,
+    [string]$AppPublicadaPath,
+    [switch]$ExigirAplicativoAssinado
+)
 $ErrorActionPreference = "Stop"
 
 $signProperties = @()
@@ -7,26 +14,31 @@ if (-not $Assinar) { Write-Warning 'Build sem assinatura: o Smart App Control po
 if ($Assinar) {
     $CertificadoThumbprint = ($CertificadoThumbprint -replace '\s', '').ToUpperInvariant()
     if ($CertificadoThumbprint -notmatch '^[0-9A-F]{40}$') { throw 'Informe o Thumbprint do certificado (40 caracteres hexadecimais).' }
+    if ([string]::IsNullOrWhiteSpace($SignToolPath) -or -not (Test-Path -LiteralPath $SignToolPath -PathType Leaf)) { throw 'Informe o caminho válido do SignTool x64.' }
+    $timestampUri = $null
+    if (-not [Uri]::TryCreate($TimestampUrl, [UriKind]::Absolute, [ref]$timestampUri) -or $timestampUri.Scheme -ne 'https') { throw 'Informe uma URL HTTPS válida para o timestamp RFC 3161.' }
     $certificate = Get-Item -LiteralPath "Cert:\CurrentUser\My\$CertificadoThumbprint" -ErrorAction Stop
     if (-not $certificate.HasPrivateKey -or $certificate.NotAfter -lt (Get-Date) -or $certificate.NotBefore -gt (Get-Date)) { throw 'Certificado sem chave privada acessível ou fora da validade.' }
     if ($certificate.PublicKey.Oid.Value -ne '1.2.840.113549.1.1.1') { throw 'Use certificado RSA para Smart App Control.' }
     if (-not ($certificate.EnhancedKeyUsageList | Where-Object { $_.ObjectId -eq '1.3.6.1.5.5.7.3.3' })) { throw 'O certificado precisa da finalidade de assinatura de código.' }
-    # Ignora validação de cadeia para self-signed em desenvolvimento
-    $signProperties = @('-p:GigaDockSigning=true', "-p:CodeSigningThumbprint=$CertificadoThumbprint")
+    $signProperties = @(
+        '-p:GigaDockSigning=true',
+        "-p:CodeSigningThumbprint=$CertificadoThumbprint",
+        "-p:CodeSigningTool=$SignToolPath",
+        "-p:CodeSigningTimestamp=$TimestampUrl"
+    )
 }
 
 function Assinar-Publicacao([string]$pasta) {
     if (-not $Assinar) { return }
-    $cert = Get-Item -LiteralPath "Cert:\CurrentUser\My\$CertificadoThumbprint"
     foreach ($arquivo in (Get-ChildItem -LiteralPath $pasta -File -Recurse | Where-Object { $_.Extension -in @('.exe', '.dll') })) {
         $signature = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
-        if ($signature.Status -eq 'NotSigned' -or $signature.Status -eq 'HashMismatch') {
-            Set-AuthenticodeSignature -Certificate $cert -FilePath $arquivo.FullName -HashAlgorithm SHA256 | Out-Null
-            $check = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
-            if ($check.Status -ne 'Valid' -and $check.Status -ne 'UnknownError') {
-                # Pode dar UnknownError com certificado autoassinado se não estiver no TrustedRoot
-            }
+        if ($signature.Status -ne 'Valid') {
+            & $SignToolPath sign /sha1 $CertificadoThumbprint /s My /fd SHA256 /tr $TimestampUrl /td SHA256 $arquivo.FullName
+            if ($LASTEXITCODE -ne 0) { throw "Falha ao assinar $($arquivo.Name)." }
         }
+        & $SignToolPath verify /pa /all $arquivo.FullName
+        if ($LASTEXITCODE -ne 0) { throw "A assinatura de $($arquivo.Name) não passou na validação Authenticode." }
     }
 }
 
@@ -48,14 +60,24 @@ New-Item -ItemType Directory -Path $appDistDir -Force | Out-Null
 New-Item -ItemType Directory -Path $installerDistDir -Force | Out-Null
 New-Item -ItemType Directory -Path $resourcesDir -Force | Out-Null
 
-# 1. Publicar DockWindows.App (win-x64)
-Write-Host "`n[1/4] Publicando DockWindows.App para win-x64..." -ForegroundColor Yellow
-dotnet publish $appProj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained false -o $appDistDir @signProperties
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "Falha ao publicar DockWindows.App."
+# 1. Publicar DockWindows.App (win-x64) ou usar a publicação assinada pelo CI.
+if ([string]::IsNullOrWhiteSpace($AppPublicadaPath)) {
+    Write-Host "`n[1/4] Publicando DockWindows.App para win-x64..." -ForegroundColor Yellow
+    dotnet publish $appProj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true --self-contained false -o $appDistDir @signProperties
+    if ($LASTEXITCODE -ne 0) { Write-Error "Falha ao publicar DockWindows.App." }
+    Assinar-Publicacao $appDistDir
 }
-
-Assinar-Publicacao $appDistDir
+else {
+    $appPublicadaResolvida = (Resolve-Path -LiteralPath $AppPublicadaPath -ErrorAction Stop).Path
+    $exeAssinado = Join-Path $appPublicadaResolvida 'DockWindows.App.exe'
+    if (-not (Test-Path -LiteralPath $exeAssinado -PathType Leaf)) { throw 'A publicação informada não contém DockWindows.App.exe.' }
+    if ($ExigirAplicativoAssinado) {
+        $assinaturaApp = Get-AuthenticodeSignature -LiteralPath $exeAssinado
+        if ($assinaturaApp.Status -ne 'Valid') { throw "DockWindows.App.exe não possui assinatura Authenticode válida: $($assinaturaApp.Status)." }
+    }
+    Copy-Item -Path (Join-Path $appPublicadaResolvida '*') -Destination $appDistDir -Recurse -Force
+    Write-Host "`n[1/4] Usando publicação validada de DockWindows.App." -ForegroundColor Yellow
+}
 
 # O pacote público nunca deve transportar o runner, bibliotecas ou resultados de testes.
 $artefatosTeste = Get-ChildItem -LiteralPath $appDistDir -File -Recurse | Where-Object {
@@ -88,6 +110,9 @@ $releaseDir = Join-Path $rootDir "release"
 New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
 Copy-Item -LiteralPath $finalSetupExe -Destination (Join-Path $releaseDir "GigaDock-Setup.exe") -Force
 $finalSignature = Get-AuthenticodeSignature -LiteralPath $finalSetupExe
+if ($Assinar -and $finalSignature.Status -ne 'Valid') {
+    throw "O instalador final não possui assinatura Authenticode válida: $($finalSignature.Status)."
+}
 @{
     data = (Get-Date).ToString('o')
     instalador = 'release/GigaDock-Setup.exe'

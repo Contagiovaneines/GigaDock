@@ -53,7 +53,7 @@ O instalador preserva as configurações durante atualizações e instala o apli
 
 ### Assinatura digital
 
-Os executáveis de desenvolvimento ainda não possuem assinatura Authenticode confiável. O Smart App Control pode impedir a instalação ou execução. O fluxo de assinatura está preparado e depende da aprovação do projeto em um serviço de assinatura para código aberto.
+Os executáveis de desenvolvimento ainda não possuem assinatura Authenticode confiável. O Smart App Control pode impedir a instalação ou execução. Após a aprovação e configuração da SignPath, o GitHub Actions assina primeiro o aplicativo, monta o pacote com esse binário validado e assina o instalador. Somente o artefato identificado como `ASSINADO` é adequado para distribuição; o arquivo local atual e artefatos `NAO-ASSINADO` continuam sujeitos ao bloqueio.
 
 Não é recomendado desativar recursos de segurança do Windows. Consulte [Assinatura digital](docs/ASSINATURA-DIGITAL.md).
 

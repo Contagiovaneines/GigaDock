@@ -111,3 +111,19 @@ O popup recebeu largura e espaçamento mais confortáveis, cabeçalho alinhado, 
 ## README atualizado
 
 O documento principal agora registra o rastreamento global de aplicativos abertos, ativação confiável por clique, cobertura ampliada de ícones, limite horizontal, mixer, controles rápidos, painel de segundo plano e diagnóstico local. O estado beta foi dividido por área com limites verificáveis, e as ideias futuras foram reduzidas a uma lista de produto sem promessas de prazo.
+
+## Demonstração interativa do site
+
+A demonstração hospedada pela pasta `vercel` foi refeita para reproduzir a composição atual da dock: fundo escuro, contorno RGB, ampliação no hover, indicadores de execução, mídia, clima, Pomodoro, monitor do sistema, relógio em cartões, bateria e controles laterais.
+
+Trabalho, Estudos e Pessoal mantêm listas e preferências independentes. O visitante pode adicionar aplicativos ou widgets pela biblioteca, entrar no modo de remoção, alternar o ambiente e ajustar contorno, tamanho e itens do sistema. As escolhas são persistidas apenas no armazenamento local do navegador e podem ser restauradas por ambiente. A dock usa rolagem horizontal quando o conteúdo ultrapassa a largura disponível.
+
+Limite real: a página simula as interações e usa dados ilustrativos; por segurança do navegador, não abre programas, lê processos nem controla recursos do Windows.
+
+## Proteção do instalador e Smart App Control
+
+O instalador local foi confirmado como `NotSigned`, causa direta do bloqueio de publicador exibido pelo Smart App Control. O fluxo local de Authenticode foi corrigido para repassar SignTool e timestamp aos componentes internos, validar cada assinatura e interromper o pacote se o resultado final não for válido. O instalador também recebeu manifesto explícito de execução por usuário, compatibilidade com Windows 10/11, DPI e caminhos longos.
+
+O GitHub Actions agora possui um fluxo SignPath em duas etapas: primeiro assina `DockWindows.App.exe`, monta o instalador usando somente esse aplicativo validado e depois assina `GigaDock-Setup.exe`. O artefato público recebe o nome `ASSINADO` apenas depois de ambas as validações. Builds sem a configuração do serviço continuam claramente identificados como `NAO-ASSINADO` e podem ser bloqueados.
+
+Limite real: não há certificado confiável disponível localmente e a solicitação da SignPath ainda depende de aprovação e configuração no repositório. Portanto, nenhum binário foi declarado assinado nesta etapa e nenhuma proteção do Windows foi desativada.

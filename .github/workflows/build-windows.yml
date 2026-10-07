@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
 
 concurrency:
@@ -16,13 +17,14 @@ jobs:
   build:
     name: Compilar, testar e gerar instalador
     runs-on: windows-2025
-    timeout-minutes: 25
+    timeout-minutes: 45
     defaults:
       run:
         shell: pwsh
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: '1'
       DOTNET_NOLOGO: '1'
+      SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
 
     steps:
       - name: Baixar código
@@ -52,15 +54,157 @@ jobs:
       - name: Gerar instalador de desenvolvimento sem assinatura
         run: ./build_release.ps1
 
-      - name: Disponibilizar instalador
+      - name: Disponibilizar instalador de desenvolvimento não assinado
         uses: actions/upload-artifact@v4
         with:
-          name: GigaDock-Windows-x64-${{ github.run_number }}
+          name: GigaDock-Windows-x64-NAO-ASSINADO-${{ github.run_number }}
           path: |
             release/GigaDock-Setup.exe
             docs/installer-validation.json
           if-no-files-found: error
           retention-days: 14
+          compression-level: 0
+
+      - name: Publicar aplicativo para assinatura
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        run: >-
+          dotnet publish src/DockWindows.App/DockWindows.App.csproj
+          -c Release -r win-x64
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          --self-contained false
+          -o unsigned-app
+
+      - name: Enviar aplicativo não assinado para a SignPath
+        id: upload-unsigned-app
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: GigaDock-App-NAO-ASSINADO-${{ github.run_number }}
+          path: unsigned-app/**
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+      - name: Assinar aplicativo pela SignPath
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG }}
+          github-artifact-id: ${{ steps.upload-unsigned-app.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed-app
+
+      - name: Validar aplicativo e montar instalador
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        run: |
+          $app = Get-ChildItem signed-app -Filter DockWindows.App.exe -File -Recurse | Select-Object -First 1
+          if (-not $app) { throw 'A SignPath não devolveu DockWindows.App.exe.' }
+          $signature = Get-AuthenticodeSignature -LiteralPath $app.FullName
+          if ($signature.Status -ne 'Valid') { throw "Assinatura do aplicativo inválida: $($signature.Status)." }
+          ./build_release.ps1 -AppPublicadaPath $app.DirectoryName -ExigirAplicativoAssinado
+
+      - name: Enviar instalador não assinado para a SignPath
+        id: upload-unsigned-setup
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: GigaDock-Setup-NAO-ASSINADO-${{ github.run_number }}
+          path: release/GigaDock-Setup.exe
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
+      - name: Assinar instalador pela SignPath
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG }}
+          github-artifact-id: ${{ steps.upload-unsigned-setup.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed-installer
+
+      - name: Validar instalador assinado
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        run: |
+          $setup = Get-ChildItem signed-installer -Filter GigaDock-Setup.exe -File -Recurse | Select-Object -First 1
+          if (-not $setup) { throw 'A SignPath não devolveu GigaDock-Setup.exe.' }
+          $signature = Get-AuthenticodeSignature -LiteralPath $setup.FullName
+          if ($signature.Status -ne 'Valid') { throw "Assinatura do instalador inválida: $($signature.Status)." }
+          $signature | Select-Object Status, SignerCertificate, TimeStamperCertificate | Format-List
+
+      - name: Disponibilizar instalador assinado
+        if: >-
+          github.ref == 'refs/heads/main' &&
+          env.SIGNPATH_API_TOKEN != '' &&
+          vars.SIGNPATH_ORGANIZATION_ID != '' &&
+          vars.SIGNPATH_PROJECT_SLUG != '' &&
+          vars.SIGNPATH_SIGNING_POLICY_SLUG != '' &&
+          vars.SIGNPATH_APP_ARTIFACT_CONFIGURATION_SLUG != '' &&
+          vars.SIGNPATH_SETUP_ARTIFACT_CONFIGURATION_SLUG != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: GigaDock-Windows-x64-ASSINADO-${{ github.run_number }}
+          path: signed-installer/**/GigaDock-Setup.exe
+          if-no-files-found: error
+          retention-days: 30
           compression-level: 0
 
       - name: Disponibilizar resultados dos testes
