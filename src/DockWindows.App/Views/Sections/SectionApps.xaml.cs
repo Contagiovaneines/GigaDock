@@ -107,26 +107,28 @@ public partial class SectionApps : UserControl
     }
     private void App_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        if (sender is Button button)
-        {
-            button.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, () =>
-            {
-                if (!button.IsKeyboardFocusWithin) return;
-                var escopo = System.Windows.Input.FocusManager.GetFocusScope(button);
-                System.Windows.Input.FocusManager.SetFocusedElement(escopo, null);
-                System.Windows.Input.Keyboard.ClearFocus();
-            });
-        }
-        if (_main?.ModoAberturaPaineis != "Mouse" && AbrirVisualizacao(sender)) e.Handled = true;
+        // Não consome o clique: o comando do botão sempre deve ativar ou abrir o app.
+        _hover.Parar();
+        _visualizacao?.Close();
     }
-    private void App_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+
+    private void App_Click(object sender, RoutedEventArgs e)
     {
-        if ((e.Key == System.Windows.Input.Key.Enter || e.Key == System.Windows.Input.Key.Space) && AbrirVisualizacao(sender))
-            e.Handled = true;
+        if (sender is not Button button) return;
+        button.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, () =>
+        {
+            var escopo = System.Windows.Input.FocusManager.GetFocusScope(button);
+            System.Windows.Input.FocusManager.SetFocusedElement(escopo, null);
+            System.Windows.Input.Keyboard.ClearFocus();
+        });
     }
-    private bool AbrirVisualizacao(object sender)
+    private bool AbrirVisualizacao(object sender, bool isClick = false)
     {
         if (DataContext is not MainViewModel main || sender is not FrameworkElement { DataContext: AppItemViewModel app } anchor) return false;
+
+        // Se for um clique e houver apenas 1 janela aberta, não abre a visualização (deixa o clique ativar a janela)
+        if (isClick && app.Tipo == TipoItem.Aplicativo && app.Janelas.Count == 1) return false;
+
         DockWindows.App.Views.DockFlyoutWindow? visual = null;
         if (main.PreviaPastas && app.Tipo == TipoItem.Pasta)
             visual = new DockWindows.App.Views.PastaPreviewWindow(app.CaminhoExecutavel);

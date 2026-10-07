@@ -124,6 +124,12 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private static extern bool SetForegroundWindow(IntPtr hWnd);
 
     [DllImport("user32.dll")]
+    private static extern bool BringWindowToTop(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool IsWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     [DllImport("user32.dll")]
@@ -455,6 +461,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
     {
         try
         {
+            if (hWnd == IntPtr.Zero || !IsWindow(hWnd)) return false;
+
             if (IsIconic(hWnd))
             {
                 ShowWindow(hWnd, SW_RESTORE);
@@ -464,9 +472,11 @@ public class Win32WindowTrackingService : IWindowTrackingService
                 ShowWindow(hWnd, SW_SHOW);
             }
 
-            // Simula toque no teclado para liberar restriÃ§Ã£o de primeiro plano do Windows
+            BringWindowToTop(hWnd);
+            // O clique do usuário na dock permite a transferência de primeiro plano.
             keybd_event(0, 0, 0, 0);
-            return SetForegroundWindow(hWnd);
+            SetForegroundWindow(hWnd);
+            return GetForegroundWindow() == hWnd || !IsIconic(hWnd);
         }
         catch
         {

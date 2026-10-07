@@ -56,15 +56,13 @@ public static class AppBarHelper
         _isRegistered = true;
     }
 
-    public static void UpdatePos(Window window)
+    public static void UpdatePos(Window window, double alturaReservada)
     {
         if (!_isRegistered) return;
         var helper = new WindowInteropHelper(window);
         
         var dpiScale = VisualTreeHelper.GetDpi(window);
-        double height = window.ActualHeight;
-        if (height == 0 && double.IsNaN(window.Height) == false) height = window.Height;
-        if (height <= 0) height = 80; // Safe default
+        if (!double.IsFinite(alturaReservada) || alturaReservada <= 0) alturaReservada = 72;
 
         var data = new APPBARDATA
         {
@@ -75,7 +73,7 @@ public static class AppBarHelper
 
         int screenWidth = (int)Math.Round(SystemParameters.PrimaryScreenWidth * dpiScale.DpiScaleX);
         int screenHeight = (int)Math.Round(SystemParameters.PrimaryScreenHeight * dpiScale.DpiScaleY);
-        int barHeight = (int)Math.Round(height * dpiScale.DpiScaleY);
+        int barHeight = Math.Max(1, (int)Math.Round(alturaReservada * dpiScale.DpiScaleY));
 
         data.rc.left = 0;
         data.rc.right = screenWidth;
@@ -83,6 +81,9 @@ public static class AppBarHelper
         data.rc.bottom = screenHeight;
 
         SHAppBarMessage(ABM_QUERYPOS, ref data);
+        // O Shell pode ajustar o retângulo consultado. Para uma AppBar inferior,
+        // recalcule o topo preservando somente a altura realmente reservada.
+        data.rc.top = data.rc.bottom - barHeight;
         SHAppBarMessage(ABM_SETPOS, ref data);
     }
 

@@ -423,7 +423,11 @@ public partial class MainWindow : Window
         if (_viewModel.UsarComoBarraPrincipal && !_estaOcultoPorAutoHide)
         {
             DockWindows.Infrastructure.Windows.AppBarHelper.RegisterBar(this);
-            DockWindows.Infrastructure.Windows.AppBarHelper.UpdatePos(this);
+            // A janela inclui espaço transparente acima para sombra e magnificação.
+            // Reservar a altura total afastava as janelas da parte visível da dock.
+            const double espacoEntreProgramaEDock = 4.0;
+            var alturaReservada = _viewModel.AlturaBarra + gapBordaInferior + espacoEntreProgramaEDock;
+            DockWindows.Infrastructure.Windows.AppBarHelper.UpdatePos(this, alturaReservada);
         }
         else
         {

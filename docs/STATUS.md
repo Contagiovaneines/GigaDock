@@ -77,3 +77,11 @@ O `.gitignore` impede que resultados de build, publicação, testes, inventário
 Aplicativos com uma janela principal válida agora aparecem automaticamente na dock em qualquer ambiente, mesmo quando nunca foram fixados. A fixação controla somente se o item permanece na dock depois que todas as suas janelas são fechadas. A preferência antiga que ocultava aplicativos abertos não fixados foi mantida apenas para compatibilidade de leitura das configurações e deixou de filtrar a interface.
 
 Validação: o cenário automatizado cobre configurações antigas com a opção habilitada e desabilitada; em ambos os casos, aplicativos abertos do ambiente atual, de outros ambientes e ainda não cadastrados devem entrar na lista. A solução Release compilou sem erros e com um aviso preexistente no fake de rastreamento. A tentativa de executar esse teste local foi interrompida antes da descoberta pela proteção já configurada contra alertas do Smart App Control; ele deverá ser executado pelo GitHub Actions.
+
+## Área útil próxima da dock
+
+No modo de barra principal, a AppBar agora reserva somente a altura visível da dock, a margem inferior e 4 pixels de separação. O espaço transparente usado acima da janela para sombras e magnificação deixou de reduzir a área útil dos programas. A dock continua visualmente separada das janelas sem desperdiçar a faixa superior reservada para seus efeitos.
+
+## Ativação confiável pelo clique
+
+O clique principal nos ícones deixou de ser consumido pela abertura de prévias e sempre tenta ativar ou restaurar uma janela real do aplicativo. Quando existem várias janelas, a dock escolhe primeiro a ativa, depois uma não minimizada. O foco visual é limpo somente depois da execução do comando, evitando cancelar o clique no intervalo entre pressionar e soltar o mouse. Identificadores de janela inválidos são descartados; para um item fixado, a execução normal é usada como recuperação.

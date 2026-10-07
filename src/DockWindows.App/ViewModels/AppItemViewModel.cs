@@ -262,25 +262,20 @@ public class AppItemViewModel : ObservableObject
             return;
         }
 
-        if (QuantidadeJanelas == 1)
+        var janela = Janelas.FirstOrDefault(j => j.EstaAtiva)
+                     ?? Janelas.FirstOrDefault(j => !j.EstaMinimizada)
+                     ?? Janelas.FirstOrDefault();
+
+        if (janela != null)
         {
-            var win = Janelas.FirstOrDefault();
-            if (win != null)
+            if (!_windowService.AtivarJanela(janela.Hwnd))
             {
-                if (EstaAtivo && !win.EstaMinimizada)
-                {
-                    _windowService.MinimizarJanela(win.Hwnd);
-                }
-                else
-                {
-                    _windowService.AtivarJanela(win.Hwnd);
-                }
+                // A janela rastreada pode ter sido substituída entre a enumeração e
+                // o clique. Atualiza o estado e tenta iniciar o item fixado.
+                SincronizarJanelas(Janelas.Where(j => j.Hwnd != janela.Hwnd).ToList());
+                if (EstaFixado) _onExecutar(this);
             }
-        }
-        else
-        {
-            // Alterna o flyout de seleção de janela
-            MenuJanelasAberto = !MenuJanelasAberto;
+            MenuJanelasAberto = false;
         }
     }
 

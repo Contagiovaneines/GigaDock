@@ -43,7 +43,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:AppItemViewModel}">
                     <Grid Margin="9,0,9,0">
-                        <Button Command="{Binding ClicarCommand}" PreviewMouseLeftButtonDown="App_PreviewMouseLeftButtonDown" PreviewKeyDown="App_PreviewKeyDown" MouseEnter="App_MouseEnter" MouseLeave="App_MouseLeave" GotKeyboardFocus="App_GotKeyboardFocus" LostKeyboardFocus="App_LostKeyboardFocus"
+                        <Button Command="{Binding ClicarCommand}" Click="App_Click" PreviewMouseLeftButtonDown="App_PreviewMouseLeftButtonDown" MouseEnter="App_MouseEnter" MouseLeave="App_MouseLeave" GotKeyboardFocus="App_GotKeyboardFocus" LostKeyboardFocus="App_LostKeyboardFocus"
                                 ContextMenu="{StaticResource AppContextMenu}"
                                 ToolTipService.InitialShowDelay="650" ToolTipService.ShowDuration="5000"
                                 Padding="0"
