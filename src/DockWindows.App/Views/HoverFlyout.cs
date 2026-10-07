@@ -9,14 +9,19 @@ internal sealed class HoverFlyout
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromMilliseconds(350) };
     private readonly Func<FrameworkElement, Window?> _abrir;
     private readonly Func<bool> _habilitado;
+    private readonly Func<int> _atrasoAbrir;
+    private readonly Func<int> _atrasoFechar;
     private FrameworkElement? _anchor;
     private Window? _window;
     private bool _fechando;
 
-    public HoverFlyout(Func<bool> habilitado, Func<FrameworkElement, Window?> abrir)
+    public HoverFlyout(Func<bool> habilitado, Func<FrameworkElement, Window?> abrir,
+        Func<int>? atrasoAbrir = null, Func<int>? atrasoFechar = null)
     {
         _habilitado = habilitado;
         _abrir = abrir;
+        _atrasoAbrir = atrasoAbrir ?? (() => 350);
+        _atrasoFechar = atrasoFechar ?? (() => 200);
         _timer.Tick += (_, _) =>
         {
             _timer.Stop();
@@ -50,6 +55,8 @@ internal sealed class HoverFlyout
         Parar();
         _anchor = anchor;
         _fechando = false;
+        _timer.Interval = TimeSpan.FromMilliseconds(Math.Clamp(_atrasoAbrir(), 0, 5000));
+        if (_timer.Interval == TimeSpan.Zero) _timer.Interval = TimeSpan.FromMilliseconds(1);
         _timer.Start();
     }
     public void Sair()
@@ -57,6 +64,7 @@ internal sealed class HoverFlyout
         if (_anchor == null) return;
         _timer.Stop();
         _fechando = true;
+        _timer.Interval = TimeSpan.FromMilliseconds(Math.Clamp(_atrasoFechar(), 1, 5000));
         _timer.Start();
     }
     public void Parar()

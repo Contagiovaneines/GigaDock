@@ -1,5 +1,9 @@
 using System.IO;
+using System.Windows.Media.Imaging;
 using DockWindows.Core.Services;
+using Windows.Data.Pdf;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace DockWindows.Infrastructure.Files;
 
@@ -27,6 +31,50 @@ public sealed class ImageFilePreviewProvider : IFilePreviewProvider
         var info = new FileInfo(caminho);
         if (info.Length > 20 * 1024 * 1024) return Task.FromResult(new FilePreviewResult("metadata", info.Name, "Imagem acima do limite de prévia de 20 MB"));
         return Task.FromResult(new FilePreviewResult("imagem", info.Name, $"{info.Length / 1024d:N1} KB · {info.LastWriteTime:g}", CaminhoImagem: caminho));
+    }
+}
+
+public sealed class PdfFilePreviewProvider : IFilePreviewProvider
+{
+    private const long LimiteBytes = 50L * 1024 * 1024;
+    public bool PodeAbrir(string caminho) => string.Equals(Path.GetExtension(caminho), ".pdf", StringComparison.OrdinalIgnoreCase);
+
+    public async Task<FilePreviewResult> CriarAsync(string caminho, CancellationToken cancellationToken)
+    {
+        var info = new FileInfo(caminho);
+        if (info.Length > LimiteBytes) return new("metadata", info.Name, "PDF acima do limite de prévia de 50 MB");
+
+        var arquivo = await StorageFile.GetFileFromPathAsync(caminho).AsTask(cancellationToken);
+        var documento = await PdfDocument.LoadFromFileAsync(arquivo).AsTask(cancellationToken);
+        if (documento.PageCount == 0) return new("metadata", info.Name, "PDF sem páginas");
+
+        var pasta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DockWindows", "preview-cache");
+        Directory.CreateDirectory(pasta);
+        LimparCache(pasta);
+        var chave = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes($"{info.FullName}|{info.LastWriteTimeUtc.Ticks}|{info.Length}")))[..20];
+        var destino = Path.Combine(pasta, chave + ".png");
+        if (!File.Exists(destino))
+        {
+            using var pagina = documento.GetPage(0);
+            using var memoria = new InMemoryRandomAccessStream();
+            await pagina.RenderToStreamAsync(memoria, new PdfPageRenderOptions { DestinationWidth = 900 }).AsTask(cancellationToken);
+            memoria.Seek(0);
+            var decoder = BitmapDecoder.Create(memoria.AsStreamForRead(), BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(decoder.Frames[0]);
+            await using var saida = new FileStream(destino, FileMode.Create, FileAccess.Write, FileShare.Read, 81920, true);
+            encoder.Save(saida);
+        }
+        return new("pdf", info.Name, $"{documento.PageCount} página(s) · {info.Length / 1024d:N1} KB", CaminhoImagem: destino);
+    }
+
+    private static void LimparCache(string pasta)
+    {
+        try
+        {
+            foreach (var arquivo in new DirectoryInfo(pasta).EnumerateFiles("*.png").OrderByDescending(f => f.LastWriteTimeUtc).Skip(32)) arquivo.Delete();
+        }
+        catch { }
     }
 }
 

@@ -17,6 +17,37 @@
             <TextBlock Text="{Binding Bateria.Porcentagem}" Foreground="#E1E4E8" FontSize="11"
                        FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,6,0"/>
             <Grid Width="27" Height="14" VerticalAlignment="Center">
+                <Border Width="25" Height="14" CornerRadius="4" BorderThickness="1.5"
+                        BorderBrush="#72D99C" HorizontalAlignment="Left">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Opacity" Value="0"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Bateria.Carregando}" Value="True"/>
+                                        <Condition Binding="{Binding AnimacoesAtivas}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="ChargingGlowStoryboard">
+                                            <Storyboard RepeatBehavior="Forever" AutoReverse="True">
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="0.9" Duration="0:0:0.85"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </MultiDataTrigger.EnterActions>
+                                    <MultiDataTrigger.ExitActions><StopStoryboard BeginStoryboardName="ChargingGlowStoryboard"/></MultiDataTrigger.ExitActions>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Bateria.Carregando}" Value="True"/>
+                                        <Condition Binding="{Binding AnimacoesAtivas}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Opacity" Value="0.75"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
                 <Border Width="24" Height="13" CornerRadius="3" BorderThickness="1.3" BorderBrush="#B3BAC4"
                         HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Border Width="2" Height="5" CornerRadius="1" Background="#B3BAC4"
@@ -25,7 +56,31 @@
                         Background="{Binding Bateria.CorCarga}" HorizontalAlignment="Left" Margin="3,0,0,0" VerticalAlignment="Center"/>
                 <Path Data="M 12,1 L 8,8 L 12,8 L 10,13 L 17,5 L 13,5 Z" Fill="#183225"
                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                      Visibility="{Binding Bateria.Carregando, Converter={StaticResource BoolToVis}}"/>
+                      Visibility="{Binding Bateria.Carregando, Converter={StaticResource BoolToVis}}">
+                    <Path.RenderTransform><ScaleTransform CenterX="12" CenterY="7"/></Path.RenderTransform>
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Bateria.Carregando}" Value="True"/>
+                                        <Condition Binding="{Binding AnimacoesAtivas}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="ChargingBoltStoryboard">
+                                            <Storyboard RepeatBehavior="Forever" AutoReverse="True">
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" Duration="0:0:0.55"/>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" From="0.9" To="1.08" Duration="0:0:0.55"/>
+                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" From="0.9" To="1.08" Duration="0:0:0.55"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </MultiDataTrigger.EnterActions>
+                                    <MultiDataTrigger.ExitActions><StopStoryboard BeginStoryboardName="ChargingBoltStoryboard"/></MultiDataTrigger.ExitActions>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
             </Grid>
         </StackPanel>
     </Border>

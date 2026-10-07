@@ -61,6 +61,14 @@ if ($LASTEXITCODE -ne 0) {
 
 Assinar-Publicacao $appDistDir
 
+# O pacote público nunca deve transportar o runner, bibliotecas ou resultados de testes.
+$artefatosTeste = Get-ChildItem -LiteralPath $appDistDir -File -Recurse | Where-Object {
+    $_.Name -match '(?i)(testhost|vstest|xunit|DockWindows\.Tests|\.trx$|coverage)'
+}
+if ($artefatosTeste) {
+    throw "Publicação inválida: artefatos de teste encontrados: $($artefatosTeste.Name -join ', ')"
+}
+
 # 2. Compactar arquivos do app em app.zip
 Write-Host "`n[2/4] Compactando arquivos do aplicativo em app.zip..." -ForegroundColor Yellow
 if (Test-Path $appZip) {

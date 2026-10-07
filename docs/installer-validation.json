@@ -1,13 +1,9 @@
-{
-  "data": "2026-10-06",
-  "instalador": "release/GigaDock-Setup.exe",
-  "sha256": "39ed0b02c6c6cf52a193981e5d9943c180780e9b2787a26b966a0258af2f953d",
-  "appSha256": "c75fd839d5e298035c8744d7c20100024e1e5bccbb1e97a56e18d4d6e8262dd7",
-  "tamanhoBytes": 173385778,
-  "zipConfere": true,
-  "releaseConfere": true,
-  "instaladorSelfContained": true,
-  "appRequerDesktopRuntime": "10 x64",
-  "assinado": false,
-  "instalacaoManualExecutada": false
+﻿{
+    "data":  "2026-10-07T01:01:58.3321501-03:00",
+    "assinaturaSolicitada":  false,
+    "assinaturaStatus":  "NotSigned",
+    "instalacaoManualExecutada":  false,
+    "sha256":  "776A34FCD9A585579A4C8F1A2B2C5C3A24ADD9778F20A0412FE43F7FB446E46F",
+    "tamanhoBytes":  173529650,
+    "instalador":  "release/GigaDock-Setup.exe"
 }

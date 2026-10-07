@@ -1,11 +1,11 @@
 # Plano de implementação das ideias futuras
 
 Data da análise: 06/10/2026  
-Estado: planejamento técnico, sem compromisso de prazo
+Estado: MVP implementado em 07/10/2026; validações manuais e evoluções listadas ao final
 
-> Implementação iniciada em 06/10/2026. A primeira entrega da Fase 0 está concluída para Relógio e Notas: esquema v7, configuração por instância, IDs normalizados, armazenamento de notas por ambiente/instância, fusos por relógio, runtimes adicionais e duplicação controlada pela loja. Os demais tipos ainda usam o runtime legado e permanecem nas fases descritas abaixo.
+> Implementação iniciada em 06/10/2026. A Fase 0 foi validada para Relógio e Notas e o esquema local chegou à v8, incluindo clima e calendário por ambiente. Os demais tipos mantêm uma instância por ambiente até receberem runtime próprio.
 
-> Progresso adicional: Lembrete de Água e Cotação de Moedas já possuem implementações funcionais iniciais, configuração local por ambiente/instância e build Release aprovado. Permanecem em beta até validação manual e testes executáveis.
+> As fases 1 a 7 possuem MVP funcional. Na Fase 8, o compartilhamento usa o painel oficial do Windows e o Discord informa apenas o estado real do processo; voz permanece indisponível sem autorização oficial. Consulte a seção 18 para o resultado final e os limites preservados.
 
 ## 1. Objetivo
 
@@ -343,4 +343,20 @@ Uma ideia só deve sair de “beta” quando:
 - GitHub — [REST API de eventos](https://docs.github.com/en/rest/activity/events)
 - GitHub — [ContributionsCollection em GraphQL](https://docs.github.com/en/graphql/reference/objects#contributionscollection)
 - Discord — [Social SDK e vinculação de conta](https://docs.discord.com/developers/discord-social-sdk/development-guides/publisher-level-account-linking)
+
+## 18. Resultado da implementação
+
+| Área | Entrega disponível | Limite mantido |
+| --- | --- | --- |
+| Instâncias e ambientes | IDs normalizados, configuração versionada, Relógio e Notas duplicáveis, clima, GitHub, calendário e estante isolados | Demais tipos usam uma instância por ambiente |
+| Tempo e água | Fusos por relógio, Pomodoro configurável e lembrete com adiar/concluir | Vários Pomodoros ainda exigem runtime próprio |
+| Área de transferência e arquivos | Listener por evento, histórico limitado, Downloads/Capturas e captura do Windows | Histórico de imagem e captura embutida ficam para evolução |
+| Conectividade e áudio | SSID/sinal, Bluetooth conectado, sessões de áudio e mudo do microfone | Troca da saída abre Som, pois a troca direta não possui API desktop pública compatível |
+| Moedas e GitHub | ECB com cache, REST GitHub com ETag e fallback anual identificado | Dados privados exigiriam autenticação, fora do escopo local atual |
+| OBS | WebSocket v5 local, autenticação e gravação confirmada por resposta | Eventos, cenas, transmissão e reconexão automática continuam em beta |
+| Estante | Texto, imagem, primeira página de PDF, metadados, cache limitado e painel Compartilhar | Não executa handlers, macros ou conteúdo incorporado |
+| Discord | Abre o aplicativo e informa processo aberto/fechado | Canal e participantes não são lidos sem autorização do SDK oficial |
+| Compartilhamento | Share Sheet oficial do Windows para o arquivo escolhido | Transferência própria entre computadores exige projeto e modelo de ameaças separados |
+
+Validação automatizada em 07/10/2026: build Release aprovado; 160 testes normais e o teste de estabilidade de dois minutos aprovados separadamente. O instalador foi regenerado sem assinatura. Integrações com hardware, OBS, Discord, escala, leitor de tela, instalação e desinstalação continuam exigindo validação manual em Windows 10 e 11 antes de retirar o rótulo beta.
 

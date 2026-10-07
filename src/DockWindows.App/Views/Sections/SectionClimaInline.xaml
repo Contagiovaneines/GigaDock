@@ -8,7 +8,7 @@
   </ContextMenu>
  </UserControl.ContextMenu>
  <Button Click="ClimaDetalhes_Click" MouseEnter="Clima_MouseEnter" MouseLeave="Clima_MouseLeave" Cursor="Hand" Background="Transparent" BorderThickness="0"
- Visibility="{Binding Clima.Habilitado, Converter={StaticResource BoolToVis}}" ToolTip="{Binding Clima.DescricaoDados}" AutomationProperties.Name="{Binding Clima.DescricaoDados}">
+ Visibility="{Binding Clima.Habilitado, Converter={StaticResource BoolToVis}}" ToolTip="{Binding Clima.DicaCurta}" AutomationProperties.Name="{Binding Clima.DicaCurta}">
   <Button.Template><ControlTemplate TargetType="Button"><Border x:Name="Focus" CornerRadius="12"><ContentPresenter/><Border.Style><Style TargetType="Border"><Setter Property="BorderThickness" Value="0"/></Style></Border.Style></Border><ControlTemplate.Triggers><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Focus" Property="BorderBrush" Value="LightSkyBlue"/><Setter TargetName="Focus" Property="BorderThickness" Value="2"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Button.Template>
   <Viewbox MaxHeight="{Binding AlturaBarra}" StretchDirection="DownOnly"><controls:ClimaEstiloControl Width="{Binding Clima.Largura}" Height="64" Estilo="{Binding Clima.Estilo}" Dados="{Binding Clima}"/></Viewbox>
  </Button>

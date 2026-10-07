@@ -397,10 +397,8 @@
                     <Button Content="+ Biblioteca de Apps" Background="#0A84FF" Foreground="#FFFFFF" BorderThickness="0" FontSize="11" FontWeight="Bold" Padding="12,6" Command="{Binding AbrirGaleriaAppsCommand}" Cursor="Hand" Margin="0,0,0,10" ToolTip="Adicionar aplicativos instalados ao ambiente selecionado">
                         <Button.Resources><Style TargetType="Border"><Setter Property="CornerRadius" Value="8"/></Style></Button.Resources>
                     </Button>
-                    <CheckBox Style="{StaticResource ToggleSwitchStyle}" Margin="0,0,0,10"
-                              Content="Mostrar também apps abertos de outros ambientes"
-                              ToolTip="Desligado: a dock mostra só os apps do ambiente ativo. Os outros continuam na barra de tarefas do Windows."
-                              IsChecked="{Binding ExibirAppsAbertosNaoFixados}"/>
+                    <TextBlock Text="Aplicativos em execução aparecem automaticamente em todos os ambientes."
+                               Foreground="#8793A3" FontSize="10" TextWrapping="Wrap" Margin="2,0,2,10"/>
                 </StackPanel>
 
                 <ListBox Grid.Row="1" ItemsSource="{Binding Ambientes}"

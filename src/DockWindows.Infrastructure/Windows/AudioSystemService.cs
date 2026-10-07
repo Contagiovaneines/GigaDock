@@ -13,6 +13,8 @@ public sealed class AudioSystemService : IAudioSystemService
 
     public IReadOnlyList<SessaoAudioInfo> Sessoes => _sessoes;
     public IReadOnlyList<DispositivoAudioInfo> Saidas => _saidas;
+    public float VolumeMestre { get; private set; }
+    public bool VolumeMestreMudo { get; private set; }
     public bool MicrofoneMudo { get; private set; }
     public string? Erro { get; private set; }
 
@@ -30,6 +32,14 @@ public sealed class AudioSystemService : IAudioSystemService
                 {
                     saidaPadrao.GetId(out var idPadrao);
                     _saidas.Add(new(idPadrao, "Saída padrão do Windows", true, false));
+                    var iidVolume = typeof(IAudioEndpointVolume).GUID;
+                    saidaPadrao.Activate(ref iidVolume, 23, IntPtr.Zero, out var volumeObj);
+                    var volumeMestre = (IAudioEndpointVolume)volumeObj;
+                    volumeMestre.GetMasterVolumeLevelScalar(out var nivelMestre);
+                    volumeMestre.GetMute(out var mestreMudo);
+                    VolumeMestre = nivelMestre;
+                    VolumeMestreMudo = mestreMudo;
+                    Liberar(volumeMestre);
                     EnumerarSessoes(saidaPadrao);
                 }
                 finally { Liberar(saidaPadrao); }
@@ -55,23 +65,34 @@ public sealed class AudioSystemService : IAudioSystemService
 
     public bool DefinirVolumeSessao(string id, float volume) => AlterarSessao(id, simple => simple.SetMasterVolume(Math.Clamp(volume, 0f, 1f), Guid.Empty));
     public bool DefinirMudoSessao(string id, bool mudo) => AlterarSessao(id, simple => simple.SetMute(mudo, Guid.Empty));
+    public bool DefinirVolumeMestre(float volume) => AlterarEndpoint(0, endpoint => endpoint.SetMasterVolumeLevelScalar(Math.Clamp(volume, 0f, 1f), Guid.Empty), () => VolumeMestre = Math.Clamp(volume, 0f, 1f), "Não foi possível alterar o volume principal.");
+    public bool DefinirMudoMestre(bool mudo) => AlterarEndpoint(0, endpoint => endpoint.SetMute(mudo, Guid.Empty), () => VolumeMestreMudo = mudo, "Não foi possível silenciar a saída de áudio.");
 
     public bool DefinirMicrofoneMudo(bool mudo)
     {
+        return AlterarEndpoint(1, endpoint => endpoint.SetMute(mudo, Guid.Empty), () => MicrofoneMudo = mudo, "Não foi possível alterar o microfone padrão.");
+    }
+
+    private bool AlterarEndpoint(int fluxo, Func<IAudioEndpointVolume, int> alterar, Action confirmar, string mensagemErro)
+    {
         if (_disposed) return false;
+        IMMDeviceEnumerator? enumerador = null;
+        IMMDevice? dispositivo = null;
+        IAudioEndpointVolume? endpoint = null;
         try
         {
-            var enumerador = (IMMDeviceEnumerator)new MMDeviceEnumeratorComObject();
-            enumerador.GetDefaultAudioEndpoint(1, 1, out var dispositivo);
+            enumerador = (IMMDeviceEnumerator)new MMDeviceEnumeratorComObject();
+            enumerador.GetDefaultAudioEndpoint(fluxo, 1, out dispositivo);
             var iid = typeof(IAudioEndpointVolume).GUID;
             dispositivo.Activate(ref iid, 23, IntPtr.Zero, out var obj);
-            var endpoint = (IAudioEndpointVolume)obj;
-            var hr = endpoint.SetMute(mudo, Guid.Empty);
-            MicrofoneMudo = mudo;
-            Liberar(endpoint); Liberar(dispositivo); Liberar(enumerador);
-            return hr == 0;
+            endpoint = (IAudioEndpointVolume)obj;
+            if (alterar(endpoint) != 0) return false;
+            confirmar();
+            Erro = null;
+            return true;
         }
-        catch { Erro = "Não foi possível alterar o microfone padrão."; return false; }
+        catch { Erro = mensagemErro; return false; }
+        finally { Liberar(endpoint); Liberar(dispositivo); Liberar(enumerador); }
     }
 
     private void EnumerarSessoes(IMMDevice dispositivo)

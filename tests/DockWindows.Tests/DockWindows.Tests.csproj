@@ -26,4 +26,18 @@
     <ProjectReference Include="..\..\src\DockWindows.App\DockWindows.App.csproj" />
   </ItemGroup>
 
+  <!--
+    O Smart App Control bloqueia assemblies de teste locais sem assinatura antes
+    de o xUnit iniciar. Interromper no MSBuild evita o alerta repetido do Windows.
+    O GitHub Actions continua executando a suíte em um runner isolado.
+  -->
+  <Target Name="BloquearTesthostQuandoSmartAppControlEstiverAtivo" BeforeTargets="VSTest"
+          Condition="'$(CI)' != 'true' and '$(OS)' == 'Windows_NT' and '$(PermitirTestesLocaisSemAssinatura)' != 'true'">
+    <PropertyGroup>
+      <EstadoSmartAppControl>$(registry:HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy@VerifiedAndReputablePolicyState)</EstadoSmartAppControl>
+    </PropertyGroup>
+    <Error Condition="'$(EstadoSmartAppControl)' == '1'"
+           Text="Testes locais não iniciados: o Smart App Control bloquearia DockWindows.Tests.dll e exibiria um alerta. Use o resultado do GitHub Actions ou execute com um certificado de assinatura de código confiável." />
+  </Target>
+
 </Project>

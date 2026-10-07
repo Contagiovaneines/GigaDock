@@ -73,6 +73,7 @@ public class ClimaWidgetViewModel : ObservableObject, IAtividadeWidget
     public string Estilo { get => _estilo; set { if (SetProperty(ref _estilo, value)) OnPropertyChanged(nameof(Largura)); } }
     public double Largura => DockWindows.App.Controls.ClimaEstiloControl.LarguraPara(Estilo);
     public string DescricaoDados => DescricaoAtualizacao + "\n" + $"{Local} · {Condicao} · {Temperatura}\nVento: {Vento} {DirecaoVento} · Precipitação observada: {Precipitacao}\nSol: {NascerSol}–{PorSol}\n" + (Observacao.HasValue ? $"Observação local: {Observacao:dd/MM HH:mm}\n" : "") + "Clique para detalhes; botão direito ou Shift+F10 para personalizar. Previsão diária: máxima de cada dia.";
+    public string DicaCurta => $"{Local}: {Temperatura} · {Condicao}";
     private string _vento = "—", _direcaoVento = "—", _precipitacao = "—", _nascerSol = "—", _porSol = "—", _tipoAtual = "Indisponivel";
     private DateTime? _observacao;
     public string Vento { get => _vento; private set => SetProperty(ref _vento, value); }
@@ -86,9 +87,9 @@ public class ClimaWidgetViewModel : ObservableObject, IAtividadeWidget
     private string _sensacao = "—°";
     public string Sensacao { get => _sensacao; set => SetProperty(ref _sensacao, value); }
     public ObservableCollection<PrevisaoHora> Horas { get; } = new();
-    public string Condicao { get => _condicao; set { if (SetProperty(ref _condicao, value)) OnPropertyChanged(nameof(DescricaoDados)); } }
-    public string Local { get => _local; set => SetProperty(ref _local, value); }
-    public string Temperatura { get => _temperatura; set => SetProperty(ref _temperatura, value); }
+    public string Condicao { get => _condicao; set { if (SetProperty(ref _condicao, value)) { OnPropertyChanged(nameof(DescricaoDados)); OnPropertyChanged(nameof(DicaCurta)); } } }
+    public string Local { get => _local; set { if (SetProperty(ref _local, value)) OnPropertyChanged(nameof(DicaCurta)); } }
+    public string Temperatura { get => _temperatura; set { if (SetProperty(ref _temperatura, value)) OnPropertyChanged(nameof(DicaCurta)); } }
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
     public FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
     public ObservableCollection<PrevisaoClima> Previsoes { get; } = new()

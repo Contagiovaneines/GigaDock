@@ -37,6 +37,8 @@ public sealed class WidgetInstancesV7Tests : IDisposable
           "gitHubUsuario": "octocat",
           "gitHubAnimacao": "PacMan",
           "localizacaoClima": "São Paulo",
+          "urlIcal": "C:\\agenda.ics",
+          "compromissosLocais": [{ "id": "c1", "titulo": "Reunião", "dataHora": "2026-10-07T10:00:00" }],
           "ambientes": [{
             "id": "amb",
             "nome": "Pessoal",
@@ -44,7 +46,8 @@ public sealed class WidgetInstancesV7Tests : IDisposable
               { "id": "duplicado", "tipo": "Relogio", "nome": "Local", "visivel": true },
               { "id": "duplicado", "tipo": "Relogio", "nome": "Tóquio", "visivel": true },
               { "id": "github", "tipo": "GitHubContribuicoes", "nome": "GitHub", "visivel": true },
-              { "id": "clima", "tipo": "Clima", "nome": "Clima", "visivel": true }
+              { "id": "clima", "tipo": "Clima", "nome": "Clima", "visivel": true },
+              { "id": "calendario", "tipo": "CalendarioCompromissos", "nome": "Calendário", "visivel": true }
             ]
           }]
         }
@@ -53,11 +56,15 @@ public sealed class WidgetInstancesV7Tests : IDisposable
         var preferencias = new JsonSettingsRepository(_pasta).Carregar();
         var widgets = preferencias.Ambientes.Single().WidgetsInstalados;
 
-        Assert.Equal(7, preferencias.SchemaVersion);
+        Assert.Equal(8, preferencias.SchemaVersion);
         Assert.Equal(widgets.Count, widgets.Select(w => w.Id).Distinct(StringComparer.OrdinalIgnoreCase).Count());
         Assert.Equal("octocat", widgets.Single(w => w.Tipo == TipoWidget.GitHubContribuicoes).ObterConfiguracao("usuario"));
         Assert.Equal("PacMan", widgets.Single(w => w.Tipo == TipoWidget.GitHubContribuicoes).ObterConfiguracao("animacao"));
         Assert.Equal("São Paulo", widgets.Single(w => w.Tipo == TipoWidget.Clima).ObterConfiguracao("localizacao"));
+        var calendario = widgets.Single(w => w.Tipo == TipoWidget.CalendarioCompromissos);
+        Assert.Equal("C:\\agenda.ics", calendario.ObterConfiguracao("urlIcal"));
+        var compromissos = System.Text.Json.JsonSerializer.Deserialize<List<CompromissoLocal>>(calendario.ObterConfiguracao("compromissos"));
+        Assert.Equal("Reunião", Assert.Single(compromissos!).Titulo);
     }
 
     public void Dispose()

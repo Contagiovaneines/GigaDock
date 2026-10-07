@@ -577,15 +577,13 @@ public class AjustesViewModel : ObservableObject
 
     public string UrlIcal
     {
-        get => _mainVm.Preferencias.UrlIcal;
+        get => _mainVm.UrlIcalAmbiente;
         set
         {
-            if (_mainVm.Preferencias.UrlIcal != value)
+            if (_mainVm.UrlIcalAmbiente != value)
             {
-                _mainVm.Preferencias.UrlIcal = value;
+                _mainVm.UrlIcalAmbiente = value;
                 OnPropertyChanged();
-                _mainVm.SalvarPreferencias();
-                _mainVm.Calendario.SincronizarUrlIcal(value);
             }
         }
     }
@@ -676,6 +674,10 @@ public bool AlertasVisuaisHabilitados
         get => _mainVm.PreviaJanelas;
         set { if (_mainVm.PreviaJanelas == value) return; _mainVm.PreviaJanelas = value; OnPropertyChanged(); }
     }
+    public int AtrasoAbrirPreviaMs { get => _mainVm.AtrasoAbrirPreviaMs; set { _mainVm.AtrasoAbrirPreviaMs = value; OnPropertyChanged(); } }
+    public int AtrasoFecharPreviaMs { get => _mainVm.AtrasoFecharPreviaMs; set { _mainVm.AtrasoFecharPreviaMs = value; OnPropertyChanged(); } }
+    public int AtrasoAposRemoverPreviaMs { get => _mainVm.AtrasoAposRemoverPreviaMs; set { _mainVm.AtrasoAposRemoverPreviaMs = value; OnPropertyChanged(); } }
+    public bool FecharPreviaAoClicarFora { get => _mainVm.FecharPreviaAoClicarFora; set { _mainVm.FecharPreviaAoClicarFora = value; OnPropertyChanged(); } }
     public bool ClimaExpandido
     {
         get => _mainVm.ClimaExpandido;
@@ -1624,9 +1626,7 @@ public bool ExibirLixeira
         };
 
         Compromissos.Add(novo);
-        _mainVm.Preferencias.CompromissosLocais = Compromissos.ToList();
-        _mainVm.Calendario.SincronizarCompromissos(Compromissos);
-        _mainVm.SalvarPreferencias();
+        _mainVm.SalvarCompromissosAmbiente(Compromissos);
         CompromissoSelecionado = novo;
     }
 
@@ -1634,9 +1634,7 @@ public bool ExibirLixeira
     {
         if (CompromissoSelecionado == null) return;
         Compromissos.Remove(CompromissoSelecionado);
-        _mainVm.Preferencias.CompromissosLocais = Compromissos.ToList();
-        _mainVm.Calendario.SincronizarCompromissos(Compromissos);
-        _mainVm.SalvarPreferencias();
+        _mainVm.SalvarCompromissosAmbiente(Compromissos);
         CompromissoSelecionado = Compromissos.FirstOrDefault();
     }
 

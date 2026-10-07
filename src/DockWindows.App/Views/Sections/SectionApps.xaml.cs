@@ -17,7 +17,7 @@ public partial class SectionApps : UserControl
         _hover = new(() => _main?.ModoAberturaPaineis == "Mouse", anchor =>
         {
             return AbrirVisualizacao(anchor) ? _visualizacao : null;
-        });
+        }, () => _main?.AtrasoAbrirPreviaMs ?? 350, () => _main?.AtrasoFecharPreviaMs ?? 200);
         Loaded += Section_Loaded;
     }
 
@@ -54,7 +54,22 @@ public partial class SectionApps : UserControl
         {
             var button = buttons[i];
             if (button.Template?.FindName("AppScale", button) is not ScaleTransform scale) continue;
-            double destino = animar && selected >= 0 ? (i == selected ? 1.30 : Math.Abs(i - selected) == 1 ? 1.08 : 1) : 1;
+            var distancia = selected < 0 ? int.MaxValue : i - selected;
+            double destino = animar ? Math.Abs(distancia) switch
+            {
+                0 => 1.38,
+                1 => 1.16,
+                2 => 1.06,
+                _ => 1.0
+            } : 1.0;
+            double deslocamento = animar ? distancia switch
+            {
+                -1 => -6.0,
+                1 => 6.0,
+                -2 => -3.0,
+                2 => 3.0,
+                _ => 0.0
+            } : 0.0;
             if (button.Parent is UIElement container) Panel.SetZIndex(container, i == selected ? 2 : 0);
             foreach (var property in new[] { ScaleTransform.ScaleXProperty, ScaleTransform.ScaleYProperty })
             {
@@ -62,6 +77,14 @@ public partial class SectionApps : UserControl
                 else if (scale.HasAnimatedProperties || Math.Abs((double)scale.GetValue(property) - destino) > .001)
                     scale.BeginAnimation(property, new DoubleAnimation(destino, TimeSpan.FromMilliseconds(180))
                 { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } }, HandoffBehavior.SnapshotAndReplace);
+            }
+            if (button.Template.FindName("AppShift", button) is TranslateTransform shift)
+            {
+                if (!animar) { shift.BeginAnimation(TranslateTransform.XProperty, null); shift.X = 0; }
+                else shift.BeginAnimation(TranslateTransform.XProperty,
+                    new DoubleAnimation(deslocamento, TimeSpan.FromMilliseconds(190))
+                    { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } },
+                    HandoffBehavior.SnapshotAndReplace);
             }
         }
     }
@@ -84,6 +107,16 @@ public partial class SectionApps : UserControl
     }
     private void App_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
+        if (sender is Button button)
+        {
+            button.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, () =>
+            {
+                if (!button.IsKeyboardFocusWithin) return;
+                var escopo = System.Windows.Input.FocusManager.GetFocusScope(button);
+                System.Windows.Input.FocusManager.SetFocusedElement(escopo, null);
+                System.Windows.Input.Keyboard.ClearFocus();
+            });
+        }
         if (_main?.ModoAberturaPaineis != "Mouse" && AbrirVisualizacao(sender)) e.Handled = true;
     }
     private void App_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -98,8 +131,9 @@ public partial class SectionApps : UserControl
         if (main.PreviaPastas && app.Tipo == TipoItem.Pasta)
             visual = new DockWindows.App.Views.PastaPreviewWindow(app.CaminhoExecutavel);
         else if (main.PreviaJanelas && app.Janelas.Count > 0)
-            visual = new DockWindows.App.Views.JanelasPreviewWindow(app);
+            visual = new DockWindows.App.Views.JanelasPreviewWindow(app) { AtrasoAposRemoverMs = main.AtrasoAposRemoverPreviaMs };
         if (visual == null) return false;
+        visual.FecharAoClicarFora = main.FecharPreviaAoClicarFora;
         _visualizacao?.Close();
         _visualizacao = visual;
         Unloaded -= Section_Unloaded;

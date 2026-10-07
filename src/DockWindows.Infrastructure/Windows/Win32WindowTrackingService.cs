@@ -224,7 +224,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private void OnWindowChanged(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
     {
         if (idObject != 0 || hwnd == IntPtr.Zero) return;
-        JanelasAlteradas?.Invoke();
+        InvocarSeguro(JanelasAlteradas);
     }
 
     private void VerificarMudancas()
@@ -250,8 +250,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
         if (_ultimaJanelaAtiva != hwnd)
         {
             _ultimaJanelaAtiva = hwnd;
-            JanelaAtivada?.Invoke(hwnd);
-            JanelasAlteradas?.Invoke();
+            InvocarSeguro(JanelaAtivada, hwnd);
+            InvocarSeguro(JanelasAlteradas);
         }
 
         bool ehTelaCheia = false;
@@ -298,8 +298,20 @@ public class Win32WindowTrackingService : IWindowTrackingService
         if (_ultimoEstadoTelaCheia != ehTelaCheia)
         {
             _ultimoEstadoTelaCheia = ehTelaCheia;
-            TelaCheiaAlterada?.Invoke(ehTelaCheia);
+            InvocarSeguro(TelaCheiaAlterada, ehTelaCheia);
         }
+    }
+
+    private static void InvocarSeguro(Action? evento)
+    {
+        if (evento == null) return;
+        foreach (Action handler in evento.GetInvocationList()) try { handler(); } catch { }
+    }
+
+    private static void InvocarSeguro<T>(Action<T>? evento, T valor)
+    {
+        if (evento == null) return;
+        foreach (Action<T> handler in evento.GetInvocationList()) try { handler(valor); } catch { }
     }
 
     public IntPtr ObterJanelaAtiva()

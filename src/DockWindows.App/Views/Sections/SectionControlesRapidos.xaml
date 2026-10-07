@@ -92,7 +92,7 @@
                     Background="#101714" BorderBrush="#3A4941" BorderThickness="1"
                     PreviewKeyDown="Panel_PreviewKeyDown">
                 <StackPanel>
-                    <Grid Margin="4,4,4,18">
+                    <Grid Margin="4,4,4,18" Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}">
                         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <TextBlock Text="Controles rápidos" Foreground="#E4E6DF" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         <Border Grid.Column="1" Background="#171D13" CornerRadius="12" Padding="9,3" Margin="8,0">
@@ -101,7 +101,50 @@
                         <Button Grid.Column="2" Style="{StaticResource QuickButton}" Width="26" Height="26"
                                 Content="×" FontSize="20" Command="{Binding FecharCommand}" AutomationProperties.Name="Fechar controles rápidos"/>
                     </Grid>
-                    <StackPanel>
+                    <Grid Margin="0,0,0,12" Visibility="{Binding ExibindoWifi, Converter={StaticResource QuickBoolToVis}}">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <Button Style="{StaticResource QuickButton}" Width="34" Height="34" Command="{Binding VoltarCommand}" Content="←" FontSize="20" AutomationProperties.Name="Voltar"/>
+                        <StackPanel Grid.Column="1" Margin="10,0"><TextBlock Text="Wi-Fi" Foreground="White" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Redes próximas" Foreground="#9FA9A2"/></StackPanel>
+                        <Button Grid.Column="2" Style="{StaticResource QuickButton}" Width="34" Height="34" Command="{Binding Conectividade.AtualizarCommand}" Content="↻" FontSize="18" AutomationProperties.Name="Atualizar redes Wi-Fi"/>
+                    </Grid>
+                    <StackPanel Visibility="{Binding ExibindoWifi, Converter={StaticResource QuickBoolToVis}}">
+                        <ScrollViewer MaxHeight="390" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Conectividade.RedesWifi}">
+                                <ItemsControl.ItemTemplate><DataTemplate>
+                                    <Button Style="{StaticResource QuickButton}" HorizontalContentAlignment="Stretch" Margin="0,0,0,7" Padding="12" Command="{Binding DataContext.Conectividade.ConectarWifiCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                            <TextBlock Text="&#xE701;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="#59AFFF" FontSize="24" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                            <StackPanel Grid.Column="1"><TextBlock Text="{Binding Nome}" Foreground="White" FontSize="15" FontWeight="SemiBold"/><TextBlock Foreground="#AEB7B1" FontSize="12"><Run Text="Sinal "/><Run Text="{Binding Intensidade}"/><Run Text="%  ·  "/><Run Text="{Binding Segura, StringFormat=Segura: {0}}"/></TextBlock></StackPanel>
+                                            <TextBlock Grid.Column="2" Text="›" Foreground="#DDE4DF" FontSize="24" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <Button Style="{StaticResource QuickButton}" HorizontalContentAlignment="Left" Padding="12" Margin="0,6,0,0" Command="{Binding Conectividade.AbrirRedeCommand}" Content="Mais configurações de Wi-Fi"/>
+                    </StackPanel>
+                    <Grid Margin="0,0,0,12" Visibility="{Binding ExibindoBluetooth, Converter={StaticResource QuickBoolToVis}}">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <Button Style="{StaticResource QuickButton}" Width="34" Height="34" Command="{Binding VoltarCommand}" Content="←" FontSize="20" AutomationProperties.Name="Voltar"/>
+                        <StackPanel Grid.Column="1" Margin="10,0"><TextBlock Text="Bluetooth" Foreground="White" FontSize="20" FontWeight="SemiBold"/><TextBlock Text="Conectados e disponíveis" Foreground="#9FA9A2"/></StackPanel>
+                        <Button Grid.Column="2" Style="{StaticResource QuickButton}" Width="34" Height="34" Command="{Binding Conectividade.AtualizarCommand}" Content="↻" FontSize="18"/>
+                    </Grid>
+                    <StackPanel Visibility="{Binding ExibindoBluetooth, Converter={StaticResource QuickBoolToVis}}">
+                        <TextBlock Text="Novos dispositivos" Foreground="White" FontWeight="SemiBold" FontSize="15" Margin="4,0,0,9"/>
+                        <ScrollViewer MaxHeight="360" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Conectividade.Bluetooth}"><ItemsControl.ItemTemplate><DataTemplate>
+                                <Button Style="{StaticResource QuickButton}" HorizontalContentAlignment="Stretch" Margin="0,0,0,7" Padding="12" Command="{Binding DataContext.Conectividade.SelecionarBluetoothCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <TextBlock Text="&#xE702;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Foreground="#5AAEFF" FontSize="23" Margin="0,0,12,0"/>
+                                        <StackPanel Grid.Column="1"><TextBlock Text="{Binding Nome}" Foreground="White" FontSize="15"/><TextBlock Text="{Binding Conectado, StringFormat=Conectado: {0}}" Foreground="#AEB7B1" FontSize="12"/></StackPanel>
+                                        <TextBlock Grid.Column="2" Text="›" Foreground="#DDE4DF" FontSize="24"/>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                        </ScrollViewer>
+                        <Button Style="{StaticResource QuickButton}" HorizontalContentAlignment="Left" Padding="12" Margin="0,6,0,0" Command="{Binding Conectividade.AbrirBluetoothCommand}" Content="Mais configurações de Bluetooth"/>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}">
                         <StackPanel Margin="0,0,0,12">
                             <TextBlock Text="Estilo neste ambiente" Foreground="Silver" Margin="0,0,0,6"/>
                             <ListBox ItemsSource="{Binding EstilosDisponiveis}" SelectedItem="{Binding Estilo, Mode=TwoWay}"
@@ -134,7 +177,7 @@
                             </ListBox>
                         </StackPanel>
                     </StackPanel>
-                    <ScrollViewer x:Name="OptionsScroller" MaxHeight="420" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly">
+                    <ScrollViewer x:Name="OptionsScroller" MaxHeight="420" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}">
                         <ScrollViewer.Resources>
                             <Style TargetType="ScrollBar">
                                 <Setter Property="Width" Value="8"/>
@@ -175,7 +218,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
-                    <TextBlock Text="Os interruptores mostram ou ocultam os atalhos." FontSize="11" Foreground="#8A9180"
+                    <TextBlock Text="Os interruptores mostram ou ocultam os atalhos." FontSize="11" Foreground="#8A9180" Visibility="{Binding ExibindoInicio, Converter={StaticResource QuickBoolToVis}}"
                                TextWrapping="Wrap" Margin="4,5,4,0"/>
                 </StackPanel>
             </Border>

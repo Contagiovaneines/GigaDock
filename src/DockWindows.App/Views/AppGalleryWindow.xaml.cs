@@ -48,10 +48,11 @@ public partial class AppGalleryWindow : Window
 
     private async void CarregarAppsAsync()
     {
-        TxtTotalBadge.Text = "Carregando biblioteca...";
-        
-        // Pede pro scanner listar
-        var instalados = await InstalledAppsScanner.ListarAsync();
+        try
+        {
+            TxtTotalBadge.Text = "Carregando biblioteca...";
+            var instalados = await InstalledAppsScanner.ListarAsync();
+            if (_fechamento.IsCancellationRequested) return;
         
         _catalogoCompleto = instalados.Select(app =>
         {
@@ -74,17 +75,32 @@ public partial class AppGalleryWindow : Window
         // Carregar ícones em background (para não travar a abertura inicial)
         _ = CarregarIconesAsync(_fechamento.Token);
 
-        TxtTotalBadge.Text = $"{_catalogoCompleto.Count} ITENS";
-        AplicarFiltros();
+            TxtTotalBadge.Text = $"{_catalogoCompleto.Count} ITENS";
+            AplicarFiltros();
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            if (!_fechamento.IsCancellationRequested)
+            {
+                TxtTotalBadge.Text = "Não foi possível carregar os aplicativos";
+                MessageBox.Show(this, ex.Message, "Galeria de aplicativos", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 
     private async Task CarregarIconesAsync(System.Threading.CancellationToken token)
     {
-        foreach (var item in _catalogoCompleto)
+        try
         {
-            if (token.IsCancellationRequested) break;
-            await Dispatcher.InvokeAsync(() => { if (!token.IsCancellationRequested) item.Icone = _iconService.ObterIcone(item.CaminhoExecucao, TipoItem.Aplicativo); }, System.Windows.Threading.DispatcherPriority.Background);
+            foreach (var item in _catalogoCompleto)
+            {
+                if (token.IsCancellationRequested) break;
+                await Dispatcher.InvokeAsync(() => { if (!token.IsCancellationRequested) item.Icone = _iconService.ObterIcone(item.CaminhoExecucao, TipoItem.Aplicativo); }, System.Windows.Threading.DispatcherPriority.Background, token);
+            }
         }
+        catch (OperationCanceledException) { }
+        catch { }
     }
 
     private void TxtBusca_TextChanged(object sender, TextChangedEventArgs e)

@@ -284,6 +284,20 @@ public class JsonSettingsRepository : ISettingsRepository
                 }
             }
 
+            // Migração v7 -> v8: calendário passa a pertencer ao ambiente/instância.
+            if (prefs.SchemaVersion < 8)
+            {
+                prefs.SchemaVersion = 8;
+                var compromissos = System.Text.Json.JsonSerializer.Serialize(prefs.CompromissosLocais ?? new());
+                foreach (var widget in prefs.Ambientes.SelectMany(a => a.WidgetsInstalados ?? new List<WidgetInstanceConfig>())
+                             .Where(w => w.Tipo == TipoWidget.CalendarioCompromissos))
+                {
+                    widget.Configuracao ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    if (!string.IsNullOrWhiteSpace(prefs.UrlIcal)) widget.Configuracao.TryAdd("urlIcal", prefs.UrlIcal);
+                    if ((prefs.CompromissosLocais?.Count ?? 0) > 0) widget.Configuracao.TryAdd("compromissos", compromissos);
+                }
+            }
+
             // Normalização também protege arquivos v7 editados manualmente ou parcialmente gravados.
             foreach (var ambiente in prefs.Ambientes)
             {

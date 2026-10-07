@@ -216,7 +216,7 @@
                     <StackPanel>
                         <DockPanel Margin="0,0,0,10"><Button DockPanel.Dock="Right" Content="Atualizar" Command="{Binding Conectividade.AtualizarCommand}" Padding="8,4"/><TextBlock Text="Conectividade" Foreground="White" FontSize="15" FontWeight="SemiBold"/></DockPanel>
                         <Button Command="{Binding Conectividade.AbrirRedeCommand}" Background="#202936" BorderThickness="0" Padding="10" HorizontalContentAlignment="Stretch" Margin="0,0,0,8">
-                            <StackPanel><TextBlock Text="{Binding Conectividade.Wifi}" Foreground="White" FontWeight="SemiBold"/><ProgressBar Minimum="0" Maximum="100" Value="{Binding Conectividade.Intensidade}" Height="3" Margin="0,6,0,0"/></StackPanel>
+                            <StackPanel><TextBlock Text="{Binding Conectividade.Wifi, Mode=OneWay}" Foreground="White" FontWeight="SemiBold"/><ProgressBar Minimum="0" Maximum="100" Value="{Binding Conectividade.Intensidade, Mode=OneWay}" Height="3" Margin="0,6,0,0"/></StackPanel>
                         </Button>
                         <DockPanel Margin="0,4,0,7"><Button DockPanel.Dock="Right" Content="Configurar" Command="{Binding Conectividade.AbrirBluetoothCommand}" Padding="7,3"/><TextBlock Text="Bluetooth conectado" Foreground="#B8C5D3" FontWeight="SemiBold"/></DockPanel>
                         <ItemsControl ItemsSource="{Binding Conectividade.Bluetooth}"><ItemsControl.ItemTemplate><DataTemplate><Border Background="#202936" CornerRadius="7" Padding="8" Margin="0,0,0,5"><TextBlock Text="{Binding Nome}" Foreground="White"/></Border></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
@@ -226,25 +226,84 @@
         </Grid>
 
         <Grid Visibility="{Binding AudioSistema.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0">
-            <Button x:Name="AudioSistemaButton" Command="{Binding AudioSistema.AlternarPainelCommand}" Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand" ToolTip="{Binding AudioSistema.MotivoEstado}">
-                <TextBlock Text="🔊" FontSize="14"/>
+            <Button x:Name="AudioSistemaButton" Command="{Binding AudioSistema.AlternarPainelCommand}" Background="#1626313D" BorderThickness="0" Padding="9,6" Cursor="Hand"
+                    ToolTip="Mixer de volume" PreviewMouseWheel="AudioSistemaButton_OnPreviewMouseWheel" PreviewMouseDown="AudioSistemaButton_OnPreviewMouseDown">
+                <TextBlock Text="{Binding AudioSistema.IconeVolumeMestre}" FontSize="14"/>
             </Button>
             <Popup IsOpen="{Binding AudioSistema.PainelAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=AudioSistemaButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True">
-                <Border Width="390" MaxHeight="390" Background="#F2171B22" BorderBrush="#445566" BorderThickness="1" CornerRadius="14" Padding="14" Margin="0,0,0,10">
-                    <StackPanel>
-                        <DockPanel Margin="0,0,0,10"><Button DockPanel.Dock="Right" Content="Atualizar" Command="{Binding AudioSistema.AtualizarCommand}" Padding="8,4"/><TextBlock Text="Áudio do sistema" Foreground="White" FontSize="15" FontWeight="SemiBold"/></DockPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Button Content="{Binding AudioSistema.TextoMicrofone}" Command="{Binding AudioSistema.AlternarMicrofoneCommand}" Padding="9,5" Background="#733237" Foreground="White"/>
-                            <Button Content="Escolher saída no Windows" Command="{Binding AudioSistema.AbrirSomCommand}" Padding="9,5" Margin="6,0,0,0"/>
-                        </StackPanel>
-                        <ScrollViewer MaxHeight="280" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding AudioSistema.Sessoes}"><ItemsControl.ItemTemplate><DataTemplate>
-                            <Border Background="#202936" CornerRadius="8" Padding="9" Margin="0,0,0,6"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="110"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Nome}" Foreground="White" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
-                                <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="8,0"/>
-                                <Button Grid.Column="2" Content="Mudo" Command="{Binding AlternarMudoCommand}" Padding="6,3"/>
-                            </Grid></Border>
-                        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
-                    </StackPanel>
+                <Border Width="{Binding AudioSistema.LarguraPainel}" MaxHeight="520" Background="#FA171A20" BorderBrush="#39414D" BorderThickness="1" CornerRadius="14" Padding="12" Margin="0,0,0,10">
+                    <Border.Effect><DropShadowEffect BlurRadius="24" ShadowDepth="6" Opacity=".45" Color="Black"/></Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                        <DockPanel Margin="2,0,0,10">
+                            <Button DockPanel.Dock="Right" Content="✕" Command="{Binding AudioSistema.AlternarPainelCommand}" Width="32" Height="30" Background="Transparent" Foreground="#AEB8C6" BorderThickness="0" FontSize="15" ToolTip="Fechar"/>
+                            <TextBlock Text="Mixer de volume" Foreground="White" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </DockPanel>
+                        <Button Grid.Row="1" Command="{Binding AudioSistema.AbrirSomCommand}" Background="#20242C" BorderThickness="0" Padding="10,7" HorizontalContentAlignment="Stretch" ToolTip="Gerenciar dispositivos de reprodução no Windows">
+                            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="▣" Foreground="#C8D4E3" Margin="0,0,9,0"/>
+                                <TextBlock Grid.Column="1" Text="{Binding AudioSistema.SaidaAtual}" Foreground="#DDE5EF" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Grid.Column="2" Text="⌄" Foreground="#94A0AF"/>
+                            </Grid>
+                        </Button>
+                        <Border Grid.Row="2" Background="#22262E" CornerRadius="10" Padding="10" Margin="0,8,0,10">
+                            <Grid PreviewMouseWheel="VolumeMestre_OnPreviewMouseWheel">
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="38"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
+                                <Button Content="{Binding AudioSistema.IconeVolumeMestre}" Command="{Binding AudioSistema.AlternarMudoMestreCommand}" Background="#2C313B" BorderThickness="0" Foreground="White" Padding="0" FontSize="15" ToolTip="{Binding AudioSistema.DicaVolumeMestre}" PreviewMouseDown="VolumeMestre_OnPreviewMouseDown"/>
+                                <Grid Grid.Column="1" Margin="10,0,8,0"><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+                                    <TextBlock Text="Volume principal" Foreground="#F4F6F8" FontWeight="SemiBold"/>
+                                    <Slider Grid.Row="1" Minimum="0" Maximum="100" Value="{Binding AudioSistema.VolumeMestre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsMoveToPointEnabled="True"/>
+                                </Grid>
+                                <TextBox Grid.Column="2" Text="{Binding AudioSistema.VolumeMestre, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" Background="Transparent" BorderThickness="0" Foreground="#E9EDF3" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" ToolTip="Digite um volume exato de 0 a 100"/>
+                            </Grid>
+                        </Border>
+                        <DockPanel Grid.Row="3" Margin="2,0,2,6">
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding AudioSistema.SessoesDisponiveis}" Foreground="#8F9BAA"/>
+                            <TextBlock Text="Aplicativos" Foreground="#8F9BAA" FontSize="11"/>
+                        </DockPanel>
+                        <ItemsControl Grid.Row="4" ItemsSource="{Binding AudioSistema.Sessoes}">
+                            <ItemsControl.ItemTemplate><DataTemplate>
+                                <Border Background="#20242C" CornerRadius="9" Padding="9" Margin="0,0,0,6" PreviewMouseWheel="SessaoAudio_OnPreviewMouseWheel">
+                                    <Border.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                        <MenuItem Header="{Binding TextoFixacao}" Command="{Binding AlternarFixacaoCommand}"/>
+                                        <MenuItem Header="Copiar nome do processo" Command="{Binding CopiarNomeCommand}"/>
+                                        <Separator/>
+                                        <MenuItem Header="Ocultar até reabrir o mixer" Command="{Binding OcultarCommand}"/>
+                                    </ContextMenu></Border.ContextMenu>
+                                    <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="34"/><ColumnDefinition Width="*"/><ColumnDefinition Width="50"/><ColumnDefinition Width="34"/></Grid.ColumnDefinitions>
+                                        <Border Width="30" Height="30" CornerRadius="7" Background="#2A303A"><TextBlock Text="♪" Foreground="#A9B7C8" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                                        <Grid Grid.Column="1" Margin="8,0"><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+                                            <TextBlock Text="{Binding Nome}" ToolTip="{Binding DicaNome}" Foreground="#F0F3F7" TextTrimming="CharacterEllipsis"/>
+                                            <Slider Grid.Row="1" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsMoveToPointEnabled="True"/>
+                                        </Grid>
+                                        <TextBox Grid.Column="2" Text="{Binding Volume, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" Background="Transparent" BorderThickness="0" Foreground="#DDE4EC" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" ToolTip="Digite um volume exato"/>
+                                        <Button Grid.Column="3" Content="{Binding IconeVolume}" Command="{Binding AlternarMudoCommand}" Background="Transparent" BorderThickness="0" Foreground="#AEB9C7" ToolTip="Silenciar ou ativar som" PreviewMouseDown="SessaoAudio_OnPreviewMouseDown"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate></ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <DockPanel Grid.Row="5" Margin="0,5,0,0">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                <Button Content="‹" Command="{Binding AudioSistema.PaginaAnteriorCommand}" Width="30" Padding="3" ToolTip="Página anterior"/>
+                                <TextBlock Text="{Binding AudioSistema.TextoPagina}" Foreground="#9CA8B7" Margin="8,0" VerticalAlignment="Center"/>
+                                <Button Content="›" Command="{Binding AudioSistema.ProximaPaginaCommand}" Width="30" Padding="3" ToolTip="Próxima página"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="⋯" Padding="8,2" Background="Transparent" Foreground="#AEB9C7" BorderThickness="0" ToolTip="Opções do mixer">
+                                    <Button.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                        <MenuItem Header="Alternar modo compacto" Command="{Binding AudioSistema.AlternarCompactoCommand}"/>
+                                        <MenuItem Header="{Binding AudioSistema.TextoMicrofone}" Command="{Binding AudioSistema.AlternarMicrofoneCommand}"/>
+                                        <Separator/>
+                                        <MenuItem Header="Atualizar aplicativos" Command="{Binding AudioSistema.AtualizarCommand}"/>
+                                        <MenuItem Header="Configurações de Som" Command="{Binding AudioSistema.AbrirSomCommand}"/>
+                                        <MenuItem Header="Painel de Som clássico" Command="{Binding AudioSistema.AbrirSomClassicoCommand}"/>
+                                    </ContextMenu></Button.ContextMenu>
+                                </Button>
+                                <TextBlock Text="Por página" Foreground="#7F8B9A" FontSize="10" Margin="5,0" VerticalAlignment="Center"/>
+                                <TextBox Width="25" Text="{Binding AudioSistema.AplicativosPorPagina, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Background="#252A33" BorderThickness="0" Foreground="#DDE4EC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="De 3 a 12 aplicativos por página"/>
+                            </StackPanel>
+                        </DockPanel>
+                    </Grid>
                 </Border>
             </Popup>
         </Grid>
@@ -261,7 +320,10 @@
                             <ListBox ItemsSource="{Binding EstanteArquivos.Itens}" SelectedItem="{Binding EstanteArquivos.Selecionado, Mode=TwoWay}" Background="#151B23" BorderThickness="0" DisplayMemberPath="Nome" Foreground="White"/>
                         </DockPanel>
                         <Border Grid.Column="2" Background="#151B23" CornerRadius="9" Padding="12">
-                            <DockPanel><Button DockPanel.Dock="Bottom" Content="Abrir arquivo" Command="{Binding EstanteArquivos.AbrirCommand}" Padding="9,5" Margin="0,10,0,0"/>
+                            <DockPanel><StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                                    <Button Content="Abrir arquivo" Command="{Binding EstanteArquivos.AbrirCommand}" Padding="9,5"/>
+                                    <Button Content="Compartilhar" Command="{Binding EstanteArquivos.CompartilharCommand}" Padding="9,5" Margin="6,0,0,0"/>
+                                </StackPanel>
                                 <StackPanel><TextBlock Text="{Binding EstanteArquivos.PreviewTitulo}" Foreground="White" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/><TextBlock Text="{Binding EstanteArquivos.PreviewDescricao}" Foreground="#9FB1C3" FontSize="10" Margin="0,3,0,9"/>
                                     <Image Source="{Binding EstanteArquivos.PreviewImagem}" MaxHeight="240" Stretch="Uniform"/>
                                     <ScrollViewer MaxHeight="240" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding EstanteArquivos.PreviewTexto}" Foreground="#D5DEE8" FontFamily="Consolas" FontSize="10" TextWrapping="Wrap"/></ScrollViewer>

@@ -56,6 +56,7 @@ public class ControlesRapidosViewModel : ObservableObject, IDisposable
     private readonly Action<string> _erro;
     private readonly Func<bool> _confirmarSuspensao;
     private bool _aberto;
+    private string? _paginaDetalhe;
     private Ambiente? _ambiente;
     public string[] EstilosDisponiveis { get; } = { "Compacto", "Anéis" };
     public string Estilo
@@ -73,22 +74,29 @@ public class ControlesRapidosViewModel : ObservableObject, IDisposable
     public ObservableCollection<ControleRapidoViewModel> Fixados { get; } = new();
     public int Quantidade => Fixados.Count;
     public bool Aberto { get => _aberto; set => SetProperty(ref _aberto, value); }
+    public ConectividadeViewModel Conectividade { get; }
+    public bool ExibindoInicio => _paginaDetalhe == null;
+    public bool ExibindoWifi => _paginaDetalhe == "wifi";
+    public bool ExibindoBluetooth => _paginaDetalhe == "bluetooth";
     public bool TecladoBloqueado => _service.TecladoBloqueado;
     public ICommand AbrirCommand { get; }
     public ICommand FecharCommand { get; }
     public ICommand LiberarTecladoCommand { get; }
+    public ICommand VoltarCommand { get; }
 
     public ControlesRapidosViewModel(Action salvar, Action<string> erro, Func<bool> confirmarSuspensao,
-        IControlesRapidosService? service = null)
+        IControlesRapidosService? service = null, ConectividadeViewModel? conectividade = null)
     {
         _salvar = salvar;
         _erro = erro;
         _confirmarSuspensao = confirmarSuspensao;
+        Conectividade = conectividade ?? new ConectividadeViewModel(new ConectividadeService());
         _service = service ?? new ControlesRapidosService();
         _service.BloqueioAlterado += BloqueioAlterado;
-        AbrirCommand = new RelayCommand(() => Aberto = !Aberto);
+        AbrirCommand = new RelayCommand(() => { if (!Aberto) MostrarPagina(null); Aberto = !Aberto; });
         FecharCommand = new RelayCommand(() => Aberto = false);
         LiberarTecladoCommand = new RelayCommand(() => Executar(TipoControleRapido.BloquearTeclado), () => TecladoBloqueado);
+        VoltarCommand = new RelayCommand(() => MostrarPagina(null));
     }
 
     public void Carregar(Ambiente ambiente)
@@ -123,11 +131,35 @@ public class ControlesRapidosViewModel : ObservableObject, IDisposable
     {
         try
         {
+            if (tipo == TipoControleRapido.Wifi)
+            {
+                Conectividade.Habilitado = true;
+                MostrarPagina("wifi");
+                Aberto = true;
+                Conectividade.AtualizarCommand.Execute(null);
+                return;
+            }
+            if (tipo == TipoControleRapido.Bluetooth)
+            {
+                Conectividade.Habilitado = true;
+                MostrarPagina("bluetooth");
+                Aberto = true;
+                Conectividade.AtualizarCommand.Execute(null);
+                return;
+            }
             Aberto = false;
             if (tipo == TipoControleRapido.Suspender && !_confirmarSuspensao()) return;
             _service.Executar(tipo);
         }
         catch { _erro("Não foi possível executar esse controle. Verifique as permissões e a disponibilidade do recurso no Windows."); }
+    }
+
+    private void MostrarPagina(string? pagina)
+    {
+        _paginaDetalhe = pagina;
+        OnPropertyChanged(nameof(ExibindoInicio));
+        OnPropertyChanged(nameof(ExibindoWifi));
+        OnPropertyChanged(nameof(ExibindoBluetooth));
     }
 
     private void BloqueioAlterado() => OnPropertyChanged(nameof(TecladoBloqueado));

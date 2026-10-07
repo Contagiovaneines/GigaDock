@@ -229,6 +229,38 @@ public static class InstalledAppsScanner
         return encontrado?.ParsingName ?? familia + "!App";
     }
 
+    public static string? ObterFamiliaPacotePorCaminho(string caminho)
+    {
+        if (string.IsNullOrWhiteSpace(caminho)) return null;
+        const string marcador = @"\WindowsApps\";
+        var idx = caminho.IndexOf(marcador, StringComparison.OrdinalIgnoreCase);
+        if (idx < 0) return null;
+        var pastaPacote = caminho[(idx + marcador.Length)..].Split(Path.DirectorySeparatorChar)[0];
+        var partes = pastaPacote.Split('_');
+        return partes.Length < 5 ? null : partes[0] + "_" + partes[^1];
+    }
+
+    public static string? ResolverReferenciaAppEmpacotado(string caminhoAntigo)
+    {
+        try
+        {
+            var aplicativos = ListarAsync().GetAwaiter().GetResult();
+            return ResolverReferenciaAppEmpacotado(caminhoAntigo, aplicativos);
+        }
+        catch { return null; }
+    }
+
+    public static string? ResolverReferenciaAppEmpacotado(
+        string caminhoAntigo,
+        IEnumerable<AppInstalado> aplicativos)
+    {
+        var familia = ObterFamiliaPacotePorCaminho(caminhoAntigo);
+        if (familia == null) return null;
+
+        return aplicativos.FirstOrDefault(a => a.EhAppModerno &&
+            a.ParsingName.StartsWith(familia + "!", StringComparison.OrdinalIgnoreCase))?.CaminhoExecucao;
+    }
+
     [DllImport("shell32.dll")]
     private static extern int SHGetKnownFolderPath(ref Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr ppszPath);
 }

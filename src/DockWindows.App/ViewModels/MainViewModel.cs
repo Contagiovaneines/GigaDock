@@ -72,7 +72,7 @@ public class MainViewModel : ObservableObject, IDisposable
     private void JanelaMudou(IntPtr hwnd) => JanelasMudaram();
     private void TelaCheiaMudou(bool telaCheia) => Application.Current?.Dispatcher?.InvokeAsync(() => { if (!_disposed) OcultoPorTelaCheia = telaCheia; });
     private void WinTapped() => Application.Current?.Dispatcher?.InvokeAsync(() =>
-    { if (_disposed) return; DockVisivel = true; AtivarJanelaPrincipal?.Invoke(); AbrirMenuIniciar(); });
+    { if (_disposed) return; ForcarExibicao(); AtivarJanelaPrincipal?.Invoke(); AbrirMenuIniciar(); });
     public void Dispose()
     {
         if (_disposed) return;
@@ -229,12 +229,15 @@ public class MainViewModel : ObservableObject, IDisposable
 
 
         
-    private async void OnJanelaAtivada(IntPtr hwnd)
+    private void OnJanelaAtivada(IntPtr hwnd) => _ = ProcessarJanelaAtivadaAsync(hwnd);
+
+    private async Task ProcessarJanelaAtivadaAsync(IntPtr hwnd)
     {
-        var windows = _windowTrackingService.ObterJanelasAbertas();
-        var activeWindow = System.Linq.Enumerable.FirstOrDefault(windows, w => w.Hwnd == hwnd);
-        if (activeWindow != null)
+        try
         {
+            var windows = _windowTrackingService.ObterJanelasAbertas();
+            var activeWindow = System.Linq.Enumerable.FirstOrDefault(windows, w => w.Hwnd == hwnd);
+            if (activeWindow == null) return;
             string exec = (activeWindow.CaminhoExecutavel ?? "").ToLowerInvariant();
             string name = (activeWindow.NomeProcesso ?? "").ToLowerInvariant();
             string title = (activeWindow.Titulo ?? "").ToLowerInvariant();
@@ -263,9 +266,16 @@ public class MainViewModel : ObservableObject, IDisposable
                 Teams.MensagensNaoLidas = 0;
             }
         }
+        catch (Exception ex) { RegistrarFalhaNaoFatal("notificacoes-janelas.log", ex); }
     }
 
     private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsAsync()
+    {
+        try { await SincronizarNotificacoesComWindowsCoreAsync(); }
+        catch (Exception ex) { RegistrarFalhaNaoFatal("sincronizacao-notificacoes.log", ex); }
+    }
+
+    private async System.Threading.Tasks.Task SincronizarNotificacoesComWindowsCoreAsync()
     {
         if (_disposed || _syncOcupado) return;
         _syncOcupado = true;
@@ -454,7 +464,8 @@ public class MainViewModel : ObservableObject, IDisposable
             mensagem => MostrarAlerta?.Invoke("Controles rápidos", mensagem),
             () => System.Windows.MessageBox.Show("Suspender o computador agora?", "Suspender",
                 System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question,
-                System.Windows.MessageBoxResult.No) == System.Windows.MessageBoxResult.Yes);
+                System.Windows.MessageBoxResult.No) == System.Windows.MessageBoxResult.Yes,
+            conectividade: Conectividade);
 
         WhatsApp = new WhatsAppWidgetViewModel(cor => DispararAlertaGlobal(cor));
         Teams = new TeamsWidgetViewModel(cor => DispararAlertaGlobal(cor));
@@ -1044,6 +1055,11 @@ public bool AlertasVisuaisHabilitados
             SalvarPreferencias();
         }
     }
+
+    public int AtrasoAbrirPreviaMs { get => _preferencias.AtrasoAbrirPreviaMs; set { var v = Math.Clamp(value, 0, 5000); if (_preferencias.AtrasoAbrirPreviaMs == v) return; _preferencias.AtrasoAbrirPreviaMs = v; OnPropertyChanged(); SalvarPreferencias(); } }
+    public int AtrasoFecharPreviaMs { get => _preferencias.AtrasoFecharPreviaMs; set { var v = Math.Clamp(value, 1, 5000); if (_preferencias.AtrasoFecharPreviaMs == v) return; _preferencias.AtrasoFecharPreviaMs = v; OnPropertyChanged(); SalvarPreferencias(); } }
+    public int AtrasoAposRemoverPreviaMs { get => _preferencias.AtrasoAposRemoverPreviaMs; set { var v = Math.Clamp(value, 0, 5000); if (_preferencias.AtrasoAposRemoverPreviaMs == v) return; _preferencias.AtrasoAposRemoverPreviaMs = v; OnPropertyChanged(); SalvarPreferencias(); } }
+    public bool FecharPreviaAoClicarFora { get => _preferencias.FecharPreviaAoClicarFora; set { if (_preferencias.FecharPreviaAoClicarFora == value) return; _preferencias.FecharPreviaAoClicarFora = value; OnPropertyChanged(); SalvarPreferencias(); } }
     public bool ClimaExpandido
     {
         get => AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima) is { } clima ? EstilosWidget.Resolver(clima, climaLegado: _preferencias.ClimaExpandido) == "detalhado" : _preferencias.ClimaExpandido;
@@ -1151,17 +1167,51 @@ public bool ExibirLixeira
 
     public string LocalizacaoClima
     {
-        get => _preferencias.LocalizacaoClima;
+        get => AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima)
+            ?.ObterConfiguracao("localizacao", _preferencias.LocalizacaoClima) ?? _preferencias.LocalizacaoClima;
         set
         {
-            if (_preferencias.LocalizacaoClima != value)
-            {
-                _preferencias.LocalizacaoClima = value;
-                OnPropertyChanged();
-                SalvarPreferencias();
-                Clima.SincronizarLocalizacao(value);
-            }
+            var normalizado = value?.Trim() ?? string.Empty;
+            var widget = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
+            if (widget == null || widget.ObterConfiguracao("localizacao", _preferencias.LocalizacaoClima) == normalizado) return;
+            widget.DefinirConfiguracao("localizacao", normalizado);
+            OnPropertyChanged();
+            SalvarPreferencias();
+            Clima.SincronizarLocalizacao(normalizado);
         }
+    }
+
+    public string UrlIcalAmbiente
+    {
+        get => AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CalendarioCompromissos)
+            ?.ObterConfiguracao("urlIcal", _preferencias.UrlIcal) ?? _preferencias.UrlIcal;
+        set
+        {
+            var widget = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CalendarioCompromissos);
+            if (widget == null) return;
+            widget.DefinirConfiguracao("urlIcal", value?.Trim() ?? string.Empty);
+            SalvarPreferencias();
+            Calendario.SincronizarUrlIcal(value ?? string.Empty);
+        }
+    }
+
+    public void SalvarCompromissosAmbiente(IEnumerable<CompromissoLocal> compromissos)
+    {
+        var lista = compromissos.ToList();
+        var widget = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CalendarioCompromissos);
+        if (widget == null) return;
+        widget.DefinirConfiguracao("compromissos", System.Text.Json.JsonSerializer.Serialize(lista));
+        Calendario.SincronizarCompromissos(lista);
+        SalvarPreferencias();
+    }
+
+    public IReadOnlyList<CompromissoLocal> ObterCompromissosAmbiente()
+    {
+        var json = AmbienteAtivo?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.CalendarioCompromissos)
+            ?.ObterConfiguracao("compromissos");
+        if (!string.IsNullOrWhiteSpace(json))
+            try { return System.Text.Json.JsonSerializer.Deserialize<List<CompromissoLocal>>(json) ?? new(); } catch { }
+        return _preferencias.CompromissosLocais;
     }
 
     public bool DesativarAnimacoes
@@ -1286,10 +1336,17 @@ public bool ExibirLixeira
 
     private async System.Threading.Tasks.Task AtualizarAplicativosSegundoPlanoAsync()
     {
+        try { await AtualizarAplicativosSegundoPlanoCoreAsync(); }
+        catch (Exception ex) { RegistrarFalhaNaoFatal("aplicativos-segundo-plano.log", ex); }
+    }
+
+    private async System.Threading.Tasks.Task AtualizarAplicativosSegundoPlanoCoreAsync()
+    {
         if (_disposed || CarregandoAppsSegundoPlano) return;
         CarregandoAppsSegundoPlano = true;
         try
         {
+            try { await InstalledAppsScanner.ListarAsync(); } catch { }
             var encontrados = await System.Threading.Tasks.Task.Run(_aplicativosSegundoPlanoService.ObterAplicativos);
             if (_disposed || !PainelAppsSegundoPlanoAberto) return;
 
@@ -1298,13 +1355,17 @@ public bool ExibirLixeira
             {
                 var appDock = Aplicativos.FirstOrDefault(a =>
                     string.Equals(IconExtractionService.ResolverCaminhoCompleto(a.CaminhoExecutavel), info.CaminhoExecutavel, StringComparison.OrdinalIgnoreCase));
-                var icone = _iconService.ObterIcone(info.CaminhoExecutavel, TipoItem.Aplicativo);
+                var icone = info.JanelaPrincipal != IntPtr.Zero ? _iconService.ObterIconeJanela(info.JanelaPrincipal) : null;
+                icone ??= _iconService.ObterIcone(info.ReferenciaIcone ?? info.CaminhoExecutavel, TipoItem.Aplicativo);
+                icone ??= _iconService.ObterIcone(info.CaminhoExecutavel, TipoItem.Aplicativo);
+                if (icone == null) continue;
                 AplicativosSegundoPlano.Add(new AplicativoSegundoPlanoViewModel(
                     info.Nome, info.CaminhoExecutavel, info.PossuiJanela, icone,
                     () =>
                     {
                         PainelAppsSegundoPlanoAberto = false;
-                        if (appDock?.EstaAberto == true) appDock.ClicarCommand.Execute(null);
+                        if (info.JanelaPrincipal != IntPtr.Zero && _windowTrackingService.AtivarJanela(info.JanelaPrincipal)) { }
+                        else if (appDock?.EstaAberto == true) appDock.ClicarCommand.Execute(null);
                         else
                         {
                             var resultado = _launcher.ExecutarCaminho(info.CaminhoExecutavel);
@@ -1366,7 +1427,25 @@ public bool ExibirLixeira
 
     public void AlternarVisibilidade()
     {
-        DockVisivel = !DockVisivel;
+        if (!DockVisivel || OcultoPorTelaCheia) ForcarExibicao();
+        else DockVisivel = false;
+    }
+
+    public void ForcarExibicao()
+    {
+        OcultoPorTelaCheia = false;
+        DockVisivel = true;
+    }
+
+    private static void RegistrarFalhaNaoFatal(string nome, Exception ex)
+    {
+        try
+        {
+            var pasta = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DockWindows", "logs");
+            Directory.CreateDirectory(pasta);
+            File.AppendAllText(Path.Combine(pasta, nome), $"{DateTimeOffset.Now:O}{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
+        }
+        catch { }
     }
 
         private bool _barraNativaVisivelTemporariamente = false;
@@ -1438,7 +1517,6 @@ public bool ExibirLixeira
             _preferencias.OrdemSecoes = OrdemSecoes.ToList();
             _preferencias.ColecoesGlobais = ColecoesGlobais.Select((c, idx) => { c.Model.Ordem = idx; return c.Model; }).ToList();
             _preferencias.Espacadores = Espacadores.ToList();
-            _preferencias.CompromissosLocais = Calendario.Compromissos.ToList();
             _repository.Salvar(_preferencias);
         }
         catch (Exception ex)
@@ -1473,9 +1551,9 @@ public bool ExibirLixeira
         // Pré-carrega aplicativos instalados do sistema em background para a busca ser rápida
 
 
-Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
-        Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
-        Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
+        Calendario.SincronizarCompromissos(ObterCompromissosAmbiente());
+        Calendario.SincronizarUrlIcal(UrlIcalAmbiente);
+        Clima.SincronizarLocalizacao(LocalizacaoClima);
 
         AmbienteAtivo = Ambientes.FirstOrDefault(a => a.Id == _preferencias.AmbienteAtivoId)
                      ?? Ambientes.FirstOrDefault();
@@ -1677,9 +1755,9 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
             ("Conectividade", TipoWidget.Conectividade), ("AudioSistema", TipoWidget.AudioSistema),
             ("EstanteArquivos", TipoWidget.EstanteArquivos) })
             Atividade.DefinirInstalado(id, Ambientes.Any(a => a.WidgetsInstalados.Any(w => w.Tipo == tipo)));
-Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
-        Calendario.SincronizarUrlIcal(_preferencias.UrlIcal);
-        Clima.SincronizarLocalizacao(_preferencias.LocalizacaoClima);
+        Calendario.SincronizarCompromissos(ObterCompromissosAmbiente());
+        Calendario.SincronizarUrlIcal(UrlIcalAmbiente);
+        Clima.SincronizarLocalizacao(LocalizacaoClima);
         SincronizarWidgetsInstanciadosAdicionais(amb);
     }
 
@@ -1903,21 +1981,16 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
         }
 
         // 2. Agrupar janelas abertas nÃ£o fixadas por executÃ¡vel ou processo
-        var itensOutrosAmbientes = Ambientes
-            .Where(a => a.Id != AmbienteAtivo?.Id)
-            .SelectMany(a => a.Model.Itens)
-            .Where(i => i.Tipo == TipoItem.Aplicativo)
-            .ToList();
         var grupos = janelasNaoProcessadas
-            .GroupBy(j => !string.IsNullOrEmpty(j.CaminhoExecutavel) ? j.CaminhoExecutavel.ToLowerInvariant() : j.NomeProcesso.ToLowerInvariant())
+            .GroupBy(j => !string.IsNullOrWhiteSpace(j.CaminhoExecutavel)
+                ? j.CaminhoExecutavel.ToLowerInvariant()
+                : !string.IsNullOrWhiteSpace(j.NomeProcesso)
+                    ? j.NomeProcesso.ToLowerInvariant()
+                    : $"janela-{j.Hwnd}")
             .ToList();
 
-        // Um app fixado em outro ambiente continua visível enquanto estiver aberto.
-        // Apps nunca fixados respeitam a preferência geral de exibição.
-        if (!_preferencias.ExibirAppsAbertosNaoFixados)
-        {
-            grupos = grupos.Where(g => itensOutrosAmbientes.Any(i => CorrespondeAoCaminho(i.CaminhoOuUrl, g.First()))).ToList();
-        }
+        // Toda janela de aplicativo válida aparece em qualquer ambiente. Fixação
+        // define apenas quais itens permanecem depois que suas janelas fecham.
 
         var appsNaoFixados = Aplicativos.Where(a => !a.EstaFixado).ToList();
 
@@ -2096,10 +2169,36 @@ Calendario.SincronizarCompromissos(_preferencias.CompromissosLocais);
 
     private void ExecutarApp(AppItemViewModel app)
     {
-        var res = _launcher.ExecutarCaminho(app.CaminhoExecutavel);
+        var caminhoAnterior = app.CaminhoExecutavel;
+        var caminhoResolvido = LauncherService.ResolverAplicativoEmpacotado(caminhoAnterior);
+        if (!string.Equals(caminhoAnterior, caminhoResolvido, StringComparison.OrdinalIgnoreCase))
+        {
+            AtualizarCaminhoAplicativoSalvo(caminhoAnterior, caminhoResolvido);
+            app.CaminhoExecutavel = caminhoResolvido;
+            SalvarPreferencias();
+        }
+
+        var res = _launcher.ExecutarCaminho(caminhoResolvido);
         if (!res.Sucesso)
         {
             MostrarAlerta?.Invoke("Erro ao Abrir Aplicativo", res.MensagemErro ?? "NÃ£o foi possÃ­vel iniciar o aplicativo.");
+        }
+    }
+
+    private void AtualizarCaminhoAplicativoSalvo(string caminhoAnterior, string caminhoNovo)
+    {
+        static IEnumerable<ItemFixado> ItensDasColecoes(IEnumerable<ColecaoApp> colecoes) =>
+            colecoes.SelectMany(colecao => colecao.Itens);
+
+        var itens = _preferencias.AppsPermanentes
+            .Concat(_preferencias.Ambientes.SelectMany(ambiente => ambiente.Itens))
+            .Concat(ItensDasColecoes(_preferencias.ColecoesGlobais ?? []))
+            .Concat(_preferencias.Ambientes.SelectMany(ambiente => ItensDasColecoes(ambiente.Colecoes)));
+
+        foreach (var item in itens.Where(item => string.Equals(
+                     item.CaminhoOuUrl, caminhoAnterior, StringComparison.OrdinalIgnoreCase)))
+        {
+            item.CaminhoOuUrl = caminhoNovo;
         }
     }
 

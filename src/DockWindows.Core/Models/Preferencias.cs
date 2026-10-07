@@ -5,7 +5,7 @@ namespace DockWindows.Core.Models;
 public class Preferencias
 {
     public bool AppsGlobaisMigrados { get; set; }
-    public int SchemaVersion { get; set; } = 7;
+    public int SchemaVersion { get; set; } = 8;
     public string AmbienteAtivoId { get; set; } = string.Empty;
     public TemaModo Tema { get; set; } = TemaModo.Escuro;
     public EstiloTema EstiloTema { get; set; } = EstiloTema.Escuro;
@@ -26,7 +26,9 @@ public class Preferencias
     public int? EstadoAnteriorBarraTarefas { get; set; } = null;
     public bool ExibirSeletorAmbientes { get; set; } = true;
     public bool ExibirItensFixados { get; set; } = true;
-    public bool ExibirAppsAbertosNaoFixados { get; set; } = false;
+    // Mantida para compatibilidade com configurações antigas. Aplicativos com
+    // janelas abertas agora são sempre exibidos em todos os ambientes.
+    public bool ExibirAppsAbertosNaoFixados { get; set; } = true;
     public bool ExibirBotoesAcao { get; set; } = false;
     public bool ExibirContagemColecoes { get; set; } = false;
     public bool ExibirClima { get; set; } = true;
@@ -35,6 +37,10 @@ public class Preferencias
     public bool ClimaExpandido { get; set; }
     public bool RelogioAnalogico { get; set; }
     public bool PreviaPastas { get; set; }
+    public int AtrasoAbrirPreviaMs { get; set; } = 350;
+    public int AtrasoFecharPreviaMs { get; set; } = 200;
+    public int AtrasoAposRemoverPreviaMs { get; set; } = 200;
+    public bool FecharPreviaAoClicarFora { get; set; } = true;
     public bool ExibirBateria { get; set; } = false;
     public bool ExibirLixeira { get; set; } = false;
     public bool AlertasVisuaisHabilitados { get; set; } = true;
@@ -129,7 +135,7 @@ public class Preferencias
     {
         var prefs = new Preferencias
         {
-            SchemaVersion = 7,
+            SchemaVersion = 8,
             Tema = TemaModo.Escuro,
             EstiloTema = EstiloTema.Escuro,
             TamanhoIcones = TamanhoIcone.Medio,

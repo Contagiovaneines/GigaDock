@@ -8,6 +8,7 @@ namespace DockWindows.App.Views;
 
 public class DockFlyoutWindow : Window
 {
+    public bool FecharAoClicarFora { get; set; } = true;
     protected readonly StackPanel Body = new();
     protected static Brush Azul { get; } = CriarBrush(20, 27, 35);
     protected static Brush Contorno { get; } = CriarBrush(54, 69, 83);
@@ -62,7 +63,7 @@ public class DockFlyoutWindow : Window
         Content = new Border { Background = Azul, BorderThickness = new Thickness(1), BorderBrush = Contorno,
             CornerRadius = new CornerRadius(18), Padding = new Thickness(16), Child = Body };
         PreviewKeyDown += (_, e) => { if (e.Key == Key.Escape) { Close(); e.Handled = true; } };
-        Deactivated += (_, _) => Close();
+        Deactivated += (_, _) => { if (FecharAoClicarFora) Close(); };
     }
 
     public void MostrarPerto(FrameworkElement anchor)

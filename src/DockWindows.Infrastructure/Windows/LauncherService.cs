@@ -11,6 +11,14 @@ public class LauncherService : ILauncherService
 {
     public LaunchResult Executar(ItemFixado item)
     {
+        if (item.Tipo is TipoItem.Aplicativo or TipoItem.Arquivo)
+        {
+            var caminhoResolvido = ResolverAplicativoEmpacotado(item.CaminhoOuUrl);
+            if (!string.Equals(caminhoResolvido, item.CaminhoOuUrl, StringComparison.OrdinalIgnoreCase))
+                item.CaminhoOuUrl = caminhoResolvido;
+            return ExecutarCaminho(caminhoResolvido, item.Argumentos);
+        }
+
         var validacao = ItemValidator.ValidarItem(item);
         if (!validacao.Valido)
         {
@@ -62,20 +70,16 @@ public class LauncherService : ILauncherService
 
     public LaunchResult ExecutarCaminho(string caminho, string? argumentos = null)
     {
-        var validacao = ItemValidator.ValidarArquivoOuApp(caminho);
+        var caminhoResolvido = ResolverAplicativoEmpacotado(caminho);
+        var validacao = ItemValidator.ValidarArquivoOuApp(caminhoResolvido);
         if (!validacao.Valido) return LaunchResult.Falha(validacao.MensagemErro ?? "Caminho inválido.");
         try
         {
-            var expandido = Environment.ExpandEnvironmentVariables(caminho);
+            var expandido = Environment.ExpandEnvironmentVariables(caminhoResolvido);
 
             if (expandido.StartsWith(@"shell:AppsFolder\", StringComparison.OrdinalIgnoreCase))
             {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "explorer.exe",
-                    Arguments = $"\"{expandido}\"",
-                    UseShellExecute = true
-                });
+                Process.Start(new ProcessStartInfo { FileName = expandido, UseShellExecute = true });
                 return LaunchResult.Ok();
             }
 
@@ -108,6 +112,13 @@ public class LauncherService : ILauncherService
         {
             return LaunchResult.Falha($"Falha ao iniciar '{caminho}': {ex.Message}");
         }
+    }
+
+    public static string ResolverAplicativoEmpacotado(string caminho)
+    {
+        if (string.IsNullOrWhiteSpace(caminho) ||
+            !caminho.Contains(@"\WindowsApps\", StringComparison.OrdinalIgnoreCase)) return caminho;
+        return InstalledAppsScanner.ResolverReferenciaAppEmpacotado(caminho) ?? caminho;
     }
 
     private static LaunchResult AbrirPasta(string caminhoPasta)

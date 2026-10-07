@@ -99,7 +99,7 @@ public class ControlesRapidosTests
         var service = new FakeService { Falhar = true };
         using var vm = new ControlesRapidosViewModel(() => { }, mensagem => erro = mensagem, () => true, service);
         vm.Carregar(new Ambiente());
-        vm.Itens[0].ExecutarCommand.Execute(null);
+        vm.Itens.Single(i => i.Tipo == TipoControleRapido.ModoEscuro).ExecutarCommand.Execute(null);
         Assert.Contains("Não foi possível", erro);
     }
 }

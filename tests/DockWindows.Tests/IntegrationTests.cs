@@ -120,6 +120,26 @@ public class IntegrationTests : IDisposable
     }
 
     [Fact]
+    public void InstalledAppsScanner_CaminhoVersionadoDoTeams_ResolveReferenciaEstavel()
+    {
+        const string antigo = @"C:\Program Files\WindowsApps\MSTeams_26225.1806.5074.1452_x64__8wekyb3d8bbwe\ms-teams.exe";
+        var instalados = new[]
+        {
+            new AppInstalado
+            {
+                Nome = "Microsoft Teams",
+                ParsingName = "MSTeams_8wekyb3d8bbwe!MSTeams",
+                CaminhoExecucao = @"shell:AppsFolder\MSTeams_8wekyb3d8bbwe!MSTeams",
+                EhAppModerno = true
+            }
+        };
+
+        Assert.Equal("MSTeams_8wekyb3d8bbwe", InstalledAppsScanner.ObterFamiliaPacotePorCaminho(antigo));
+        Assert.Equal(instalados[0].CaminhoExecucao,
+            InstalledAppsScanner.ResolverReferenciaAppEmpacotado(antigo, instalados));
+    }
+
+    [Fact]
     public void LauncherService_AbrirLocal_EmItemWebUrl_RetornaFalhaApropriada()
     {
         var launcher = new LauncherService();

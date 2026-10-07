@@ -8,6 +8,7 @@ namespace DockWindows.App.Views;
 
 public sealed class JanelasPreviewWindow : DockFlyoutWindow
 {
+    public int AtrasoAposRemoverMs { get; set; } = 200;
     public JanelasPreviewWindow(AppItemViewModel app) : base(app.Titulo)
     {
         var paginas = new StackPanel();
@@ -39,7 +40,15 @@ public sealed class JanelasPreviewWindow : DockFlyoutWindow
                 var fechar = CriarBotao("Fechar janela");
                 fechar.Margin = new Thickness(0, 8, 0, 0);
                 System.Windows.Automation.AutomationProperties.SetName(fechar, $"Fechar {janela.Titulo}");
-                fechar.Click += (_, _) => { app.FecharJanelaCommand.Execute(janela); if (app.Janelas.Count == 0) Close(); else { page = Math.Min(page, (app.Janelas.Count - 1) / perPage); Render(); } };
+                fechar.Click += async (_, _) =>
+                {
+                    app.FecharJanelaCommand.Execute(janela);
+                    if (app.Janelas.Count == 0) { Close(); return; }
+                    await Task.Delay(Math.Clamp(AtrasoAposRemoverMs, 0, 5000));
+                    if (!IsVisible) return;
+                    page = Math.Min(page, (app.Janelas.Count - 1) / perPage);
+                    Render();
+                };
                 tile.Children.Add(fechar);
                 tiles.Children.Add(tile);
             }

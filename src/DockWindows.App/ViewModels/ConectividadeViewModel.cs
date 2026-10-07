@@ -26,7 +26,11 @@ public sealed class ConectividadeViewModel : ObservableObject, IAtividadeWidget
         AtualizarCommand = new RelayCommand(() => _ = _service.AtualizarAsync());
         AbrirRedeCommand = new RelayCommand(() => AbrirConfiguracao("ms-settings:network-wifi"));
         AbrirBluetoothCommand = new RelayCommand(() => AbrirConfiguracao("ms-settings:bluetooth"));
+        ConectarWifiCommand = new RelayCommand<RedeWifiDisponivelInfo>(rede => _ = ConectarWifiAsync(rede));
+        DesconectarWifiCommand = new RelayCommand(() => _ = _service.DesconectarWifiAsync());
+        SelecionarBluetoothCommand = new RelayCommand<DispositivoBluetoothInfo>(_ => AbrirConfiguracao("ms-settings:bluetooth"));
     }
+    public ObservableCollection<RedeWifiDisponivelInfo> RedesWifi { get; } = new();
     public ObservableCollection<DispositivoBluetoothInfo> Bluetooth { get; } = new();
     public bool? EmExecucao => Habilitado;
     public SaudeWidget Saude => string.IsNullOrEmpty(_service.Erro) ? SaudeWidget.Disponivel : SaudeWidget.Erro;
@@ -39,6 +43,9 @@ public sealed class ConectividadeViewModel : ObservableObject, IAtividadeWidget
     public ICommand AtualizarCommand { get; }
     public ICommand AbrirRedeCommand { get; }
     public ICommand AbrirBluetoothCommand { get; }
+    public ICommand ConectarWifiCommand { get; }
+    public ICommand DesconectarWifiCommand { get; }
+    public ICommand SelecionarBluetoothCommand { get; }
     public int BluetoothConectados => Bluetooth.Count(x => x.Conectado);
 
     public void DefinirAtividade(EstadoAtividade estado)
@@ -54,10 +61,20 @@ public sealed class ConectividadeViewModel : ObservableObject, IAtividadeWidget
         var rede = _service.RedeAtual;
         Wifi = rede == null ? "Wi-Fi desconectado" : rede.Nome;
         Intensidade = rede?.Intensidade ?? 0;
+        RedesWifi.Clear();
+        foreach (var item in _service.RedesWifi) RedesWifi.Add(item);
         Bluetooth.Clear();
-        foreach (var item in _service.DispositivosBluetooth.Where(x => x.Conectado)) Bluetooth.Add(item);
+        foreach (var item in _service.DispositivosBluetooth) Bluetooth.Add(item);
         OnPropertyChanged(nameof(BluetoothConectados));
     });
+
+    private async Task ConectarWifiAsync(RedeWifiDisponivelInfo? rede)
+    {
+        if (rede == null) return;
+        if (rede.Conectada) { await _service.DesconectarWifiAsync(); return; }
+        if (!rede.PerfilSalvo) { AbrirConfiguracao("ms-settings:network-wifi"); return; }
+        if (!await _service.ConectarWifiAsync(rede.Nome)) AbrirConfiguracao("ms-settings:network-wifi");
+    }
 
     private static void AbrirConfiguracao(string uri)
     {

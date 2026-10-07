@@ -42,7 +42,7 @@ public partial class MainWindow : Window
 
     public void ExibirInstanciaExistente()
     {
-        _viewModel.DockVisivel = true;
+        _viewModel.ForcarExibicao();
         if (WindowState == WindowState.Minimized) WindowState = WindowState.Normal;
         Show();
         RevelarDock();
@@ -103,22 +103,25 @@ public partial class MainWindow : Window
     }
     private void SystemParameters_Changed(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(SystemParameters.ClientAreaAnimation)) Dispatcher.InvokeAsync(InformarVisibilidadeReal);
+        if (e.PropertyName == nameof(SystemParameters.ClientAreaAnimation) && !Dispatcher.HasShutdownStarted)
+            Dispatcher.InvokeAsync(InformarVisibilidadeReal);
     }
 
     private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
     {
         if (e.Mode is Microsoft.Win32.PowerModes.Suspend or Microsoft.Win32.PowerModes.Resume)
-            Dispatcher.InvokeAsync(() => _viewModel.Atividade.Suspender(e.Mode == Microsoft.Win32.PowerModes.Suspend));
+            if (!Dispatcher.HasShutdownStarted)
+                Dispatcher.InvokeAsync(() => _viewModel.Atividade.Suspender(e.Mode == Microsoft.Win32.PowerModes.Suspend));
     }
     private void SystemEvents_TimeChanged(object? sender, EventArgs e)
     {
-        Dispatcher.InvokeAsync(() => { TimeZoneInfo.ClearCachedData(); _viewModel.Atividade.Atualizar("Relogio"); _viewModel.Atividade.Atualizar("Calendario"); });
+        if (!Dispatcher.HasShutdownStarted)
+            Dispatcher.InvokeAsync(() => { TimeZoneInfo.ClearCachedData(); _viewModel.Atividade.Atualizar("Relogio"); _viewModel.Atividade.Atualizar("Calendario"); });
     }
 
     private void SystemEvents_DisplaySettingsChanged(object? sender, EventArgs e)
     {
-        Dispatcher.Invoke(ReposicionarBarra);
+        if (!Dispatcher.HasShutdownStarted) Dispatcher.InvokeAsync(ReposicionarBarra);
     }
 
     [System.Runtime.InteropServices.DllImport("user32.dll")]

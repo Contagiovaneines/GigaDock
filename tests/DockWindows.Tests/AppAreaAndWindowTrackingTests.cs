@@ -121,7 +121,7 @@ public class AppAreaAndWindowTrackingTests
             new FakeAutostartService(), taskbarService: null, windowTrackingService: tracking);
 
         Assert.False(Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "chat").EstaFixado);
-        Assert.Equal(exibirNaoFixados, vm.Aplicativos.Any(a => a.NomeProcesso == "outro"));
+        Assert.Contains(vm.Aplicativos, a => a.NomeProcesso == "outro");
         Assert.True(Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "editor").EstaAberto);
         vm.AmbienteAtivo = vm.Ambientes.Single(a => a.Id == "pessoal");
         Assert.Single(vm.Aplicativos, a => a.NomeProcesso == "editor");
@@ -332,6 +332,21 @@ public class AppAreaAndWindowTrackingTests
         Assert.False(app.EstaAberto);
         Assert.False(app.EstaAtivo);
         Assert.Equal(0, app.QuantidadeJanelas);
+    }
+
+    [Fact]
+    public void ExibirDock_LimpaEstadoAntigoDeTelaCheia()
+    {
+        var prefs = Preferencias.CriarPadrao();
+        using var vm = new MainViewModel(new FakeSettingsRepository(prefs), new FakeLauncherService(),
+            new FakeIconExtractionService(), new FakeAutostartService(), windowTrackingService: new FakeWindowTrackingService());
+        vm.DockVisivel = true;
+        vm.OcultoPorTelaCheia = true;
+
+        vm.AlternarVisibilidade();
+
+        Assert.True(vm.DockVisivel);
+        Assert.False(vm.OcultoPorTelaCheia);
     }
 
     private class FakeWindowTrackingService : IWindowTrackingService

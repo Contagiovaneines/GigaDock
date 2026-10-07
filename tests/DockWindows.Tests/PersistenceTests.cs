@@ -128,7 +128,7 @@ public class PersistenceTests : IDisposable
         var repo = new JsonSettingsRepository(_tempDir);
         var prefsMigradas = repo.Carregar();
 
-        Assert.Equal(7, prefsMigradas.SchemaVersion);
+        Assert.Equal(8, prefsMigradas.SchemaVersion);
         Assert.Single(prefsMigradas.Ambientes);
         Assert.Equal("Meu Trabalho V1", prefsMigradas.Ambientes[0].Nome);
         Assert.Equal("Editor Antigo", prefsMigradas.Ambientes[0].Itens[0].Titulo);
@@ -166,7 +166,7 @@ public class PersistenceTests : IDisposable
         var repo = new JsonSettingsRepository(_tempDir);
         var prefsMigradas = repo.Carregar();
 
-        Assert.Equal(7, prefsMigradas.SchemaVersion);
+        Assert.Equal(8, prefsMigradas.SchemaVersion);
         Assert.True(prefsMigradas.UsarComoBarraPrincipal);
         Assert.NotEmpty(prefsMigradas.AppsPermanentes);
         Assert.Contains(prefsMigradas.OrdemSecoes, s => s.Tipo == TipoSecaoDock.ClimaInline);

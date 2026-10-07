@@ -69,7 +69,10 @@
                                                   Width="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
                                                   Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}">
                                                 <Grid.RenderTransform>
-                                                    <ScaleTransform x:Name="AppScale" ScaleX="1.0" ScaleY="1.0"/>
+                                                    <TransformGroup>
+                                                        <ScaleTransform x:Name="AppScale" ScaleX="1.0" ScaleY="1.0"/>
+                                                        <TranslateTransform x:Name="AppShift" X="0" Y="0"/>
+                                                    </TransformGroup>
                                                 </Grid.RenderTransform>
                                                 <Border Width="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"
                                                         Height="{Binding DataContext.TamanhoIconeNumerico, RelativeSource={RelativeSource AncestorType=Window}}"

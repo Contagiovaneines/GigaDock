@@ -16,6 +16,7 @@ public sealed class AplicativoSegundoPlanoViewModel
     }
 
     public string Nome { get; }
+    public string Inicial => string.IsNullOrWhiteSpace(Nome) ? "?" : Nome.Trim()[0].ToString().ToUpperInvariant();
     public string Caminho { get; }
     public bool PossuiJanela { get; }
     public ImageSource? Icone { get; }

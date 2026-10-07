@@ -30,7 +30,7 @@ public class DiscordWidgetViewModel : ObservableObject, IAtividadeWidget
     private bool _estaEmCall = false;
     private readonly DiscordIpcService _service;
     private bool _visual, _disposed;
-    public string EstadoIntegracao => "Sem RPC autenticado: canal e participantes não são confirmados.";
+    public string EstadoIntegracao => SalaVoz;
 
     public void DefinirAtividade(DockWindows.Core.Widgets.EstadoAtividade estado)
     {
@@ -57,7 +57,12 @@ public class DiscordWidgetViewModel : ObservableObject, IAtividadeWidget
         _service = new DiscordIpcService();
         _service.EstadoAlterado += estado =>
         {
-            SalaVoz = estado; EstaEmCall = false; UsuariosNaCall.Clear();
+            var dispatcher = System.Windows.Application.Current?.Dispatcher;
+            if (dispatcher == null || dispatcher.CheckAccess())
+            {
+                SalaVoz = estado; EstaEmCall = false; UsuariosNaCall.Clear();
+            }
+            else dispatcher.BeginInvoke(() => { SalaVoz = estado; EstaEmCall = false; UsuariosNaCall.Clear(); });
         };
 
 

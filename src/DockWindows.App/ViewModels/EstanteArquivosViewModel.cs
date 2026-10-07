@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using DockWindows.App.Common;
+using DockWindows.App.Services;
 using DockWindows.Core.Services;
 using DockWindows.Core.Widgets;
 using DockWindows.Infrastructure.Files;
@@ -14,8 +15,9 @@ namespace DockWindows.App.ViewModels;
 
 public sealed class EstanteArquivosViewModel : ObservableObject, IAtividadeWidget
 {
-    private readonly IReadOnlyList<IFilePreviewProvider> _providers = new IFilePreviewProvider[] { new TextFilePreviewProvider(), new ImageFilePreviewProvider(), new MetadataFilePreviewProvider() };
+    private readonly IReadOnlyList<IFilePreviewProvider> _providers = new IFilePreviewProvider[] { new TextFilePreviewProvider(), new ImageFilePreviewProvider(), new PdfFilePreviewProvider(), new MetadataFilePreviewProvider() };
     private readonly Action<string> _salvar;
+    private readonly WindowsShareService _compartilhamento = new();
     private CancellationTokenSource? _previewCts;
     private bool _disposed, _habilitado, _painelAberto;
     private ArquivoEstanteViewModel? _selecionado;
@@ -28,6 +30,7 @@ public sealed class EstanteArquivosViewModel : ObservableObject, IAtividadeWidge
         AdicionarCommand = new RelayCommand(Adicionar);
         RemoverCommand = new RelayCommand(RemoverSelecionado);
         AbrirCommand = new RelayCommand(AbrirSelecionado);
+        CompartilharCommand = new RelayCommand(CompartilharSelecionado);
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
     }
     public ObservableCollection<ArquivoEstanteViewModel> Itens { get; } = new();
@@ -42,7 +45,7 @@ public sealed class EstanteArquivosViewModel : ObservableObject, IAtividadeWidge
     public string PreviewTexto { get => _previewTexto; private set => SetProperty(ref _previewTexto, value); }
     public BitmapImage? PreviewImagem { get => _previewImagem; private set { if (SetProperty(ref _previewImagem, value)) OnPropertyChanged(nameof(TemImagem)); } }
     public bool TemImagem => PreviewImagem != null;
-    public ICommand AdicionarCommand { get; } public ICommand RemoverCommand { get; } public ICommand AbrirCommand { get; } public ICommand AlternarPainelCommand { get; }
+    public ICommand AdicionarCommand { get; } public ICommand RemoverCommand { get; } public ICommand AbrirCommand { get; } public ICommand CompartilharCommand { get; } public ICommand AlternarPainelCommand { get; }
 
     public void Configurar(string? json)
     {
@@ -64,6 +67,13 @@ public sealed class EstanteArquivosViewModel : ObservableObject, IAtividadeWidge
     }
     private void RemoverSelecionado() { if (Selecionado == null) return; var indice = Itens.IndexOf(Selecionado); Itens.Remove(Selecionado); Selecionado = Itens.ElementAtOrDefault(Math.Min(indice, Itens.Count - 1)); Salvar(); }
     private void AbrirSelecionado() { if (Selecionado == null || !File.Exists(Selecionado.Caminho)) { PreviewDescricao = "O arquivo foi removido ou movido."; return; } try { Process.Start(new ProcessStartInfo { FileName = Selecionado.Caminho, UseShellExecute = true }); } catch { PreviewDescricao = "O Windows não conseguiu abrir este arquivo."; } }
+    private void CompartilharSelecionado()
+    {
+        if (Selecionado == null) { PreviewDescricao = "Selecione um arquivo para compartilhar."; return; }
+        var janela = System.Windows.Application.Current?.MainWindow;
+        if (janela == null) { PreviewDescricao = "A janela da GigaDock não está disponível."; return; }
+        if (!_compartilhamento.Compartilhar(janela, Selecionado.Caminho, out var erro)) PreviewDescricao = erro ?? "Não foi possível compartilhar o arquivo.";
+    }
     private void Salvar() => _salvar(JsonSerializer.Serialize(Itens.Select(x => x.Caminho).ToList()));
 
     private async Task AtualizarPreviewAsync()
@@ -88,7 +98,7 @@ public sealed class EstanteArquivosViewModel : ObservableObject, IAtividadeWidge
         catch { PreviewDescricao = "Não foi possível gerar a prévia com segurança."; }
     }
     public void DefinirAtividade(EstadoAtividade estado) { if (!estado.Visual) PainelAberto = false; }
-    public void Dispose() { _disposed = true; _previewCts?.Cancel(); _previewCts?.Dispose(); }
+    public void Dispose() { _disposed = true; _previewCts?.Cancel(); _previewCts?.Dispose(); _compartilhamento.Dispose(); }
 }
 
 public sealed class ArquivoEstanteViewModel

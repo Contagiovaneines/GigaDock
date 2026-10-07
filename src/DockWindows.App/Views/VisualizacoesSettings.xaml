@@ -69,6 +69,14 @@
                             <ComboBoxItem Content="Ao passar o mouse" Tag="Mouse"/>
                         </ComboBox>
                         <CheckBox Style="{StaticResource VisualToggle}" IsChecked="{Binding PreviaJanelas, Mode=TwoWay}" Content="Usar prévias de janelas"/>
+                        <TextBlock Text="Atrasos das miniaturas (milissegundos)" Foreground="White" FontWeight="SemiBold" Margin="0,14,0,7"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,6,0"><TextBlock Text="Abrir" Foreground="#AEBACB"/><TextBox Text="{Binding AtrasoAbrirPreviaMs, UpdateSourceTrigger=LostFocus}" Padding="7,5"/></StackPanel>
+                            <StackPanel Grid.Column="1" Margin="3,0"><TextBlock Text="Fechar" Foreground="#AEBACB"/><TextBox Text="{Binding AtrasoFecharPreviaMs, UpdateSourceTrigger=LostFocus}" Padding="7,5"/></StackPanel>
+                            <StackPanel Grid.Column="2" Margin="6,0,0,0"><TextBlock Text="Após remover" Foreground="#AEBACB"/><TextBox Text="{Binding AtrasoAposRemoverPreviaMs, UpdateSourceTrigger=LostFocus}" Padding="7,5"/></StackPanel>
+                        </Grid>
+                        <CheckBox Style="{StaticResource VisualToggle}" IsChecked="{Binding FecharPreviaAoClicarFora, Mode=TwoWay}" Content="Fechar ao clicar fora" Margin="0,10,0,0"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource VisualCard}">

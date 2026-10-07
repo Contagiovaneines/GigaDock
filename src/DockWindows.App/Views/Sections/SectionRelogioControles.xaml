@@ -235,6 +235,9 @@
                                             <ControlTemplate TargetType="Button">
                                                 <Border x:Name="Card" CornerRadius="12" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Padding="7">
                                                     <Grid>
+                                                        <Border Width="34" Height="34" CornerRadius="9" Background="#25364A">
+                                                            <TextBlock Text="{Binding Inicial}" Foreground="#B9D9F4" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
                                                         <Image Source="{Binding Icone}" Width="34" Height="34" RenderOptions.BitmapScalingMode="HighQuality"/>
                                                         <Border Width="7" Height="7" CornerRadius="4" Background="#32D74B"
                                                                 HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderBrush="#17212C" BorderThickness="1"/>

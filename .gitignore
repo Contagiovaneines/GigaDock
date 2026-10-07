@@ -31,6 +31,18 @@ __pycache__/
 *.pyc
 /tools/legacy/
 /prompts/
+/.codex-analysis/
+
+# Evidências locais geradas durante análise e validação
+/docs/*-build.txt
+/docs/*-publish.txt
+/docs/*-tests.txt
+/docs/*-suite.txt
+/docs/*-inventory*.txt
+/docs/*-inventory*.json
+/docs/*-validation.json
+!/docs/installer-validation.json
+/docs/*-preview.png
 
 # Credenciais e dados privados
 .env
