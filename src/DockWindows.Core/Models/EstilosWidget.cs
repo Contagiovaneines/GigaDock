@@ -29,11 +29,22 @@ public static class EstilosWidget
             new("detalhado", "Cartão azul com detalhes", "21°\nSensação 23° · próximas horas", FormatoWidget.Expandido)
         },
         TipoWidget.CalendarioCompromissos => new EstiloWidget[] { new("agenda", "Agenda de hoje", "Hoje\nReunião 13:30 · Revisão 15:30", FormatoWidget.Expandido), new("proximo", "Próximo evento", "Hoje · 13:30\nReunião", FormatoWidget.Compacto), new("reuniao", "Próxima reunião", "Revisão do projeto\n14:00 · Entrar ▶"), new("central-reuniao", "Central da reunião", "Revisão do projeto\nComeça em 8 min · Entrar ▶", FormatoWidget.Expandido) },
-        TipoWidget.Midia => new EstiloWidget[] { new("capa", "Capa e controles", "Nome da música\nArtista · ◀ Ⅱ ▶", FormatoWidget.Expandido), new("tocando", "Tocando agora", "♫ Nome da música   ◀ Ⅱ ▶"), new("mini", "Controle mini", "Ⅱ"), new("barra", "Barra de reprodução", "Nome da música   Ⅱ\n1:24 ━━━━━ 3:42", FormatoWidget.Expandido) },
+        TipoWidget.Midia => new EstiloWidget[]
+        {
+            new("compacto-player", "Compacto", "Capa · ◀ Ⅱ ▶"),
+            new("ultralargo", "Ultralargo", "Capa · Nome da música · Artista · ◀ Ⅱ ▶", FormatoWidget.Expandido),
+            new("expansivel", "Expansível no hover", "Capa · Nome\nPainel completo no hover"),
+            new("capa", "Capa e controles", "Nome da música\nArtista · ◀ Ⅱ ▶", FormatoWidget.Expandido),
+            new("tocando", "Tocando agora", "♫ Nome da música   ◀ Ⅱ ▶"),
+            new("mini", "Controle mini", "Ⅱ"),
+            new("barra", "Barra de reprodução", "Nome da música   Ⅱ\n1:24 ━━━━━ 3:42", FormatoWidget.Expandido)
+        },
         TipoWidget.Bateria => new EstiloWidget[] { new("compacto", "Porcentagem e bateria", "78% ▰"), new("anel", "Anel de carga", "78%") },
         TipoWidget.MonitorSistema => new EstiloWidget[]
         {
             new("compacto", "CPU e RAM compactos", "CPU 34% · RAM 61%"), new("expandido", "CPU e RAM", "CPU 34% · RAM 61%", FormatoWidget.Expandido),
+            new("aneis-cpu-ram", "CPU e RAM em anéis", "CPU 34% · RAM 61%"),
+            new("medidores-cpu-ram", "Medidores CPU e RAM", "CPU 34% · RAM 61%"),
             new("cpu", "CPU em anel", "34%"), new("ram", "RAM em anel", "61%"),
             new("cpu-grafico", "Gráfico de CPU", "CPU 34%", FormatoWidget.Expandido), new("ram-grafico", "Gráfico de RAM", "RAM 61%", FormatoWidget.Expandido),
             new("rede", "Rede", "↓ 4,2 MB/s\n↑ 312 KB/s"), new("download", "Download", "↓ 4,2 MB/s"), new("upload", "Upload", "↑ 312 KB/s"),

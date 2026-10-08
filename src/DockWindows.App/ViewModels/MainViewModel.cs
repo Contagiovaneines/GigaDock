@@ -19,7 +19,7 @@ public class MainViewModel : ObservableObject, IDisposable
     private bool _disposed, _dockRenderizada, _syncOcupado, _syncPendente;
     private System.Threading.CancellationTokenSource? _alertaCancelamento;
     public bool VisualAtivo => !_disposed && _dockRenderizada && DockVisivel && !OcultoPorTelaCheia;
-    public bool AnimacoesAtivas => VisualAtivo && !DesativarAnimacoes && SystemParameters.ClientAreaAnimation;
+    public bool AnimacoesAtivas => VisualAtivo && !DesativarAnimacoes && !ModoEconomico && SystemParameters.ClientAreaAnimation;
     public void DefinirVisibilidadeReal(bool visivel) { _dockRenderizada = visivel; AtualizarAtividade(); }
     private void AtualizarAtividade()
     {
@@ -165,10 +165,25 @@ public class MainViewModel : ObservableObject, IDisposable
 
     private void ChamadaToastEncerrada() => Application.Current?.Dispatcher?.InvokeAsync(() =>
     {
+        EncerrarAlertaGlobal();
+    });
+
+    private void EncerrarAlertaGlobal()
+    {
         AlertaChamada = false;
         OnPropertyChanged(nameof(AlertaChamada));
         EstaEmAlerta = false;
-    });
+    }
+
+    private void EncerrarAlertaDoApp(AppItemViewModel app)
+    {
+        var identificacao = $"{app.Titulo} {app.CaminhoExecutavel}".ToLowerInvariant();
+        if (identificacao.Contains("whatsapp") || identificacao.Contains("teams") ||
+            identificacao.Contains("msteams") || identificacao.Contains("discord"))
+        {
+            EncerrarAlertaGlobal();
+        }
+    }
 
     private async Task ProcessarPulsosAsync()
     {
@@ -245,6 +260,7 @@ public class MainViewModel : ObservableObject, IDisposable
 
             if (exec.Contains("whatsapp") || name.Contains("whatsapp") || title.Contains("whatsapp"))
             {
+                EncerrarAlertaGlobal();
                 if (_disposed || _syncOcupado) return;
         _syncOcupado = true;
         Dictionary<string, int> dict;
@@ -257,6 +273,7 @@ public class MainViewModel : ObservableObject, IDisposable
 
             if (exec.Contains("teams") || exec.Contains("msteams") || name.Contains("teams") || name.Contains("msteams") || title.Contains("teams") || title.Contains("msteams"))
             {
+                EncerrarAlertaGlobal();
                 if (_disposed || _syncOcupado) return;
         _syncOcupado = true;
         Dictionary<string, int> dict;
@@ -460,6 +477,11 @@ public class MainViewModel : ObservableObject, IDisposable
         };
         Clima = new ClimaWidgetViewModel();
         Bateria = new BateriaViewModel { Habilitado = _preferencias.ExibirBateria };
+        MonitorSistema.ModoEconomico = _preferencias.ModoEconomico;
+        Bateria.ModoEconomico = _preferencias.ModoEconomico;
+        Midia.ModoEconomico = _preferencias.ModoEconomico;
+        IconExtractionService.DefinirModoEconomico(_preferencias.ModoEconomico);
+        if (_windowTrackingService is Win32WindowTrackingService rastreamento) rastreamento.DefinirModoEconomico(_preferencias.ModoEconomico);
 
         ControlesRapidos = new ControlesRapidosViewModel(SalvarPreferencias,
             mensagem => MostrarAlerta?.Invoke("Controles rápidos", mensagem),
@@ -482,6 +504,8 @@ public class MainViewModel : ObservableObject, IDisposable
         AdicionarAppPermanenteCommand = new RelayCommand(AdicionarAppPermanentePrompt);
         AbrirConfiguracoesCommand = new RelayCommand(() => AbrirAjustes("Geral"));
         AbrirPersonalizarCommand = new RelayCommand(() => AbrirAjustes("Aparencia"));
+        SelecionarEstiloMidiaCommand = new RelayCommand<string>(SelecionarEstiloMidia);
+        OcultarMidiaCommand = new RelayCommand(() => ExibirMidia = false);
         AbrirAjustesCommand = new RelayCommand<string>(AbrirAjustes);
                 RestaurarBarraWindowsCommand = new RelayCommand(RestaurarBarraWindows);
         ToggleBarraNativaCommand = new RelayCommand(ToggleBarraNativa);
@@ -546,6 +570,15 @@ public class MainViewModel : ObservableObject, IDisposable
     public ObservableCollection<WidgetInstanceRuntimeViewModel> NotasAdicionais { get; }
     public ClockWidgetViewModel Clock { get; }
     public ICommand PersonalizarWidgetCommand { get; }
+    public ICommand SelecionarEstiloMidiaCommand { get; }
+    public ICommand OcultarMidiaCommand { get; }
+    private void SelecionarEstiloMidia(string? estilo)
+    {
+        var ambiente = AmbienteAtivo;
+        var widget = ambiente?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Midia);
+        if (ambiente == null || widget == null || string.IsNullOrWhiteSpace(estilo)) return;
+        AplicarEstiloAmbiente(ambiente.Id, widget.Id, estilo);
+    }
     private void PersonalizarWidget(TipoWidget tipo)
     {
         var ambiente = AmbienteAtivo;
@@ -733,7 +766,7 @@ public class MainViewModel : ObservableObject, IDisposable
         : (EstiloTema == EstiloTema.ComBrilho ? "#60FFFFFF" : (EstiloTema == EstiloTema.VidroLiquido ? "#75FFFFFF" : "#28FFFFFF"));
 
     public bool EhVidroLiquido => EstiloTema == EstiloTema.VidroLiquido;
-    public bool TemEfeitoVidro => EstiloTema == EstiloTema.VidroLiquido || EstiloTema == EstiloTema.ComBrilho;
+    public bool TemEfeitoVidro => !ModoEconomico && (EstiloTema == EstiloTema.VidroLiquido || EstiloTema == EstiloTema.ComBrilho);
 
     public bool WidgetsHabilitados => Clock.Habilitado || Pomodoro.Habilitado || Calendario.Habilitado ||
         Notas.Habilitado || MonitorSistema.Habilitado || LembreteAgua.Habilitado || CotacaoMoedas.Habilitado ||
@@ -1016,7 +1049,7 @@ public class MainViewModel : ObservableObject, IDisposable
         }
     }
 
-    public bool GlowRgbVisivel => !EstaEmAlerta && (ModoGamerRgb || (ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia));
+    public bool GlowRgbVisivel => !ModoEconomico && !EstaEmAlerta && (ModoGamerRgb || (ModoRgbMedia && Midia != null && Midia.EstaTocando && Midia.TemMidia));
 public bool AlertasVisuaisHabilitados
     {
         get => _preferencias.AlertasVisuaisHabilitados;
@@ -1229,6 +1262,30 @@ public bool ExibirLixeira
             }
         }
     }
+
+    public bool ModoEconomico
+    {
+        get => _preferencias.ModoEconomico;
+        set
+        {
+            if (_preferencias.ModoEconomico == value) return;
+            _preferencias.ModoEconomico = value;
+            MonitorSistema.ModoEconomico = value;
+            Bateria.ModoEconomico = value;
+            Midia.ModoEconomico = value;
+            IconExtractionService.DefinirModoEconomico(value);
+            if (_windowTrackingService is Win32WindowTrackingService rastreamento) rastreamento.DefinirModoEconomico(value);
+            AtualizarAtividade();
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(AnimacoesAtivas));
+            OnPropertyChanged(nameof(TemEfeitoVidro));
+            OnPropertyChanged(nameof(GlowRgbVisivel));
+            OnPropertyChanged(nameof(SombraDockOpacity));
+            SalvarPreferencias();
+        }
+    }
+
+    public double SombraDockOpacity => ModoEconomico ? 0.16 : 0.55;
 
     public int EspacamentoItens
     {
@@ -1574,9 +1631,16 @@ public bool ExibirLixeira
         OnPropertyChanged(nameof(RelogioAnalogico));
         OnPropertyChanged(nameof(PreviaPastas));
         OnPropertyChanged(nameof(DesativarAnimacoes));
+        MonitorSistema.ModoEconomico = _preferencias.ModoEconomico;
+        Bateria.ModoEconomico = _preferencias.ModoEconomico;
+        Midia.ModoEconomico = _preferencias.ModoEconomico;
+        IconExtractionService.DefinirModoEconomico(_preferencias.ModoEconomico);
+        if (_windowTrackingService is Win32WindowTrackingService rastreamento) rastreamento.DefinirModoEconomico(_preferencias.ModoEconomico);
+        OnPropertyChanged(nameof(ModoEconomico));
         OnPropertyChanged(nameof(ModoGamerRgb));
         OnPropertyChanged(nameof(ModoRgbMedia));
         OnPropertyChanged(nameof(GlowRgbVisivel));
+        OnPropertyChanged(nameof(SombraDockOpacity));
         OnPropertyChanged(nameof(EspacamentoItens));
         OnPropertyChanged(nameof(MargemItem));
         OnPropertyChanged(nameof(TamanhoIcones));
@@ -1862,7 +1926,8 @@ public bool ExibirLixeira
             onExecutar: ExecutarApp,
             onAlternarFixado: AlternarFixadoApp,
             onMoverEsquerda: MoverAppEsquerda,
-            onMoverDireita: MoverAppDireita);
+            onMoverDireita: MoverAppDireita,
+            onInteragir: EncerrarAlertaDoApp);
         vm.OnMoverParaAmbiente = MoverAppParaAmbiente;
         vm.PropertyChanged += async (s, e) => {
             if (e.PropertyName == "NumeroNotificacoes") {
@@ -1909,7 +1974,8 @@ public bool ExibirLixeira
             onExecutar: ExecutarApp,
             onAlternarFixado: AlternarFixadoApp,
             onMoverEsquerda: MoverAppEsquerda,
-            onMoverDireita: MoverAppDireita);
+            onMoverDireita: MoverAppDireita,
+            onInteragir: EncerrarAlertaDoApp);
         vm.OnMoverParaAmbiente = MoverAppParaAmbiente;
         vm.PropertyChanged += async (s, e) => {
             if (e.PropertyName == "NumeroNotificacoes") {
@@ -2090,6 +2156,26 @@ public bool ExibirLixeira
             Aplicativos.Move(idx, idx + 1);
             SalvarPreferencias();
         }
+    }
+
+    public void ReordenarAplicativo(AppItemViewModel origem, AppItemViewModel destino)
+    {
+        if (!origem.EstaFixado || !destino.EstaFixado || ReferenceEquals(origem, destino)) return;
+        var de = Aplicativos.IndexOf(origem);
+        var para = Aplicativos.IndexOf(destino);
+        if (de < 0 || para < 0) return;
+        Aplicativos.Move(de, para);
+
+        var ordemGlobal = 0;
+        var ordemAmbiente = 0;
+        foreach (var app in Aplicativos.Where(a => a.EstaFixado))
+        {
+            var global = _preferencias.AppsPermanentes.FirstOrDefault(i => i.Id == app.Id);
+            if (global != null) { global.Ordem = ordemGlobal++; continue; }
+            var local = AmbienteAtivo?.Model.Itens.FirstOrDefault(i => i.Id == app.Id);
+            if (local != null) local.Ordem = ordemAmbiente++;
+        }
+        SalvarPreferencias();
     }
 
     public void MoverAppParaAmbiente(AppItemViewModel app)

@@ -126,6 +126,7 @@ public partial class LojaWidgetsWindow : Window
             if (jaTem != null)
             {
                 item.JaAdicionado = true;
+                item.InstaladoAtivo = jaTem.Visivel;
                 item.FormatoAtivo = jaTem.Formato == item.Formato;
             }
         }
@@ -167,6 +168,13 @@ public partial class LojaWidgetsWindow : Window
     {
         if (sender is not Button btn || btn.Tag is not ItemLoja item) return;
         var instalado = _widgetsInstalados.FirstOrDefault(w => w.Tipo == item.Tipo);
+        if (instalado != null && !instalado.Visivel && !WidgetCapabilities.PermiteMultiplasInstancias(item.Tipo))
+        {
+            instalado.Visivel = true;
+            WidgetSelecionado = instalado;
+            DialogResult = true;
+            return;
+        }
         var widget = new WidgetInstanceConfig { Tipo = item.Tipo, Nome = item.Nome, Formato = instalado?.Formato ?? item.Formato, Estilo = instalado?.Estilo ?? "", Visivel = instalado?.Visivel ?? true };
         var estilos = new EstilosWidgetWindow(widget, _ambiente) { Owner = this };
         if (estilos.ShowDialog() != true || estilos.EstiloSelecionado == null) return;
@@ -209,7 +217,11 @@ public class ItemLoja
     public string Categoria { get; set; } = "Sistema";
     public string Custo { get; set; } = "Gratuito";
     public bool JaAdicionado { get; set; }
+    public bool InstaladoAtivo { get; set; }
     public bool FormatoAtivo { get; set; }
+    public string EstadoTexto => !JaAdicionado ? "Disponível" : InstaladoAtivo ? "Ativo" : "Instalado";
+    public string EstadoDescricao => !JaAdicionado ? "Ainda não instalado neste ambiente" : InstaladoAtivo ? "Exibido na dock deste ambiente" : "Instalado, mas oculto da dock";
+    public string EstadoCor => !JaAdicionado ? "#8FB9E8" : InstaladoAtivo ? "#72D99C" : "#A9B8C9";
 
     public string PreviewTitle { get; set; } = string.Empty;
     public string PreviewSubtitle { get; set; } = string.Empty;
@@ -220,7 +232,7 @@ public class ItemLoja
     // UI Helpers
     public string TextoBotao => JaAdicionado && WidgetCapabilities.PermiteMultiplasInstancias(Tipo)
         ? "Adicionar outro"
-        : JaAdicionado ? "Mudar estilo" : "Escolher estilo";
+        : JaAdicionado ? InstaladoAtivo ? "Configurar estilo" : "Ativar na dock" : "Instalar e escolher estilo";
     public string CorBotao => JaAdicionado ? "Transparent" : "#0A84FF"; 
     public string CorBordaBotao => JaAdicionado ? "#1DB954" : "#0A84FF";
     public string CorTextoBotao => JaAdicionado ? "#1DB954" : "#FFFFFF";

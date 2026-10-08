@@ -149,20 +149,16 @@
                   <!-- Um leve gradiente colorido no fundo -->
                   <SolidColorBrush Color="{Binding CorAlertaMedia}" Opacity="0.15"/>
               </Border.Background>
-              <Border.Effect>
-                  <!-- Sombra projetada colorida e esfumaçada -->
-                  <DropShadowEffect BlurRadius="40" ShadowDepth="0" Color="{Binding CorAlertaMedia}" Opacity="0.9"/>
-              </Border.Effect>
               <Border.Style>
                   <Style TargetType="Border">
                       <Setter Property="Opacity" Value="0"/>
                       <Style.Triggers>
-                          <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding EstaEmAlerta}" Value="True"/><Condition Binding="{Binding VisualAtivo}" Value="True"/></MultiDataTrigger.Conditions><Setter Property="Opacity" Value="0.9"/></MultiDataTrigger>
+                          <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding EstaEmAlerta}" Value="True"/><Condition Binding="{Binding VisualAtivo}" Value="True"/></MultiDataTrigger.Conditions><Setter Property="Opacity" Value="0.78"/></MultiDataTrigger>
                           <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding EstaEmAlerta}" Value="True"/><Condition Binding="{Binding DataContext.AnimacoesAtivas, RelativeSource={RelativeSource AncestorType=Window}}" Value="True"/><Condition Binding="{Binding IsVisible, RelativeSource={RelativeSource Self}}" Value="True"/></MultiDataTrigger.Conditions>
                               <MultiDataTrigger.EnterActions>
                                   <BeginStoryboard Name="AlertAnim">
                                       <Storyboard RepeatBehavior="Forever">
-                                          <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.45" To="1.0" Duration="0:0:1.0" AutoReverse="True">
+                                          <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.58" To="0.82" Duration="0:0:1.0" AutoReverse="True">
                                               <DoubleAnimation.EasingFunction>
                                                   <SineEase EasingMode="EaseInOut"/>
                                               </DoubleAnimation.EasingFunction>
@@ -260,7 +256,7 @@
                 </ContextMenu>
             </Border.ContextMenu>
             <Border.Effect>
-                <DropShadowEffect x:Name="DockShadow" BlurRadius="28" ShadowDepth="8" Direction="270" Color="{Binding CorSombraDock}" Opacity="0.55"/>
+                <DropShadowEffect x:Name="DockShadow" BlurRadius="20" ShadowDepth="5" Direction="270" Color="{Binding CorSombraDock}" Opacity="{Binding SombraDockOpacity}"/>
             </Border.Effect>
 
             <Grid>

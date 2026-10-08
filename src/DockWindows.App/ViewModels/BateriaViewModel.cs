@@ -13,7 +13,7 @@ public sealed class BateriaViewModel : ObservableObject, IAtividadeWidget
 
     private readonly IBateriaService _service;
     private readonly DispatcherTimer _timer;
-    private bool _habilitado, _disposed;
+    private bool _habilitado, _disposed, _modoEconomico;
     private StatusBateria _status = new(null, null, false, null, false);
     private string _estilo = "compacto";
     public string Estilo { get => _estilo; set => SetProperty(ref _estilo, value); }
@@ -27,6 +27,15 @@ public sealed class BateriaViewModel : ObservableObject, IAtividadeWidget
     }
 
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
+    public bool ModoEconomico
+    {
+        get => _modoEconomico;
+        set
+        {
+            if (!SetProperty(ref _modoEconomico, value)) return;
+            _timer.Interval = TimeSpan.FromSeconds(value ? 60 : 30);
+        }
+    }
 
     public string Porcentagem => _status.Porcentagem is int carga ? $"{carga}%" : "—";
     public double LarguraCarga => 18 * (_status.Porcentagem ?? 0) / 100.0;

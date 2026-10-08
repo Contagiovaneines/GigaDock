@@ -8,6 +8,9 @@ public class WidgetInstanceConfig
     public FormatoWidget Formato { get; set; } = FormatoWidget.Compacto;
     public string Estilo { get; set; } = "";
     public bool Visivel { get; set; } = true;
+    public string EstadoTexto => Visivel ? "Ativo" : "Instalado";
+    public string EstadoDescricao => Visivel ? "Exibido na dock deste ambiente" : "Instalado, mas oculto da dock";
+    public string EstadoCor => Visivel ? "#72D99C" : "#A9B8C9";
     public int Ordem { get; set; }
     public int VersaoConfiguracao { get; set; } = 1;
     public Dictionary<string, string> Configuracao { get; set; } = new(StringComparer.OrdinalIgnoreCase);

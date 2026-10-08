@@ -3,8 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core"
              xmlns:conv="clr-namespace:DockWindows.App.Converters"
              Margin="4,3" VerticalAlignment="Center"
-             Visibility="{Binding Midia.TemMidia, Converter={StaticResource BoolToVis}}">
- <UserControl.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"><MenuItem Header="Personalizar&#x2026;" Command="{Binding PersonalizarWidgetCommand}" CommandParameter="{x:Static models:TipoWidget.Midia}"/></ContextMenu></UserControl.ContextMenu>
+             Visibility="{Binding Midia.TemMidia, Converter={StaticResource BoolToVis}}"
+             Unloaded="UserControl_Unloaded">
+ <UserControl.ContextMenu>
+    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+        <MenuItem Header="Layout">
+            <MenuItem Header="Compacto" Command="{Binding SelecionarEstiloMidiaCommand}" CommandParameter="compacto-player"/>
+            <MenuItem Header="Ultralargo" Command="{Binding SelecionarEstiloMidiaCommand}" CommandParameter="ultralargo"/>
+            <MenuItem Header="Expansível no hover" Command="{Binding SelecionarEstiloMidiaCommand}" CommandParameter="expansivel"/>
+        </MenuItem>
+        <MenuItem Header="Personalizar&#x2026;" Command="{Binding PersonalizarWidgetCommand}" CommandParameter="{x:Static models:TipoWidget.Midia}"/>
+        <Separator/>
+        <MenuItem Header="Ocultar deste ambiente" Command="{Binding OcultarMidiaCommand}"/>
+    </ContextMenu>
+ </UserControl.ContextMenu>
 
     <UserControl.Resources>
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -60,6 +72,7 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Midia.Estilo}" Value="mini"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
                 <DataTrigger Binding="{Binding Midia.Estilo}" Value="barra"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                <DataTrigger Binding="{Binding Midia.Estilo}" Value="expansivel"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -162,7 +175,7 @@
 
     <Viewbox Height="54" Stretch="Uniform" StretchDirection="Both">
     <Border Background="{Binding Midia.CorPredominanteHex, Converter={StaticResource MediaColors}}" CornerRadius="10" BorderBrush="{Binding Midia.CorPredominanteHex, Converter={StaticResource MediaColors}, ConverterParameter=Borda}" BorderThickness="1" Padding="10,5" Margin="0,2">
-        <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding Midia.Estilo}" Value="capa"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
+        <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding Midia.Estilo}" Value="capa"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding Midia.Estilo}" Value="compacto-player"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding Midia.Estilo}" Value="ultralargo"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding Midia.Estilo}" Value="expansivel"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Width="145" VerticalAlignment="Center" Margin="0,0,8,0">
@@ -185,5 +198,86 @@
         </StackPanel>
     </Border>
     </Viewbox>
+
+    <!-- Novos layouts de mídia, com identidade visual do GigaDock. -->
+    <Grid x:Name="ModernMediaHost" MouseEnter="ModernMediaHost_MouseEnter" MouseLeave="ModernMediaHost_MouseLeave" GotKeyboardFocus="ModernMediaHost_GotKeyboardFocus" LostKeyboardFocus="ModernMediaHost_LostKeyboardFocus">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Midia.Estilo}" Value="compacto-player"><Setter Property="Visibility" Value="Visible"/></DataTrigger>
+                    <DataTrigger Binding="{Binding Midia.Estilo}" Value="ultralargo"><Setter Property="Visibility" Value="Visible"/></DataTrigger>
+                    <DataTrigger Binding="{Binding Midia.Estilo}" Value="expansivel"><Setter Property="Visibility" Value="Visible"/></DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <Border x:Name="ModernMediaCard" Height="50" CornerRadius="12" BorderThickness="1" Padding="5"
+                Background="{Binding Midia.CorPredominanteHex, Converter={StaticResource MediaColors}}"
+                BorderBrush="{Binding Midia.CorPredominanteHex, Converter={StaticResource MediaColors}, ConverterParameter=Borda}">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Width" Value="178"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Midia.Estilo}" Value="ultralargo"><Setter Property="Width" Value="338"/></DataTrigger>
+                        <DataTrigger Binding="{Binding Midia.Estilo}" Value="expansivel"><Setter Property="Width" Value="190"/></DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border Width="38" Height="38" CornerRadius="9" BorderBrush="#42FFFFFF" BorderThickness="1">
+                    <Border.Background><ImageBrush ImageSource="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill"/></Border.Background>
+                </Border>
+                <StackPanel Grid.Column="1" Margin="8,1,8,0" VerticalAlignment="Center">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Midia.Estilo}" Value="ultralargo"><Setter Property="Visibility" Value="Visible"/></DataTrigger>
+                                <DataTrigger Binding="{Binding Midia.Estilo}" Value="expansivel"><Setter Property="Visibility" Value="Visible"/></DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="{Binding Midia.Titulo}" FontSize="12" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding Midia.Artista}" FontSize="10" Foreground="#D6DEE7" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding Midia.AnteriorCommand}" Style="{StaticResource MediaSideBtnStyle}" Width="29" Height="34" ToolTip="Anterior" AutomationProperties.Name="Faixa anterior"><Path Data="{StaticResource PreviousIcon}" Fill="White" Width="15" Height="16" Stretch="Uniform"/></Button>
+                    <Button Command="{Binding Midia.PlayPauseCommand}" Style="{StaticResource MediaPlayBtnStyle}" Width="34" Height="34" Margin="2,0" ToolTip="Reproduzir ou pausar"><Path Style="{StaticResource PlaybackIconStyle}" Width="16" Height="17"/></Button>
+                    <Button Command="{Binding Midia.ProximoCommand}" Style="{StaticResource MediaSideBtnStyle}" Width="29" Height="34" ToolTip="Próxima" AutomationProperties.Name="Próxima faixa"><Path Data="{StaticResource NextIcon}" Fill="White" Width="15" Height="16" Stretch="Uniform"/></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Popup x:Name="ExpandedMediaPopup" PlacementTarget="{Binding ElementName=ModernMediaHost}" Placement="Top" AllowsTransparency="True" StaysOpen="True" PopupAnimation="Fade" HorizontalOffset="0" VerticalOffset="-8"
+               DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+            <Border Width="390" Padding="16" CornerRadius="18" BorderThickness="1" MouseEnter="ExpandedMediaPopup_MouseEnter" MouseLeave="ExpandedMediaPopup_MouseLeave"
+                    Background="#F2171B22" BorderBrush="#4DFFFFFF">
+                <Border.Effect><DropShadowEffect BlurRadius="24" ShadowDepth="7" Opacity="0.55" Color="#000000"/></Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="112"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                    <Border Width="104" Height="104" CornerRadius="14" BorderBrush="#45FFFFFF" BorderThickness="1">
+                        <Border.Background><ImageBrush ImageSource="{Binding Midia.CapaAlbumUrl}" Stretch="UniformToFill"/></Border.Background>
+                    </Border>
+                    <Grid Grid.Column="1" Margin="14,0,0,0">
+                        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Midia.Titulo}" FontSize="17" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Row="1" Text="{Binding Midia.Artista}" FontSize="12" Foreground="#BFC9D4" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button Command="{Binding Midia.AnteriorCommand}" Style="{StaticResource MediaBtnStyle}" ToolTip="Faixa anterior"><Path Data="{StaticResource PreviousIcon}" Fill="White" Width="18" Height="19" Stretch="Uniform"/></Button>
+                            <Button Command="{Binding Midia.PlayPauseCommand}" Style="{StaticResource MediaPlayBtnStyle}" ToolTip="Reproduzir ou pausar"><Path Style="{StaticResource PlaybackIconStyle}"/></Button>
+                            <Button Command="{Binding Midia.ProximoCommand}" Style="{StaticResource MediaBtnStyle}" ToolTip="Próxima faixa"><Path Data="{StaticResource NextIcon}" Fill="White" Width="18" Height="19" Stretch="Uniform"/></Button>
+                        </StackPanel>
+                        <ProgressBar Grid.Row="3" Height="4" Minimum="0" Maximum="1" Value="{Binding Midia.Progresso}" Background="#35FFFFFF" BorderThickness="0" Foreground="#66D9FF"/>
+                        <Grid Grid.Row="4" Margin="0,5,0,0"><TextBlock Text="{Binding Midia.Posicao}" Foreground="#AEB9C5" FontSize="10"/><TextBlock Text="{Binding Midia.Duracao}" Foreground="#AEB9C5" FontSize="10" HorizontalAlignment="Right"/></Grid>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Popup>
+    </Grid>
     </Grid>
 </UserControl>

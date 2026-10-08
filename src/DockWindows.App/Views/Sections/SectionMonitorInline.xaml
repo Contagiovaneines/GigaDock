@@ -3,6 +3,6 @@
  <UserControl.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"><MenuItem Header="Personalizar&#x2026;" Command="{Binding PersonalizarWidgetCommand}" CommandParameter="{x:Static models:TipoWidget.MonitorSistema}"/></ContextMenu></UserControl.ContextMenu>
 
  <Viewbox MaxHeight="{Binding AlturaBarra}" StretchDirection="DownOnly">
-  <controls:IndicadorSistemaControl Width="{Binding MonitorSistema.Largura}" Height="60" Estilo="{Binding MonitorSistema.Estilo}" Titulo="{Binding MonitorSistema.Titulo}" Texto="{Binding MonitorSistema.TextoValor}" Secundario="{Binding MonitorSistema.TextoSecundario}" Valor="{Binding MonitorSistema.Valor}" Serie="{Binding MonitorSistema.Historico}" SerieSecundaria="{Binding MonitorSistema.HistoricoSecundario}" ToolTip="{Binding MonitorSistema.Descricao}" AutomationProperties.Name="{Binding MonitorSistema.TextoValor}"/>
+  <controls:IndicadorSistemaControl Width="{Binding MonitorSistema.Largura}" Height="60" Estilo="{Binding MonitorSistema.Estilo}" Titulo="{Binding MonitorSistema.Titulo}" Texto="{Binding MonitorSistema.TextoValor}" Secundario="{Binding MonitorSistema.TextoSecundario}" Valor="{Binding MonitorSistema.Valor}" ValorSecundario="{Binding MonitorSistema.UsoRam}" Serie="{Binding MonitorSistema.Historico}" SerieSecundaria="{Binding MonitorSistema.HistoricoSecundario}" ToolTip="{Binding MonitorSistema.Descricao}" AutomationProperties.Name="{Binding MonitorSistema.TextoResumo}"/>
  </Viewbox>
 </UserControl>

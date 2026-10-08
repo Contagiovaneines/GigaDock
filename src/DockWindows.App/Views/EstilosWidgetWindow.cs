@@ -43,16 +43,32 @@ public class EstilosWidgetWindow : Window
         foreach (var estilo in EstilosWidget.Para(widget.Tipo))
         {
             var panel = new StackPanel();
-            if (widget.Tipo == TipoWidget.Relogio) panel.Children.Add(new EstiloRelogioControl { Width = 176, Height = 56, Estilo = estilo.Id, Horario = new DateTime(2026, 6, 22, 12, 34, 56) });
-            else if (widget.Tipo == TipoWidget.Clima) panel.Children.Add(new Viewbox { Width = 190, Height = 56, Child = new ClimaEstiloControl { Width = ClimaEstiloControl.LarguraPara(estilo.Id), Height = 64, Estilo = estilo.Id, Dados = climaReferencia } });
-            else if (widget.Tipo == TipoWidget.Midia) panel.Children.Add(new ReferenciaMidiaControl { Width = 176, Height = 56, Estilo = estilo.Id });
+            UIElement preview;
+            if (widget.Tipo == TipoWidget.Relogio) preview = new EstiloRelogioControl { Width = 176, Height = 56, Estilo = estilo.Id, Horario = new DateTime(2026, 6, 22, 12, 34, 56) };
+            else if (widget.Tipo == TipoWidget.Clima) preview = new Viewbox { Width = 190, Height = 56, Child = new ClimaEstiloControl { Width = ClimaEstiloControl.LarguraPara(estilo.Id), Height = 64, Estilo = estilo.Id, Dados = climaReferencia } };
+            else if (widget.Tipo == TipoWidget.Midia) preview = new ReferenciaMidiaControl { Width = 190, Height = 56, Estilo = estilo.Id };
             else if (widget.Tipo is TipoWidget.MonitorSistema or TipoWidget.Bateria)
-                panel.Children.Add(new IndicadorSistemaControl { Width = 206, Height = 64, Estilo = estilo.Id, Titulo = widget.Tipo == TipoWidget.Bateria ? "Bateria" : estilo.Id.StartsWith("ram") ? "RAM" : estilo.Id.StartsWith("rede") ? "Rede" : estilo.Nome, Texto = estilo.Referencia.Split('\n')[0], Secundario = estilo.Referencia.Split('\n').Skip(1).FirstOrDefault() ?? "", Valor = widget.Tipo == TipoWidget.Bateria ? 78 : estilo.Id.StartsWith("ram") ? 61 : 34, Serie = Enumerable.Range(0, 30).Select(i => 35.0 + Math.Sin(i * .7) * 20).ToArray(), SerieSecundaria = Enumerable.Range(0, 30).Select(i => 15.0 + Math.Cos(i * .4) * 10).ToArray() });
-            else panel.Children.Add(new TextBlock { Text = estilo.Referencia, FontSize = 16, TextAlignment = TextAlignment.Center, Height = 56, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.WhiteSmoke });
+                preview = new IndicadorSistemaControl { Width = 206, Height = 64, Estilo = estilo.Id, Titulo = widget.Tipo == TipoWidget.Bateria ? "Bateria" : estilo.Id.StartsWith("ram") ? "RAM" : estilo.Id.StartsWith("rede") ? "Rede" : estilo.Nome, Texto = estilo.Referencia.Split('\n')[0], Secundario = estilo.Referencia.Split('\n').Skip(1).FirstOrDefault() ?? "", Valor = widget.Tipo == TipoWidget.Bateria ? 78 : estilo.Id.StartsWith("ram") ? 61 : 34, ValorSecundario = 61, Serie = Enumerable.Range(0, 30).Select(i => 35.0 + Math.Sin(i * .7) * 20).ToArray(), SerieSecundaria = Enumerable.Range(0, 30).Select(i => 15.0 + Math.Cos(i * .4) * 10).ToArray() };
+            else preview = new TextBlock { Text = estilo.Referencia, FontSize = 14, TextAlignment = TextAlignment.Center, Height = 56, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.WhiteSmoke, VerticalAlignment = VerticalAlignment.Center };
+
+            var dockPreview = new Border
+            {
+                Height = 82, CornerRadius = new CornerRadius(18), Padding = new Thickness(10),
+                Background = new LinearGradientBrush(Color.FromArgb(235, 18, 23, 30), Color.FromArgb(245, 7, 10, 15), 90),
+                BorderBrush = new LinearGradientBrush(Color.FromRgb(255, 50, 101), Color.FromRgb(42, 221, 255), 0),
+                BorderThickness = new Thickness(1.5), Child = new Viewbox { StretchDirection = StretchDirection.DownOnly, Child = preview }
+            };
+            panel.Children.Add(dockPreview);
+            panel.Children.Add(new Border
+            {
+                CornerRadius = new CornerRadius(8), Background = new SolidColorBrush(Color.FromRgb(35, 49, 62)),
+                Padding = new Thickness(8, 3, 8, 3), HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 9, 0, 0), Child = new TextBlock { Text = CategoriaTamanho(estilo), FontSize = 10, Foreground = Brushes.LightSkyBlue, FontWeight = FontWeights.SemiBold }
+            });
             panel.Children.Add(new TextBlock { FontSize = 13, FontWeight = FontWeights.SemiBold, Text = estilo.Nome, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center, Foreground = Brushes.WhiteSmoke, Margin = new Thickness(0, 12, 0, 0) });
             var selected = estilo.Id == EstilosWidget.Resolver(widget);
             panel.Children.Add(new TextBlock { Text = selected ? "✓ Estilo atual" : "Selecionar estilo", FontSize = 11, Foreground = selected ? Brushes.LightSkyBlue : Brushes.SlateGray, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 7, 0, 0) });
-            var button = new Button { Template = cardTemplate, Cursor = System.Windows.Input.Cursors.Hand, Content = panel, Width = 244, Height = 156, Margin = new Thickness(0, 0, 12, 12), Padding = new Thickness(12), Background = new SolidColorBrush(Color.FromRgb(23, 31, 40)), BorderBrush = selected ? Brushes.DeepSkyBlue : new SolidColorBrush(Color.FromRgb(49, 64, 79)), BorderThickness = new Thickness(selected ? 2 : 1), ToolTip = $"Aplicar {estilo.Nome}" };
+            var button = new Button { Template = cardTemplate, Cursor = System.Windows.Input.Cursors.Hand, Content = panel, Width = 270, Height = 205, Margin = new Thickness(0, 0, 12, 12), Padding = new Thickness(12), Background = new SolidColorBrush(Color.FromRgb(23, 31, 40)), BorderBrush = selected ? Brushes.DeepSkyBlue : new SolidColorBrush(Color.FromRgb(49, 64, 79)), BorderThickness = new Thickness(selected ? 2 : 1), ToolTip = $"Aplicar {estilo.Nome}" };
             System.Windows.Automation.AutomationProperties.SetName(button, $"{estilo.Nome}, aplicar no ambiente {ambiente}");
             button.Click += (_, _) => { EstiloSelecionado = estilo.Id; DialogResult = true; };
             cards.Children.Add(button);
@@ -62,6 +78,9 @@ public class EstilosWidgetWindow : Window
         Closed += (_, _) => climaReferencia.Dispose();
         MaxHeight = SystemParameters.WorkArea.Height; MaxWidth = SystemParameters.WorkArea.Width;
     }
+    private static string CategoriaTamanho(EstiloWidget estilo) => estilo.Id.Contains("expans", StringComparison.OrdinalIgnoreCase)
+        ? "EXPANSÍVEL"
+        : estilo.Formato == FormatoWidget.Expandido ? "LARGO" : "COMPACTO";
     private static string Dependencias(TipoWidget tipo) => tipo switch
     {
         TipoWidget.Midia => "Usa sessões de mídia do Windows. O player deve oferecer controles de mídia; prévia não acessa o player.",

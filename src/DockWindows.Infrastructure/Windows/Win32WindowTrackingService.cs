@@ -174,6 +174,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
         _pollTimer.Elapsed += (s, e) => VerificarMudancas();
     }
 
+    public void DefinirModoEconomico(bool ativo) => _pollTimer.Interval = ativo ? 8000 : 2500;
+
     public void Iniciar()
     {
         lock (_lock)

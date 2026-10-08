@@ -83,10 +83,10 @@ public partial class AjustesWindow : Window
         NavigationPanel.Visibility = compacto ? Visibility.Collapsed : Visibility.Visible;
         CompactNavigation.Visibility = compacto ? Visibility.Visible : Visibility.Collapsed;
         CompactHeaderRow.Height = compacto ? GridLength.Auto : new GridLength(0);
-        NavigationColumn.Width = compacto ? new GridLength(0) : new GridLength(210);
+        NavigationColumn.Width = compacto ? new GridLength(0) : new GridLength(230);
         MasterPanel.Visibility = lista || widgets ? Visibility.Visible : Visibility.Collapsed;
         DetailsPanel.Visibility = widgets ? Visibility.Collapsed : Visibility.Visible;
-        MasterColumn.Width = lista && !empilhado ? new GridLength(compacto ? 245 : 290) : new GridLength(0);
+        MasterColumn.Width = lista && !empilhado ? new GridLength(compacto ? 260 : 330) : new GridLength(0);
         StackedDetailsRow.Height = empilhado && lista ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
         LayoutRoot.RowDefinitions[1].Height = empilhado && lista ? new GridLength(210) : new GridLength(1, GridUnitType.Star);
         Grid.SetRow(DetailsPanel, empilhado && lista ? 2 : 1);

@@ -51,6 +51,7 @@ public class Preferencias
     public string GitHubAnimacao { get; set; } = "Cobrinha";
     public string LocalizacaoClima { get; set; } = string.Empty;
     public bool DesativarAnimacoes { get; set; } = false;
+    public bool ModoEconomico { get; set; } = false;
     public int EspacamentoItens { get; set; } = 6;
 
     // Área Permanente de Aplicativos e Janelas Abertas

@@ -19,7 +19,7 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
 
     private readonly IMetricasSistemaService _service;
     private readonly DispatcherTimer _timer;
-    private bool _habilitado, _painelAberto, _disposed;
+    private bool _habilitado, _painelAberto, _disposed, _modoEconomico;
     private string _estilo = "expandido";
     private FormatoWidget _formato = FormatoWidget.Expandido;
     private MetricasSistema _metricas = new(null, null, null, null, null, "—");
@@ -31,13 +31,22 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
         AlternarPainelCommand = new RelayCommand(() => PainelAberto = !PainelAberto);
     }
     public bool Habilitado { get => _habilitado; set => SetProperty(ref _habilitado, value); }
+    public bool ModoEconomico
+    {
+        get => _modoEconomico;
+        set
+        {
+            if (!SetProperty(ref _modoEconomico, value)) return;
+            _timer.Interval = TimeSpan.FromSeconds(value ? 10 : 2);
+        }
+    }
     public bool PainelAberto { get => _painelAberto; set => SetProperty(ref _painelAberto, value); }
     public FormatoWidget Formato { get => _formato; set => SetProperty(ref _formato, value); }
     public string Estilo { get => _estilo; set { if (SetProperty(ref _estilo, value)) { _service.Suspender(); LimparHistorico(); Notificar(); } } }
     public double UsoCpu => _metricas.Cpu ?? double.NaN;
     public double UsoRam => _metricas.Ram ?? double.NaN;
     public double Valor => Estilo.StartsWith("ram", StringComparison.Ordinal) ? UsoRam : Estilo == "armazenamento" ? _metricas.DiscoUsado ?? double.NaN : UsoCpu;
-    public double Largura => Estilo is "cpu" or "ram" ? 64 : 190;
+    public double Largura => Estilo is "cpu" or "ram" ? 64 : Estilo is "aneis-cpu-ram" or "medidores-cpu-ram" ? 132 : 190;
     public string TextoResumo => $"CPU {Percentual(_metricas.Cpu)} | RAM {Percentual(_metricas.Ram)}";
     public string Titulo => Estilo.StartsWith("ram", StringComparison.Ordinal) ? "RAM" : Estilo == "armazenamento" ? "Disco do Windows" : Estilo is "rede" or "rede-grafico" ? "Rede" : Estilo == "download" ? "Download" : Estilo == "upload" ? "Upload" : "CPU";
     public string TextoValor => Estilo switch { "download" => "↓ " + Velocidade(_metricas.Download), "upload" => "↑ " + Velocidade(_metricas.Upload), "rede" or "rede-grafico" => "↓ " + Velocidade(_metricas.Download), "armazenamento" => _metricas.DiscoLivre, "compacto" or "expandido" => TextoResumo, _ => Percentual(double.IsNaN(Valor) ? null : Valor) };
@@ -52,7 +61,7 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
     {
         if (_disposed) return;
         try { _metricas = _service.Ler(Estilo switch {
-            "compacto" or "expandido" => MetricasSolicitadas.Cpu | MetricasSolicitadas.Ram,
+            "compacto" or "expandido" or "aneis-cpu-ram" or "medidores-cpu-ram" => MetricasSolicitadas.Cpu | MetricasSolicitadas.Ram,
             "ram" or "ram-grafico" => MetricasSolicitadas.Ram,
             "rede" or "rede-grafico" or "download" or "upload" => MetricasSolicitadas.Rede,
             "armazenamento" => MetricasSolicitadas.Disco, _ => MetricasSolicitadas.Cpu }); } catch { _metricas = new(null, null, null, null, null, "—"); }

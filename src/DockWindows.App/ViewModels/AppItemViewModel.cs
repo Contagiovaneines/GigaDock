@@ -19,6 +19,7 @@ public class AppItemViewModel : ObservableObject
     private readonly Action<AppItemViewModel> _onAlternarFixado;
     private readonly Action<AppItemViewModel>? _onMoverEsquerda;
     private readonly Action<AppItemViewModel>? _onMoverDireita;
+    private readonly Action<AppItemViewModel>? _onInteragir;
 
     private string _titulo;
     private string _caminhoExecutavel;
@@ -26,7 +27,7 @@ public class AppItemViewModel : ObservableObject
     private bool _estaFixado;
     private bool _estaAberto;
     private bool _estaAtivo;
-        private int _quantidadeJanelas;
+    private int _quantidadeJanelas;
     private int _numeroNotificacoes;
     private bool _menuJanelasAberto;
 
@@ -37,7 +38,8 @@ public class AppItemViewModel : ObservableObject
         Action<AppItemViewModel> onExecutar,
         Action<AppItemViewModel> onAlternarFixado,
         Action<AppItemViewModel>? onMoverEsquerda = null,
-        Action<AppItemViewModel>? onMoverDireita = null)
+        Action<AppItemViewModel>? onMoverDireita = null,
+        Action<AppItemViewModel>? onInteragir = null)
     {
         _windowService = windowService;
         _iconService = iconService;
@@ -45,6 +47,7 @@ public class AppItemViewModel : ObservableObject
         _onAlternarFixado = onAlternarFixado;
         _onMoverEsquerda = onMoverEsquerda;
         _onMoverDireita = onMoverDireita;
+        _onInteragir = onInteragir;
 
         Id = model.Id;
         _titulo = model.Titulo;
@@ -73,7 +76,8 @@ public class AppItemViewModel : ObservableObject
         Action<AppItemViewModel> onExecutar,
         Action<AppItemViewModel> onAlternarFixado,
         Action<AppItemViewModel>? onMoverEsquerda = null,
-        Action<AppItemViewModel>? onMoverDireita = null)
+        Action<AppItemViewModel>? onMoverDireita = null,
+        Action<AppItemViewModel>? onInteragir = null)
     {
         _windowService = windowService;
         _iconService = iconService;
@@ -81,6 +85,7 @@ public class AppItemViewModel : ObservableObject
         _onAlternarFixado = onAlternarFixado;
         _onMoverEsquerda = onMoverEsquerda;
         _onMoverDireita = onMoverDireita;
+        _onInteragir = onInteragir;
 
         Id = "app-open-" + Guid.NewGuid().ToString("N")[..8];
         _titulo = string.IsNullOrWhiteSpace(primeiraJanela.NomeProcesso) ? primeiraJanela.Titulo : primeiraJanela.NomeProcesso;
@@ -171,37 +176,10 @@ public class AppItemViewModel : ObservableObject
         get => _quantidadeJanelas;
         set
         {
-            int oldVal = _quantidadeJanelas;
             if (SetProperty(ref _quantidadeJanelas, value))
             {
                 OnPropertyChanged(nameof(TemMultiplasJanelas));
                 OnPropertyChanged(nameof(TextoDica));
-
-                // Detecção Heurística de Ligação do WhatsApp
-                if (value > oldVal && value > 1)
-                {
-                    string t = (Titulo ?? "").ToLowerInvariant();
-                    string exec = (CaminhoExecutavel ?? "").ToLowerInvariant();
-                    if (t.Contains("whatsapp") || exec.Contains("whatsapp"))
-                    {
-                        // WhatsApp abriu uma segunda janela. Normalmente é a janela de chamada!
-                        // Aciona um evento ou dispara o alerta global via Messenger/Delegates
-                        // Aqui não temos referência direta ao MainViewModel, então podemos usar um Action opcional ou Application.Current.MainWindow.DataContext
-                        try {
-                            var mw = System.Windows.Application.Current?.MainWindow;
-                            if (mw != null && mw.DataContext != null)
-                            {
-                                var mvmType = mw.DataContext.GetType();
-                                var dispararMethod = mvmType.GetMethod("DispararAlertaGlobal");
-                                if (dispararMethod != null)
-                                {
-                                    // Invoca DispararAlertaGlobal("#25D366", true) para WhatsApp
-                                    dispararMethod.Invoke(mw.DataContext, new object[] { "#25D366", true });
-                                }
-                            }
-                        } catch { }
-                    }
-                }
             }
         }
     }
@@ -256,6 +234,7 @@ public class AppItemViewModel : ObservableObject
 
     private void Clicar()
     {
+        _onInteragir?.Invoke(this);
         if (!EstaAberto)
         {
             _onExecutar(this);
@@ -283,6 +262,7 @@ public class AppItemViewModel : ObservableObject
     {
         if (janela != null)
         {
+            _onInteragir?.Invoke(this);
             _windowService.AtivarJanela(janela.Hwnd);
             MenuJanelasAberto = false;
         }

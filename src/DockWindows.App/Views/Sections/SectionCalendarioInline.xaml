@@ -7,8 +7,9 @@
 
     <UserControl.Resources><conv:BooleanToVisibilityConverter x:Key="BoolToVis"/><conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/></UserControl.Resources>
     <Grid>
-        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand"
-                ToolTip="Calendário e Eventos">
+        <Border CornerRadius="12" Padding="6" Background="#161B22" Cursor="Hand" Focusable="True"
+                ToolTip="Abrir agenda" MouseLeftButtonUp="Calendario_Click" KeyDown="Calendario_KeyDown"
+                AutomationProperties.Name="Abrir agenda de compromissos">
             <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding Calendario.EhReuniao}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
             <Border.Effect>
                 <DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/>

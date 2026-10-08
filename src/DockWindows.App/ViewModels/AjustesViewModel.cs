@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Data;
 using DockWindows.App.Common;
 using DockWindows.Core.Models;
 using DockWindows.Core.Services;
@@ -32,6 +33,7 @@ public class AjustesViewModel : ObservableObject
     private TemaDefinicao? _temaSelecionado;
     private string _categoriaGeralSelecionada = "BarraPrincipal";
     private string _categoriaUtilSelecionada = "Backup";
+    private string _filtroWidgets = "Todos";
 
     public AjustesViewModel(MainViewModel mainVm, ISettingsRepository repo, IAutostartService autostart, string? secaoInicial = null)
     {
@@ -39,6 +41,9 @@ public class AjustesViewModel : ObservableObject
         _repo = repo;
         _autostart = autostart;
         _diagnosticoSistema = DiagnosticoSistemaService.Obter();
+        WidgetsView = CollectionViewSource.GetDefaultView(WidgetsAmbiente);
+        WidgetsView.Filter = item => item is WidgetInstanceConfig widget &&
+            (_filtroWidgets == "Todos" || _filtroWidgets == "Ativos" && widget.Visivel || _filtroWidgets == "Inativos" && !widget.Visivel);
 
         if (!string.IsNullOrWhiteSpace(secaoInicial))
         {
@@ -84,12 +89,13 @@ public class AjustesViewModel : ObservableObject
         RemoverItemColecaoCommand = new RelayCommand<ItemFixado>(RemoverItemColecao);
 
         // Comandos de Widgets
-                RemoverWidgetCommand = new RelayCommand(RemoverWidget, () => WidgetSelecionado != null);
+        RemoverWidgetCommand = new RelayCommand<WidgetInstanceConfig>(RemoverWidget);
         MoverWidgetCimaCommand = new RelayCommand(MoverWidgetCima, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) > 0);
         MoverWidgetBaixoCommand = new RelayCommand(MoverWidgetBaixo, () => WidgetSelecionado != null && WidgetsAmbiente.IndexOf(WidgetSelecionado) < WidgetsAmbiente.Count - 1);
         EscolherEstiloWidgetCommand = new RelayCommand<WidgetInstanceConfig>(EscolherEstiloWidget);
         AlternarFormatoWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarFormatoWidget);
         AlternarVisibilidadeWidgetCommand = new RelayCommand<WidgetInstanceConfig>(AlternarVisibilidadeWidget);
+        FiltrarWidgetsCommand = new RelayCommand<string>(FiltrarWidgets);
         NovoCompromissoCommand = new RelayCommand(NovoCompromisso);
         RemoverCompromissoCommand = new RelayCommand(RemoverCompromisso, () => CompromissoSelecionado != null);
         ProcurarArquivoIcsCommand = new RelayCommand(ProcurarArquivoIcs);
@@ -166,6 +172,11 @@ public class AjustesViewModel : ObservableObject
     public ObservableCollection<ItemFixado> ItensAmbiente { get; } = new();
     public ObservableCollection<ColecaoApp> ColecoesAmbiente { get; } = new();
     public ObservableCollection<WidgetInstanceConfig> WidgetsAmbiente { get; } = new();
+    public System.ComponentModel.ICollectionView WidgetsView { get; }
+    public int QuantidadeWidgetsAtivos => WidgetsAmbiente.Count(w => w.Visivel);
+    public int QuantidadeWidgetsInativos => WidgetsAmbiente.Count - QuantidadeWidgetsAtivos;
+    public string ResumoWidgets => $"{WidgetsAmbiente.Count} instalados · {QuantidadeWidgetsAtivos} ativos · {QuantidadeWidgetsInativos} inativos";
+    public string FiltroWidgets { get => _filtroWidgets; private set => SetProperty(ref _filtroWidgets, value); }
 
     public Ambiente? AmbienteSelecionado
     {
@@ -538,6 +549,16 @@ public class AjustesViewModel : ObservableObject
         set
         {
             _mainVm.DesativarAnimacoes = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool ModoEconomico
+    {
+        get => _mainVm.ModoEconomico;
+        set
+        {
+            _mainVm.ModoEconomico = value;
             OnPropertyChanged();
         }
     }
@@ -918,6 +939,7 @@ public bool ExibirLixeira
     public ICommand EscolherEstiloWidgetCommand { get; }
     public ICommand AlternarFormatoWidgetCommand { get; }
     public ICommand AlternarVisibilidadeWidgetCommand { get; }
+    public ICommand FiltrarWidgetsCommand { get; }
     public ICommand NovoCompromissoCommand { get; }
     public ICommand RemoverCompromissoCommand { get; }
     public ICommand ProcurarArquivoIcsCommand { get; }
@@ -982,6 +1004,21 @@ public bool ExibirLixeira
         ItemSelecionado = ItensAmbiente.FirstOrDefault();
         ColecaoSelecionada = ColecoesAmbiente.FirstOrDefault();
         WidgetSelecionado = WidgetsAmbiente.FirstOrDefault();
+        AtualizarResumoWidgets();
+    }
+
+    private void AtualizarResumoWidgets()
+    {
+        OnPropertyChanged(nameof(QuantidadeWidgetsAtivos));
+        OnPropertyChanged(nameof(QuantidadeWidgetsInativos));
+        OnPropertyChanged(nameof(ResumoWidgets));
+        WidgetsView.Refresh();
+    }
+
+    private void FiltrarWidgets(string? filtro)
+    {
+        FiltroWidgets = filtro is "Ativos" or "Inativos" ? filtro : "Todos";
+        WidgetsView.Refresh();
     }
 
     private void NovoAmbiente()
@@ -1046,6 +1083,7 @@ public bool ExibirLixeira
             }
             AmbienteSelecionado = _mainVm.AmbienteAtivo?.Model;
             _mainVm.SalvarPreferencias();
+            AtualizarResumoWidgets();
         }
     }
 
@@ -1507,24 +1545,46 @@ public bool ExibirLixeira
                 _mainVm.AtualizarCoresTema(); // Update visibility states in UI
             }
             _mainVm.SalvarPreferencias();
+            AtualizarResumoWidgets();
         }
     }
 
-        private void RemoverWidget()
+    private void RemoverWidget(WidgetInstanceConfig? widget)
     {
-        if (AmbienteSelecionado == null || WidgetSelecionado == null) return;
+        widget ??= WidgetSelecionado;
+        if (AmbienteSelecionado == null || widget == null) return;
+
+        var escolha = MessageBox.Show(
+            $"Desinstalar ‘{widget.Nome}’ do ambiente {AmbienteSelecionado.Nome}?\n\n" +
+            "Sim: desinstala e preserva os dados locais.\nNão: desinstala e apaga também os dados deste widget.\nCancelar: mantém o widget.",
+            "Desinstalar widget", MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Yes);
+        if (escolha == MessageBoxResult.Cancel) return;
 
         // Remove do ViewModel Principal se estiver visível
-        WidgetSelecionado.Visivel = false;
-        AlternarVisibilidadeWidget(WidgetSelecionado);
+        widget.Visivel = false;
+        AlternarVisibilidadeWidget(widget);
 
-        AmbienteSelecionado.WidgetsInstalados.Remove(WidgetSelecionado);
-        WidgetsAmbiente.Remove(WidgetSelecionado);
-        AlternarVisibilidadeWidget(WidgetSelecionado);
+        AmbienteSelecionado.WidgetsInstalados.Remove(widget);
+        WidgetsAmbiente.Remove(widget);
+        AlternarVisibilidadeWidget(widget);
+        if (escolha == MessageBoxResult.No) ApagarDadosLocaisWidget(AmbienteSelecionado.Id, widget);
 
         for (int i = 0; i < WidgetsAmbiente.Count; i++) WidgetsAmbiente[i].Ordem = i;
         _mainVm.SalvarPreferencias();
         WidgetSelecionado = WidgetsAmbiente.FirstOrDefault();
+        AtualizarResumoWidgets();
+    }
+
+    private static void ApagarDadosLocaisWidget(string ambienteId, WidgetInstanceConfig widget)
+    {
+        widget.Configuracao.Clear();
+        if (widget.Tipo != TipoWidget.Notas) return;
+        var idSeguro = new string($"{ambienteId}-{widget.Id}".Where(c => !Path.GetInvalidFileNameChars().Contains(c)).ToArray());
+        if (string.IsNullOrWhiteSpace(idSeguro)) return;
+        var raiz = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DockWindows", "widgets"));
+        var pasta = Path.GetFullPath(Path.Combine(raiz, idSeguro));
+        if (!pasta.StartsWith(raiz + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)) return;
+        try { if (Directory.Exists(pasta)) Directory.Delete(pasta, recursive: true); } catch { }
     }
 
     private void AbrirLojaWidgets()
@@ -1546,12 +1606,7 @@ public bool ExibirLixeira
                     : WidgetsAmbiente.FirstOrDefault(w => w.Tipo == janelaLoja.WidgetParaRemover);
                 if (wgtRemover != null)
                 {
-                    wgtRemover.Visivel = false; // <<< OBRIGATORIO: desativa antes de atualizar o MainViewModel
-                    WidgetsAmbiente.Remove(wgtRemover);
-                    AmbienteSelecionado.WidgetsInstalados.Remove(wgtRemover);
-                    AlternarVisibilidadeWidget(wgtRemover); // Disable in MainVM
-                    _mainVm.SalvarPreferencias();
-                    WidgetSelecionado = WidgetsAmbiente.FirstOrDefault();
+                    RemoverWidget(wgtRemover);
                 }
             }
             else if (janelaLoja.WidgetSelecionado != null)
@@ -1572,6 +1627,7 @@ public bool ExibirLixeira
                     AmbienteSelecionado.WidgetsInstalados.Add(novoWidget);
                     AlternarVisibilidadeWidget(novoWidget);
                     WidgetSelecionado = novoWidget;
+                    AtualizarResumoWidgets();
                 }
             }
         }

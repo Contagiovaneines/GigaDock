@@ -13,6 +13,7 @@ public class IndicadorSistemaControl : FrameworkElement
     public static readonly DependencyProperty TextoProperty = DependencyProperty.Register(nameof(Texto), typeof(string), typeof(IndicadorSistemaControl), Visual("—"));
     public static readonly DependencyProperty SecundarioProperty = DependencyProperty.Register(nameof(Secundario), typeof(string), typeof(IndicadorSistemaControl), Visual(""));
     public static readonly DependencyProperty ValorProperty = DependencyProperty.Register(nameof(Valor), typeof(double), typeof(IndicadorSistemaControl), Visual(double.NaN));
+    public static readonly DependencyProperty ValorSecundarioProperty = DependencyProperty.Register(nameof(ValorSecundario), typeof(double), typeof(IndicadorSistemaControl), Visual(double.NaN));
     public static readonly DependencyProperty SerieProperty = DependencyProperty.Register(nameof(Serie), typeof(IEnumerable<double>), typeof(IndicadorSistemaControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, SerieAlterada));
     public static readonly DependencyProperty SerieSecundariaProperty = DependencyProperty.Register(nameof(SerieSecundaria), typeof(IEnumerable<double>), typeof(IndicadorSistemaControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, SerieAlterada));
     public string Estilo { get => (string)GetValue(EstiloProperty); set => SetValue(EstiloProperty, value); }
@@ -20,6 +21,7 @@ public class IndicadorSistemaControl : FrameworkElement
     public string Texto { get => (string)GetValue(TextoProperty); set => SetValue(TextoProperty, value); }
     public string Secundario { get => (string)GetValue(SecundarioProperty); set => SetValue(SecundarioProperty, value); }
     public double Valor { get => (double)GetValue(ValorProperty); set => SetValue(ValorProperty, value); }
+    public double ValorSecundario { get => (double)GetValue(ValorSecundarioProperty); set => SetValue(ValorSecundarioProperty, value); }
     public IEnumerable<double>? Serie { get => (IEnumerable<double>?)GetValue(SerieProperty); set => SetValue(SerieProperty, value); }
     public IEnumerable<double>? SerieSecundaria { get => (IEnumerable<double>?)GetValue(SerieSecundariaProperty); set => SetValue(SerieSecundariaProperty, value); }
     private static void SerieAlterada(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -41,7 +43,88 @@ public class IndicadorSistemaControl : FrameworkElement
             text.MaxTextWidth = Math.Max(1, largura ?? w - x - 4); text.MaxTextHeight = size * 1.5; text.Trimming = TextTrimming.CharacterEllipsis;
             dc.DrawText(text, new Point(x, y));
         }
+        if (Estilo == "medidores-cpu-ram")
+        {
+            void Gauge(double value, Point center, string label)
+            {
+                var radius = Math.Min(27, h / 2 - 2);
+                var bezel = new RadialGradientBrush
+                {
+                    GradientStops =
+                    {
+                        new GradientStop(Color.FromRgb(238, 241, 244), 0),
+                        new GradientStop(Color.FromRgb(91, 98, 105), .78),
+                        new GradientStop(Color.FromRgb(225, 230, 234), 1)
+                    }
+                };
+                dc.DrawEllipse(bezel, new Pen(new SolidColorBrush(Color.FromRgb(30, 34, 38)), 1), center, radius, radius);
+                dc.DrawEllipse(new RadialGradientBrush(Color.FromRgb(42, 49, 55), Color.FromRgb(9, 12, 16)), null, center, radius - 4, radius - 4);
+
+                const double startAngle = -130;
+                const double sweep = 260;
+                for (var i = 0; i < 20; i++)
+                {
+                    var a1 = (startAngle + i * sweep / 20) * Math.PI / 180;
+                    var a2 = (startAngle + (i + .72) * sweep / 20) * Math.PI / 180;
+                    var ringRadius = radius - 8;
+                    var p1 = new Point(center.X + Math.Sin(a1) * ringRadius, center.Y - Math.Cos(a1) * ringRadius);
+                    var p2 = new Point(center.X + Math.Sin(a2) * ringRadius, center.Y - Math.Cos(a2) * ringRadius);
+                    var arc = new StreamGeometry();
+                    using (var ctx = arc.Open())
+                    {
+                        ctx.BeginFigure(p1, false, false);
+                        ctx.ArcTo(p2, new Size(ringRadius, ringRadius), 0, false, SweepDirection.Clockwise, true, false);
+                    }
+                    var color = i < 12 ? Color.FromRgb(35, 194, 255) : i < 16 ? Color.FromRgb(255, 184, 47) : Color.FromRgb(255, 77, 72);
+                    dc.DrawGeometry(null, new Pen(new SolidColorBrush(color), 2), arc);
+                }
+
+                var safeValue = double.IsFinite(value) ? Math.Clamp(value, 0, 100) : 0;
+                var needleAngle = (startAngle + safeValue * sweep / 100) * Math.PI / 180;
+                var needleEnd = new Point(center.X + Math.Sin(needleAngle) * (radius - 11), center.Y - Math.Cos(needleAngle) * (radius - 11));
+                dc.DrawLine(new Pen(new SolidColorBrush(Color.FromRgb(255, 68, 55)), 2) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round }, center, needleEnd);
+                dc.DrawEllipse(Brushes.Silver, new Pen(Brushes.DarkSlateGray, 1), center, 3, 3);
+
+                Text(label, 7, center.X - radius + 7, center.Y - 11, Brushes.Silver, radius * 2 - 14);
+                Text(double.IsFinite(value) ? $"{value:F0}%" : "—", 11, center.X - radius + 7, center.Y + 5, Brushes.White, radius * 2 - 14);
+            }
+
+            var spacing = Math.Min(64, w / 2);
+            var start = (w - spacing) / 2;
+            Gauge(Valor, new Point(start, h / 2), "CPU");
+            Gauge(ValorSecundario, new Point(start + spacing, h / 2), "RAM");
+            return;
+        }
+
         dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromRgb(28, 34, 29)), new Pen(new SolidColorBrush(Color.FromRgb(60, 67, 54)), 1), new Rect(0, 0, w, h), 10, 10);
+        if (Estilo == "aneis-cpu-ram")
+        {
+            void Ring(double value, Point center, Brush color, string label)
+            {
+                const double radius = 18;
+                dc.DrawEllipse(null, new Pen(new SolidColorBrush(Color.FromRgb(48, 59, 62)), 4), center, radius, radius);
+                if (double.IsFinite(value) && value > 0)
+                {
+                    var angle = Math.Clamp(value, 0, 99.99) * 2 * Math.PI / 100;
+                    var arc = new StreamGeometry();
+                    using (var ctx = arc.Open())
+                    {
+                        ctx.BeginFigure(new Point(center.X, center.Y - radius), false, false);
+                        ctx.ArcTo(new Point(center.X + Math.Sin(angle) * radius, center.Y - Math.Cos(angle) * radius), new Size(radius, radius), 0, angle > Math.PI, SweepDirection.Clockwise, true, false);
+                    }
+                    dc.DrawGeometry(null, new Pen(color, 4) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round }, arc);
+                }
+                var valueText = double.IsFinite(value) ? $"{value:F0}%" : "—";
+                Text(valueText, 10, center.X - radius + 2, center.Y - 9, Brushes.WhiteSmoke, radius * 2 - 4);
+                Text(label, 8, center.X - radius + 2, center.Y + 4, color, radius * 2 - 4);
+            }
+
+            var spacing = Math.Min(64, w / 2);
+            var start = (w - spacing) / 2;
+            Ring(Valor, new Point(start, h / 2), Brushes.DeepSkyBlue, "CPU");
+            Ring(ValorSecundario, new Point(start + spacing, h / 2), Brushes.MediumPurple, "RAM");
+            return;
+        }
         if (Estilo is "cpu" or "ram" or "anel" or "armazenamento")
         {
             var c = new Point(h / 2, h / 2); double r = h * .36;

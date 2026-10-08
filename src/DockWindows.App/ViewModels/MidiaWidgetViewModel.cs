@@ -19,12 +19,28 @@ public class MidiaWidgetViewModel : ObservableObject, IAtividadeWidget
     private bool _visual, _escutar, _iniciando, _disposed;
     private string _chaveCapa = "";
     private readonly Dictionary<string, (DateTimeOffset Criada, System.Windows.Media.Imaging.BitmapSource Imagem)> _capas = new();
+    private bool _modoEconomico;
+    public bool ModoEconomico
+    {
+        get => _modoEconomico;
+        set
+        {
+            if (!SetProperty(ref _modoEconomico, value)) return;
+            LimitarCapas();
+        }
+    }
     public int CapasEmCache => _capas.Count;
     private void GuardarCapa(string chave, System.Windows.Media.Imaging.BitmapSource? imagem)
     {
         if (imagem == null) return;
         _capas[chave] = (DateTimeOffset.UtcNow, imagem);
-        while (_capas.Count > 8) _capas.Remove(_capas.MinBy(p => p.Value.Criada).Key);
+        LimitarCapas();
+    }
+    private void LimitarCapas()
+    {
+        var limite = ModoEconomico ? 3 : 8;
+        while (_capas.Count > limite) _capas.Remove(_capas.MinBy(p => p.Value.Criada).Key);
+        OnPropertyChanged(nameof(CapasEmCache));
     }
     public bool TimerAtivo => _timelineTimer.IsEnabled;
     public int ListenersAtivos => (_sessionManager == null ? 0 : 2) + (_currentSession == null ? 0 : 3);

@@ -699,8 +699,6 @@ public partial class MainWindow : Window
         PararAnimacaoAlerta();
         _viewModel.Dispose();
     }
-    private System.Windows.Media.Animation.Storyboard? _alertaStoryboard;
-
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(_viewModel.OcultoPorTelaCheia) && !_viewModel.OcultoPorTelaCheia)
@@ -727,58 +725,12 @@ public partial class MainWindow : Window
 
     private void IniciarAnimacaoAlerta()
     {
-        if (_alertaStoryboard != null)
-        {
-            _alertaStoryboard.Remove(this);
-        }
-
-        try
-        {
-            var cor = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(_viewModel.CorAlerta);
-
-            // Anima a sombra pulsando
-            var animacaoSombra = new System.Windows.Media.Animation.ColorAnimation
-            {
-                From = System.Windows.Media.Colors.Black,
-                To = cor,
-                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.35)),
-                AutoReverse = true,
-                RepeatBehavior = new System.Windows.Media.Animation.RepeatBehavior(1)
-            };
-
-            var animacaoRaio = new System.Windows.Media.Animation.DoubleAnimation
-            {
-                From = 16.0,
-                To = 30.0,
-                Duration = new System.Windows.Duration(TimeSpan.FromSeconds(0.35)),
-                AutoReverse = true,
-                RepeatBehavior = new System.Windows.Media.Animation.RepeatBehavior(1)
-            };
-
-            System.Windows.Media.Animation.Storyboard.SetTarget(animacaoSombra, DockShadow);
-            System.Windows.Media.Animation.Storyboard.SetTargetProperty(animacaoSombra, new System.Windows.PropertyPath(System.Windows.Media.Effects.DropShadowEffect.ColorProperty));
-            
-            System.Windows.Media.Animation.Storyboard.SetTarget(animacaoRaio, DockShadow);
-            System.Windows.Media.Animation.Storyboard.SetTargetProperty(animacaoRaio, new System.Windows.PropertyPath(System.Windows.Media.Effects.DropShadowEffect.BlurRadiusProperty));
-
-            _alertaStoryboard = new System.Windows.Media.Animation.Storyboard();
-            _alertaStoryboard.Children.Add(animacaoSombra);
-            _alertaStoryboard.Children.Add(animacaoRaio);
-            _alertaStoryboard.Begin(this, true);
-        }
-        catch { }
+        // A pulsação fica restrita ao contorno e ao preenchimento da dock no XAML.
     }
 
     private void PararAnimacaoAlerta()
     {
-        if (_alertaStoryboard != null)
-        {
-            _alertaStoryboard.Remove(this);
-            _alertaStoryboard = null;
-        }
-        
-        // Restaura valores originais (ClearValue restaura o Binding ou valor do XAML original)
-        // Remove restaura os valores-base e conserva os bindings da sombra.
+        // Não há sombra externa para restaurar.
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

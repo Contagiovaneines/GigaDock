@@ -6,12 +6,12 @@
         xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
         xmlns:views="clr-namespace:DockWindows.App.Views"
         Title="GigaDock — Ajustes e Configurações"
-        Width="1080"
-        Height="720"
-        MinWidth="600"
+        Width="1180"
+        Height="760"
+        MinWidth="760"
         MinHeight="500"
         WindowStartupLocation="CenterScreen"
-        Background="#101720"
+        Background="#191C21"
         Foreground="#FFFFFF"
         FontFamily="Segoe UI"
         ResizeMode="CanResizeWithGrip"
@@ -135,14 +135,14 @@
         <!-- Estilo dos Botões da Barra Lateral de Navegação (Liquid Glass Sidebar SBR001) -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#A0A0A8"/>
+            <Setter Property="Foreground" Value="#D5DAE1"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding" Value="12,9"/>
-            <Setter Property="Margin" Value="6,2"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="10,2"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -156,8 +156,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="BtnBorder" Property="Background" Value="#18FFFFFF"/>
-                                <Setter TargetName="BtnBorder" Property="BorderBrush" Value="#25FFFFFF"/>
+                                <Setter TargetName="BtnBorder" Property="Background" Value="#30353D"/>
+                                <Setter TargetName="BtnBorder" Property="BorderBrush" Value="#414852"/>
                                 <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
                                                     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="BtnBorder" Property="BorderBrush" Value="#A6D5FF"/><Setter TargetName="BtnBorder" Property="BorderThickness" Value="2"/></Trigger>
@@ -167,8 +167,8 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="Tag" Value="True">
-                    <Setter Property="Background" Value="#220A84FF"/>
-                    <Setter Property="BorderBrush" Value="#4538BDF8"/>
+                    <Setter Property="Background" Value="#393F49"/>
+                    <Setter Property="BorderBrush" Value="#515966"/>
                     <Setter Property="Foreground" Value="#FFFFFF"/>
                 </Trigger>
             </Style.Triggers>
@@ -176,7 +176,7 @@
 
         <!-- Estilo dos Botões Primários (Liquid Glass Button BTN003) -->
         <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#0A84FF"/>
+            <Setter Property="Background" Value="#6B63F5"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#60FFFFFF"/>
@@ -196,11 +196,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#2997FF"/>
+                                <Setter TargetName="Border" Property="Background" Value="#7B74FF"/>
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#90FFFFFF"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#0071E3"/>
+                                <Setter TargetName="Border" Property="Background" Value="#5750D4"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -210,9 +210,9 @@
 
         <!-- Estilo dos Botões Secundários / Ícones -->
         <Style x:Key="SecondaryButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#24242A"/>
+            <Setter Property="Background" Value="#30353D"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#383842"/>
+            <Setter Property="BorderBrush" Value="#484F5A"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Padding" Value="10,6"/>
@@ -225,7 +225,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#32323A"/>
+                                <Setter TargetName="Border" Property="Background" Value="#3A414B"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -235,9 +235,9 @@
 
         <!-- Estilo das Caixas de Texto -->
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#202026"/>
+            <Setter Property="Background" Value="#30353D"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#383844"/>
+            <Setter Property="BorderBrush" Value="#484F5A"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8,6"/>
             <Setter Property="FontSize" Value="12"/>
@@ -259,9 +259,9 @@
         <Grid.RowDefinitions><RowDefinition x:Name="CompactHeaderRow" Height="0"/><RowDefinition Height="*"/><RowDefinition x:Name="StackedDetailsRow" Height="0"/></Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <!-- Coluna 1: Navegação Lateral -->
-            <ColumnDefinition x:Name="NavigationColumn" Width="210"/>
+            <ColumnDefinition x:Name="NavigationColumn" Width="230"/>
             <!-- Coluna 2: Itens da Seção Selecionada -->
-            <ColumnDefinition x:Name="MasterColumn" Width="290"/>
+            <ColumnDefinition x:Name="MasterColumn" Width="330"/>
             <!-- Coluna 3: Edição e Detalhes do Item Selecionado -->
             <ColumnDefinition x:Name="DetailsColumn" Width="*"/>
         </Grid.ColumnDefinitions>
@@ -269,7 +269,7 @@
         <!-- ========================================================= -->
         <!-- COLUNA 1: NAVEGAÇÃO LATERAL                               -->
         <!-- ========================================================= -->
-        <Border x:Name="NavigationPanel" Grid.Row="1" Grid.Column="0" Background="#121C28" BorderBrush="#26262C" BorderThickness="0,0,1,0">
+        <Border x:Name="NavigationPanel" Grid.Row="1" Grid.Column="0" Background="#272C33" BorderBrush="#424954" BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <!-- Cabeçalho do App -->
@@ -281,10 +281,10 @@
                 </Grid.RowDefinitions>
 
                 <!-- Cabeçalho: Identidade do GigaDock e Ambiente Ativo -->
-                <Border Grid.Row="0" Padding="14,16,14,14" BorderBrush="#26262C" BorderThickness="0,0,0,1">
+                <Border Grid.Row="0" Padding="18,18,18,16" BorderBrush="#424954" BorderThickness="0,0,0,1">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Border Width="34" Height="34" CornerRadius="8" Background="#0A84FF" Margin="0,0,10,0">
+                            <Border Width="36" Height="36" CornerRadius="10" Background="#625AF0" Margin="0,0,10,0">
                                 <Image Source="/DockWindows.App;component/Assets/gigadock.ico" Width="26" Height="26"/>
                             </Border>
                             <StackPanel VerticalAlignment="Center">
@@ -294,7 +294,7 @@
                         </StackPanel>
 
                         <!-- Indicador do Ambiente Ativo -->
-                        <Border Margin="0,12,0,0" Padding="8,5" CornerRadius="6" Background="#1C1F26" BorderBrush="#2A303D" BorderThickness="1">
+                        <Border Margin="0,14,0,0" Padding="10,7" CornerRadius="9" Background="#30353D" BorderBrush="#454C57" BorderThickness="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <Ellipse Width="8" Height="8" Margin="0,0,7,0"
                                          Fill="{Binding AmbienteAtivo.CorHex, Converter={StaticResource ColorToBrushConverter}}"/>
@@ -363,7 +363,7 @@
                 </ScrollViewer>
 
                 <!-- Rodapé -->
-                <Border Grid.Row="2" Padding="12" BorderBrush="#26262C" BorderThickness="0,1,0,0">
+                <Border Grid.Row="2" Padding="14" BorderBrush="#424954" BorderThickness="0,1,0,0">
                     <Button Style="{StaticResource PrimaryButtonStyle}" Content="Concluir e Fechar" Command="{Binding ConcluirCommand}" HorizontalAlignment="Stretch"/>
                 </Border>
             </Grid>
@@ -372,8 +372,8 @@
         <!-- ========================================================= -->
         <!-- COLUNA 2: ITENS DA SEÇÃO (MASTER LIST)                    -->
         <!-- ========================================================= -->
-        <Border x:Name="MasterPanel" Grid.Row="1" Grid.Column="1" Background="#152130" BorderBrush="#282830" BorderThickness="0,0,1,0">
-            <Grid Margin="12,14">
+        <Border x:Name="MasterPanel" Grid.Row="1" Grid.Column="1" Background="#20242A" BorderBrush="#3D444E" BorderThickness="0,0,1,0">
+            <Grid Margin="18,18">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -464,7 +464,7 @@
                     <WrapPanel Margin="0,0,0,8" VerticalAlignment="Center">
                         <TextBlock Text="Widgets" FontSize="26" FontWeight="Bold" Foreground="White" Margin="0,0,16,8" VerticalAlignment="Center"/>
                         <Border Background="#212C3A" CornerRadius="12" Padding="12,6" Margin="0,0,16,8" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding WidgetsAmbiente.Count, StringFormat='{}{0} instalados'}" Foreground="#A9B8C9"/>
+                            <TextBlock Text="{Binding ResumoWidgets}" Foreground="#A9B8C9"/>
                         </Border>
                         <Button Content="+ Loja de Widgets" Style="{StaticResource PrimaryButtonStyle}"
                                 Margin="0,0,0,8" Command="{Binding AbrirLojaWidgetsCommand}"
@@ -472,6 +472,11 @@
                     </WrapPanel>
                     <TextBlock Text="Personalize os widgets deste ambiente. Use os interruptores para mostrar ou ocultar na dock e a loja para adicionar outros."
                                FontSize="12" Foreground="#A9B8C9" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <RadioButton Content="Todos" IsChecked="True" Command="{Binding FiltrarWidgetsCommand}" CommandParameter="Todos" Margin="0,0,18,0" Foreground="#E5E7EB"/>
+                        <RadioButton Content="Ativos" Command="{Binding FiltrarWidgetsCommand}" CommandParameter="Ativos" Margin="0,0,18,0" Foreground="#E5E7EB"/>
+                        <RadioButton Content="Inativos" Command="{Binding FiltrarWidgetsCommand}" CommandParameter="Inativos" Foreground="#E5E7EB"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <Grid Grid.Row="1" Visibility="{Binding EhSecaoWidgets, Converter={StaticResource BoolToVis}}">
@@ -480,7 +485,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     
-                    <ListBox Grid.Row="0" ItemsSource="{Binding WidgetsAmbiente}"
+                    <ListBox Grid.Row="0" ItemsSource="{Binding WidgetsView}"
                              SelectedItem="{Binding WidgetSelecionado, Mode=TwoWay}"
                              Background="Transparent" BorderThickness="0"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -542,6 +547,11 @@
                                             </Border>
                                         </WrapPanel>
                                         <TextBlock x:Name="DescWidget" Text="Personalize o estilo e a exibição deste widget na dock." FontSize="11" Foreground="#A9B8C9" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <Ellipse Width="7" Height="7" Fill="{Binding EstadoCor}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                            <TextBlock Text="{Binding EstadoTexto}" FontSize="11" FontWeight="SemiBold" Foreground="{Binding EstadoCor}"/>
+                                            <TextBlock Text="{Binding EstadoDescricao, StringFormat=' · {0}'}" FontSize="10" Foreground="#8998A9" Margin="6,0,0,0"/>
+                                        </StackPanel>
                                         <Border Background="#202026" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left" BorderBrush="#2C2C36" BorderThickness="1">
                                             <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Formato, StringFormat='Formato: {0}'}" FontSize="10" Foreground="#C8C8CE" VerticalAlignment="Center"/>
@@ -550,11 +560,17 @@
                                         </Border>
                                     </StackPanel>
 
-                                    <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Margin="0,10,0,0" Content="Escolher estilo" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding DataContext.EscolherEstiloWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                                        <Button Content="Escolher estilo" Style="{StaticResource SecondaryButtonStyle}" Command="{Binding DataContext.EscolherEstiloWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                                        <Button Content="Desinstalar" Margin="8,0,0,0" Style="{StaticResource SecondaryButtonStyle}" Foreground="#FF8D86" Command="{Binding DataContext.RemoverWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" AutomationProperties.Name="Desinstalar widget deste ambiente"/>
+                                    </StackPanel>
                                     <!-- Toggle -->
-                                    <CheckBox Style="{StaticResource ToggleSwitchStyle}" Grid.Column="3" IsChecked="{Binding Visivel}" VerticalAlignment="Center" Margin="16,0,0,0"
-                                              Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                              CommandParameter="{Binding}"/>
+                                    <StackPanel Grid.Column="3" VerticalAlignment="Center" Margin="16,0,0,0">
+                                        <TextBlock Text="Exibir na dock" FontSize="10" Foreground="#A9B8C9" HorizontalAlignment="Center" Margin="0,0,0,5"/>
+                                        <CheckBox Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Visivel}" HorizontalAlignment="Center"
+                                                  Command="{Binding DataContext.AlternarVisibilidadeWidgetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  CommandParameter="{Binding}" AutomationProperties.Name="Exibir widget na dock"/>
+                                    </StackPanel>
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <!-- Relogio = 0 -->
@@ -763,8 +779,8 @@
         <!-- ========================================================= -->
         <!-- COLUNA 3: EDIÇÃO DO ITEM SELECIONADO                      -->
         <!-- ========================================================= -->
-        <Border x:Name="DetailsPanel" Grid.Row="1" Grid.Column="2" Background="#101720">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="18,16">
+        <Border x:Name="DetailsPanel" Grid.Row="1" Grid.Column="2" Background="#191C21">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,20">
                 <!-- CONTEÚDO DINÂMICO CONFORME A SEÇÃO -->
                 <StackPanel>
                     <!-- ================================================= -->
@@ -787,7 +803,7 @@
                         </Grid>
 
                         <!-- BLOCO: DADOS BÁSICOS DO AMBIENTE -->
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                        <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="IDENTIDADE VISUAL DO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
 
@@ -826,7 +842,7 @@
                         </Border>
 
                         <!-- BLOCO: INDICADOR DE APPS ABERTOS -->
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="INDICADOR DE APLICATIVOS ABERTOS" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
 
@@ -857,7 +873,7 @@
                         </Border>
 
                         <!-- BLOCO: APLICATIVOS E ITENS FIXADOS -->
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="APLICATIVOS E ATALHOS DO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
 
@@ -948,7 +964,7 @@
                         </Border>
 
                         <!-- BLOCO: WIDGETS DO AMBIENTE -->
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18">
                             <StackPanel>
                                 <TextBlock Text="WIDGETS HABILITADOS NO AMBIENTE" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
                                 <CheckBox Style="{StaticResource ToggleSwitchStyle}" Content="Relógio Digital e Controles de Sistema" IsChecked="{Binding RelogioAmbienteHabilitado}" Margin="0,0,0,8"/>
@@ -966,7 +982,7 @@
                         <TextBlock Text="{Binding EspacadorSelecionado.Nome, StringFormat='Espaçador: {0}'}" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="Personalize a aparência dos divisores entre blocos da barra" FontSize="11" Foreground="#A9B8C9" Margin="0,2,0,14"/>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18">
                             <StackPanel>
                                 <TextBlock Text="PROPRIEDADES DO DIVISOR" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
 
@@ -1273,6 +1289,25 @@
 
                                 <Border Height="1" Background="#2A2A33" Margin="32,0,0,12"/>
 
+                                <!-- Modo econômico -->
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Width="28" Height="28" CornerRadius="6" Background="#237A57" Margin="0,0,12,0">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8BE;" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Modo econômico" FontSize="13" Foreground="#E5E7EB"/>
+                                        <TextBlock Text="Reduz atualizações e efeitos para economizar memória, CPU e bateria." TextWrapping="Wrap" FontSize="11" Foreground="#A9B8C9"/>
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="2" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ModoEconomico, Mode=TwoWay}" VerticalAlignment="Center" AutomationProperties.Name="Modo econômico"/>
+                                </Grid>
+
+                                <Border Height="1" Background="#2A2A33" Margin="32,0,0,12"/>
+
                                 <!-- Iniciar com o Windows -->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -1481,7 +1516,7 @@
                         <TextBlock Text="Utilitários e Manutenção" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="Backup, restauração e ferramentas de emergência" FontSize="11" Foreground="#A9B8C9" Margin="0,2,0,14"/>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="BACKUP E RESTAURAÇÃO" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
                                 <WrapPanel>
@@ -1491,7 +1526,7 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="RESTAURAÇÃO DA BARRA DO WINDOWS" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
                                 <TextBlock Text="Restaura imediatamente a barra nativa do Windows caso esteja oculta." FontSize="11" Foreground="#A9B8C9" Margin="0,0,0,8"/>
@@ -1513,7 +1548,7 @@
                         <TextBlock Text="Sobre o GigaDock" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="Informações do projeto, criador e privacidade" FontSize="11" Foreground="#A9B8C9" Margin="0,2,0,14"/>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="O PROJETO É OPEN SOURCE" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
                                 <TextBlock Text="  O GigaDock é 100% open-source e gratuito!" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
@@ -1522,7 +1557,7 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="CRIADO POR GIOVANE INES" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
@@ -1551,7 +1586,7 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18" Margin="0,0,0,12">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="DIAGNÓSTICO LOCAL" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,10"/>
                                 <Grid>
@@ -1570,7 +1605,7 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Background="#182432" BorderBrush="#2A3B50" BorderThickness="1" CornerRadius="12" Padding="18">
+                            <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18">
                             <StackPanel>
                                 <TextBlock Text="GUIA DE ATALHOS" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
                                 <TextBlock Text="  Ctrl + Alt + D : Exibir ou ocultar a dock" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
@@ -1582,11 +1617,11 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-        <Border x:Name="VisualizationsPanel" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="#101720"
+        <Border x:Name="VisualizationsPanel" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Background="#191C21"
                 Visibility="{Binding EhSecaoVisualizacoes, Converter={StaticResource BoolToVis}}">
             <views:VisualizacoesSettings/>
         </Border>
-        <Border x:Name="CompactNavigation" Grid.Row="0" Grid.ColumnSpan="3" Visibility="Collapsed" Background="#152130" BorderBrush="#2A3B50" BorderThickness="0,0,0,1" Padding="16,12">
+        <Border x:Name="CompactNavigation" Grid.Row="0" Grid.ColumnSpan="3" Visibility="Collapsed" Background="#272C33" BorderBrush="#424954" BorderThickness="0,0,0,1" Padding="16,12">
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                 <TextBlock Text="Ajustes" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,18,0"/>
                 <ComboBox Grid.Column="1" MaxWidth="260" HorizontalAlignment="Left" MinWidth="185" SelectedValuePath="Tag" SelectedValue="{Binding SecaoAtiva, Mode=TwoWay}" AutomationProperties.Name="Seção de ajustes">

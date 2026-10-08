@@ -137,3 +137,57 @@ As Actions de checkout e upload de artefatos foram atualizadas para versões bas
 A demonstração da pasta `vercel` foi revisada a partir dos controles XAML e da ordem padrão das seções do aplicativo. A composição agora segue Iniciar/Pesquisa, clima, mídia, aplicativos, contribuições, monitor, relógio e controles finais, usando altura, raio, fundo translúcido, divisores, indicadores e contorno RGB próximos da interface WPF.
 
 Os símbolos genéricos foram substituídos por representações visuais reconhecíveis de Explorador, Chrome, Teams, Discord, Visual Studio Code, Edge e WhatsApp, com indicadores de execução e notificações. A demonstração passou a ser uma prévia estática; ela não sugere executar aplicativos ou controlar o Windows pelo navegador.
+
+## Monitor compacto com CPU e RAM em anéis
+
+A personalização do Monitor do Sistema recebeu o estilo **CPU e RAM em anéis**. Ele apresenta as duas porcentagens em indicadores circulares independentes, usa as mesmas leituras locais do monitor e ocupa 132 pixels na dock. A galeria de estilos mostra uma prévia ilustrativa e o nome acessível do controle informa os dois valores.
+
+Também foi incluído o estilo **Medidores CPU e RAM**, com dois mostradores circulares metálicos, escala azul, zona de atenção em laranja e vermelho, ponteiros e percentuais. O desenho é vetorial, acompanha a escala de tela e reutiliza as mesmas leituras do monitor sem criar consultas adicionais.
+
+## Gerenciamento de widgets e modo econômico
+
+A tela de Widgets passou a mostrar um resumo de instalados, ativos e inativos, filtros por estado e cartões com estado textual, indicação visual, controle “Exibir na dock”, personalização e desinstalação. A Loja de Widgets agora diferencia itens disponíveis, instalados e ativos; sua ação principal muda entre instalar, ativar e configurar, e a remoção foi renomeada para “Desinstalar deste ambiente”.
+
+A desinstalação exige confirmação e preserva dados locais por padrão. O usuário pode escolher apagar os dados da instância; para Notas, a pasta validada da instância é removida, e configurações locais do widget são limpas. A sincronização do ambiente desabilita imediatamente o runtime removido, interrompendo timers, consultas, painéis e listeners administrados pelo `GerenciadorAtividade`. Runtimes de instâncias adicionais continuam sendo descartados ao trocar de ambiente ou removê-los.
+
+Ajustes > Geral recebeu o **Modo econômico**. Ele reduz o Monitor do Sistema de 2 para 10 segundos, a Bateria de 30 para 60 segundos e o fallback do rastreamento de janelas de 2,5 para 8 segundos. Animações contínuas e RGB ficam suspensos, vidro e blur deixam de ser aplicados, a sombra principal é reduzida, o cache de ícones cai de 128/8 MB para 48/3 MB e o cache de capas de mídia cai de 8 para 3 imagens. As preferências visuais originais são preservadas e voltam a valer quando o modo é desligado. O relógio já agenda a próxima mudança de minuto quando o estilo não mostra segundos, e widgets não essenciais já param seus serviços quando ficam ocultos.
+
+Limite real: os ViewModels principais ainda são objetos estáveis por causa dos bindings WPF atuais. Seus timers, consultas e integrações são ativados sob demanda, mas a substituição integral por hosts/fábricas descartáveis exige uma migração estrutural posterior para permitir destruir e recriar o próprio ViewModel sem quebrar bindings. O trabalho pesado está pausado; permanece apenas a pequena alocação do objeto inativo.
+
+Validação: a solução Release compilou com 0 erros e 0 avisos. A execução local dos testes foi impedida pela proteção do projeto contra o alerta conhecido do Smart App Control para `DockWindows.Tests.dll`; os testes deverão rodar no GitHub Actions ou com assinatura de código confiável.
+
+## Novos layouts do player de mídia
+
+O widget Mídia recebeu três layouts originais inspirados na interação analisada: **Compacto**, com capa e controles essenciais; **Ultralargo**, com capa, título, artista e navegação; e **Expansível no hover**, que ocupa pouco espaço na dock e abre um painel completo acima dela após um atraso curto. O painel expandido apresenta capa, metadados, posição, duração, progresso e controles de reprodução.
+
+Os estilos podem ser escolhidos na personalização do widget ou diretamente pelo submenu **Layout** no botão direito. O mesmo menu permite **Ocultar deste ambiente**. A abertura e o fechamento usam atrasos separados para evitar piscadas ao mover o ponteiro entre a dock e o painel, também funcionam por foco do teclado e encerram timers e popup quando o controle é descarregado. Os layouts reutilizam as sessões públicas de mídia do Windows e não iniciam outra consulta ou serviço.
+
+Validação: solução Release compilada com 0 erros e 0 avisos. A aparência usa componentes e desenho próprios do GigaDock; nenhum recurso gráfico do vídeo foi incorporado.
+
+## Editor visual e interações reaproveitadas do showcase
+
+A galeria de estilos agora apresenta cada opção dentro de uma miniatura própria da dock, com superfície escura, contorno discreto e o controle real usado na prévia. Os cartões foram ampliados e receberam os rótulos padronizados **Compacto**, **Largo** e **Expansível**, sem alterar a composição visual da dock principal.
+
+O clima compacto passou a abrir a previsão detalhada ao clicar; no modo de abertura por mouse, o mesmo painel pode aparecer no hover. O calendário compacto agora abre uma agenda com até oito compromissos futuros, data, horário, título e local, também acessível por Enter ou Espaço.
+
+Aplicativos fixados podem ser reordenados diretamente na dock por arrastar e soltar. O gesto só começa depois do limite de movimento do Windows, aceita apenas itens fixados e persiste a nova ordem no escopo global ou no ambiente ativo. Arquivos externos continuam usando o fluxo já existente de adição à dock.
+
+Coleções visuais, biblioteca de aplicativos e ampliação suave já existiam e foram preservadas. Nenhuma cor, tamanho, ordem de seções ou aparência dos itens da dock foi redesenhada nesta etapa.
+
+Validação: solução Release compilada com 0 erros e 0 avisos.
+
+## Ciclo e contorno dos alertas visuais
+
+O alerta visual agora é encerrado ao abrir ou selecionar WhatsApp, Teams ou Discord pela dock, inclusive quando a janela do aplicativo já estava ativa. A heurística que interpretava toda segunda janela do WhatsApp como chamada foi removida; chamadas continuam sendo identificadas pelas notificações públicas do Windows e também terminam quando a notificação correspondente é removida.
+
+O alerta deixou de colorir e ampliar a sombra externa da dock. A animação agora permanece no contorno nítido e no preenchimento colorido discreto, seguindo a composição do modo gamer sem espalhar o neon pela área ao redor.
+
+Validação: solução Release compilada com 0 erros e 0 avisos.
+
+## Refinamento visual de Ajustes e Loja de Widgets
+
+As janelas de Ajustes e Loja de Widgets receberam uma linguagem visual unificada e própria do GigaDock. Ajustes agora usa uma navegação lateral mais ampla, seleção em cartões, superfícies neutras em camadas, bordas discretas, espaçamento maior e detalhes em violeta. O comportamento responsivo foi atualizado para preservar essas proporções em telas amplas e continuar recolhendo a navegação em larguras menores.
+
+A Loja de Widgets ganhou navegação lateral por categoria, busca integrada, identificação do ambiente, contador de instalados e cartões com prévias grandes. Cada cartão informa categoria, disponibilidade, estado instalado/ativo, formato e ações de instalar, ativar, configurar ou desinstalar. As prévias usam gradientes e componentes do próprio projeto; nenhuma marca, imagem ou recurso gráfico da referência foi incorporado. A dock principal não foi alterada nesta etapa.
+
+Validação: solução Release compilada com 0 erros e 0 avisos.

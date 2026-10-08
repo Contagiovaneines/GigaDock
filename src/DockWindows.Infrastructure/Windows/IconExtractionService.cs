@@ -33,8 +33,10 @@ public class IconExtractionService : IIconExtractionService
     private static readonly ConcurrentDictionary<string, ImageSource?> CacheIcones = new(StringComparer.OrdinalIgnoreCase);
     private static readonly System.Collections.Generic.Queue<(string Chave, long Bytes)> OrdemCache = new();
     private static readonly object CacheLock = new();
-    private const int LimiteEntradas = 128;
-    private const long LimiteBytes = 8 * 1024 * 1024;
+    private const int LimiteEntradasNormal = 128;
+    private const long LimiteBytesNormal = 8 * 1024 * 1024;
+    private static int _limiteEntradas = LimiteEntradasNormal;
+    private static long _limiteBytes = LimiteBytesNormal;
     private static long _bytesCache;
     public static int QuantidadeCache => CacheIcones.Count;
     public static long BytesEstimadosCache { get { lock (CacheLock) return _bytesCache; } }
@@ -46,11 +48,11 @@ public class IconExtractionService : IIconExtractionService
         long bytes = imagem is BitmapSource bitmap
             ? (long)((bitmap.PixelWidth * (long)bitmap.Format.BitsPerPixel + 7) / 8) * bitmap.PixelHeight
             : 64 * 1024;
-        if (bytes <= 0 || bytes > LimiteBytes) return false;
+        if (bytes <= 0 || bytes > _limiteBytes) return false;
         lock (CacheLock)
         {
             if (CacheIcones.ContainsKey(chave)) return false;
-            while ((CacheIcones.Count >= LimiteEntradas || _bytesCache + bytes > LimiteBytes) && OrdemCache.Count > 0)
+            while ((CacheIcones.Count >= _limiteEntradas || _bytesCache + bytes > _limiteBytes) && OrdemCache.Count > 0)
             {
                 var antiga = OrdemCache.Dequeue();
                 if (CacheIcones.TryRemove(antiga.Chave, out _)) _bytesCache -= antiga.Bytes;
@@ -59,6 +61,20 @@ public class IconExtractionService : IIconExtractionService
             OrdemCache.Enqueue((chave, bytes));
             _bytesCache += bytes;
             return true;
+        }
+    }
+
+    public static void DefinirModoEconomico(bool ativo)
+    {
+        lock (CacheLock)
+        {
+            _limiteEntradas = ativo ? 48 : LimiteEntradasNormal;
+            _limiteBytes = ativo ? 3 * 1024 * 1024 : LimiteBytesNormal;
+            while ((CacheIcones.Count > _limiteEntradas || _bytesCache > _limiteBytes) && OrdemCache.Count > 0)
+            {
+                var antiga = OrdemCache.Dequeue();
+                if (CacheIcones.TryRemove(antiga.Chave, out _)) _bytesCache -= antiga.Bytes;
+            }
         }
     }
 

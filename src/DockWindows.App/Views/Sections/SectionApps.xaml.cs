@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using DockWindows.App.ViewModels;
@@ -11,6 +12,7 @@ namespace DockWindows.App.Views.Sections;
 
 public partial class SectionApps : UserControl
 {
+    private Point _inicioArraste;
     public SectionApps()
     {
         InitializeComponent();
@@ -107,9 +109,33 @@ public partial class SectionApps : UserControl
     }
     private void App_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
+        _inicioArraste = e.GetPosition(this);
         // Não consome o clique: o comando do botão sempre deve ativar ou abrir o app.
         _hover.Parar();
         _visualizacao?.Close();
+    }
+
+    private void App_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+        if (e.LeftButton != MouseButtonState.Pressed || sender is not FrameworkElement { DataContext: AppItemViewModel app } origem || !app.EstaFixado) return;
+        var atual = e.GetPosition(this);
+        if (Math.Abs(atual.X - _inicioArraste.X) < SystemParameters.MinimumHorizontalDragDistance && Math.Abs(atual.Y - _inicioArraste.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+        _hover.Parar();
+        DragDrop.DoDragDrop(origem, new DataObject("GigaDock.AppFixado", app), DragDropEffects.Move);
+    }
+
+    private void App_DragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = e.Data.GetDataPresent("GigaDock.AppFixado") && sender is FrameworkElement { DataContext: AppItemViewModel { EstaFixado: true } }
+            ? DragDropEffects.Move : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    private void App_Drop(object sender, DragEventArgs e)
+    {
+        if (DataContext is MainViewModel main && sender is FrameworkElement { DataContext: AppItemViewModel destino } && e.Data.GetData("GigaDock.AppFixado") is AppItemViewModel origem)
+            main.ReordenarAplicativo(origem, destino);
+        e.Handled = true;
     }
 
     private void App_Click(object sender, RoutedEventArgs e)
