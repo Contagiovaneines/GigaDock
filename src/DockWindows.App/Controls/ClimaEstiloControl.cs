@@ -34,41 +34,47 @@ public class ClimaEstiloControl : FrameworkElement
     }
     private void Atualizar(object? sender, PropertyChangedEventArgs e) => InvalidateVisual();
     private void AtualizarLista(object? sender, NotifyCollectionChangedEventArgs e) => InvalidateVisual();
-    public static double LarguraPara(string estilo) => estilo switch { "minimalista" => 76, "largo" => 205, "temperatura" => 100, "condicao" => 120, "vento" => 160, "horas" => 310, "compacto" => 260, "previsao" => 205, "local" => 245, "sol" => 220, _ => 90 };
+    public static double LarguraPara(string estilo) => estilo switch { "minimalista" => 80, "largo" => 210, "temperatura" => 100, "condicao" => 120, "vento" => 160, "horas" => 310, "compacto" => 260, "previsao" => 205, "local" => 245, "sol" => 220, _ => 90 };
     protected override void OnRender(DrawingContext dc)
     {
         base.OnRender(dc);
         if (ActualWidth <= 0 || ActualHeight <= 0) return;
         var vm = Dados;
         var w = ActualWidth; var h = ActualHeight;
-        dc.DrawRoundedRectangle(new SolidColorBrush(Estilo == "detalhado" ? Color.FromRgb(45, 120, 199) : Color.FromRgb(36, 39, 29)), new Pen(Brushes.DimGray, 1), new Rect(0, 0, w, h), 12, 12);
+        if (Estilo == "detalhado")
+            dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromRgb(45, 120, 199)), new Pen(Brushes.DimGray, 1), new Rect(0, 0, w, h), 12, 12);
+        else
+            dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromArgb(50, 0, 0, 0)), new Pen(new SolidColorBrush(Color.FromArgb(30, 255, 255, 255)), 1), new Rect(0, 0, w, h), 12, 12);
+
         void Text(string value, double size, double x, double y, Brush? color = null, double max = 0)
         {
             var t = new FormattedText(value, CultureInfo.GetCultureInfo("pt-BR"), FlowDirection.LeftToRight, new Typeface("Segoe UI Semibold"), size, color ?? Brushes.WhiteSmoke, VisualTreeHelper.GetDpi(this).PixelsPerDip) { MaxTextWidth = Math.Max(1, max > 0 ? max : w - x - 5), Trimming = TextTrimming.CharacterEllipsis };
             dc.DrawText(t, new Point(x, y));
         }
-        string temp = vm?.Temperatura ?? "—°", icon = PrevisaoClima.Simbolo(vm?.TipoAtual ?? "Indisponivel");
-        if (Estilo == "minimalista") { Text(icon, 22, 8, 10, Brushes.Silver, 28); Text(temp, 20, 35, 17, max: 38); return; }
+        string temp = vm?.Temperatura ?? "—";
+        string icon = PrevisaoClima.Simbolo(vm?.TipoAtual ?? "Indisponivel");
+        
+        if (Estilo == "minimalista") { Text(icon, 24, 12, 16, Brushes.WhiteSmoke, 30); Text(temp, 22, 42, 17, max: 38); return; }
         if (Estilo == "largo")
         {
             var hoje = vm?.Previsoes.FirstOrDefault();
-            Text(vm?.Local ?? "—", 9, 10, 7, Brushes.Silver, w - 24);
-            Text(icon, 23, 10, 25, Brushes.Silver, 32);
-            Text(temp, 26, 43, 20, max: 62);
-            Text(hoje == null ? vm?.Condicao ?? "—" : $"{hoje.Minima} / {hoje.Temperatura}", 10, 108, 29, Brushes.Silver, w - 116);
+            Text(vm?.Local ?? "—", 10, 12, 8, Brushes.Silver, w - 24);
+            Text(icon, 24, 12, 28, Brushes.WhiteSmoke, 32);
+            Text(temp, 26, 44, 25, max: 62);
+            Text(hoje == null ? vm?.Condicao ?? "—" : $"{hoje.Minima} / {hoje.Temperatura}", 11, 115, 33, Brushes.Silver, w - 120);
             return;
         }
         if (Estilo == "detalhado") { Text(temp, 27, 12, 13); return; }
-        if (Estilo == "temperatura") { Text(icon, 24, 8, 15, Brushes.Silver, 32); Text(temp, 27, 40, 13); return; }
-        if (Estilo == "local") { Text(vm?.Local ?? "—", 12, 10, 8, max: w - 85); Text($"{vm?.Vento ?? "—"} · {vm?.Precipitacao ?? "—"}", 10, 10, 34, Brushes.Silver, w - 85); Text(icon + " " + temp, 24, w - 83, 18); return; }
-        if (Estilo == "condicao") { Text(icon, 28, w / 2 - 15, 4); Text($"{vm?.Condicao ?? "—"}, {temp}", 11, 8, 39); return; }
+        if (Estilo == "temperatura") { Text(icon, 24, 12, 17, Brushes.WhiteSmoke, 32); Text(temp, 26, 44, 16); return; }
+        if (Estilo == "local") { Text(vm?.Local ?? "—", 12, 12, 10, max: w - 85); Text($"{vm?.Vento ?? "—"} • {vm?.Precipitacao ?? "—"}", 10, 12, 34, Brushes.Silver, w - 85); Text(icon + " " + temp, 24, w - 83, 18); return; }
+        if (Estilo == "condicao") { Text(icon, 28, w / 2 - 15, 6); Text($"{vm?.Condicao ?? "—"}, {temp}", 11, 8, 41); return; }
         if (Estilo is "compacto" or "previsao")
         {
             double start = Estilo == "compacto" ? 87 : 6;
-            if (Estilo == "compacto") { Text(temp, 29, 10, 4, max: 73); Text("Hoje", 11, 10, 40, Brushes.Silver); }
+            if (Estilo == "compacto") { Text(temp, 29, 12, 6, max: 73); Text("Hoje", 11, 12, 42, Brushes.Silver); }
             var days = vm?.Previsoes.Take(3).ToArray() ?? Array.Empty<PrevisaoClima>();
             double cell = (w - start - 6) / Math.Max(3, days.Length);
-            for (int i = 0; i < days.Length; i++) { var x = start + i * cell; Text(days[i].Dia, 9, x, 6, Brushes.Silver, cell); Text(days[i].Icone, 20, x + 4, 18, Brushes.Silver, cell); Text(days[i].Temperatura, 11, x, 43, max: cell); }
+            for (int i = 0; i < days.Length; i++) { var x = start + i * cell; Text(days[i].Dia, 10, x, 8, Brushes.Silver, cell); Text(days[i].Icone, 20, x + 4, 20, Brushes.WhiteSmoke, cell); Text(days[i].Temperatura, 11, x, 43, max: cell); }
             return;
         }
         if (Estilo == "horas")
