@@ -74,7 +74,7 @@ public class MidiaWidgetViewModel : ObservableObject, IAtividadeWidget
     private string _estilo = "capa";
     public string Estilo { get => _estilo; set => SetProperty(ref _estilo, value); }
     private double _progresso;
-    public double Progresso { get => _progresso; private set => SetProperty(ref _progresso, value); }
+    public double Progresso { get => _progresso; set => SetProperty(ref _progresso, value); }
     private string _posicao = "—", _duracao = "—";
     public string Posicao { get => _posicao; private set => SetProperty(ref _posicao, value); }
     public string Duracao { get => _duracao; private set => SetProperty(ref _duracao, value); }
