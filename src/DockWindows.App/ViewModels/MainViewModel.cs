@@ -506,6 +506,7 @@ public class MainViewModel : ObservableObject, IDisposable
         AbrirConfiguracoesCommand = new RelayCommand(() => AbrirAjustes("Geral"));
         AbrirPersonalizarCommand = new RelayCommand(() => AbrirAjustes("Aparencia"));
         SelecionarEstiloMidiaCommand = new RelayCommand<string>(SelecionarEstiloMidia);
+        SelecionarEstiloClimaCommand = new RelayCommand<string>(SelecionarEstiloClima);
         OcultarMidiaCommand = new RelayCommand(() => ExibirMidia = false);
         AbrirAjustesCommand = new RelayCommand<string>(AbrirAjustes);
                 RestaurarBarraWindowsCommand = new RelayCommand(RestaurarBarraWindows);
@@ -573,11 +574,19 @@ public class MainViewModel : ObservableObject, IDisposable
     public ClockWidgetViewModel Clock { get; }
     public ICommand PersonalizarWidgetCommand { get; }
     public ICommand SelecionarEstiloMidiaCommand { get; }
+    public ICommand SelecionarEstiloClimaCommand { get; }
     public ICommand OcultarMidiaCommand { get; }
     private void SelecionarEstiloMidia(string? estilo)
     {
         var ambiente = AmbienteAtivo;
         var widget = ambiente?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Midia);
+        if (ambiente == null || widget == null || string.IsNullOrWhiteSpace(estilo)) return;
+        AplicarEstiloAmbiente(ambiente.Id, widget.Id, estilo);
+    }
+    private void SelecionarEstiloClima(string? estilo)
+    {
+        var ambiente = AmbienteAtivo;
+        var widget = ambiente?.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
         if (ambiente == null || widget == null || string.IsNullOrWhiteSpace(estilo)) return;
         AplicarEstiloAmbiente(ambiente.Id, widget.Id, estilo);
     }

@@ -34,7 +34,7 @@ public class ClimaEstiloControl : FrameworkElement
     }
     private void Atualizar(object? sender, PropertyChangedEventArgs e) => InvalidateVisual();
     private void AtualizarLista(object? sender, NotifyCollectionChangedEventArgs e) => InvalidateVisual();
-    public static double LarguraPara(string estilo) => estilo switch { "temperatura" => 100, "condicao" => 120, "vento" => 160, "horas" => 310, "compacto" => 260, "previsao" => 205, "local" => 245, "sol" => 220, _ => 90 };
+    public static double LarguraPara(string estilo) => estilo switch { "minimalista" => 76, "largo" => 205, "temperatura" => 100, "condicao" => 120, "vento" => 160, "horas" => 310, "compacto" => 260, "previsao" => 205, "local" => 245, "sol" => 220, _ => 90 };
     protected override void OnRender(DrawingContext dc)
     {
         base.OnRender(dc);
@@ -48,6 +48,16 @@ public class ClimaEstiloControl : FrameworkElement
             dc.DrawText(t, new Point(x, y));
         }
         string temp = vm?.Temperatura ?? "—°", icon = PrevisaoClima.Simbolo(vm?.TipoAtual ?? "Indisponivel");
+        if (Estilo == "minimalista") { Text(icon, 22, 8, 10, Brushes.Silver, 28); Text(temp, 20, 35, 17, max: 38); return; }
+        if (Estilo == "largo")
+        {
+            var hoje = vm?.Previsoes.FirstOrDefault();
+            Text(vm?.Local ?? "—", 9, 10, 7, Brushes.Silver, w - 24);
+            Text(icon, 23, 10, 25, Brushes.Silver, 32);
+            Text(temp, 26, 43, 20, max: 62);
+            Text(hoje == null ? vm?.Condicao ?? "—" : $"{hoje.Minima} / {hoje.Temperatura}", 10, 108, 29, Brushes.Silver, w - 116);
+            return;
+        }
         if (Estilo == "detalhado") { Text(temp, 27, 12, 13); return; }
         if (Estilo == "temperatura") { Text(icon, 24, 8, 15, Brushes.Silver, 32); Text(temp, 27, 40, 13); return; }
         if (Estilo == "local") { Text(vm?.Local ?? "—", 12, 10, 8, max: w - 85); Text($"{vm?.Vento ?? "—"} · {vm?.Precipitacao ?? "—"}", 10, 10, 34, Brushes.Silver, w - 85); Text(icon + " " + temp, 24, w - 83, 18); return; }

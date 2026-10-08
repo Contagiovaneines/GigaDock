@@ -4,6 +4,11 @@
  <UserControl.Resources><conv:BooleanToVisibilityConverter x:Key="BoolToVis"/></UserControl.Resources>
  <UserControl.ContextMenu>
   <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+   <MenuItem Header="Layout">
+    <MenuItem Header="Minimalista" Command="{Binding SelecionarEstiloClimaCommand}" CommandParameter="minimalista"/>
+    <MenuItem Header="Largo" Command="{Binding SelecionarEstiloClimaCommand}" CommandParameter="largo"/>
+   </MenuItem>
+   <Separator/>
    <MenuItem Header="Personalizar…" Command="{Binding PersonalizarWidgetCommand}" CommandParameter="{x:Static models:TipoWidget.Clima}"/>
   </ContextMenu>
  </UserControl.ContextMenu>

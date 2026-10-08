@@ -21,6 +21,8 @@ public static class EstilosWidget
         },
         TipoWidget.Clima => new EstiloWidget[]
         {
+            new("minimalista", "Minimalista", "☁ 21°"),
+            new("largo", "Largo", "Sua cidade · ☁ 21° · 18°", FormatoWidget.Expandido),
             new("temperatura", "Temperatura", "☁ 21°"), new("local", "Local e detalhes", "São Paulo · ☁ 21°\n18 km/h · 0 mm", FormatoWidget.Expandido),
             new("previsao", "Previsão diária", "Seg ☁ 24° · Ter ☂ 22° · Qua ☁ 21°", FormatoWidget.Expandido),
             new("compacto", "Hoje e previsão", "21° · Seg 24° · Ter 22° · Qua 21°"),

@@ -176,6 +176,14 @@ Coleções visuais, biblioteca de aplicativos e ampliação suave já existiam e
 
 Validação: solução Release compilada com 0 erros e 0 avisos.
 
+## Clima minimalista e largo
+
+O widget Clima recebeu os layouts **Minimalista**, com ícone e temperatura, e **Largo**, com cidade, condição visual, temperatura e mínima/máxima disponíveis. Os dois aparecem na galeria de personalização e podem ser alternados diretamente pelo submenu **Layout** no botão direito do widget.
+
+O clique continua abrindo a previsão completa por hora e por dia. Os novos layouts reutilizam o mesmo ViewModel, cache e ciclo de consulta, sem criar novas requisições ou timers.
+
+Validação: solução Release compilada com 0 erros e 0 avisos.
+
 ## Mascotes Pokémon (Beta)
 
 Ajustes recebeu a seção própria **Mascotes (Beta)**. Nela é possível escolher um dos 151 Pokémon originais, ativar ou desativar o mascote e manter uma seleção diferente em cada ambiente. O mascote aparece como um cartão compacto na dock, mostra nome e estado e anima somente quando a dock está visível e as animações estão permitidas.
