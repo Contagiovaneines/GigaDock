@@ -1,5 +1,17 @@
 # Status técnico
 
+## Energia no Launchpad — 8 de outubro de 2026
+
+- Adicionados Desligar PC e Reiniciar PC no rodapé, com confirmação e tratamento de erros.
+- Compilação passou com zero avisos e erros; verificação de whitespace passou.
+- Próximos passos: validar layout, teclado, cancelamento e ações reais em máquina de teste. Não houve desligamento/reinício durante a implementação. Detalhes em `docs/LAUNCHPAD-ENERGIA.md`.
+
+## Correção de aplicativos em segundo plano — 8 de outubro de 2026
+
+- Clique procura a janela atual pelo executável, incluindo janelas ocultas elegíveis, sem iniciar outra instância.
+- Compilação passou. Testes de AppAreaAndWindowTrackingTests: 25 passaram e 1 falhou na personalização de clima (esperado 9, obtido 11).
+- Próximos passos: validar manualmente OBS minimizado/na bandeja e investigar a falha de clima. Detalhes em `docs/CORRECAO-APPS-SEGUNDO-PLANO.md`.
+
 Última atualização: 7 de outubro de 2026.
 
 ## Estado atual

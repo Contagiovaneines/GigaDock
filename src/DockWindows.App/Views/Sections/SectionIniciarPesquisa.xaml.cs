@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -76,5 +78,46 @@ public partial class SectionIniciarPesquisa : UserControl
             vm.TextoFiltroLaunchpad = string.Empty;
         }
         TxtBuscaLaunchpad?.Focus();
+    }
+
+    private void DesligarPc_Click(object sender, RoutedEventArgs e) => SolicitarEnergia(false);
+
+    private void ReiniciarPc_Click(object sender, RoutedEventArgs e) => SolicitarEnergia(true);
+
+    private async void SolicitarEnergia(bool reiniciar)
+    {
+        var acao = reiniciar ? "Reiniciar" : "Desligar";
+        if (DataContext is MainViewModel vm) vm.MenuIniciarAberto = false;
+        if (MessageBox.Show($"{acao} o computador agora? Salve seus arquivos antes de continuar.",
+            $"{acao} PC", MessageBoxButton.YesNo, MessageBoxImage.Question,
+            MessageBoxResult.No) != MessageBoxResult.Yes) return;
+
+        try
+        {
+            var executavel = Path.Combine(Environment.SystemDirectory, "shutdown.exe");
+            if (!File.Exists(executavel)) throw new FileNotFoundException("O comando de energia do Windows não foi encontrado.");
+            var inicio = new ProcessStartInfo(executavel)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardError = true
+            };
+            inicio.ArgumentList.Add(reiniciar ? "/r" : "/s");
+            // /t 0 evita o fechamento forçado implícito em prazos maiores que zero.
+            inicio.ArgumentList.Add("/t");
+            inicio.ArgumentList.Add("0");
+            using var processo = Process.Start(inicio);
+            if (processo == null) throw new InvalidOperationException("Não foi possível iniciar o comando de energia.");
+            var erro = await processo.StandardError.ReadToEndAsync();
+            await processo.WaitForExitAsync();
+            if (processo.ExitCode != 0)
+                MessageBox.Show($"O Windows não conseguiu {acao.ToLowerInvariant()} o computador. {erro.Trim()}",
+                    "Energia do computador", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or IOException or InvalidOperationException or UnauthorizedAccessException)
+        {
+            MessageBox.Show($"Não foi possível {acao.ToLowerInvariant()} o computador. {ex.Message}",
+                "Energia do computador", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 }

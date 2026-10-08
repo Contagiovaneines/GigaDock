@@ -15,6 +15,7 @@ public interface IWindowTrackingService : IDisposable
     void Iniciar();
     void Parar();
     bool AtivarJanela(IntPtr hWnd);
+    bool AtivarAplicativoEmExecucao(string caminhoExecutavel) => false;
     bool MinimizarJanela(IntPtr hWnd);
     bool FecharJanela(IntPtr hWnd);
 }

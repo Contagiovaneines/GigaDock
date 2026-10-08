@@ -1423,8 +1423,6 @@ public bool ExibirLixeira
             AplicativosSegundoPlano.Clear();
             foreach (var info in encontrados)
             {
-                var appDock = Aplicativos.FirstOrDefault(a =>
-                    string.Equals(IconExtractionService.ResolverCaminhoCompleto(a.CaminhoExecutavel), info.CaminhoExecutavel, StringComparison.OrdinalIgnoreCase));
                 var icone = info.JanelaPrincipal != IntPtr.Zero ? _iconService.ObterIconeJanela(info.JanelaPrincipal) : null;
                 icone ??= _iconService.ObterIcone(info.ReferenciaIcone ?? info.CaminhoExecutavel, TipoItem.Aplicativo);
                 icone ??= _iconService.ObterIcone(info.CaminhoExecutavel, TipoItem.Aplicativo);
@@ -1434,14 +1432,11 @@ public bool ExibirLixeira
                     () =>
                     {
                         PainelAppsSegundoPlanoAberto = false;
-                        if (info.JanelaPrincipal != IntPtr.Zero && _windowTrackingService.AtivarJanela(info.JanelaPrincipal)) { }
-                        else if (appDock?.EstaAberto == true) appDock.ClicarCommand.Execute(null);
-                        else
-                        {
-                            var caminhoAbertura = info.ReferenciaIcone ?? info.CaminhoExecutavel;
-                            var resultado = _launcher.ExecutarCaminho(caminhoAbertura);
-                            if (!resultado.Sucesso) MostrarAlerta?.Invoke("Não foi possível abrir", resultado.MensagemErro ?? info.Nome);
-                        }
+                        // Atualiza a busca no clique, inclusive para janelas ocultas na bandeja.
+                        // Esta lista representa processos em execução: nunca iniciar outra instância.
+                        if (!_windowTrackingService.AtivarAplicativoEmExecucao(info.CaminhoExecutavel))
+                            MostrarAlerta?.Invoke("Não foi possível mostrar o aplicativo",
+                                $"Não foi possível trazer {info.Nome} para frente. Abra pelo ícone na bandeja do Windows. Se ele já foi encerrado, abra pelo atalho fixado.");
                     }));
             }
         }

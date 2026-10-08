@@ -405,6 +405,30 @@ public class Win32WindowTrackingService : IWindowTrackingService
         return lista;
     }
 
+    public bool AtivarAplicativoEmExecucao(string caminhoExecutavel)
+    {
+        if (string.IsNullOrWhiteSpace(caminhoExecutavel) || !Path.IsPathFullyQualified(caminhoExecutavel)) return false;
+        var candidatas = new List<IntPtr>();
+        EnumWindows((hwnd, _) =>
+        {
+            GetWindowThreadProcessId(hwnd, out uint pid);
+            if (pid == Environment.ProcessId ||
+                !string.Equals(ObterCaminhoProcesso(pid), caminhoExecutavel, StringComparison.OrdinalIgnoreCase)) return true;
+            // Inclui janelas ocultas, mas evita auxiliares e janelas de outros desktops virtuais.
+            var estilo = (long)GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+            if ((estilo & WS_EX_TOOLWINDOW) != 0 || GetWindow(hwnd, GW_OWNER) != IntPtr.Zero ||
+                string.IsNullOrWhiteSpace(ObterTextoJanela(hwnd))) return true;
+            DwmGetWindowAttribute(hwnd, DWMWA_CLOAKED, out int cloaked, sizeof(int));
+            if (cloaked != 0) return true;
+            if (IsWindowVisible(hwnd)) candidatas.Insert(0, hwnd);
+            else candidatas.Add(hwnd);
+            return true;
+        }, IntPtr.Zero);
+        foreach (var hwnd in candidatas)
+            if (AtivarJanela(hwnd)) return true;
+        return false;
+    }
+
     private static bool EhJanelaValida(IntPtr hWnd, int meuPid)
     {
         if (!IsWindowVisible(hWnd)) return false;
@@ -509,7 +533,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
             // O clique do usuário na dock permite a transferência de primeiro plano.
             keybd_event(0, 0, 0, 0);
             SetForegroundWindow(hWnd);
-            return GetForegroundWindow() == hWnd || !IsIconic(hWnd);
+            return GetForegroundWindow() == hWnd;
         }
         catch
         {

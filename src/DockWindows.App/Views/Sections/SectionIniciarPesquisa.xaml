@@ -8,6 +8,15 @@
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>
         <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        <Style x:Key="BotaoEnergia" TargetType="Button">
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Margin" Value="6,0,0,0"/>
+            <Setter Property="Background" Value="#18FFFFFF"/>
+            <Setter Property="Foreground" Value="#CBD5E1"/>
+            <Setter Property="BorderBrush" Value="#40FFFFFF"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -260,11 +269,31 @@
                     <!-- Linha 3: Barra de Ações Rápidas (Rodapé) -->
                     <Border Grid.Row="3" Margin="0,12,0,0" Padding="0,10,0,0" BorderThickness="0,1,0,0" BorderBrush="#25FFFFFF">
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+                            <WrapPanel Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0,8,0,0">
+                                <Button Style="{StaticResource BotaoEnergia}" Click="DesligarPc_Click"
+                                        AutomationProperties.Name="Desligar computador" ToolTip="Desligar o computador">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7E8;" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Desligar PC"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{StaticResource BotaoEnergia}" Click="ReiniciarPc_Click"
+                                        AutomationProperties.Name="Reiniciar computador" ToolTip="Reiniciar o computador">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE777;" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Reiniciar PC"/>
+                                    </StackPanel>
+                                </Button>
+                            </WrapPanel>
 
                                                         <!-- Ações à esquerda: Ajustes e Explorador -->
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
