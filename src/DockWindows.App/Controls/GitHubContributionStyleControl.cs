@@ -82,7 +82,7 @@ public sealed class GitHubContributionStyleControl : FrameworkElement
     private void ItemAlterado(object? sender, PropertyChangedEventArgs e) => InvalidateVisual();
 
     protected override Size MeasureOverride(Size availableSize) =>
-        Estilo == "resumo-anual" ? new Size(286, 66) : new Size(82, 66);
+        Estilo == "resumo-anual" ? new Size(286, 68) : new Size(82, 68);
 
     protected override void OnRender(DrawingContext dc)
     {

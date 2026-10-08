@@ -31,7 +31,8 @@
             <controls:GitHubContributionStyleControl ItemsSource="{Binding GitHub.Contribuicoes}"
                                                      Total="{Binding GitHub.TotalContribuicoes}"
                                                      Estilo="{Binding GitHub.Estilo}"
-                                                     ToolTip="{Binding GitHub.ResumoCompleto}"/>
+                                                     ToolTip="{Binding GitHub.ResumoCompleto}"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         </Border>
     </Grid>
