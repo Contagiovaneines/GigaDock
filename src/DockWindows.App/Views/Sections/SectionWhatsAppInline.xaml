@@ -6,7 +6,7 @@
     <UserControl.Resources><conv:BooleanToVisibilityConverter x:Key="BoolToVis"/></UserControl.Resources>
     <Grid Visibility="{Binding WhatsApp.Habilitado, Converter={StaticResource BoolToVis}}">
         <Border CornerRadius="12" Padding="8,0" Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="{Binding WhatsApp.DescricaoIntegracao}">
-            <Border.ContextMenu><ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}"><MenuItem Header="Testar alerta neon (verde)" Command="{Binding WhatsApp.TestarAlertaCommand}"/></ContextMenu></Border.ContextMenu>
+
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding WhatsApp.AbrirAppCommand}"/>
             </Border.InputBindings>

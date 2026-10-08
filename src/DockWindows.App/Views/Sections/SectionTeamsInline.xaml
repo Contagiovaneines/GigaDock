@@ -12,11 +12,7 @@
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Teams.AbrirAppCommand}"/>
             </Border.InputBindings>
-                        <Border.ContextMenu>
-                <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                    <MenuItem Header="Testar Alerta de Reunião (Roxo)" Command="{Binding Teams.TestarAlertaCommand}"/>
-                </ContextMenu>
-            </Border.ContextMenu>
+
             <Border.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/></Border.Effect>
             <Border CornerRadius="8" Background="#4A448C" MinHeight="36" Padding="12,0,16,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">

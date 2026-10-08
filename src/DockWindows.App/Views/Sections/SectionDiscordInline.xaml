@@ -12,11 +12,7 @@
             <Border.InputBindings>
                 <MouseBinding MouseAction="LeftClick" Command="{Binding Discord.AbrirAppCommand}"/>
             </Border.InputBindings>
-                        <Border.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Testar Alerta de Voz (Azul)" Command="{Binding Discord.TestarAlertaCommand}"/>
-                </ContextMenu>
-            </Border.ContextMenu>
+
             <Border.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="2" Opacity="0.3" Color="Black"/></Border.Effect>
             <Border CornerRadius="8" Background="#5865F2" MinHeight="36" Padding="12,0,16,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
