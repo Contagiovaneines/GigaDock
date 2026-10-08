@@ -338,8 +338,6 @@
         <!-- WIDGET: GITHUB -->
         <local:SectionGitHubInline Visibility="{Binding GitHub.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>
 
-        <local:SectionMascotePokemonInline Visibility="{Binding MascotePokemon.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>
-
                 <!-- WIDGET: MONITOR -->
         <local:SectionMonitorInline Visibility="{Binding MonitorSistema.Habilitado, Converter={StaticResource BoolToVis}}" Margin="2,0"/>
         

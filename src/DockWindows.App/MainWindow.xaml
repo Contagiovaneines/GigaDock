@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:DockWindows.App.Converters"
         xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
+        xmlns:sections="clr-namespace:DockWindows.App.Views.Sections"
         Icon="Assets/gigadock.ico"
         Title="GigaDock"
         WindowStyle="None"
@@ -135,7 +136,13 @@
     </Window.Resources>
 
     <!-- Container geral com margem compacta para renderizar o DropShadow suavemente -->
-          <Grid Margin="{Binding MargemDock}" Name="MainGrid">
+    <StackPanel Margin="{Binding MargemDock}" Name="MainGrid" VerticalAlignment="Bottom">
+        
+        <!-- Mascote flutuando livremente ACIMA da Dock -->
+        <sections:SectionMascotePokemonInline Visibility="{Binding MascotePokemon.Habilitado, Converter={StaticResource BoolToVis}}"
+                                              HorizontalAlignment="Center" Margin="0,0,0,2" />
+                                              
+        <Grid>
           
           <!-- OVERLAY DE ALERTA (PISCA QUANDO RECEBE CHAMADA/MSG) -->
           <Border x:Name="GlowAlertBorder" CornerRadius="{Binding RaioCantosDock}"
@@ -301,6 +308,7 @@
             <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding EstaEmAlerta}" Value="True"/><Condition Binding="{Binding VisualAtivo}" Value="True"/></MultiDataTrigger.Conditions><Setter Property="Visibility" Value="Visible"/></MultiDataTrigger></Style.Triggers></Style></Border.Style>
         </Border>
     </Grid>
+    </StackPanel>
 </Window>
 
 
