@@ -1,0 +1,1361 @@
+[
+  {
+    "id": 1,
+    "name": "Bulbasaur",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0001/Walk-Anim.png",
+    "sha256": "84e8e7a58f68204a47f990becc7e8c324e486e5127557261e8ccbe55e9e979b2"
+  },
+  {
+    "id": 2,
+    "name": "Ivysaur",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0002/Walk-Anim.png",
+    "sha256": "294de55669bceca7e4c0904ce5f41203368c0f24261cedae09ed699cd2002576"
+  },
+  {
+    "id": 3,
+    "name": "Venusaur",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0003/Walk-Anim.png",
+    "sha256": "53547ad2b27a60f270a9cd698ab53fe55df8352d6ebc54fecae955362d8563c3"
+  },
+  {
+    "id": 4,
+    "name": "Charmander",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0004/Walk-Anim.png",
+    "sha256": "3e120c93b743fe30d10766114d54e230e851a43e4ffc174bcb7eb424a452a05a"
+  },
+  {
+    "id": 5,
+    "name": "Charmeleon",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0005/Walk-Anim.png",
+    "sha256": "851542353e3b77af75abde27abd0f4f9cafc8e025c6b0351d2230f2a14e9c54e"
+  },
+  {
+    "id": 6,
+    "name": "Charizard",
+    "mode": "flying",
+    "animation": "Idle",
+    "sourceAnimation": "Idle",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0006/Idle-Anim.png",
+    "sha256": "ceeb33e0db05817c2566e964d7b2264d0fb8fdecd480f7245faeafc864bc0d9b"
+  },
+  {
+    "id": 7,
+    "name": "Squirtle",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0007/Walk-Anim.png",
+    "sha256": "0e71a8bf34299cf73e59eccebc0b9fc16dfb9bd9554d8009b2323c8e3c00504f"
+  },
+  {
+    "id": 8,
+    "name": "Wartortle",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0008/Walk-Anim.png",
+    "sha256": "215892752dc98e5039fbe67d25c06ebe041d1ba9d7189ec329d4f998cc7e95dd"
+  },
+  {
+    "id": 9,
+    "name": "Blastoise",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0009/Walk-Anim.png",
+    "sha256": "90074aa6cea5dc4fd11a5ca2bd756f71d83798e2efc346d8d609907489f70350"
+  },
+  {
+    "id": 10,
+    "name": "Caterpie",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0010/Walk-Anim.png",
+    "sha256": "7f19cdd3ec4c88795243999b3f090aa2192c87f5c4399d491ac473908ca09a06"
+  },
+  {
+    "id": 11,
+    "name": "Metapod",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0011/Walk-Anim.png",
+    "sha256": "4345551b61fdc6e7b3c881fbc983e49c6ca2e69a01f4083b8d7d7d8735857a34"
+  },
+  {
+    "id": 12,
+    "name": "Butterfree",
+    "mode": "flying",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0012/Walk-Anim.png",
+    "sha256": "36da453a32e920275d475f669d3e58ece66f5dffda5f95c998b0aac660819ad5"
+  },
+  {
+    "id": 13,
+    "name": "Weedle",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0013/Walk-Anim.png",
+    "sha256": "b7001ca5de802874a0777663f7c1a846e824937d73b6ee68b328410d719b3969"
+  },
+  {
+    "id": 14,
+    "name": "Kakuna",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0014/Walk-Anim.png",
+    "sha256": "5e959aa36cf5217424f86140ca15d2df28869522167f9f01584300e459563baf"
+  },
+  {
+    "id": 15,
+    "name": "Beedrill",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Hover",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0015/Hover-Anim.png",
+    "sha256": "99bbd6c38b03f57e4462f1fe238c1d82a27e75e2e74f63981344bea5483696cf"
+  },
+  {
+    "id": 16,
+    "name": "Pidgey",
+    "mode": "flying",
+    "animation": "Float",
+    "sourceAnimation": "Float",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0016/Float-Anim.png",
+    "sha256": "0a5c0d8a08231e1d39f0ecdd788492fed2761a88cff44de780d536481423dc88"
+  },
+  {
+    "id": 17,
+    "name": "Pidgeotto",
+    "mode": "flying",
+    "animation": "FlapAround",
+    "sourceAnimation": "FlapAround",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0017/FlapAround-Anim.png",
+    "sha256": "7a8ae55d78a4201bf6b2ed863e30c68d69fbe7d5a1f1997d16a4beec17e07b50"
+  },
+  {
+    "id": 18,
+    "name": "Pidgeot",
+    "mode": "flying",
+    "animation": "FlapAround",
+    "sourceAnimation": "FlapAround",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0018/FlapAround-Anim.png",
+    "sha256": "16aa0f197ae43493cac653c39d8eabcb5aa6e218e9b048829a101e253396d36e"
+  },
+  {
+    "id": 19,
+    "name": "Rattata",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0019/Walk-Anim.png",
+    "sha256": "45f20530831dd09046c2c9ac42a6322eaea6c63427e723940b798f5ba89374ed"
+  },
+  {
+    "id": 20,
+    "name": "Raticate",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0020/Walk-Anim.png",
+    "sha256": "0625cf3772af91cf2e2c15ecce28a62383535821322f8dfca707688605bc2d0c"
+  },
+  {
+    "id": 21,
+    "name": "Spearow",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Hover",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0021/Hover-Anim.png",
+    "sha256": "6679c0bfbfc88c0283541b686ceb43e41cfbf237f168f49e8bad3db6dd894d7a"
+  },
+  {
+    "id": 22,
+    "name": "Fearow",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Hover",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0022/Hover-Anim.png",
+    "sha256": "9dd00b23ac31d94698c2efdead04daf165961bcedf2ac7cc7b8a1ca9057b1af8"
+  },
+  {
+    "id": 23,
+    "name": "Ekans",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0023/Walk-Anim.png",
+    "sha256": "d26bc40b46f724c41fed8e4280015b28d0ee54379161b5bfe32fc9632c0b72da"
+  },
+  {
+    "id": 24,
+    "name": "Arbok",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0024/Walk-Anim.png",
+    "sha256": "1c9de0c53d3391b3181e0c07b9be77f9b48696797512f7a86deda8bc58745607"
+  },
+  {
+    "id": 25,
+    "name": "Pikachu",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0025/Walk-Anim.png",
+    "sha256": "5cfc2c775708c28c11f98e027e883261ab3ae4276e51621eec11c979598651f9"
+  },
+  {
+    "id": 26,
+    "name": "Raichu",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0026/Walk-Anim.png",
+    "sha256": "6526184cf16f5b97a1fc2d051e423f96b83843e2bf052ac9b1f1b12f90c90a70"
+  },
+  {
+    "id": 27,
+    "name": "Sandshrew",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0027/Walk-Anim.png",
+    "sha256": "23fc8ce093564ac34e54c1fe41b185c93364c35a3e6ff37c1583c47c9ae02e99"
+  },
+  {
+    "id": 28,
+    "name": "Sandslash",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0028/Walk-Anim.png",
+    "sha256": "1b6012d1d07e8b6821e702df9d6308f14b67c21cb0bddfefd797b4c4fb5bb1aa"
+  },
+  {
+    "id": 29,
+    "name": "Nidoran♀",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0029/Walk-Anim.png",
+    "sha256": "dc18d551e31e96fa2c73461c052c243a621df088e54e93c978ba876e8cb20c42"
+  },
+  {
+    "id": 30,
+    "name": "Nidorina",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0030/Walk-Anim.png",
+    "sha256": "888554895442c52fdf986d5ecef69ae4287ee78784650d24eb6c297a8794b74e"
+  },
+  {
+    "id": 31,
+    "name": "Nidoqueen",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0031/Walk-Anim.png",
+    "sha256": "f487e5b74299137a435e5c9004046748afc33f634a4244d6505e8b9cd7672cdb"
+  },
+  {
+    "id": 32,
+    "name": "Nidoran♂",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0032/Walk-Anim.png",
+    "sha256": "526d8779bf170b841fde3b324b17b83d4bc0ddc70fb46b07b6b911060ecc1ee7"
+  },
+  {
+    "id": 33,
+    "name": "Nidorino",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0033/Walk-Anim.png",
+    "sha256": "d2c4945944b04c29026d3c9423e41d384052d750ab0b8d6cb962e307b0dd4f22"
+  },
+  {
+    "id": 34,
+    "name": "Nidoking",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0034/Walk-Anim.png",
+    "sha256": "47e73a0dbadc870b3dba8ac816b1e43f0359aba2797bef2569883894793cef5c"
+  },
+  {
+    "id": 35,
+    "name": "Clefairy",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0035/Walk-Anim.png",
+    "sha256": "44f655d401567a7b9e409078d1b104eca91143efe9144f86c35bae94b5c8a83d"
+  },
+  {
+    "id": 36,
+    "name": "Clefable",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0036/Walk-Anim.png",
+    "sha256": "7e72c95984fc4eab6f8f016cc6ec446bba33e7c404569c800f4cef304ea38939"
+  },
+  {
+    "id": 37,
+    "name": "Vulpix",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0037/Walk-Anim.png",
+    "sha256": "e2d911614423ffa3675f60d653d947394d5a587cf53a688cd13ab3322c157925"
+  },
+  {
+    "id": 38,
+    "name": "Ninetales",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0038/Walk-Anim.png",
+    "sha256": "905e6511666f0be13efc3317d4b95653085eac09698a8d05e1e39ee989f47ea4"
+  },
+  {
+    "id": 39,
+    "name": "Jigglypuff",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0039/Walk-Anim.png",
+    "sha256": "ac5b6bcd172e6dbf6c6dd9978d4b69c093f6d540f9fa41050212c6aa3946f21c"
+  },
+  {
+    "id": 40,
+    "name": "Wigglytuff",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0040/Walk-Anim.png",
+    "sha256": "ed5b6fc945882e49ba701043497d2e897f222e716b0979c34d4eb0d5d1cf17ab"
+  },
+  {
+    "id": 41,
+    "name": "Zubat",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Shoot",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0041/Shoot-Anim.png",
+    "sha256": "fe28f5f4c548d741c8f8685f529f8901fcf3ee4ac2c14e020552e973b9281008"
+  },
+  {
+    "id": 42,
+    "name": "Golbat",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Hover",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0042/Hover-Anim.png",
+    "sha256": "0713e1ac8f08d491aa840f08be71ec9482faaf7629adbfe394ec8994c282d445"
+  },
+  {
+    "id": 43,
+    "name": "Oddish",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0043/Walk-Anim.png",
+    "sha256": "9d8b24b29c664e9053c98f7712a94d0113e41342e742fab74de482c5304414fb"
+  },
+  {
+    "id": 44,
+    "name": "Gloom",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0044/Walk-Anim.png",
+    "sha256": "127c937837a92d22b9ba31bdc7ea5478626c9b678c8c5e4fd6c2631307c07700"
+  },
+  {
+    "id": 45,
+    "name": "Vileplume",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0045/Walk-Anim.png",
+    "sha256": "259f42559a1592fbdf43e0c6da1730ed972aaecb0b5411024a2b7644db581e1e"
+  },
+  {
+    "id": 46,
+    "name": "Paras",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0046/Walk-Anim.png",
+    "sha256": "2b56f3d2a80c70c2dc2a6aa0802619576a8e4878c75afe537e9fc754747a023f"
+  },
+  {
+    "id": 47,
+    "name": "Parasect",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0047/Walk-Anim.png",
+    "sha256": "3fbb6c4ce9265c45239473c70b9fa553cbd88d43a2ed9f02d9482268a66347d6"
+  },
+  {
+    "id": 48,
+    "name": "Venonat",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0048/Walk-Anim.png",
+    "sha256": "9b7e93c8acec93568a9f2903dabd516156a037d9dc33ee8759b8701792330fa8"
+  },
+  {
+    "id": 49,
+    "name": "Venomoth",
+    "mode": "flying",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0049/Walk-Anim.png",
+    "sha256": "9559743a995b53e68a0d8013ced72a472de0fe5e838ee0b1582a4b264c5645cf"
+  },
+  {
+    "id": 50,
+    "name": "Diglett",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0050/Walk-Anim.png",
+    "sha256": "d739b65aae070b3f20df30d8a9fb85247b93a339bcb435788963052e5a271407"
+  },
+  {
+    "id": 51,
+    "name": "Dugtrio",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0051/Walk-Anim.png",
+    "sha256": "f1eef631a009942eb8cc4db126a95797971f60231bce21c972968690a6824432"
+  },
+  {
+    "id": 52,
+    "name": "Meowth",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0052/Walk-Anim.png",
+    "sha256": "c58d87c7bc111288963f7df341e7c38f444908104859810bc505107212cc6eb9"
+  },
+  {
+    "id": 53,
+    "name": "Persian",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0053/Walk-Anim.png",
+    "sha256": "8a4a16f4409b34514adebc153ebb63d96bad812d5a9a0dc9cd090806c48969b0"
+  },
+  {
+    "id": 54,
+    "name": "Psyduck",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0054/Walk-Anim.png",
+    "sha256": "890be68026823e8c9807c5978d7420665bac67db0f7f5126a30bbf4c1ce9611e"
+  },
+  {
+    "id": 55,
+    "name": "Golduck",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0055/Walk-Anim.png",
+    "sha256": "58e50d7f4b3f8999cc49e0399f3875f20b7bc73828df0210776fb77bc43f8cd4"
+  },
+  {
+    "id": 56,
+    "name": "Mankey",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0056/Walk-Anim.png",
+    "sha256": "a88e9011f7aa2e62b3f1893924fd7d89ce1eef19a46bfe39ce07ab90f5ac6e15"
+  },
+  {
+    "id": 57,
+    "name": "Primeape",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0057/Walk-Anim.png",
+    "sha256": "6c852396b8c378864b82214ae78ea8f40710b3a18d7add5a0f6ffe4eed04424d"
+  },
+  {
+    "id": 58,
+    "name": "Growlithe",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0058/Walk-Anim.png",
+    "sha256": "eefaea9bf9241ced7639e6adb976e8ccbc5b2ecac2fa3e1e37708e290302f529"
+  },
+  {
+    "id": 59,
+    "name": "Arcanine",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0059/Walk-Anim.png",
+    "sha256": "334750447c22099cf87fc6cf7804f4490bb47f87581c5134a05c0998aeb4537e"
+  },
+  {
+    "id": 60,
+    "name": "Poliwag",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0060/Walk-Anim.png",
+    "sha256": "b4a9006f9a2afa2f69ddb34b85de1c636f6024b97eabfad9a0ce29188b6bd1e3"
+  },
+  {
+    "id": 61,
+    "name": "Poliwhirl",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0061/Walk-Anim.png",
+    "sha256": "8482ee9bb2e530f56fcd37d3a0d6265640f5e1016d33a59b5aa3cc78262e9aed"
+  },
+  {
+    "id": 62,
+    "name": "Poliwrath",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0062/Walk-Anim.png",
+    "sha256": "df824077d96c0196ff3e167eaf26c1c2ac4273d695eae7591440cdd6e1755eff"
+  },
+  {
+    "id": 63,
+    "name": "Abra",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0063/Walk-Anim.png",
+    "sha256": "53dc06585a45660cda943823aa481d5bff82543128b3577b057bebb01cf3b83d"
+  },
+  {
+    "id": 64,
+    "name": "Kadabra",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0064/Walk-Anim.png",
+    "sha256": "ec6f1200ff54bafdd2bccfc1aa224c7ef1326d4bbb753564efebb7a6b31fdae8"
+  },
+  {
+    "id": 65,
+    "name": "Alakazam",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0065/Walk-Anim.png",
+    "sha256": "472a6e8e1517ff6ddc6ae027d90d34d580cfc3acd57363c4907de959c2e37c0c"
+  },
+  {
+    "id": 66,
+    "name": "Machop",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0066/Walk-Anim.png",
+    "sha256": "59f4ecd71b27453edeaa570032b13785d4a4c56108b947ccdcf19ea77331bf83"
+  },
+  {
+    "id": 67,
+    "name": "Machoke",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0067/Walk-Anim.png",
+    "sha256": "deaab61e394346ea58351e299706a2748c6e750055c18948b80551253004b152"
+  },
+  {
+    "id": 68,
+    "name": "Machamp",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0068/Walk-Anim.png",
+    "sha256": "e169fb82de0226d8abfbc73e6b837af41cfb19347f71943bea804dfe5fc6120f"
+  },
+  {
+    "id": 69,
+    "name": "Bellsprout",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0069/Walk-Anim.png",
+    "sha256": "fb97696bc3e3614d83f651723cdc8525d155a39f10b33f4de52aaa9cc5f93e93"
+  },
+  {
+    "id": 70,
+    "name": "Weepinbell",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0070/Walk-Anim.png",
+    "sha256": "5ffeaf5af6a0e4180d52c82f2c005f67e85bb0c4b0df82f295b402c8a0c5f6b1"
+  },
+  {
+    "id": 71,
+    "name": "Victreebel",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0071/Walk-Anim.png",
+    "sha256": "dfe143633931a28f6fcb22b2857875e40968ba068b3949fdfdc4bbb1f1a4de64"
+  },
+  {
+    "id": 72,
+    "name": "Tentacool",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0072/Walk-Anim.png",
+    "sha256": "91449da3edb0b17d94d1d7cd2a5c32812438859077f9cb7de0f58a709291da29"
+  },
+  {
+    "id": 73,
+    "name": "Tentacruel",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0073/Walk-Anim.png",
+    "sha256": "64be4736f766def612d9761bc03d4afbb64ffe1bed4e37b47d5fa7a8ce2c4e10"
+  },
+  {
+    "id": 74,
+    "name": "Geodude",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0074/Walk-Anim.png",
+    "sha256": "a0d4753f962a93ee469bfb66e3a0acd8799f5d0a989f1527397689470384e0b2"
+  },
+  {
+    "id": 75,
+    "name": "Graveler",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0075/Walk-Anim.png",
+    "sha256": "998b9819389dd9a56b6d6bbc3d1c388b0dcb805f601488cee3d2a8ca926e3f7b"
+  },
+  {
+    "id": 76,
+    "name": "Golem",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0076/Walk-Anim.png",
+    "sha256": "b90f014a4a216feab9af0d149d1517930070dadb15c65316e4d55a7ab8d62ddc"
+  },
+  {
+    "id": 77,
+    "name": "Ponyta",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0077/Walk-Anim.png",
+    "sha256": "1e6b41df7b572f46d4faaf7a361cb674d7d8f39f7e16632cbfd5d0b02f7cb247"
+  },
+  {
+    "id": 78,
+    "name": "Rapidash",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0078/Walk-Anim.png",
+    "sha256": "61880189382705dcf971baee5b4b7ce8acdf63c7ce89dfc4ae259f752b118cf0"
+  },
+  {
+    "id": 79,
+    "name": "Slowpoke",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0079/Walk-Anim.png",
+    "sha256": "8f9c17c5b5d04759e782036ccbec76eeafed3effd0f46d88565f1ab2460fa684"
+  },
+  {
+    "id": 80,
+    "name": "Slowbro",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0080/Walk-Anim.png",
+    "sha256": "55efb36975eb95833c98a4ccc7614072c8985db884844c5502ae6d3d0676fc6b"
+  },
+  {
+    "id": 81,
+    "name": "Magnemite",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0081/Walk-Anim.png",
+    "sha256": "680523289171c5ca6e3719ad814c8fd1759899c8119e74b8c7a232a0cc13d3a2"
+  },
+  {
+    "id": 82,
+    "name": "Magneton",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0082/Walk-Anim.png",
+    "sha256": "3dbe328636fb0eeccbae97caba35474e8c26520304e157719c8acedac2cbdc89"
+  },
+  {
+    "id": 83,
+    "name": "Farfetch’d",
+    "mode": "flying",
+    "animation": "Idle",
+    "sourceAnimation": "Idle",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0083/Idle-Anim.png",
+    "sha256": "2f75ab73c640d52d0e43f7fd62e4734074bd6b46d765243068c223a93befb8fc"
+  },
+  {
+    "id": 84,
+    "name": "Doduo",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0084/Walk-Anim.png",
+    "sha256": "a12e3fdf5cad21578c06fd68981b0a4e7736714f15712c14a491b04f02ec0d4c"
+  },
+  {
+    "id": 85,
+    "name": "Dodrio",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0085/Walk-Anim.png",
+    "sha256": "06f0b6c6f0ff745a17e91cc158a0e31ef2e662d8e8b91a0ab23228fae86e6f22"
+  },
+  {
+    "id": 86,
+    "name": "Seel",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0086/Walk-Anim.png",
+    "sha256": "0ef2ef8ddfd94ea4288b3f60b6b22150303d0c1d507a78ddf9e88a40639f4630"
+  },
+  {
+    "id": 87,
+    "name": "Dewgong",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0087/Walk-Anim.png",
+    "sha256": "430faf06842395392366a12653e827756b785910ba04f53be2b36944efc5954a"
+  },
+  {
+    "id": 88,
+    "name": "Grimer",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0088/Walk-Anim.png",
+    "sha256": "e6279af25a648c8a36bbc4448d11c04f46ce2c6fab94a56b4d3344c5b1acc421"
+  },
+  {
+    "id": 89,
+    "name": "Muk",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0089/Walk-Anim.png",
+    "sha256": "50db24ccced618d830da80648a9b378744930a7207025458b94ddf7f784cc03c"
+  },
+  {
+    "id": 90,
+    "name": "Shellder",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0090/Walk-Anim.png",
+    "sha256": "c033f6fd20fe4f2815febc439d31f112ee84c856d750f2dc2c76a1d3cedb8e97"
+  },
+  {
+    "id": 91,
+    "name": "Cloyster",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0091/Walk-Anim.png",
+    "sha256": "18041ab9c58b8d7a623f99a29085300a1bca99dfabde8a93cb45f8e165f04074"
+  },
+  {
+    "id": 92,
+    "name": "Gastly",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0092/Walk-Anim.png",
+    "sha256": "d60535fae6d2d131c6ba5d75a776446753eef826d956a3827172631d4ed5878f"
+  },
+  {
+    "id": 93,
+    "name": "Haunter",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0093/Walk-Anim.png",
+    "sha256": "d53ebfe1a9e6a736663b63e7f5c8bc699e9d7632d2d1f10d619a62ca3e50f326"
+  },
+  {
+    "id": 94,
+    "name": "Gengar",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0094/Walk-Anim.png",
+    "sha256": "be39dae12dae3715a3328628c4c6bc542fc9805d483e877d420d8dac31279a0d"
+  },
+  {
+    "id": 95,
+    "name": "Onix",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0095/Walk-Anim.png",
+    "sha256": "f6a619b7f34f8dab42165d9f1a61b92113f42675d175c6d75ccdf7c68acf03b0"
+  },
+  {
+    "id": 96,
+    "name": "Drowzee",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0096/Walk-Anim.png",
+    "sha256": "b7fc0638cb6fc11bb3f447793c42108ca625c78ef1cd9a6c26777479423db100"
+  },
+  {
+    "id": 97,
+    "name": "Hypno",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0097/Walk-Anim.png",
+    "sha256": "c7538797051ab93c012b60a9573459ddb5d78cc3e328a8fe78a4aaff725792d0"
+  },
+  {
+    "id": 98,
+    "name": "Krabby",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0098/Walk-Anim.png",
+    "sha256": "ec5ad124f4d26c25010694a05ec0f092faaddf58568eb0e0bb429161eb0d7fc7"
+  },
+  {
+    "id": 99,
+    "name": "Kingler",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0099/Walk-Anim.png",
+    "sha256": "cf123ec7cd029afc721d179537d55f788fb868132f4a55bd0afd9c02b8de8d30"
+  },
+  {
+    "id": 100,
+    "name": "Voltorb",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0100/Walk-Anim.png",
+    "sha256": "d3a33aeb5b4f150932fd782a6b9019907aa443c223107a67b82e2c116e2b8e4c"
+  },
+  {
+    "id": 101,
+    "name": "Electrode",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0101/Walk-Anim.png",
+    "sha256": "c02d24fb693354bde6ea34fb7a618ebdca7d4ad975ea13fbe3f554aad42edca1"
+  },
+  {
+    "id": 102,
+    "name": "Exeggcute",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0102/Walk-Anim.png",
+    "sha256": "8b82a76f6d7a5f7cc7da507c18e98c74d30c05c7f726301aa350beaf8da6547f"
+  },
+  {
+    "id": 103,
+    "name": "Exeggutor",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0103/Walk-Anim.png",
+    "sha256": "3531ba64819759990ee721cb19da4612d8f0c859f2c709a93d9edc0d54a59fc3"
+  },
+  {
+    "id": 104,
+    "name": "Cubone",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0104/Walk-Anim.png",
+    "sha256": "839c41d482239230c15e8ce71ed435f219ee7d511663bdd5ad539dc5d540b44b"
+  },
+  {
+    "id": 105,
+    "name": "Marowak",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0105/Walk-Anim.png",
+    "sha256": "d34ef35f038f3a6d2a221f49de21a4eeddb7eefa012d6b38601b5f15563cb5e2"
+  },
+  {
+    "id": 106,
+    "name": "Hitmonlee",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0106/Walk-Anim.png",
+    "sha256": "1582c8851d2ce4fda82e2b3d8a80bbc527963bf99a4a51610b2e4b8bb78038b1"
+  },
+  {
+    "id": 107,
+    "name": "Hitmonchan",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0107/Walk-Anim.png",
+    "sha256": "94bde154fc4658d0bde58ce20e85620d6a8e3d313fced46ea2db07dc5899c877"
+  },
+  {
+    "id": 108,
+    "name": "Lickitung",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0108/Walk-Anim.png",
+    "sha256": "389bcbf62a2c68e4442fd23bf7614b30b6ebd1c34708fff39f65c6f87761fa27"
+  },
+  {
+    "id": 109,
+    "name": "Koffing",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0109/Walk-Anim.png",
+    "sha256": "3fe7938688e8ce24571641f7368294f9661b980027e34ca8dfc35c634b6875ab"
+  },
+  {
+    "id": 110,
+    "name": "Weezing",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0110/Walk-Anim.png",
+    "sha256": "4eae17ff74b7cb4ce8c5bfa07f90c52498e633ebb02197c8377a9b48011779e7"
+  },
+  {
+    "id": 111,
+    "name": "Rhyhorn",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0111/Walk-Anim.png",
+    "sha256": "87a517c14d19693e6f1d7be396803862e32bfa9313e6bff379e92a6b49264333"
+  },
+  {
+    "id": 112,
+    "name": "Rhydon",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0112/Walk-Anim.png",
+    "sha256": "96d89d75637f5d7ae3b5a9ffa3daedb11289255b114ebe8835ed1f988a938ff8"
+  },
+  {
+    "id": 113,
+    "name": "Chansey",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0113/Walk-Anim.png",
+    "sha256": "a8f9da37b1eb801649429a5748e1f84a0b635bc426f74fa7d0c5e10e53561302"
+  },
+  {
+    "id": 114,
+    "name": "Tangela",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0114/Walk-Anim.png",
+    "sha256": "75296e311d1755dcd609307134b546b3003664d0c5152ff67ae495bc59dbbe18"
+  },
+  {
+    "id": 115,
+    "name": "Kangaskhan",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0115/Walk-Anim.png",
+    "sha256": "10e0ad9cb74f27ace544d8e5da162159bb0e0d56f36149754e51034a471d3664"
+  },
+  {
+    "id": 116,
+    "name": "Horsea",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0116/Walk-Anim.png",
+    "sha256": "b08761a8e3db6de7b7ce7742836849b75ac5eb9fd873f287f2a598b4590103a0"
+  },
+  {
+    "id": 117,
+    "name": "Seadra",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0117/Walk-Anim.png",
+    "sha256": "c55092faa8f636ea8b6d2c8ec2f554dded80881a2fecc4cb5598ec93a6ad7c49"
+  },
+  {
+    "id": 118,
+    "name": "Goldeen",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0118/Walk-Anim.png",
+    "sha256": "69c75026e0e876d4dd7d327d52c99cee8e036659f98ab1349006da3378c9654f"
+  },
+  {
+    "id": 119,
+    "name": "Seaking",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0119/Walk-Anim.png",
+    "sha256": "3577ae8c9fb490827210bffa030393b5c1bebc21185fe67af5c154c94e9ca401"
+  },
+  {
+    "id": 120,
+    "name": "Staryu",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0120/Walk-Anim.png",
+    "sha256": "568f454e8ed71d163b22e312652957168c2dcd745dc179f9a1fc97c86208b71d"
+  },
+  {
+    "id": 121,
+    "name": "Starmie",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0121/Walk-Anim.png",
+    "sha256": "d37b87824f6020808cc22de7a3fc6cd6ad76a4d0d0f64e6becef6786118e9fda"
+  },
+  {
+    "id": 122,
+    "name": "Mr. Mime",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0122/Walk-Anim.png",
+    "sha256": "33a6ec7b5718f4577cd9d9bb32bdd15efba96eae5cf86aceea3762bb35806345"
+  },
+  {
+    "id": 123,
+    "name": "Scyther",
+    "mode": "flying",
+    "animation": "Idle",
+    "sourceAnimation": "Idle",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0123/Idle-Anim.png",
+    "sha256": "19c9a0e548f5f137ec1021d9ab7b94526d2db082d06ed3f307e13acd67cbb365"
+  },
+  {
+    "id": 124,
+    "name": "Jynx",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0124/Walk-Anim.png",
+    "sha256": "9dab1114d59d70014ac84234dffd8a95bf9ce5f7f0ad93bbefe250c0290fed42"
+  },
+  {
+    "id": 125,
+    "name": "Electabuzz",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0125/Walk-Anim.png",
+    "sha256": "fcf52d580d4fb59cb359919a6a66261f0f048bec42b177038c198491d255119d"
+  },
+  {
+    "id": 126,
+    "name": "Magmar",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0126/Walk-Anim.png",
+    "sha256": "f9fade19eabc69b55c9e21d675d833f9015687deb9724ab510a96f8736ccfdbb"
+  },
+  {
+    "id": 127,
+    "name": "Pinsir",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0127/Walk-Anim.png",
+    "sha256": "deab8e4a805c79811e9059f325188d3a40534f5d6f3496fb6467bc550f5f8edf"
+  },
+  {
+    "id": 128,
+    "name": "Tauros",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0128/Walk-Anim.png",
+    "sha256": "3f72c1f7d4bb63f6a4a455b9b98d882652c201c81e71ec893bdd46e97c476c8c"
+  },
+  {
+    "id": 129,
+    "name": "Magikarp",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0129/Walk-Anim.png",
+    "sha256": "a1d26b4fbee1da62d6616dc1cbd3dc30330c21017cbb25108864e9a597129ab4"
+  },
+  {
+    "id": 130,
+    "name": "Gyarados",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0130/Walk-Anim.png",
+    "sha256": "7cee3a662c821e98b990151f96b5a7964b95d1a0495f3adbc90e3d1f610739a5"
+  },
+  {
+    "id": 131,
+    "name": "Lapras",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0131/Walk-Anim.png",
+    "sha256": "7f2fac19960cf6ca7683329caff196e8d71e3e41f9ac027b57f38f088c8db9ca"
+  },
+  {
+    "id": 132,
+    "name": "Ditto",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0132/Walk-Anim.png",
+    "sha256": "0e695ed70fa16d5bc32959da2e240a41c8cf8373d0852b7e035d080a723a7e6c"
+  },
+  {
+    "id": 133,
+    "name": "Eevee",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0133/Walk-Anim.png",
+    "sha256": "037329dca93572a20115e679f10a85d4981b7cb961b6c8f0fd9c78745ba98cc0"
+  },
+  {
+    "id": 134,
+    "name": "Vaporeon",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0134/Walk-Anim.png",
+    "sha256": "7664f55b8d717981f49c88e96999686f236ad2a2f2dc9ef496d468737eced3ac"
+  },
+  {
+    "id": 135,
+    "name": "Jolteon",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0135/Walk-Anim.png",
+    "sha256": "f8e5a80569dd52725510cd01c367fe994736b6445726bee46598039abb9a0fda"
+  },
+  {
+    "id": 136,
+    "name": "Flareon",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0136/Walk-Anim.png",
+    "sha256": "58b7008226aa2532baad0b463c1c8feee227ba773247b5ab9c3a63e5b0031912"
+  },
+  {
+    "id": 137,
+    "name": "Porygon",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0137/Walk-Anim.png",
+    "sha256": "cd56599feda21290a7681ff959392050f17f942a9abbeab9a84cd323c140cb56"
+  },
+  {
+    "id": 138,
+    "name": "Omanyte",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0138/Walk-Anim.png",
+    "sha256": "45e96469ff829cec5c1dfcac49849aa03174496f285871dd5a6f61a1da4f9d0f"
+  },
+  {
+    "id": 139,
+    "name": "Omastar",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0139/Walk-Anim.png",
+    "sha256": "2639988dc8c9bfb5ea6040e916f288808c291b6cacd4a74de5a1d390608f6f45"
+  },
+  {
+    "id": 140,
+    "name": "Kabuto",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0140/Walk-Anim.png",
+    "sha256": "97be18709ed5d8f28600b5ab721547ab07e9c2c7d96b4271777885e390bc884e"
+  },
+  {
+    "id": 141,
+    "name": "Kabutops",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0141/Walk-Anim.png",
+    "sha256": "1d769e21fd34e03431397ef521a74bf6c3ad676d14e6cc9b829d28e2b318b9f6"
+  },
+  {
+    "id": 142,
+    "name": "Aerodactyl",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Hover",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0142/Hover-Anim.png",
+    "sha256": "5b4461d6e68a569f84eb473607cbe37079da87a6af97f3e25812ab026ffec85f"
+  },
+  {
+    "id": 143,
+    "name": "Snorlax",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0143/Walk-Anim.png",
+    "sha256": "304247a70ae32ee08cf1927caf71926903d7b67a3e480f15dcd76feb4be801b6"
+  },
+  {
+    "id": 144,
+    "name": "Articuno",
+    "mode": "flying",
+    "animation": "Idle",
+    "sourceAnimation": "Idle",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0144/Idle-Anim.png",
+    "sha256": "14b0ad8cb151d32b2f0cd518b1904181fae4fa85d3058ae3f6763537025bac5e"
+  },
+  {
+    "id": 145,
+    "name": "Zapdos",
+    "mode": "flying",
+    "animation": "Idle",
+    "sourceAnimation": "Idle",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0145/Idle-Anim.png",
+    "sha256": "6e5df7ace5c8d492de5a900c0f0963ce07763d48885e47c1731232025b5598d2"
+  },
+  {
+    "id": 146,
+    "name": "Moltres",
+    "mode": "flying",
+    "animation": "Hover",
+    "sourceAnimation": "Hover",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0146/Hover-Anim.png",
+    "sha256": "1fdedc19bc3a820106369ae381d35a7602357ce8ee2c2634e13cd2906b0bb98c"
+  },
+  {
+    "id": 147,
+    "name": "Dratini",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0147/Walk-Anim.png",
+    "sha256": "5bb7a6f744a19ea2ef1f2bf4200d6d8ec3d6f0eade4932959632c256a1ae88df"
+  },
+  {
+    "id": 148,
+    "name": "Dragonair",
+    "mode": "floating",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0148/Walk-Anim.png",
+    "sha256": "2e51bdec537524d12c392eda7aaa6d8eec1e6afe1e5deb959447f8807c12dd64"
+  },
+  {
+    "id": 149,
+    "name": "Dragonite",
+    "mode": "flying",
+    "animation": "Special0",
+    "sourceAnimation": "Special0",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0149/Special0-Anim.png",
+    "sha256": "0523a2996735895e399c5c2fdb97f75d17f6d4301d1fb27e3872185a37877c0e"
+  },
+  {
+    "id": 150,
+    "name": "Mewtwo",
+    "mode": "ground",
+    "animation": "Walk",
+    "sourceAnimation": "Walk",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0150/Walk-Anim.png",
+    "sha256": "80fe3d8d560ac468a16e6dbdcf259681ccb2a3bd78af7b3355da8646ec36108f"
+  },
+  {
+    "id": 151,
+    "name": "Mew",
+    "mode": "floating",
+    "animation": "Float",
+    "sourceAnimation": "Float",
+    "file": "src/DockWindows.App/Assets/PokemonWalk/0151/Float-Anim.png",
+    "sha256": "9a1f769851d2aef6219b62302dbc4b4423953def80ee0cdada893e875c77be84"
+  }
+]

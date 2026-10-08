@@ -1,6 +1,8 @@
 # Como gerar o instalador assinado
 
-O build está preparado, mas o instalador atual continua sem assinatura. Não há certificado de assinatura de código disponível nesta máquina. Certificados autoassinados não resolvem a confiança pública do Smart App Control.
+O instalador 3.2.0 continua sem assinatura. Nesta máquina existe somente o certificado autoassinado `GigaDock OpenSource`; ele não resolve a confiança pública exigida pelo Smart App Control. É necessário um certificado de provedor confiável ou um serviço de assinatura configurado.
+
+Em 2026-10-08, o evento 3077 do log CodeIntegrity confirmou o bloqueio de `release/GigaDock-Setup.exe`. O empacotamento agora rejeita certificados autoassinados e resultados de assinatura diferentes de `Valid`, inclusive `UnknownError`, antes de substituir o instalador em `release/`. O auxiliar `build_e_assinar.ps1` exige um certificado existente; não cria certificados nem adiciona raízes de confiança. Sintaxe dos scripts validada, rejeição do certificado local executada e compilação Release concluída com zero erros e avisos. A instalação permanece bloqueada até obter assinatura confiável.
 
 ## 1. Obter o certificado
 

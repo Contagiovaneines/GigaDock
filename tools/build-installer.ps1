@@ -1,4 +1,4 @@
-# Script para empacotar e compilar o instalador oficial do GigaDock (x64)
+﻿# Script para empacotar e compilar o instalador oficial do GigaDock (x64)
 param(
     [switch]$Assinar,
     [string]$CertificadoThumbprint,
@@ -15,6 +15,7 @@ if ($Assinar) {
     $CertificadoThumbprint = ($CertificadoThumbprint -replace '\s', '').ToUpperInvariant()
     if ($CertificadoThumbprint -notmatch '^[0-9A-F]{40}$') { throw 'Informe o Thumbprint do certificado (40 caracteres hexadecimais).' }
     $certificate = Get-Item -LiteralPath "Cert:\CurrentUser\My\$CertificadoThumbprint" -ErrorAction Stop
+    if ($certificate.Subject -eq $certificate.Issuer) { throw 'Certificado autoassinado nao atende a confianca publica exigida pelo Smart App Control. Use um provedor confiavel.' }
     if (-not $certificate.HasPrivateKey -or $certificate.NotAfter -lt (Get-Date) -or $certificate.NotBefore -gt (Get-Date)) { throw 'Certificado sem chave privada acessível ou fora da validade.' }
     if ($certificate.PublicKey.Oid.Value -ne '1.2.840.113549.1.1.1') { throw 'Use certificado RSA para Smart App Control.' }
     if (-not ($certificate.EnhancedKeyUsageList | Where-Object { $_.ObjectId -eq '1.3.6.1.5.5.7.3.3' })) { throw 'O certificado precisa da finalidade de assinatura de código.' }
@@ -31,8 +32,9 @@ function Assinar-Publicacao([string]$pasta) {
         $signature = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
         if ($signature.Status -eq 'NotSigned' -or $signature.Status -eq 'HashMismatch') {
             Set-AuthenticodeSignature -Certificate $cert -FilePath $arquivo.FullName -HashAlgorithm SHA256 | Out-Null
-            $check = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
+            $signature = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
         }
+        if ($signature.Status -ne 'Valid') { throw "Assinatura invalida em $($arquivo.Name): $($signature.Status)." }
     }
 }
 
@@ -102,11 +104,11 @@ $finalSetupExe = Join-Path $distDir "GigaDock-Setup.exe"
 Copy-Item (Join-Path $installerDistDir "GigaDock-Setup.exe") $finalSetupExe -Force
 $releaseDir = Join-Path $rootDir "release"
 New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
-Copy-Item -LiteralPath $finalSetupExe -Destination (Join-Path $releaseDir "GigaDock-Setup.exe") -Force
 $finalSignature = Get-AuthenticodeSignature -LiteralPath $finalSetupExe
-if ($Assinar -and $finalSignature.Status -ne 'Valid' -and $finalSignature.Status -ne 'UnknownError') {
+if ($Assinar -and $finalSignature.Status -ne 'Valid') {
     throw "O instalador final não possui assinatura Authenticode válida: $($finalSignature.Status)."
 }
+Copy-Item -LiteralPath $finalSetupExe -Destination (Join-Path $releaseDir "GigaDock-Setup.exe") -Force
 @{
     data = (Get-Date).ToString('o')
     instalador = 'release/GigaDock-Setup.exe'

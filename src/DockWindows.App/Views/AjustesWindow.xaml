@@ -1,4 +1,4 @@
-﻿<Window x:Class="DockWindows.App.Views.AjustesWindow"
+<Window x:Class="DockWindows.App.Views.AjustesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:conv="clr-namespace:DockWindows.App.Converters"
@@ -1249,18 +1249,7 @@
 
                     <!-- 5. PAINEL DE EDIÇÃO GERAL                         -->
                     <!-- ================================================= -->
-                    <StackPanel Visibility="{Binding EhSecaoMascotes, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
-                        <Grid Margin="0,0,0,16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                            <StackPanel><StackPanel Orientation="Horizontal"><TextBlock Text="Mascotes" FontSize="22" FontWeight="Bold"/><Border Background="#4A2016" CornerRadius="7" Padding="7,3" Margin="10,2,0,0"><TextBlock Text="BETA" FontSize="9" FontWeight="Bold" Foreground="#FF9A75"/></Border></StackPanel><TextBlock Text="Um companheiro opcional que reage à sessão do Windows." Foreground="#A9B8C9" Margin="0,5,0,0"/></StackPanel>
-                            <CheckBox Grid.Column="1" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding MascotePokemonAtivo, Mode=TwoWay}" Content="Exibir na dock" VerticalAlignment="Center"/>
-                        </Grid>
-                        <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="20">
-                            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="190"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-                                <Border Height="170" CornerRadius="16" BorderBrush="#466366" BorderThickness="1"><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#103F3E"/><GradientStop Color="#252044" Offset="1"/></LinearGradientBrush></Border.Background><StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"><Image Source="{Binding MascotePreview.Sprite}" Width="96" Height="96" RenderOptions.BitmapScalingMode="NearestNeighbor"/><TextBlock Text="{Binding MascotePreview.Nome}" HorizontalAlignment="Center" FontWeight="SemiBold"/><TextBlock Text="{Binding MascotePreview.Estado}" HorizontalAlignment="Center" Foreground="#9EC1B5" FontSize="11"/></StackPanel></Border>
-                                <StackPanel Grid.Column="1" Margin="22,0,0,0"><TextBlock Text="Escolha seu Pokémon" FontSize="16" FontWeight="SemiBold"/><TextBlock Text="Os 151 Pokémon originais estão disponíveis. A escolha pertence ao ambiente em edição." Foreground="#A9B8C9" TextWrapping="Wrap" Margin="0,5,0,12"/><ComboBox ItemsSource="{Binding PokemonOriginais}" DisplayMemberPath="Rotulo" SelectedValuePath="Id" SelectedValue="{Binding PokemonSelecionadoId, Mode=TwoWay}" Height="36" Padding="9,4" MaxDropDownHeight="310" AutomationProperties.Name="Escolher Pokémon"/><Separator Margin="0,16,0,12" Background="#3D444E"/><TextBlock Text="Evolução temporária" FontWeight="SemiBold"/><TextBlock Text="Após 1 hora pode alcançar a segunda forma; após 3 horas, a forma final. Ao reiniciar o Windows, retorna ao Pokémon escolhido. Pokémon sem evolução apenas mudam o comportamento." Foreground="#A9B8C9" TextWrapping="Wrap" Margin="0,5,0,0"/><TextBlock Text="Eevee usa o clima em cache para escolher Vaporeon, Jolteon ou Flareon e mantém a forma até reiniciar." Foreground="#72D99C" TextWrapping="Wrap" Margin="0,9,0,0"/></StackPanel>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
+                    <views:PokedexControl Visibility="{Binding EhSecaoMascotes, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20"/>
 
                     <StackPanel Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
                         <TextBlock Text="Geral" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>

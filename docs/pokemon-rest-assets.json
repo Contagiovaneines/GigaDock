@@ -1,0 +1,2569 @@
+[
+  {
+    "id": 1,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0001/Sleep-Anim.png",
+        "sha256": "b057c26228f38e48ea39f0c305fd5fc24439ce8e9e1c93c39d133fb802a6ede1"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0001/Sit-Anim.png",
+        "sha256": "816978afc00c3791e675ce52191a8e80afe4a1802c4df4449e38f2ff92f809fc"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0002/Sleep-Anim.png",
+        "sha256": "2069fa358d466847712c95f49170eaa1a051c57df4ade8c402ac36c7378e06ed"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0002/Idle-Anim.png",
+        "sha256": "d251cbd9aaf3f9ff6ee6f6119a9ce87267e2548124fd499c0c62fe1083fc72b9"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0003/Sleep-Anim.png",
+        "sha256": "d9c3e96e18fe7dd96d67bf3892d90355a7dd7ef8e0cae1f1b210e625eb8e4064"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0003/Idle-Anim.png",
+        "sha256": "53547ad2b27a60f270a9cd698ab53fe55df8352d6ebc54fecae955362d8563c3"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0004/Sleep-Anim.png",
+        "sha256": "25ba13d95e36417c605a59ad1e5d8217b18f375baf61f6506d4beed3c7da9ffb"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0004/Sit-Anim.png",
+        "sha256": "114f2a8b1fc5ec122f335580eae0562a1cc67af32e6f5c8c765a96e6f8d56128"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0005/Sleep-Anim.png",
+        "sha256": "9910814c2c51dbba3745d888b244a6d556832ea0bb105fa8f1e115cd307dfd5a"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0005/Sit-Anim.png",
+        "sha256": "22a0eee291eb9fab255179638ea3e50d9bf552a111f48d76bbbed94d1f2c927a"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0006/Sleep-Anim.png",
+        "sha256": "1cc7789b48c1537bcf95c4f4342dba859706bbf4942ab320707b9bc09f2244b7"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0006/Idle-Anim.png",
+        "sha256": "ceeb33e0db05817c2566e964d7b2264d0fb8fdecd480f7245faeafc864bc0d9b"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0007/Sleep-Anim.png",
+        "sha256": "09c4ed60b9d329207ecb4e1afc2631163742ee632de4a2f8ac551b3a98c6ac63"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0007/Sit-Anim.png",
+        "sha256": "bf8d2c6172518fb5e069ec9d701cd324c1789eb62d89cb294128f7d19b8a076d"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0008/Sleep-Anim.png",
+        "sha256": "ca08843addbd7d3ffa4aeed914802481069a436faa9f50bd7ae0783d2606dc41"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0008/Idle-Anim.png",
+        "sha256": "f08eadc10f327c5137631733ee406f53f642547ae1c375d65bccf09c8dd6a1f3"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0009/Sleep-Anim.png",
+        "sha256": "173f081792c97727a8d45fa441729af7d085182dcc5895d39e772910c4b41fc4"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0009/Idle-Anim.png",
+        "sha256": "eb9bca8db6a6fda567302db7815bf122829a07c2fb77ab5e5fb69fb67779815e"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0010/Sleep-Anim.png",
+        "sha256": "8b3a4ae3b42ec6a44759852d30be1bb9d0fb44e5ebb5df66966f3bea0e859f4f"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0010/Idle-Anim.png",
+        "sha256": "2d89d59aa7f7112381a9e1fdc62f4317e35410b093eabc048a66364610ac24bd"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0011/Sleep-Anim.png",
+        "sha256": "43a5d64575754b94738589f512d06a912f0ad0f4d67b89ca9d1523d5261c76a1"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0011/Idle-Anim.png",
+        "sha256": "d3b3a68e8952a73ab7b76a370a02da4e405e44842fe3c90eade0d3cbe16ef423"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0012/Sleep-Anim.png",
+        "sha256": "b16d0d7bc4cc4e009e1b511b218b7c4b87ab6a8009d466352c54402a3cfa46cd"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0012/Idle-Anim.png",
+        "sha256": "936ff1e2ef4d01aa3a30dc8436465bc179dea60142f5c34461091011bf934aea"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0013/Sleep-Anim.png",
+        "sha256": "9134a9b8b9a9869d9eff7ab2801e68e7c2f0e57d1d1b8c5cf59ead83be034cf9"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0013/Idle-Anim.png",
+        "sha256": "b7264b9f909623871b612e049ed4a3f5a6fe266f867a1099714a161809bd66a7"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0014/Sleep-Anim.png",
+        "sha256": "8c808e81b84d6a7e0e2712fdc85d79c980dafc0b876275fe31c89094d103cf13"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0014/Idle-Anim.png",
+        "sha256": "47dc90664ac2ab1e82a82223b5e5086bbcdc9c6a7201370f99636079b75034fa"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0015/Sleep-Anim.png",
+        "sha256": "f0d3d818bf8b9b3551c2adf668d7801218ff75f60e8b10020ccb966895ae5c93"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0015/Walk-Anim.png",
+        "sha256": "832dfdb59cdd0cd8a17671e077266028198d9497fcc0c31f5016f3abe4ddb0b0"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0016/Sleep-Anim.png",
+        "sha256": "a5cb9ee8d33d575c6fdef9bcd059cbe61783ea5b86e13c7cef69baff3bcb1142"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0016/Sit-Anim.png",
+        "sha256": "8dd5425c8fec77a7e374388e67939138a9bc847fa929e30b2544b37c0c567fe3"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0017/Sleep-Anim.png",
+        "sha256": "ad9435d588da6153a4f1c87820959c605935429892258eee3507e25b153a5a7e"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0017/Idle-Anim.png",
+        "sha256": "bdaf24a02e4625e1ec0f5ac9ff2d6c61ebaad9ecd136151176cc95b0ebeb4a06"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0018/Sleep-Anim.png",
+        "sha256": "dff7d67ef7cbfa0bb31454536fd9930b6d768df96d5a5e6ef649db1b27c8b9df"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0018/Idle-Anim.png",
+        "sha256": "5396ba5a5185250dc886137c36a219ac793726850c2590265f8fa2ff2701d0cc"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0019/Sleep-Anim.png",
+        "sha256": "fa0c4dc70c3750fef9ca946381e6ce5ecb664193a09b4fd316bdd6b848f77415"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0019/Idle-Anim.png",
+        "sha256": "d6a6ce5590dc7685e38f7b5c9b368ce6d9e808a6099aec23a6959a292f08e050"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0020/Sleep-Anim.png",
+        "sha256": "bf98595e753b3ca7652a26e63799b5c25b7cdba7783bf1f1456fac8820c10e88"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0020/Idle-Anim.png",
+        "sha256": "da1755f71efe7cb316588cb0ad2e76c94f35f5168a343a387337ef11fd9790ac"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0021/Sleep-Anim.png",
+        "sha256": "26717b8fc880e3abda209e5e1967a47a54bad776e287ffcdb643fe0739a14f82"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0021/Idle-Anim.png",
+        "sha256": "583bcead45bcfcbbd5b2aeb2826b07711a4b7c3b0427d2a773eef9805756a638"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0022/Sleep-Anim.png",
+        "sha256": "47e2054f8630ec6325a287a625aaada73e297f0daf1ad791304184c4c3921326"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0022/Idle-Anim.png",
+        "sha256": "71e7f2dcadd704354729245a2252f1697c3bbb91bf4d9806a2281a1e1eabcf4e"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0023/Sleep-Anim.png",
+        "sha256": "7bff9dae839ea899f150d14fd3fd1b8580ea2586624bfb6423a7b2b07d1a5966"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0023/Sit-Anim.png",
+        "sha256": "4ffaab82eeedeaee67d41315a0e474f0e56c59ab3e7e6ef1dcd00bd6f0aa1e41"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0024/Sleep-Anim.png",
+        "sha256": "f55636f8f954af2205c0530363f510a6bd93290162b10a7d1ea46a63aad7e275"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0024/Idle-Anim.png",
+        "sha256": "fc55d0c845f2c6bac86774183818e05d949dd733f972a3d9889d1ef1565fc9e9"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0025/Sleep-Anim.png",
+        "sha256": "433aabc3effe6e5e22f5ce241396e989acd09bc97be32f427c0c2c33b685588c"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0025/Sit-Anim.png",
+        "sha256": "ca7e65e112645402160faa07788342db1c8b687fc5b8bc6e8766ef8019b46308"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0026/Sleep-Anim.png",
+        "sha256": "83646c0e2bd191be3aa3913442b04701ec0978b0859ecc5ec36374a671e49772"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0026/Sit-Anim.png",
+        "sha256": "c236404c04209ccfa4c4cce72fffea71affece12dfb18529c1cae7d521484401"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0027/Sleep-Anim.png",
+        "sha256": "2e37d791f1fd9755d56186fff7a04be50ae1b5ca5ba856d9dde640ef6a685a4c"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0027/Sit-Anim.png",
+        "sha256": "850517c58feb83455ed464acd7b98b5abf8c9b57437a278304b116b5e7fda669"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0028/Sleep-Anim.png",
+        "sha256": "000df5a7b1dc37934d8557600ab37fad169f1189ff27980b912bda8ae44b443a"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0028/Sit-Anim.png",
+        "sha256": "b60c1eed62b2603ea51276d795aa8c2b84ce8d5313d90c46da9353c3a0ed6e32"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0029/Sleep-Anim.png",
+        "sha256": "d8f80975af84836a91b9c58c4a46d8801f17ab66ec3f969d5c600c232e3c53c5"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0029/Idle-Anim.png",
+        "sha256": "7fad50149def4b8e7e17fc39c445a1eda624aac518e3febaa2b2d4a92dd0efb3"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0030/Sleep-Anim.png",
+        "sha256": "86d4d649c0e490cf4bb04e07cf89bc99f3b01918a3c98b50567b96943c92a722"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0030/Idle-Anim.png",
+        "sha256": "d279af1c10937064c7ece26d8a11a62dd1f7d902f3ad53ea31722383e26b511f"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0031/Sleep-Anim.png",
+        "sha256": "13f79adbc11061d8f15ff6052f77bca4596256ff489dee7b1ef5c36f18def69f"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0031/Idle-Anim.png",
+        "sha256": "3bcba822ca88be720f25c8d2e3e41dc86bee8e9f474fc52947fd430889869178"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0032/Sleep-Anim.png",
+        "sha256": "c3959b3b2f024e85f3ecb39b99474f26801b8ac2ef42d4412b5524c6e49286da"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0032/Idle-Anim.png",
+        "sha256": "0c41f6e99f4418645f35cfce79a5002bfc6af245f3060a40f0c718223423d768"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0033/Sleep-Anim.png",
+        "sha256": "35c4b336e4d5be837d3c8fc5f982add9a8ac2a6c698b7529ab19ade70a1d4ddd"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0033/Idle-Anim.png",
+        "sha256": "d8a5adc0757d0f72841317589d70cd97546f25fc8ef0000d6e4c85b5401bd3fa"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0034/Sleep-Anim.png",
+        "sha256": "c7aaa2bbe1b5089d0a4278c9c28b1c80a31a2097ec1e17e4406032af8ae81eee"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0034/Idle-Anim.png",
+        "sha256": "7fc391919541020478125f82630ebbb7500d627e90c881896c3d28ef0c299b53"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0035/Sleep-Anim.png",
+        "sha256": "32917480575ed390158d5a5fbd88d51fe63dbc09918cf397022df0bc2b7a0183"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0035/Idle-Anim.png",
+        "sha256": "6330cffab1a8439a710e5489779ec97f118441c2cac68a87d6c0b06ed988b7a7"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0036/Sleep-Anim.png",
+        "sha256": "0d1aa772c0553de72f798f3a4c95fb9665fc17188383615c75ba8407e63338df"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0036/Idle-Anim.png",
+        "sha256": "be0561ff0bfa38f5711e30bb0060ec03dfc65f8941971a853a592cf4e5e6a74b"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0037/Sleep-Anim.png",
+        "sha256": "4bfd2670da692f245208d2519623b7d6e9c19fa91c6c4a699d2b84709fb273d2"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0037/Sit-Anim.png",
+        "sha256": "6c7be19f1c080c573bb530c292b1e7c4d4ae3c813ca7301f24018b9bc3977026"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0038/Sleep-Anim.png",
+        "sha256": "e1f6ebc71a68be2a7ed94d73d83e50cd0a5ad20e3bafa14f25fcef6c5c898a10"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0038/Sit-Anim.png",
+        "sha256": "61d7093abda85d18f96ec253b9fd795d728eb29641e8b9e7de684167dfb20193"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0039/Sleep-Anim.png",
+        "sha256": "62836fa8777189761275f029faa6959d76f7f304fc49ec8bc9b2191e28b781e2"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0039/Sit-Anim.png",
+        "sha256": "f00b75abe0380d12681f06b9522e6f395dc47cf874b8a393c36567d4e7b03784"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0040/Sleep-Anim.png",
+        "sha256": "d3ca4e5c8b157046e189218d22c0916ff0fc88ad43884486e55aa1ed3d8d6f7a"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0040/Idle-Anim.png",
+        "sha256": "7ca3678db4c4184cb681d20d67676ed32debdcc4a1fd6cabaf6b2f9728e3d14d"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0041/Sleep-Anim.png",
+        "sha256": "0b39d75f8778cf2fde1e34d5ad27d396b25c42bc2f30c4ab4109eb4cfd102b92"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0041/Idle-Anim.png",
+        "sha256": "28ea4512a68af47ba46e29ab48febbb726201a0f3d34fb400618e245cddbce09"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0042/Sleep-Anim.png",
+        "sha256": "fc10ecbe0d629c68b7f911323141a07ac5506a71cfa35e2250a4fd41a365e3eb"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0042/Idle-Anim.png",
+        "sha256": "2e99a04927b21f73e5765cd9c813a8200980020b40eee35d870ad6b6cef16396"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0043/Sleep-Anim.png",
+        "sha256": "490bbe7fafd2c808fecea9baebbe38d5c2ed7d4ee681d0df18a6bb399c0145f7"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0043/Idle-Anim.png",
+        "sha256": "397c9fa07408241d9f1f8712cf4ed49a0d32bdc9d5f90b00b8eb3e12d1fc8de2"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0044/Sleep-Anim.png",
+        "sha256": "b661878a40c98df268436afbebfaf8acb63968b731b7f851cf669b8a97e1cf89"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0044/Idle-Anim.png",
+        "sha256": "de83cf338ae5ef152a46eaec6505e8ff54b149230f9ac22eb875314f7adedfdd"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0045/Sleep-Anim.png",
+        "sha256": "141387a7d0f5c0f99ca784f8859287e0e7c6b30734f088c043023e338294ad3a"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0045/Idle-Anim.png",
+        "sha256": "4c7ab47238f80736b9318fbf8a1227acdf3f5fbf00772676c2e4039d44ef2ef2"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0046/Sleep-Anim.png",
+        "sha256": "36a801f55ae1aad7cc93a132a5371578b9b02b4853f540ab68492136ac3acb75"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0046/Idle-Anim.png",
+        "sha256": "482232a6a53879f9ef38972e93098e2579895b5bfa0f3e3b2675da272de12135"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0047/Sleep-Anim.png",
+        "sha256": "e5d92909e3cf67a92475cd133f8609fb02f0ddd465fef041b1ae8433d4c168d0"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0047/Idle-Anim.png",
+        "sha256": "a06d3b0b8046184ebe3a119585acf32329c64391abcee5fe368221c82004d88c"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0048/Sleep-Anim.png",
+        "sha256": "00dc0ab1e4bc2d81da55a386088a1c43545d25a7f38c512ffbc49de7a9409656"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0048/Sit-Anim.png",
+        "sha256": "6d66fb8a64c1b5c9334737d0afd0f4b820e164e0bfcd62db8a67ce4467d81230"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0049/Sleep-Anim.png",
+        "sha256": "5261cf7f097919f8378fbcb71007d14ba0e1031e74d54d5ceddf2169f28e55fc"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0049/Idle-Anim.png",
+        "sha256": "9c4c1f0cbe2f20d37c0e8d297f2a6300254363cbe40021b7f877e4f280fbc7e7"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0050/Sleep-Anim.png",
+        "sha256": "2a440b44aa4a28cffb1208a7b443c34c02e5e59952366999e27730ffc903d801"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0050/Idle-Anim.png",
+        "sha256": "42645eea007d78c1d1e6a695aa8b6c9b4f64daa878af3bd34f673c647b868bb1"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0051/Sleep-Anim.png",
+        "sha256": "e473bbf0ea116d93de6142ce88fb390c3fa2fd273ffc088082c0def96481bdf7"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0051/Idle-Anim.png",
+        "sha256": "23b65f617bf2cbecdd4a4a29a04122f1b2e29b729ccaf6de0ebc34939e3c4f57"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0052/Sleep-Anim.png",
+        "sha256": "9bda0a3e5139826d5acf2c6c55c91770b842e24a7def3ba226741a28ea77ff26"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0052/Sit-Anim.png",
+        "sha256": "96e0d4e8d944bc56d9f904162f26651b95354057b3dae211b839fbb146129d35"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0053/Sleep-Anim.png",
+        "sha256": "9e8114b3e35ae46a6127022a0a4b8548995d1938ae8c9b6974400d01ba3684d4"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0053/Idle-Anim.png",
+        "sha256": "951272b3c8fc6fa9228f22eb2b24e59f8e753e5892a46a6384d84d3e17892429"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0054/Sleep-Anim.png",
+        "sha256": "30ab57ce0ccf96bc47ccb96c44c6d3c9ccfb45f34fbbf93f513fc037b869fa35"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0054/Idle-Anim.png",
+        "sha256": "890be68026823e8c9807c5978d7420665bac67db0f7f5126a30bbf4c1ce9611e"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0055/Sleep-Anim.png",
+        "sha256": "7d3a521002913aee88653013ee30b4bf4d2005789e9f4fd0b0796991ab9dd05b"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0055/Idle-Anim.png",
+        "sha256": "58e50d7f4b3f8999cc49e0399f3875f20b7bc73828df0210776fb77bc43f8cd4"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0056/Sleep-Anim.png",
+        "sha256": "ad14eaddffb9f539b03d38bf71c5dca9fc9b1e7109cdad3a378c94b90baa0c02"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0056/Idle-Anim.png",
+        "sha256": "a64e1b52f08d9b0b5b98d99e32048a8b1901e9c9438c4c867951dfd116e7f1d9"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0057/Sleep-Anim.png",
+        "sha256": "21c577a845f2608ac9533d1d7b8b426ac0a1556a7bf2f881e756a47cb5620bb7"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0057/Idle-Anim.png",
+        "sha256": "d0dc539cfca14fda221f4caf392ee9c15afd2cdf1a6df34eae49dbae854efe14"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0058/Sleep-Anim.png",
+        "sha256": "4fc818e5519cfcc31e24e839b2e03ad03ea51620de2be8fa3faa707f89b5a734"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0058/Idle-Anim.png",
+        "sha256": "0cc65232a808eb456e95c02287a095e3df3ef26046e282d16f787eb8389cb187"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0059/Sleep-Anim.png",
+        "sha256": "ecfb9bfcfc7ae89cd85f1c9d63e1842188432fc5b315dee1161e806dc5dccc73"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0059/Idle-Anim.png",
+        "sha256": "c0adf6e40d44a363f2742667be42d8c1e4d900304bb8bba2d9e85e55289a0a22"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0060/Sleep-Anim.png",
+        "sha256": "fc121b46760d9364240ed89b1d802c2908db3d041fd1c41ec133a129bbf769ac"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0060/Idle-Anim.png",
+        "sha256": "0dd4b347beaca3ced08d33c7473e8d0a86b75bb1aff5ac49033174ea14fba62e"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0061/Sleep-Anim.png",
+        "sha256": "92f533f32e0eff85e93ca490452d28038f944b838ea76b25275e1893e50e2442"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0061/Idle-Anim.png",
+        "sha256": "8e87770471d476a28f0d1a399c98a82c7ed8fb28d90d363c854d5e0998b89e08"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0062/Sleep-Anim.png",
+        "sha256": "b00c66f1f52c99e8c2bbc8940c663de21f455dc1314a5e537a9084e85e460fc9"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0062/Idle-Anim.png",
+        "sha256": "80842502cf06513064322d1feec404a00abddba180ee33591c7d9f088dc6643f"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0063/Sleep-Anim.png",
+        "sha256": "9c2c0096684bff6734e4eb0702e977851f7690fca927645759796dd6492e0460"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0063/Sit-Anim.png",
+        "sha256": "9b9a24f4fbab22a7719f66ffa7bbb4b4d38069adde0d120d6e679c708f63ca96"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0064/Sleep-Anim.png",
+        "sha256": "88fe5c0d501a1067e32480bc57179a4b007894f74c81cb0f1ffc6f188e05262b"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0064/Idle-Anim.png",
+        "sha256": "4d8bf9af135dc99f5605b839fca0a7481ce7f0d37c4bf5f31ff9dcefc6c8cc85"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0065/Sleep-Anim.png",
+        "sha256": "d77f832483c2e5258025f171c39e1a6d1dc5a61f3b6fcadf2c0b6988a50fa37f"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0065/Idle-Anim.png",
+        "sha256": "9ffb292d6af152f830201880c5138991f3d1f0a98cdc0a2e832f6b12605d1a1e"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0066/Sleep-Anim.png",
+        "sha256": "9140c201da9d3868ffe8b0cd9e58ee8bb8460486ed19f17a2d083ac0d4dd73db"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0066/Sit-Anim.png",
+        "sha256": "746cead044ca23e0cd9068f41fa7b44f24b94f70620d2fef1408a6a4cf4af48e"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0067/Sleep-Anim.png",
+        "sha256": "fc7ed53e633277eb3c04000cc648f976fe4ba4a0b771ef946c6e082dedf0b959"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0067/Idle-Anim.png",
+        "sha256": "f3bb20d55a66f84ef655c538c8616847eda75ffb8fd625dedcce1be84df4eef4"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0068/Sleep-Anim.png",
+        "sha256": "d2eb05b5d688b4c478b94450e018523dd4b0cf6ee1a08a299069f385b0ff0601"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0068/Idle-Anim.png",
+        "sha256": "e7a664e470fca6878f114a8e87a6e394f55166467eb207a5215efb4f031d76b7"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0069/Sleep-Anim.png",
+        "sha256": "db11216b50dc064048ff5e78ebe520a3059d8a90a04385742b88f8ce02ed4c2a"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0069/Idle-Anim.png",
+        "sha256": "6cf172c29c31bbf8df296e61a855c36d543fdda9d7cb28e32e572852ed830172"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0070/Sleep-Anim.png",
+        "sha256": "e3bf13963551c87c86dc8927674ae76a6f4446ecf431fbf7726c7860ef8a30a0"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0070/Idle-Anim.png",
+        "sha256": "e87f03d13f633d026a97e606c1db2d4eb6e490d96f9faccbb93bd2ef363be4c5"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0071/Sleep-Anim.png",
+        "sha256": "bbed2336294bc93a55f737fdfda6b01868afef2738459c838fc48be163b02765"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0071/Idle-Anim.png",
+        "sha256": "7d25cccf2b28753ec97dc7e93f3cefc58e732b9460118ddb37cb9d203d1aa94c"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0072/Sleep-Anim.png",
+        "sha256": "e71b21df35c23aa3b9a2c2e3687868da32c8ed84bb3b9fb81c652a6597316625"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0072/Idle-Anim.png",
+        "sha256": "7356f018b3741d13a4d786fff432d0e3dd011cec35a895089174cd990d644449"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0073/Sleep-Anim.png",
+        "sha256": "012fcfc4616ef1e4d6bb99374f94b93af997964f8810322a1df6e7c5f13ff577"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0073/Idle-Anim.png",
+        "sha256": "ce306be1553e16c96cef5e5c0495dc1b52790551bb3b8a9237c3b0dca5f17e3a"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0074/Sleep-Anim.png",
+        "sha256": "85017e146d22f7a4de10d695c8054f2c3dc10e8cda93056cc509a23973ff0fa0"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0074/Idle-Anim.png",
+        "sha256": "bbb71a05296140ae78b132f62a5408f5830a3c10e30127b23022bf9a9486d93f"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0075/Sleep-Anim.png",
+        "sha256": "528ffa83fdef683685b5374c9716a4cb71ca9ecc1fa67c68caaeee21decaa0c1"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0075/Idle-Anim.png",
+        "sha256": "65dc9f5b6e74823220ae1391ea6425e371ba412025441e28e2953754aa34a00b"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0076/Sleep-Anim.png",
+        "sha256": "c4e19f4ba50bdbff3db473fc4ba8e5598c66bf2e6758ba91acde7134e22027dd"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0076/Idle-Anim.png",
+        "sha256": "5444c9399764673a6d21b047d61ac3d42f031340f39c9c62a4be3142561bd337"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0077/Sleep-Anim.png",
+        "sha256": "c568b68461507694ffb909fcd22948ccf4da61ae7303f8eb20400df78e493a6f"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0077/Sit-Anim.png",
+        "sha256": "005c3a22efe57388009fcc00c13f3a2f4289ea3979cb7f060fd417776540136b"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0078/Sleep-Anim.png",
+        "sha256": "7ab84f757659372ed883e7734fbbe1be190e35471433b1f1c71850535cd5a4b6"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0078/Idle-Anim.png",
+        "sha256": "229a95285bb13c5b72f40ae6ced1c42c1efe17a4f1f770f97766fd0e977110db"
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0079/Sleep-Anim.png",
+        "sha256": "de677000978090b11d0fc4bfd63a3a97f27bee5599cdeb2053c1aa23b21f0f9c"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0079/Idle-Anim.png",
+        "sha256": "25f450104f22b787d189638f58f1f03a34758970454514bafb8e528cf147f706"
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0080/Sleep-Anim.png",
+        "sha256": "dab450c09c84d0aa77f75e6e2ac3fb43367243a02c91fdb85173d3a02739d2c1"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0080/Idle-Anim.png",
+        "sha256": "dfeb09e5d386bf7f61d5d630615f065f74f1f4eaa728336509a688ffaba45dd7"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0081/Sleep-Anim.png",
+        "sha256": "e54c23179108296d202a3dd4274081304956ef0ab5f7003851595621df7e00ba"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0081/Idle-Anim.png",
+        "sha256": "cc5336b8b65ecd34b5638a3d6aaf7a7e24ce36ba1134eccdf763336c29cc087c"
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0082/Sleep-Anim.png",
+        "sha256": "14e89e60be1a27f7dbccd23a8ea53c0426ebe6ccb296c56db085c917067c0806"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0082/Idle-Anim.png",
+        "sha256": "97d2dac3e23c54fae174d71050cf154103879a0f4f39438340d72b324a767fd9"
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0083/Sleep-Anim.png",
+        "sha256": "e5891094c7d111c9e12d9ea619e86fb377795523bf598117babb195beb27be76"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0083/Idle-Anim.png",
+        "sha256": "2f75ab73c640d52d0e43f7fd62e4734074bd6b46d765243068c223a93befb8fc"
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0084/Sleep-Anim.png",
+        "sha256": "32df220c67744f8731c952502ca7596120c5faf054b560719fec865abbfaecbf"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0084/Idle-Anim.png",
+        "sha256": "2c89aa42b803fb9f205ea45f1669d3f74ef024392c13fbae8c00eed17d9739fe"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0085/Sleep-Anim.png",
+        "sha256": "b22befd8fa7eec008572e5b3ce8f89035bfb16e0fe907ffcfe64941924f9c40f"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0085/Idle-Anim.png",
+        "sha256": "10b37806cab387fde6ca28e2efe9e2e9649c268ef16d4d6dc287b0e28ac555f9"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0086/Sleep-Anim.png",
+        "sha256": "70ba4b3af5e21acaf5f765b41501e3c0c3ff7c9e161b861c74da25b1bafa10df"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0086/Idle-Anim.png",
+        "sha256": "89b2684ee3dc0f616352c174451d8475c7163b7fc54005ee1893d598d5bbb65a"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0087/Sleep-Anim.png",
+        "sha256": "b4b4b534cf413d9dce922f353d34d6b74d9774e003e97b710b95ef0d06926c9e"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0087/Idle-Anim.png",
+        "sha256": "b342742b7115de6b98cfa3e23393c8edcb51042fa3f009431ffd3e294dd36b31"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0088/Sleep-Anim.png",
+        "sha256": "18418a6ca492ca5fd69dcbbb3b6ffefaea3928cbf0bfc160967f4421caa97171"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0088/Idle-Anim.png",
+        "sha256": "b7ecab6fbf29608cc55b81f71c95375b18f05d3e8546146fc46c5e002e24a18d"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0089/Sleep-Anim.png",
+        "sha256": "dcc44e29c5ad8fbe539b97a0242f867e225679b805d67e4dede3e24d70c01108"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0089/Idle-Anim.png",
+        "sha256": "b2f0a55e8f085a3d750d686b92795df83ba191a3eef38c3e9ae1b9e6625480b2"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0090/Sleep-Anim.png",
+        "sha256": "6912168003e9399fbc9be44523eab9b051a4f7300b6e31a7578d8ce7a20bf17a"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0090/Idle-Anim.png",
+        "sha256": "35fc4db049b53e767be06c1596095dbe2e297d138551d2f9a8385cdce81e4fc1"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0091/Sleep-Anim.png",
+        "sha256": "773f9c7189e108ee06b37a64782e4d957898788735af5a9c44cfd1bc1c394a46"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0091/Idle-Anim.png",
+        "sha256": "527854b3a7883a10390a2f0b5577b365c0e3468d4f6bf0525a7182f9ba01c513"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0092/Sleep-Anim.png",
+        "sha256": "fcde7ccb101587916b597d8974fcedae70b27b1b15c840061873eccf0631f7f3"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0092/Idle-Anim.png",
+        "sha256": "fab0e9c1c3c5444b03bdbd570c7a24d73f2e25fb35f27b407a6c9f53dc63cd11"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0093/Sleep-Anim.png",
+        "sha256": "a64ea6cfa1db30f8dcb6f2184ef7630f81caac2a2c24b5b26d239b253d38b420"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0093/Idle-Anim.png",
+        "sha256": "473291a23ff5ea0056d71b247500138fc05de59225a46b9759b540a58dd1248d"
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0094/Sleep-Anim.png",
+        "sha256": "c74113d42eb4f8122bf535e2fa496e2a0a56cf1531f26e88b6a94e049a98cf19"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0094/Sit-Anim.png",
+        "sha256": "c19177ea74066742e2f067fea0f104c88f81a1aec7bb56c6e7873fa330e9a525"
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0095/Sleep-Anim.png",
+        "sha256": "c64414dd4669b2bc7dd4c19f85da32c2f2ce3d1ed25980f5455582d56e54c247"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0095/Idle-Anim.png",
+        "sha256": "905c8e04bef0f755573db9daf33457a8ac288721301ef366641b6aa1f4a9ac9d"
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0096/Sleep-Anim.png",
+        "sha256": "603505ba5e26a4b0a4342e3bbc7c02b67f509312d407590360d988dbf7af17c2"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0096/Idle-Anim.png",
+        "sha256": "5dbee2a08c6f0e552b3afd050a5fdea404fb996f35f9cefcaf1658cdc0c87b02"
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0097/Sleep-Anim.png",
+        "sha256": "72d92e4f0064ae8ed9c7a09c349861ec7cebbf498ae2519695037cadb9ae6247"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0097/Idle-Anim.png",
+        "sha256": "251c8d1aa4b5525289ddf7545aa75a1da7776068db352fc3aa5dc9f2080c432f"
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0098/Sleep-Anim.png",
+        "sha256": "b6255bf49746910cb52c68f2c31ce86f4ca18ad71d69e39d8c63af3c61587e71"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0098/Idle-Anim.png",
+        "sha256": "81fb9e38e7589c49aa1b0ee2e058f0e9960427337cb604d53d1a5f6df36d4f1f"
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0099/Sleep-Anim.png",
+        "sha256": "a5a3fdcd8fa940dddfa724f3b2b26e49228280183089d3a4ff4bde19bda7195e"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0099/Idle-Anim.png",
+        "sha256": "2fe125fc778c58fbbdb486f307b0238e8c3f12ce109ad0454a396774f3add391"
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0100/Sleep-Anim.png",
+        "sha256": "d0355d597fcb277b37c840989315033ea2cfaa753d30dcfb9d7ef2954067ae18"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0100/Sit-Anim.png",
+        "sha256": "fe6e86eefffbba62bd7fbac09fd934f99dbec2eebb6058cf0c0078c8f062c2ea"
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0101/Sleep-Anim.png",
+        "sha256": "de5b7adee76ffcad90e0595a00cb6347afc7f1ec138e3f0567b77172774fc488"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0101/Idle-Anim.png",
+        "sha256": "024e0bc04f7721ae57d73ac51bc82e9ccc58b76f3e87b3bcb5b20384ad662d86"
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0102/Sleep-Anim.png",
+        "sha256": "f0ebae1359c7f957b0a5523497f2e9e4e00b356345a945a30ca98877789b5ad8"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0102/Idle-Anim.png",
+        "sha256": "0eef8530fdc97a63170508be9229a133cb158c42f48dd287b3a6b44a6619281c"
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0103/Sleep-Anim.png",
+        "sha256": "58cef7a90e4e7b7aa57d65d5670c38bf7384232bb77b7425a3b91494570a2bf4"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0103/Idle-Anim.png",
+        "sha256": "0b1e5dd1ac9a5ca034da05fb3eea71c274194e195fff67075a878e7fbacda311"
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0104/Sleep-Anim.png",
+        "sha256": "c3e3d29828b941eded5597e5766cda4b4d0a9a9f3e6849bc9425011eab92e286"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0104/Sit-Anim.png",
+        "sha256": "6f54d3348ef5bc08a42cf14823f48f4d7069234ca6ce976e5032305a885254d8"
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0105/Sleep-Anim.png",
+        "sha256": "ce6ae27cad0b64eedd24448cae73bbc82e78dc9f0ed46e62f1aa93281ab426a2"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0105/Idle-Anim.png",
+        "sha256": "1806d8d5bdf8a1e37e12c89e9d99c6144df9905f356936dd110b67dd0507fb9e"
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0106/Sleep-Anim.png",
+        "sha256": "de242aa9743f308ddc8857f8e79294aeb12863a0c67368506043c925827eb2d4"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0106/Idle-Anim.png",
+        "sha256": "6e1070f031272f74e3596b891fd322005c0133fb6ae865c0f964c70bec6caa8b"
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0107/Sleep-Anim.png",
+        "sha256": "d0a43dee9bd201f507f0bc812348d90abd2cda80cd1fe302b2dd11332c29321d"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0107/Idle-Anim.png",
+        "sha256": "a1481722c8c18b6130a6ef47b14ee9bdab7b3911c028a1ab66dd5eaafc24a439"
+      }
+    ]
+  },
+  {
+    "id": 108,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0108/Sleep-Anim.png",
+        "sha256": "9605731ff471d394829c2560ede0d9a7bd5c6ac2c12322fa71ac044391fbe534"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0108/Idle-Anim.png",
+        "sha256": "80698a36c277c591021d0f7b89ddc8755f42af7f1d0e1456054ceae3d87746d7"
+      }
+    ]
+  },
+  {
+    "id": 109,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0109/Sleep-Anim.png",
+        "sha256": "48aaf0ea73ba3a081711a6845457ec8211273a3e92fa67feb265b8d39e583a2a"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0109/Idle-Anim.png",
+        "sha256": "b11fbe4593a34466c751696f564acb29b73124b74c39a4d8fc8eef7c833c6c0b"
+      }
+    ]
+  },
+  {
+    "id": 110,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0110/Sleep-Anim.png",
+        "sha256": "f6a236eb0063dfe6fed1a9950b3514e29d211d663f34ca435bfa374ea05352b7"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0110/Idle-Anim.png",
+        "sha256": "e81909bae60bd6e44a9104e4e7ea8e65d8beaed885eb4361b4aa49d5628fcb08"
+      }
+    ]
+  },
+  {
+    "id": 111,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0111/Sleep-Anim.png",
+        "sha256": "ac5031bcff87c076ddb9094a4043d4a5468e118db1e4c42f4b1b2b3f012b1ead"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0111/Idle-Anim.png",
+        "sha256": "eb78232ea5258cef7c4ef3572bb80ffa5e585e33ea335c4296c76ec8f86e3cb3"
+      }
+    ]
+  },
+  {
+    "id": 112,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0112/Sleep-Anim.png",
+        "sha256": "953c21bcce746295217ff3f16feca8756e1bfa3b15c101ea35f2aad474b297dd"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0112/Idle-Anim.png",
+        "sha256": "61e4008ab8a6a89ab2cc940b1bce67df35fc562f93c3a622375e050807fccc19"
+      }
+    ]
+  },
+  {
+    "id": 113,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0113/Sleep-Anim.png",
+        "sha256": "1a309a5171030f1f85233f808a28e41d0cc664f36b3a782405b88d390938883e"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0113/Idle-Anim.png",
+        "sha256": "3fcf061e0997ba65e6d8f661d67a9a412b7252599537faa3cc19663d9302ce1c"
+      }
+    ]
+  },
+  {
+    "id": 114,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0114/Sleep-Anim.png",
+        "sha256": "ae11f32fbedcf289eaff90075ecb93ae51b070f995f9bb1e04e68d464580b336"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0114/Idle-Anim.png",
+        "sha256": "bf23aacb56ab8596824b65d746f5e1d52231f868aa91dd9ec2d5c03f6fd9fbc3"
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0115/Sleep-Anim.png",
+        "sha256": "430a2d69f7412b9bb56a0cc2985ef01d44bdb09d760e376a8efc9706edf88534"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0115/Idle-Anim.png",
+        "sha256": "1773278ac9bbc1d0748668360d69ad9784abe59179ed4b3d56ced0f4e550dc30"
+      }
+    ]
+  },
+  {
+    "id": 116,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0116/Sleep-Anim.png",
+        "sha256": "73870b5138b3433ba3fd48d2f9b2d18d75026e331d6be4c5b21e2f5581b8310c"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0116/Idle-Anim.png",
+        "sha256": "8ef8cbcde8a410957c4ec01660e3c48e345a3c9f2502917127aecfe2bba354e1"
+      }
+    ]
+  },
+  {
+    "id": 117,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0117/Sleep-Anim.png",
+        "sha256": "f56a016875d4d5ba394177ba1a4c23db1dcd5f1a0b0eee4a6a87fa6c2ad4da57"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0117/Idle-Anim.png",
+        "sha256": "e988a7cb349903703d0dfd8e2670ef0023e04db320e40317012069ced762a421"
+      }
+    ]
+  },
+  {
+    "id": 118,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0118/Sleep-Anim.png",
+        "sha256": "6479b961c6d86c28fdba898ca9ff4b746ff0656ecfbf2248d8f0ca5cc906a2b2"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0118/Idle-Anim.png",
+        "sha256": "09d0347c34a27ab5846375dc3d6acc11516c217034b2af60244be343977e693c"
+      }
+    ]
+  },
+  {
+    "id": 119,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0119/Sleep-Anim.png",
+        "sha256": "b943fd68c3bde672838c9aa3c1f65bfd8ce5d063ee870b4c166f81364c211f03"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0119/Idle-Anim.png",
+        "sha256": "12051078ea1534082a0fcf8f545f3489bf0445484d3cca190c254ce0be5063a3"
+      }
+    ]
+  },
+  {
+    "id": 120,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0120/Sleep-Anim.png",
+        "sha256": "1780220b8580e806480df51cc104d1ef4b7524e8e93f741d232e818c383ef6f0"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0120/Idle-Anim.png",
+        "sha256": "4047f2d78c5695b7c800c4496acec6641a80e0b65b01d0d0631fb23f906dcb56"
+      }
+    ]
+  },
+  {
+    "id": 121,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0121/Sleep-Anim.png",
+        "sha256": "bedec0789bce9bbc1b4b9c912b473bea8ab424edc0a57cd3b51ac806ce29f909"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0121/Idle-Anim.png",
+        "sha256": "3a88a772a7f54e9e8e26282ac9c8f36037ce53a473ada858bbc847ff03c633cb"
+      }
+    ]
+  },
+  {
+    "id": 122,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0122/Sleep-Anim.png",
+        "sha256": "d3bde1451bc0c84a4efd48ce751a6593c617e5840e7f398c337464d499ed3e52"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0122/Idle-Anim.png",
+        "sha256": "0796c63b8d2a9cda1f75078b56bae86277972a0bb36d664b656c1216f4797646"
+      }
+    ]
+  },
+  {
+    "id": 123,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0123/Sleep-Anim.png",
+        "sha256": "92a376bc8588cdd0fc4b45c33e279cc090cd64a947beb6666452a2272880d6b0"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0123/Idle-Anim.png",
+        "sha256": "19c9a0e548f5f137ec1021d9ab7b94526d2db082d06ed3f307e13acd67cbb365"
+      }
+    ]
+  },
+  {
+    "id": 124,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0124/Sleep-Anim.png",
+        "sha256": "14e62c7f3b8997344aace48b57b741ce5b47714faa73f9554fbad704e0a1ddff"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0124/Idle-Anim.png",
+        "sha256": "cf20eafc229ac50d46a6848ec0ca92536279fca7dbc2263d1211d9f2c48a99fd"
+      }
+    ]
+  },
+  {
+    "id": 125,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0125/Sleep-Anim.png",
+        "sha256": "bf834b21c16c64da8070ab8afe995fc922e2334e1bc04117214723ec5bf6876c"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0125/Idle-Anim.png",
+        "sha256": "fcf52d580d4fb59cb359919a6a66261f0f048bec42b177038c198491d255119d"
+      }
+    ]
+  },
+  {
+    "id": 126,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0126/Sleep-Anim.png",
+        "sha256": "ab255bc9463dfdcb342932119b049899683fd298406e63814f5816ac4425c396"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0126/Idle-Anim.png",
+        "sha256": "06cb1decb128834e272139dd733e3f0651d9c226606c8de0d6032500e5299a33"
+      }
+    ]
+  },
+  {
+    "id": 127,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0127/Sleep-Anim.png",
+        "sha256": "c8dfc9f126538792dbedc6786775a3f46bf586bf03cdaf56491d0986105c5638"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0127/Idle-Anim.png",
+        "sha256": "5698db809229c9f3ed6b9dbdd2951e35ef377c92dd460f579d49474c6fff999a"
+      }
+    ]
+  },
+  {
+    "id": 128,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0128/Sleep-Anim.png",
+        "sha256": "75a751e563cdc629e075319f05d47cd4a03e16f528839cd9c36de23339b797e6"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0128/Idle-Anim.png",
+        "sha256": "e7273153dd23e640ff4cb8a0819c1fb31c0a705de2c6d60c9e8375fb4ab9dd58"
+      }
+    ]
+  },
+  {
+    "id": 129,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0129/Sleep-Anim.png",
+        "sha256": "6281c0370e1b9615a2ce299d191b64685320dd1e045658698d7d807ec0a32d87"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0129/Idle-Anim.png",
+        "sha256": "5575fb5e43f2ad7b061fa3b821871e3ac15ec3c1f3ef491a2826de6f41fba4da"
+      }
+    ]
+  },
+  {
+    "id": 130,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0130/Sleep-Anim.png",
+        "sha256": "ba3bcb78537eb715c1927b236c7781ef171609ae9242c036dcbe5e8326c6db6d"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0130/Idle-Anim.png",
+        "sha256": "53ee10e93d4fb40741a179d84d09273232039a213b6e6226b844247a17f1f427"
+      }
+    ]
+  },
+  {
+    "id": 131,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0131/Sleep-Anim.png",
+        "sha256": "55013269a18b3616071927005f3d10266a5187c9f314860c838f3aecc5c41997"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0131/Idle-Anim.png",
+        "sha256": "ee0f45de0b35013b8e4584107fc2e83606bca65eaed067abafb10771f3f4ec48"
+      }
+    ]
+  },
+  {
+    "id": 132,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0132/Sleep-Anim.png",
+        "sha256": "a377a4cff2b68d42817aea57ab380063d4a0c7cb9d5d733326521b949c9aa978"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0132/Idle-Anim.png",
+        "sha256": "e868b5e33aba7afc3b2f6f5f3645f9360a0af801dcb43e8ceae0a445908811dc"
+      }
+    ]
+  },
+  {
+    "id": 133,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0133/Sleep-Anim.png",
+        "sha256": "812c0b91103e414625e210dac8a6b272f74438c775899290633e46c74f4e72d2"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0133/Sit-Anim.png",
+        "sha256": "8dbdf0b6b55146674782cb29241b7b1bc46c985f2fe70d3f454f43f595a896cf"
+      }
+    ]
+  },
+  {
+    "id": 134,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0134/Sleep-Anim.png",
+        "sha256": "db6993472aa6066abf7be4e21994f71b2f0f35130fd5d7da0795e46a806b3459"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0134/Idle-Anim.png",
+        "sha256": "c4479a9ebeafce94a8741b94d68847d5232e41d025881704b4d8f4a8a396276f"
+      }
+    ]
+  },
+  {
+    "id": 135,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0135/Sleep-Anim.png",
+        "sha256": "28bd8222bb0276478cae73b1ea797298c39e95a075f60a73585edc9cf4199aff"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0135/Sit-Anim.png",
+        "sha256": "b3cc04e8814a1c176605b7ef0c51d9d9b817b4813ed482fc601661f1a0f607ee"
+      }
+    ]
+  },
+  {
+    "id": 136,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0136/Sleep-Anim.png",
+        "sha256": "80406b15e4cf99c4212fabcc620c96cb2fcbe7cb94785e728ff2968625111d33"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0136/Sit-Anim.png",
+        "sha256": "aa26420b1f42b4b70478d6fc6f4b8d102bfc192fb943e68815c91eaa7449f318"
+      }
+    ]
+  },
+  {
+    "id": 137,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0137/Sleep-Anim.png",
+        "sha256": "96d16810984dd7e009bf4a897a22f5cce71e784db641cd1be5385a014e359ab0"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0137/Idle-Anim.png",
+        "sha256": "9a17e672d0f7085da3fd7b11f7a2c139531edcfabfc5a7fd7a22ea495f1a9c0b"
+      }
+    ]
+  },
+  {
+    "id": 138,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0138/Sleep-Anim.png",
+        "sha256": "376fc52698fe0fb40628306d112542e0764782cec0a620d99bc0f3a46ac37413"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0138/Idle-Anim.png",
+        "sha256": "5234fa0ba30615cc1cccbd199d892b37be9401705138b7fd6f02ac2ad3aaabf5"
+      }
+    ]
+  },
+  {
+    "id": 139,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0139/Sleep-Anim.png",
+        "sha256": "96f2f2ea24004bd1c11189e0989fb2be07f8b88daf21ca9b16cf552094366772"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0139/Idle-Anim.png",
+        "sha256": "d4c8158c2517e485f158f0d6892e6d6883582f8fc17e20b6f63fdac4850f523e"
+      }
+    ]
+  },
+  {
+    "id": 140,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0140/Sleep-Anim.png",
+        "sha256": "20f384d1bd78473f5fd060ae0bd456b326ed53fb3488e7407860d7b542f6fd55"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0140/Sit-Anim.png",
+        "sha256": "00be9fde085b87f7a89a2bf9314fb9568fbb909242030ab94c3f1b95db045a00"
+      }
+    ]
+  },
+  {
+    "id": 141,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0141/Sleep-Anim.png",
+        "sha256": "befd4e0f455f43c1808b44dd6104a36e578ff15efbf28c5354276bb38df5f441"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0141/Idle-Anim.png",
+        "sha256": "8391887b0befd8a42126d20a39ed1cdc69e0962240a83d784f253dabce74b1d4"
+      }
+    ]
+  },
+  {
+    "id": 142,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0142/Sleep-Anim.png",
+        "sha256": "c6dfb828480aabfc6a455e7d8be7776317df6c055db4417ecda3bcff1a4e24fa"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0142/Idle-Anim.png",
+        "sha256": "09b827c98d35ab4de4707b2a953e737b3368db4b7946492fed55ab42bf581510"
+      }
+    ]
+  },
+  {
+    "id": 143,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0143/Sleep-Anim.png",
+        "sha256": "442873d1791c51ac84db01d8c16dcfb22e773446d5c2e246f8904b7a1d6fbfc1"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0143/Idle-Anim.png",
+        "sha256": "b692c89bc7c10a648fb6f72b0cf0ce9e0f84fec54dfa389709893323314e1b39"
+      }
+    ]
+  },
+  {
+    "id": 144,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0144/Sleep-Anim.png",
+        "sha256": "d2fef7c0576d1bb6b0d2f7cd68f2f4452eb2df805d81d9ae92ec7cc39463341e"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0144/Idle-Anim.png",
+        "sha256": "14b0ad8cb151d32b2f0cd518b1904181fae4fa85d3058ae3f6763537025bac5e"
+      }
+    ]
+  },
+  {
+    "id": 145,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0145/Sleep-Anim.png",
+        "sha256": "963c2b6932f1e854eb1fff84363a174584aa9110e9150c49a6f6d308e8228c41"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0145/Idle-Anim.png",
+        "sha256": "6e5df7ace5c8d492de5a900c0f0963ce07763d48885e47c1731232025b5598d2"
+      }
+    ]
+  },
+  {
+    "id": 146,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0146/Sleep-Anim.png",
+        "sha256": "0832814c6e53a7627ecee87685ceb11065faa54ed9bcb44e6d24e8422682a7a6"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0146/Idle-Anim.png",
+        "sha256": "1023d555131e72e4347d9d864bf1e94b209f0b99f9d1597da272aee99e79cd71"
+      }
+    ]
+  },
+  {
+    "id": 147,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0147/Sleep-Anim.png",
+        "sha256": "3e95a17d71da8abd66c464d076ff3d854aa24e063bf0a0b7ccbe296d140b5b11"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0147/Idle-Anim.png",
+        "sha256": "921ea20d272b802c577d89f395b49d18b0d6edbc8ae141d7a3eec7738fa33b19"
+      }
+    ]
+  },
+  {
+    "id": 148,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0148/Sleep-Anim.png",
+        "sha256": "e28805a65729b21780b5c7f63fdebe063af67d01d608543c459bf2399a0983ee"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0148/Walk-Anim.png",
+        "sha256": "2e51bdec537524d12c392eda7aaa6d8eec1e6afe1e5deb959447f8807c12dd64"
+      }
+    ]
+  },
+  {
+    "id": 149,
+    "rest": "Idle",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0149/Sleep-Anim.png",
+        "sha256": "c4b96ff25742171b05e9781bc3dc688ca934acb2863b6dea5f271e196900e597"
+      },
+      {
+        "animation": "Idle",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0149/Idle-Anim.png",
+        "sha256": "83b0d9d108d844c8cc2db0190ca4e36e0fdd491b5014c3bf31bc36b0424ba0c2"
+      }
+    ]
+  },
+  {
+    "id": 150,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0150/Sleep-Anim.png",
+        "sha256": "89d950d6581dd9b131d7cbdc5644ed4ea2e8ba0472ee1efc5d8c1e0456c9c3c1"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0150/Sit-Anim.png",
+        "sha256": "1e2a6281baab185d97a46d1f239e56d33cb0ad8b613c0bfe617b34c286adfde8"
+      }
+    ]
+  },
+  {
+    "id": 151,
+    "rest": "Sit",
+    "sleep": "Sleep",
+    "resources": [
+      {
+        "animation": "Sleep",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0151/Sleep-Anim.png",
+        "sha256": "53e408831c1eb0ea7c6836432d0f9ceb74a72b44d3affc20e1b392e19d576171"
+      },
+      {
+        "animation": "Sit",
+        "source": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0151/Sit-Anim.png",
+        "sha256": "b69aac736607e418cddb3d394e76451432bfd236b673998553527c88294a61e8"
+      }
+    ]
+  }
+]

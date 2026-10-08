@@ -1,0 +1,4985 @@
+{
+  "source": "https://github.com/PMDCollab/SpriteCollab",
+  "assets": [
+    {
+      "id": 1,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 6,
+      "durations": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0001/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0001/AnimData.xml",
+          "sha256": "c7722f5da724f40f35fccabb1135fbd1b70e770b2a38db3d9fbe7643af626162",
+          "bytes": 11551
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0001/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0001/Walk-Anim.png",
+          "sha256": "84e8e7a58f68204a47f990becc7e8c324e486e5127557261e8ccbe55e9e979b2",
+          "bytes": 12213
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0001/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0001/credits.txt",
+          "sha256": "2f679733e9ac56ed51dd2cb1efd9376abc3b69f1993cc1d5f1fadec402faec47",
+          "bytes": 288
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0002/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0002/AnimData.xml",
+          "sha256": "e1c494c9d795980bb77622e8ce782b4fba62bd1e5103165351748dc3924702c0",
+          "bytes": 4819
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0002/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0002/Walk-Anim.png",
+          "sha256": "294de55669bceca7e4c0904ce5f41203368c0f24261cedae09ed699cd2002576",
+          "bytes": 8168
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0002/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0002/credits.txt",
+          "sha256": "e88df37b264785baaa6cb9755bb5d32bb7b2b6e8834957a9fa062f50f92ebcdd",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        16,
+        8,
+        16
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0003/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0003/AnimData.xml",
+          "sha256": "b5b556e42df4322440f63da430e918bbad794c83cdf58dbff2393138f96c15d3",
+          "bytes": 4873
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0003/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0003/Walk-Anim.png",
+          "sha256": "53547ad2b27a60f270a9cd698ab53fe55df8352d6ebc54fecae955362d8563c3",
+          "bytes": 11481
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0003/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0003/credits.txt",
+          "sha256": "a0f0cc61b3bb93661a1eda2d526f07660bb1d735d298fb74a091ea46aeb5b608",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0004/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0004/AnimData.xml",
+          "sha256": "d14356987aafc0bc86c2bdd46fd026a479499032056dad58a0c8f13fbf0686ff",
+          "bytes": 11647
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0004/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0004/Walk-Anim.png",
+          "sha256": "3e120c93b743fe30d10766114d54e230e851a43e4ffc174bcb7eb424a452a05a",
+          "bytes": 5626
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0004/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0004/credits.txt",
+          "sha256": "cc37827c20b6eff5f8fb6218cda14d008257980c4db66d9ef49527484bb7e2cf",
+          "bytes": 281
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0005/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0005/AnimData.xml",
+          "sha256": "9273a9f5df20312a76cace12aaa4ab7ac7eadf7e44c56ab595f5a53a70c6edf1",
+          "bytes": 14093
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0005/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0005/Walk-Anim.png",
+          "sha256": "851542353e3b77af75abde27abd0f4f9cafc8e025c6b0351d2230f2a14e9c54e",
+          "bytes": 6281
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0005/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0005/credits.txt",
+          "sha256": "d55df22912ec9d65baec27efab03f777ab1488396b5abc3ecfd859e1a8873b7d",
+          "bytes": 850
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0006/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0006/AnimData.xml",
+          "sha256": "2501f5c474cc624f18840933f7df291808f302c8ba1a0b6e4c8c5a2f601bd145",
+          "bytes": 6549
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0006/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0006/Walk-Anim.png",
+          "sha256": "ceeb33e0db05817c2566e964d7b2264d0fb8fdecd480f7245faeafc864bc0d9b",
+          "bytes": 12077
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0006/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0006/credits.txt",
+          "sha256": "3a275f456ec2bc3fa899ce4b84bd584f27daab8d5e04101435b2db5c39088088",
+          "bytes": 323
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        12,
+        8,
+        12,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0007/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0007/AnimData.xml",
+          "sha256": "cd5137917a3d4fcf7131ad9b395edae4c0cc69a926c1ecfcd0e3b3cbb173bfc7",
+          "bytes": 11593
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0007/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0007/Walk-Anim.png",
+          "sha256": "0e71a8bf34299cf73e59eccebc0b9fc16dfb9bd9554d8009b2323c8e3c00504f",
+          "bytes": 5656
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0007/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0007/credits.txt",
+          "sha256": "b21862e27005032445b4c380713439f4908e72fbd2c6f881c9585931b03af0fb",
+          "bytes": 285
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0008/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0008/AnimData.xml",
+          "sha256": "0c08e4fdb76e1da231193615c12d0abd3d8afeb59ceb757db0b1faa9152b2746",
+          "bytes": 5502
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0008/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0008/Walk-Anim.png",
+          "sha256": "215892752dc98e5039fbe67d25c06ebe041d1ba9d7189ec329d4f998cc7e95dd",
+          "bytes": 7570
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0008/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0008/credits.txt",
+          "sha256": "f6584e33621120bc23eb53a95cc370c460465744b3296555faf239d96dba52c9",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        14,
+        8,
+        14
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0009/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0009/AnimData.xml",
+          "sha256": "4ccb8ab3596721a434c3d561b8930a9988bb314d403e8b4cfc7a4daaea9732a8",
+          "bytes": 5585
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0009/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0009/Walk-Anim.png",
+          "sha256": "90074aa6cea5dc4fd11a5ca2bd756f71d83798e2efc346d8d609907489f70350",
+          "bytes": 11364
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0009/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0009/credits.txt",
+          "sha256": "2fc33440148a7c3cc3211c2ad517af3613750b3ff8cb3cb44db8200e9cb04276",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 3,
+      "durations": [
+        10,
+        10,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0010/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0010/AnimData.xml",
+          "sha256": "67fe60fcdf8f43033107aa2c0d6679cb6dfc527333758dae35eccff612cc00b7",
+          "bytes": 4736
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0010/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0010/Walk-Anim.png",
+          "sha256": "7f19cdd3ec4c88795243999b3f090aa2192c87f5c4399d491ac473908ca09a06",
+          "bytes": 5123
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0010/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0010/credits.txt",
+          "sha256": "cef72539781e8f44564f1ffcdca300821f37094f9fcc4bf5ea59009f7a4cdfba",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 10,
+      "durations": [
+        4,
+        2,
+        2,
+        2,
+        2,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0011/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0011/AnimData.xml",
+          "sha256": "9b88de1540c77530ef121a0241aaeff5c66c9328adc21a33d154427a307f2231",
+          "bytes": 4873
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0011/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0011/Walk-Anim.png",
+          "sha256": "4345551b61fdc6e7b3c881fbc983e49c6ca2e69a01f4083b8d7d7d8735857a34",
+          "bytes": 13136
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0011/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0011/credits.txt",
+          "sha256": "ce7ff557dcf4204f93401b3e2d2d05d400c25de4b502c9b02a1d67325d04661b",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 12,
+      "durations": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0012/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0012/AnimData.xml",
+          "sha256": "1996c162997730ee183fa53d5d3ac0305395a5fcaa99010cb02ad57ee83238c6",
+          "bytes": 5859
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0012/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0012/Walk-Anim.png",
+          "sha256": "36da453a32e920275d475f669d3e58ece66f5dffda5f95c998b0aac660819ad5",
+          "bytes": 19861
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0012/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0012/credits.txt",
+          "sha256": "8bf440ca74ce2ddb7f907216f15d8e73638fe3d18890b3fa670683380bac0717",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 3,
+      "durations": [
+        8,
+        10,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0013/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0013/AnimData.xml",
+          "sha256": "ee13d6f7c9c0f584a069906fe423f214d639e91be53564dd04b17833ab3b8b2c",
+          "bytes": 5156
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0013/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0013/Walk-Anim.png",
+          "sha256": "b7001ca5de802874a0777663f7c1a846e824937d73b6ee68b328410d719b3969",
+          "bytes": 4189
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0013/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0013/credits.txt",
+          "sha256": "77d3d4c7301ca66d7cede0604649516d7d191a8d2b4031f6455503c7c57baaf8",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        8,
+        4,
+        4,
+        4,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0014/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0014/AnimData.xml",
+          "sha256": "977d4d4b7ce1018a55d8f7a35ab4fee36f249ca31ecceca3de1ccf0d0bba1ad0",
+          "bytes": 4973
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0014/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0014/Walk-Anim.png",
+          "sha256": "5e959aa36cf5217424f86140ca15d2df28869522167f9f01584300e459563baf",
+          "bytes": 5281
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0014/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0014/credits.txt",
+          "sha256": "f049fa651c26aa0a4cb5500671275460969bfd1ee68c9cb59da78bbe643dd50a",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0015/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0015/AnimData.xml",
+          "sha256": "99a360f037affb80ee03424b9fa4f301c4d629850543a2a8cd2c2bd61cfb4eca",
+          "bytes": 5861
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0015/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0015/Walk-Anim.png",
+          "sha256": "832dfdb59cdd0cd8a17671e077266028198d9497fcc0c31f5016f3abe4ddb0b0",
+          "bytes": 8257
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0015/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0015/credits.txt",
+          "sha256": "1a9a06986a6895ec217513479bdf125d483c010624d63117aabad77cc2011dff",
+          "bytes": 127
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 5,
+      "durations": [
+        6,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0016/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0016/AnimData.xml",
+          "sha256": "d9d18301f30338227648309215f10546f0b3317d8f8ef35793e1f833e86e28c8",
+          "bytes": 14192
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0016/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0016/Walk-Anim.png",
+          "sha256": "239ccd62395cf202188561697daf990ea4a41e347cfa6b314bee17ed3832448c",
+          "bytes": 6646
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0016/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0016/credits.txt",
+          "sha256": "6481b0d0dc5fe5867e138f25a8f7fbe29e642f67bd14af1c258b46a7bcbdbcd0",
+          "bytes": 562
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        6,
+        10,
+        6,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0017/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0017/AnimData.xml",
+          "sha256": "20e0a24c720b82e58651f33c4c57ac42af3703c22ef78e349b33c22a1a5cb530",
+          "bytes": 5352
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0017/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0017/Walk-Anim.png",
+          "sha256": "f0b6c635e6f285a1eab19ea64e9f394925bd291b7b78133968af8778d0fb7237",
+          "bytes": 8276
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0017/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0017/credits.txt",
+          "sha256": "7a6f0a9716dfa4cfb66b16cfae4354f20986d2df3490744d887f3ffbb8b5b9f8",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0018/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0018/AnimData.xml",
+          "sha256": "88e45dc21d78f72637d6b300b7ca1732f6bbf55add43716fe151ccdc5cd4e974",
+          "bytes": 5352
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0018/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0018/Walk-Anim.png",
+          "sha256": "8861506f95b77d7a3ead8d972cab92ed943195f7fdc6ab79535bf6ff4b706978",
+          "bytes": 8417
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0018/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0018/credits.txt",
+          "sha256": "93e2662ad74a1803c0b00082b078fbeae092478d7ac23694713dbfa8075799b0",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "frameWidth": 48,
+      "frameHeight": 40,
+      "frames": 7,
+      "durations": [
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0019/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0019/AnimData.xml",
+          "sha256": "04f971ca4f6e3ea5a50340bdb27328b865a1aa3cb9f9a1f39ceb6401b6e2969f",
+          "bytes": 5316
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0019/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0019/Walk-Anim.png",
+          "sha256": "45f20530831dd09046c2c9ac42a6322eaea6c63427e723940b798f5ba89374ed",
+          "bytes": 12751
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0019/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0019/credits.txt",
+          "sha256": "23794e8016b3e013b4ed892f2e33fb4e514f4a689c77bafb23939f072c0e1614",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 6,
+      "durations": [
+        4,
+        6,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0020/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0020/AnimData.xml",
+          "sha256": "22312af7ca048853d056431ad6b43840db28f7698e213704bbb6e77e1639f5f9",
+          "bytes": 5235
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0020/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0020/Walk-Anim.png",
+          "sha256": "0625cf3772af91cf2e2c15ecce28a62383535821322f8dfca707688605bc2d0c",
+          "bytes": 12751
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0020/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0020/credits.txt",
+          "sha256": "ccb22fe9d24bb2f1395838183a99d1b199e6bf95621c42908eb603f184a2114a",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        6,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0021/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0021/AnimData.xml",
+          "sha256": "215a4a6c5569a3d0ed9f577ae73e00390cfa836db880d781afea1c46eefd8163",
+          "bytes": 5231
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0021/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0021/Walk-Anim.png",
+          "sha256": "c30e85aa535aa47f304846105f944e6dc48c895a44c13c39e151c7ca90da9fc8",
+          "bytes": 7392
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0021/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0021/credits.txt",
+          "sha256": "0e76044a3c91ddd9969c508fc0cf122a1f35ac171c6b5e8ea9047b6fd5eeff04",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "frameWidth": 40,
+      "frameHeight": 64,
+      "frames": 6,
+      "durations": [
+        4,
+        5,
+        6,
+        4,
+        5,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0022/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0022/AnimData.xml",
+          "sha256": "d591d962bb860206183017ce2ee2c6b56dad9b9e84d22ae554ad0d6265213546",
+          "bytes": 5532
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0022/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0022/Walk-Anim.png",
+          "sha256": "c46145288a25c2e0a64aee81839477e27f1db2d79959ef0ea9bd6c00b6e360db",
+          "bytes": 18086
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0022/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0022/credits.txt",
+          "sha256": "4163fd63943c45286e66f12af4054d11ebe3a2b3957a26c74942f3e1ae928c6e",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 6,
+      "durations": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0023/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0023/AnimData.xml",
+          "sha256": "16f061644fe87597fe30528065044a2c92b756631842d3c6e1221c992ddf6b5f",
+          "bytes": 13435
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0023/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0023/Walk-Anim.png",
+          "sha256": "d26bc40b46f724c41fed8e4280015b28d0ee54379161b5bfe32fc9632c0b72da",
+          "bytes": 12495
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0023/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0023/credits.txt",
+          "sha256": "667c194c10f4b0cfa92cf2e4e12a444b07463a265bdeab83424d040e38bb4055",
+          "bytes": 350
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 6,
+      "durations": [
+        6,
+        6,
+        8,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0024/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0024/AnimData.xml",
+          "sha256": "84c28f1420f0697fe1261e3a25aaa4994c84029f3a9f5832a56bd25f0ec3c3f6",
+          "bytes": 4708
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0024/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0024/Walk-Anim.png",
+          "sha256": "1c9de0c53d3391b3181e0c07b9be77f9b48696797512f7a86deda8bc58745607",
+          "bytes": 15049
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0024/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0024/credits.txt",
+          "sha256": "390738cfc36e34336db9c07e636188b2208031d1f2f1cd300914909da12aa3fd",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0025/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0025/AnimData.xml",
+          "sha256": "0666eaa460b7e702dc6c6ecf4cf5095ca652052d4bd92ae4e859da2cd42b2418",
+          "bytes": 12133
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0025/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0025/Walk-Anim.png",
+          "sha256": "5cfc2c775708c28c11f98e027e883261ab3ae4276e51621eec11c979598651f9",
+          "bytes": 6437
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0025/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0025/credits.txt",
+          "sha256": "e5868696fdb34c89de896f1b6b0c4e7c874281ce8de8e1853186e44b337860e9",
+          "bytes": 287
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0026/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0026/AnimData.xml",
+          "sha256": "c96116b40239edb3fbb0843ae50b35b2dd98f6f17aa430d6b70e2c12c9a1244b",
+          "bytes": 14374
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0026/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0026/Walk-Anim.png",
+          "sha256": "6526184cf16f5b97a1fc2d051e423f96b83843e2bf052ac9b1f1b12f90c90a70",
+          "bytes": 10731
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0026/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0026/credits.txt",
+          "sha256": "08c60c70039e35d247d06e181bc9f800bd932c518faf085741f1174bde12927a",
+          "bytes": 438
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        10,
+        6,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0027/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0027/AnimData.xml",
+          "sha256": "37abe681deb81eb8eca55ed2e5156d11b2871c085b048e160d33f1c9994776da",
+          "bytes": 13739
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0027/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0027/Walk-Anim.png",
+          "sha256": "23fc8ce093564ac34e54c1fe41b185c93364c35a3e6ff37c1583c47c9ae02e99",
+          "bytes": 5128
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0027/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0027/credits.txt",
+          "sha256": "448753b3321adfc13559e0da7236257976423922a6d822d11e49a04161b5c7cb",
+          "bytes": 583
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0028/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0028/AnimData.xml",
+          "sha256": "ca86e33a6199a67a11ca7561b67981ffe5ab027a306844b1376b99a029f2f555",
+          "bytes": 13679
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0028/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0028/Walk-Anim.png",
+          "sha256": "1b6012d1d07e8b6821e702df9d6308f14b67c21cb0bddfefd797b4c4fb5bb1aa",
+          "bytes": 8801
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0028/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0028/credits.txt",
+          "sha256": "b04b1ed95e60bb9546856d0bcbc44f1b9cbcd74afdf07d00e610d3f336a162fa",
+          "bytes": 564
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 7,
+      "durations": [
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0029/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0029/AnimData.xml",
+          "sha256": "55182fa83c9f71dcf4f3b41025518d0a68fc1cd5d606ff50bdf55f46a6e52d40",
+          "bytes": 5298
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0029/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0029/Walk-Anim.png",
+          "sha256": "dc18d551e31e96fa2c73461c052c243a621df088e54e93c978ba876e8cb20c42",
+          "bytes": 11355
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0029/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0029/credits.txt",
+          "sha256": "6a68ac9f77a6597bdbdd7e74e64b267f5d79490dc256b74c93a41a382a426a91",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0030/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0030/AnimData.xml",
+          "sha256": "f12ebd46f1a7beddaa8f21f8de683eee7be7b70d6e0233946e3a454194a3ae82",
+          "bytes": 5271
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0030/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0030/Walk-Anim.png",
+          "sha256": "888554895442c52fdf986d5ecef69ae4287ee78784650d24eb6c297a8794b74e",
+          "bytes": 5681
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0030/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0030/credits.txt",
+          "sha256": "dec5d24d15a9779ea22337661ddc7a1c892e738fedea8c05ee7e8e0be2d8bdf7",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0031/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0031/AnimData.xml",
+          "sha256": "1da4b4b2cf39c6d14030fcc08d2bc4291e4c7f66bcae5f62d34ccf40f12ccf70",
+          "bytes": 5220
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0031/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0031/Walk-Anim.png",
+          "sha256": "f487e5b74299137a435e5c9004046748afc33f634a4244d6505e8b9cd7672cdb",
+          "bytes": 8201
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0031/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0031/credits.txt",
+          "sha256": "1069a8a5971957df592d8bcdf088c1fb31454fa12bcd6736d2f2f66125fb0d3e",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 6,
+      "durations": [
+        6,
+        6,
+        5,
+        6,
+        6,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0032/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0032/AnimData.xml",
+          "sha256": "a675d6e5571b1a3c8d42097f8641add76252dbd6629ac5f9ad4b1d3dcaab54be",
+          "bytes": 5372
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0032/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0032/Walk-Anim.png",
+          "sha256": "526d8779bf170b841fde3b324b17b83d4bc0ddc70fb46b07b6b911060ecc1ee7",
+          "bytes": 13025
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0032/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0032/credits.txt",
+          "sha256": "9dcaa1ec7a3a13fa91f6ab26e612d0fc329c1acf57760bb1eb8981cf1e0c3393",
+          "bytes": 145
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        6,
+        12,
+        6,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0033/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0033/AnimData.xml",
+          "sha256": "298f6a7c18b5e6a2161b9bf9b042704b8560dac309639fe692bb80f33fc947e5",
+          "bytes": 5397
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0033/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0033/Walk-Anim.png",
+          "sha256": "d2c4945944b04c29026d3c9423e41d384052d750ab0b8d6cb962e307b0dd4f22",
+          "bytes": 10394
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0033/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0033/credits.txt",
+          "sha256": "0574833949b45f83a346d15e2f8b9a8a292321856db2d97d9797e461199b4d6e",
+          "bytes": 145
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        14,
+        8,
+        14
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0034/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0034/AnimData.xml",
+          "sha256": "de627a4b43c30dbcc3bfec20aba7df4f2100b0492a370e6fe546d399785a9401",
+          "bytes": 5402
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0034/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0034/Walk-Anim.png",
+          "sha256": "47e73a0dbadc870b3dba8ac816b1e43f0359aba2797bef2569883894793cef5c",
+          "bytes": 13128
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0034/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0034/credits.txt",
+          "sha256": "928c290f10ae900e4cbeb220ada8745ec5ae92d13037caf5f69c57857aab7e84",
+          "bytes": 144
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 8,
+      "durations": [
+        8,
+        4,
+        8,
+        4,
+        8,
+        4,
+        8,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0035/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0035/AnimData.xml",
+          "sha256": "9b837d210d30575ba8e26347e153e82a7604a6a0952ccd5087ac17fe00dc3f7b",
+          "bytes": 5105
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0035/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0035/Walk-Anim.png",
+          "sha256": "44f655d401567a7b9e409078d1b104eca91143efe9144f86c35bae94b5c8a83d",
+          "bytes": 11404
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0035/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0035/credits.txt",
+          "sha256": "3cbf35c324ff57c0d0e8a5485328c1c7c2eefd979e41384c93156c31d2f24095",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 8,
+      "durations": [
+        8,
+        6,
+        6,
+        6,
+        8,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0036/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0036/AnimData.xml",
+          "sha256": "c10459146271fb67aedbc602b60d427e3d01d964ae36d0e53c7ffeb39e7f2a5d",
+          "bytes": 5372
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0036/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0036/Walk-Anim.png",
+          "sha256": "7e72c95984fc4eab6f8f016cc6ec446bba33e7c404569c800f4cef304ea38939",
+          "bytes": 14960
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0036/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0036/credits.txt",
+          "sha256": "3a39d266ac77625435a74833cc10efc791b8ecf902677aeb9d12f7f2eb27ad64",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        6,
+        4,
+        4,
+        4,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0037/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0037/AnimData.xml",
+          "sha256": "d6b486c0c54950b1da64ac3649f5960003adc2da705f7f4f22384d92ac962890",
+          "bytes": 12032
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0037/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0037/Walk-Anim.png",
+          "sha256": "e2d911614423ffa3675f60d653d947394d5a587cf53a688cd13ab3322c157925",
+          "bytes": 8926
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0037/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0037/credits.txt",
+          "sha256": "1ce879fcef8a4e0fd1c6ac4921a321505fc613837dfad81a31f1a7f38f3eacc5",
+          "bytes": 299
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0038/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0038/AnimData.xml",
+          "sha256": "f9debf37a49b88a5297d2e63ccff48e5971e6dbe629569d99ba8e7654b5f8303",
+          "bytes": 14388
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0038/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0038/Walk-Anim.png",
+          "sha256": "905e6511666f0be13efc3317d4b95653085eac09698a8d05e1e39ee989f47ea4",
+          "bytes": 8420
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0038/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0038/credits.txt",
+          "sha256": "a48e29d57c340da9b840c9bef1d56e72ee08dc3ad4b8b1f828c0e784dbb6eff9",
+          "bytes": 377
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        6,
+        4,
+        4,
+        4,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0039/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0039/AnimData.xml",
+          "sha256": "e0f1bb73a4121a3434a4e1f074a96e6c447f79611ba8dac5e14774d05f3531d8",
+          "bytes": 14527
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0039/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0039/Walk-Anim.png",
+          "sha256": "ac5b6bcd172e6dbf6c6dd9978d4b69c093f6d540f9fa41050212c6aa3946f21c",
+          "bytes": 8208
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0039/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0039/credits.txt",
+          "sha256": "8150e6b196bb7687d65d9d0d2b0791e3f26b9ef80bfbadd48b50292aaffb5f9c",
+          "bytes": 417
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0040/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0040/AnimData.xml",
+          "sha256": "e59fd1de05afa55d74c5c0b1cc1986e5aafd7b580878e7848ca89678b82f88c3",
+          "bytes": 5665
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0040/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0040/Walk-Anim.png",
+          "sha256": "ed5b6fc945882e49ba701043497d2e897f222e716b0979c34d4eb0d5d1cf17ab",
+          "bytes": 8512
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0040/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0040/credits.txt",
+          "sha256": "75b9ba1a671c774df78daa83d5fd4b53ab5aeaf240ce457f3c9858e702b1344f",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 8,
+      "durations": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0041/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0041/AnimData.xml",
+          "sha256": "9fdfe264ac506077420070b16f797bdac35b14945d07ae06e21bff5ba0e3e125",
+          "bytes": 5003
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0041/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0041/Walk-Anim.png",
+          "sha256": "37323d0e60074800f58a896d0d7ce9ad940ae9e34357fd10c472cb8b571db139",
+          "bytes": 11912
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0041/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0041/credits.txt",
+          "sha256": "3bdb9dddb1e840df8ff59efdc9bdb04a84720bd1d83b79813b68da8eabfdf018",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "frameWidth": 40,
+      "frameHeight": 64,
+      "frames": 8,
+      "durations": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0042/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0042/AnimData.xml",
+          "sha256": "6823ebf0b1d2a5e3828e4b243a4fe050be337ef2ac70bf70a4edb9d776b24838",
+          "bytes": 5394
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0042/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0042/Walk-Anim.png",
+          "sha256": "0bd763da977f6ebdd84e5cb4fa5474872c5d180ab840ea8a45f632ef8ad1fabf",
+          "bytes": 15411
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0042/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0042/credits.txt",
+          "sha256": "2da8ca63344535b1315491032b8813e389e17e79fa4de10fa415ce51a58c26d5",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 8,
+      "durations": [
+        8,
+        4,
+        8,
+        6,
+        8,
+        4,
+        8,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0043/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0043/AnimData.xml",
+          "sha256": "5dc2143cfa1be77b4e673cf26dd8297176706a780643e1aad1206511aa0e6b1c",
+          "bytes": 5536
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0043/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0043/Walk-Anim.png",
+          "sha256": "9d8b24b29c664e9053c98f7712a94d0113e41342e742fab74de482c5304414fb",
+          "bytes": 7555
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0043/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0043/credits.txt",
+          "sha256": "6a71d6853de76532d2f34ff5274492d723b5c6b10908de3ebd974f4c4dd0e778",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0044/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0044/AnimData.xml",
+          "sha256": "28c04e49ccc13db2f9249ca9f5064efdcfbd40a2849e7014d1e40883fe038a81",
+          "bytes": 5400
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0044/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0044/Walk-Anim.png",
+          "sha256": "127c937837a92d22b9ba31bdc7ea5478626c9b678c8c5e4fd6c2631307c07700",
+          "bytes": 8052
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0044/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0044/credits.txt",
+          "sha256": "bc32553aa544bb7776034d89e784c3c663fa4933599042032102cbb1a252ae72",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0045/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0045/AnimData.xml",
+          "sha256": "823c51e1669e66db77c55a22d21f65f36a413f29ee4b46106df20b70a6a8e92f",
+          "bytes": 5592
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0045/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0045/Walk-Anim.png",
+          "sha256": "259f42559a1592fbdf43e0c6da1730ed972aaecb0b5411024a2b7644db581e1e",
+          "bytes": 7002
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0045/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0045/credits.txt",
+          "sha256": "90a02e745847e5be1796b11a95e56a938de5d7212ffabb47d02c9c69aa7a9539",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "frameWidth": 32,
+      "frameHeight": 24,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0046/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0046/AnimData.xml",
+          "sha256": "dc774e7ecf14fd8522c7c874750a5af148be3bd2638673a0676751d2f694c693",
+          "bytes": 5347
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0046/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0046/Walk-Anim.png",
+          "sha256": "2b56f3d2a80c70c2dc2a6aa0802619576a8e4878c75afe537e9fc754747a023f",
+          "bytes": 5503
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0046/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0046/credits.txt",
+          "sha256": "f17d1f3d931ad2c1d2de5846384309306ce2881f6f11aa36fc5452829cb97886",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0047/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0047/AnimData.xml",
+          "sha256": "238ee80caf0e571a4e88821d60179964b54184d237f1bf37a2cb2bdd73ce22d5",
+          "bytes": 5456
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0047/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0047/Walk-Anim.png",
+          "sha256": "3fbb6c4ce9265c45239473c70b9fa553cbd88d43a2ed9f02d9482268a66347d6",
+          "bytes": 6900
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0047/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0047/credits.txt",
+          "sha256": "e6b885e1d127f92385e1bb6b7c62ed32e6a651d2d01cd26ba33e4d9a41a69c24",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 5,
+      "durations": [
+        8,
+        6,
+        6,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0048/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0048/AnimData.xml",
+          "sha256": "7ac1b1bc39793a8beeaa2f69806ce93a4f8794ae974e3e7ac542bb540a9f52fe",
+          "bytes": 13772
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0048/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0048/Walk-Anim.png",
+          "sha256": "9b7e93c8acec93568a9f2903dabd516156a037d9dc33ee8759b8701792330fa8",
+          "bytes": 8376
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0048/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0048/credits.txt",
+          "sha256": "49bd274f585e7e18c234b0dfea4c84dab70b21650d8b8acf1b4b8701f57190ad",
+          "bytes": 347
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 12,
+      "durations": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0049/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0049/AnimData.xml",
+          "sha256": "c2b663ac58918725086e4c6fc7b5695b622e6e73798d5716f2cffd2351fa96d5",
+          "bytes": 5974
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0049/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0049/Walk-Anim.png",
+          "sha256": "9559743a995b53e68a0d8013ced72a472de0fe5e838ee0b1582a4b264c5645cf",
+          "bytes": 18721
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0049/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0049/credits.txt",
+          "sha256": "419f4cb7b2d3b98b9cb3cb34cf86483ab2acd866a30c530c56942d2238e45ee7",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 3,
+      "durations": [
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0050/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0050/AnimData.xml",
+          "sha256": "6d5b6f03f80a29234ece6be79b235ff32bbc81cb602e728659eb083a7c6bb7aa",
+          "bytes": 4497
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0050/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0050/Walk-Anim.png",
+          "sha256": "d739b65aae070b3f20df30d8a9fb85247b93a339bcb435788963052e5a271407",
+          "bytes": 4607
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0050/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0050/credits.txt",
+          "sha256": "f86586f477cf8b8406bf35da3f96b9bacab5393a43825b071aaa59919a9347b9",
+          "bytes": 200
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "frameWidth": 56,
+      "frameHeight": 48,
+      "frames": 3,
+      "durations": [
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0051/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0051/AnimData.xml",
+          "sha256": "51a44f3c2d0a539cf3123f2db53db06280b27f58d57aaf68fcb3979aaa179399",
+          "bytes": 4502
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0051/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0051/Walk-Anim.png",
+          "sha256": "f1eef631a009942eb8cc4db126a95797971f60231bce21c972968690a6824432",
+          "bytes": 8926
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0051/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0051/credits.txt",
+          "sha256": "980dd12841ed2ebe2038669c5efbb51b1cf62b252af21ba2e5a5de240852b181",
+          "bytes": 203
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        10,
+        6,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0052/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0052/AnimData.xml",
+          "sha256": "353fcd0cc6fcf64654574e043c2e7cda04611da24dc237135d355cbb5785b70b",
+          "bytes": 12107
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0052/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0052/Walk-Anim.png",
+          "sha256": "c58d87c7bc111288963f7df341e7c38f444908104859810bc505107212cc6eb9",
+          "bytes": 5478
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0052/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0052/credits.txt",
+          "sha256": "1cfc2cd33eac91b445fc8a04fd47692f56318a81934c8873601b2dcb239efe51",
+          "bytes": 288
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0053/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0053/AnimData.xml",
+          "sha256": "ac68e0aa9d5cc5afe59602319e781beff2f5bea317599f04be9de1337216b742",
+          "bytes": 5243
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0053/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0053/Walk-Anim.png",
+          "sha256": "8a4a16f4409b34514adebc153ebb63d96bad812d5a9a0dc9cd090806c48969b0",
+          "bytes": 9155
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0053/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0053/credits.txt",
+          "sha256": "0683d5be7148c3e33274c5cb7d50e83951879b50dcc481662ab92e8290b4b981",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0054/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0054/AnimData.xml",
+          "sha256": "c2f7f4ea5271d04ad647bb6972e6ebd8742c27c123a44e8580e7cb5f48386623",
+          "bytes": 5585
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0054/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0054/Walk-Anim.png",
+          "sha256": "890be68026823e8c9807c5978d7420665bac67db0f7f5126a30bbf4c1ce9611e",
+          "bytes": 6223
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0054/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0054/credits.txt",
+          "sha256": "1867720cd98b0685c28743bc8bc8bce82b09326cd8a1bd083c1e1a11196434bb",
+          "bytes": 141
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0055/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0055/AnimData.xml",
+          "sha256": "c873a04daa41fbba138a76c11f603f805457ad627f555ac7c014db3cc9c50861",
+          "bytes": 5112
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0055/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0055/Walk-Anim.png",
+          "sha256": "58e50d7f4b3f8999cc49e0399f3875f20b7bc73828df0210776fb77bc43f8cd4",
+          "bytes": 8426
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0055/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0055/credits.txt",
+          "sha256": "d9880f171831c7ee6b76e05b566fe602f3a0921d9f62e51ab8d941cd3c822e21",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 8,
+      "durations": [
+        8,
+        4,
+        4,
+        4,
+        8,
+        4,
+        4,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0056/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0056/AnimData.xml",
+          "sha256": "6901f7230c2364478bf7ff69396424db77d39de24146b8e86a9c4818dd54a28e",
+          "bytes": 5669
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0056/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0056/Walk-Anim.png",
+          "sha256": "a88e9011f7aa2e62b3f1893924fd7d89ce1eef19a46bfe39ce07ab90f5ac6e15",
+          "bytes": 14559
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0056/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0056/credits.txt",
+          "sha256": "72ac3af949580ff14651e66f1ee425e153a5f8dab10bc17ccd57a4bc800275c6",
+          "bytes": 140
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0057/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0057/AnimData.xml",
+          "sha256": "80cbd4845bd0d864a8c45493c6e47d1ea649b73c039f0ce14c9192b47007cb44",
+          "bytes": 5489
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0057/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0057/Walk-Anim.png",
+          "sha256": "6c852396b8c378864b82214ae78ea8f40710b3a18d7add5a0f6ffe4eed04424d",
+          "bytes": 9305
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0057/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0057/credits.txt",
+          "sha256": "c34544811904b5d4889c11574579e98640ab9e3923d88381c077e520bd18857f",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0058/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0058/AnimData.xml",
+          "sha256": "363103ccde416c194701f7b9b0061a557db502856b0cff3f04ac4a896333a1cb",
+          "bytes": 7070
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0058/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0058/Walk-Anim.png",
+          "sha256": "eefaea9bf9241ced7639e6adb976e8ccbc5b2ecac2fa3e1e37708e290302f529",
+          "bytes": 7081
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0058/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0058/credits.txt",
+          "sha256": "ce2914a43b4658a88c8a33e23052a9d0c2df6d025c2013de76e5e4d38633c238",
+          "bytes": 293
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0059/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0059/AnimData.xml",
+          "sha256": "7ecee62def3c8d555401a62db17f829e14b655bffa2ce7fea13acdabae0955a0",
+          "bytes": 5713
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0059/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0059/Walk-Anim.png",
+          "sha256": "334750447c22099cf87fc6cf7804f4490bb47f87581c5134a05c0998aeb4537e",
+          "bytes": 11192
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0059/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0059/credits.txt",
+          "sha256": "2544e869a0ef06af1690e063445de946f182622aae3d2747b88c900ee1ba60fa",
+          "bytes": 145
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        8,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0060/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0060/AnimData.xml",
+          "sha256": "c048a2dbe627ddcf949bd32f699b0ba5432bb99bc28582164535fa43857e45af",
+          "bytes": 5411
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0060/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0060/Walk-Anim.png",
+          "sha256": "b4a9006f9a2afa2f69ddb34b85de1c636f6024b97eabfad9a0ce29188b6bd1e3",
+          "bytes": 8289
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0060/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0060/credits.txt",
+          "sha256": "0c0ab54cac8a57f6c4a2cfb984f40d498d9b16e419d5eca36af908bce9f773c3",
+          "bytes": 138
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0061/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0061/AnimData.xml",
+          "sha256": "81b71f08104fdc395cd329da8176a5f982c8c85998d54058071e7502542d1c16",
+          "bytes": 5051
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0061/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0061/Walk-Anim.png",
+          "sha256": "8482ee9bb2e530f56fcd37d3a0d6265640f5e1016d33a59b5aa3cc78262e9aed",
+          "bytes": 8043
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0061/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0061/credits.txt",
+          "sha256": "f1871d03c0a48d852683dbb40db76a9d54628bf85f300f77c7fe93f2e3106e6c",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0062/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0062/AnimData.xml",
+          "sha256": "5513b505fd7cd1c240727f0320e5d12c87c8198e8116cc4f8d90cc8987a45803",
+          "bytes": 5025
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0062/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0062/Walk-Anim.png",
+          "sha256": "df824077d96c0196ff3e167eaf26c1c2ac4273d695eae7591440cdd6e1755eff",
+          "bytes": 10222
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0062/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0062/credits.txt",
+          "sha256": "73c798f2de5ccaa33f3370be249bc846003cacb335976c4e34953d981356dad5",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 8,
+      "durations": [
+        8,
+        10,
+        8,
+        10,
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0063/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0063/AnimData.xml",
+          "sha256": "d33b5e34837b4d858ceb21feff56aa3df54c7950051afec0ebe122246737d6bb",
+          "bytes": 14078
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0063/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0063/Walk-Anim.png",
+          "sha256": "53dc06585a45660cda943823aa481d5bff82543128b3577b057bebb01cf3b83d",
+          "bytes": 8222
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0063/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0063/credits.txt",
+          "sha256": "cda14edb16346a1602a1297745f3d51933893003ef0a8cc138801ebe5f707ed8",
+          "bytes": 448
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0064/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0064/AnimData.xml",
+          "sha256": "d270c6b6bf1c93d28cb345bf37ea04890a1210d0335522afc1b0e428f4d55f27",
+          "bytes": 5295
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0064/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0064/Walk-Anim.png",
+          "sha256": "ec6f1200ff54bafdd2bccfc1aa224c7ef1326d4bbb753564efebb7a6b31fdae8",
+          "bytes": 7048
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0064/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0064/credits.txt",
+          "sha256": "da027fd4eb552d32e5346a723fb2f22d105030e54548296aa1dcee0d5be94dec",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0065/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0065/AnimData.xml",
+          "sha256": "fd450298293b267daf070a877e125904a295219b8c67cddead27e346f0c22bbe",
+          "bytes": 5130
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0065/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0065/Walk-Anim.png",
+          "sha256": "472a6e8e1517ff6ddc6ae027d90d34d580cfc3acd57363c4907de959c2e37c0c",
+          "bytes": 6224
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0065/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0065/credits.txt",
+          "sha256": "1353007bbf4de6233a149b9758f52221e5be5064ff3f6fe59db0e54a622cca10",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0066/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0066/AnimData.xml",
+          "sha256": "ee2f3546600fe03eddb4e742e6504931c63db68e880a2a3dfa9b849f151f0300",
+          "bytes": 13812
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0066/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0066/Walk-Anim.png",
+          "sha256": "59f4ecd71b27453edeaa570032b13785d4a4c56108b947ccdcf19ea77331bf83",
+          "bytes": 5204
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0066/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0066/credits.txt",
+          "sha256": "37ce381c6366ae82c4e84014218788e852376612f4e585eccab600ad124e2305",
+          "bytes": 336
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0067/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0067/AnimData.xml",
+          "sha256": "0c7425a55171ed3043064ff867894b6018b7011cbfd0ea053bd21b183511840c",
+          "bytes": 5213
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0067/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0067/Walk-Anim.png",
+          "sha256": "deaab61e394346ea58351e299706a2748c6e750055c18948b80551253004b152",
+          "bytes": 9679
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0067/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0067/credits.txt",
+          "sha256": "df258ccb5d3ceba778ce9aeee0273398a1df61092ade82723023a47a0b47e1f4",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0068/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0068/AnimData.xml",
+          "sha256": "c3542b199ab099a0ddb6f970c4122a87dc9f065c1e78f0efb5100fd34a62d058",
+          "bytes": 5401
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0068/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0068/Walk-Anim.png",
+          "sha256": "e169fb82de0226d8abfbc73e6b837af41cfb19347f71943bea804dfe5fc6120f",
+          "bytes": 11823
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0068/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0068/credits.txt",
+          "sha256": "9ddf1801bea9fd4d20fceefaad843350ae72f9d2a2193db47745b19511b5c72f",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0069/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0069/AnimData.xml",
+          "sha256": "46b2949173a08220b297edc097216e5305eec39b53958f3718f752019ef567c7",
+          "bytes": 5025
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0069/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0069/Walk-Anim.png",
+          "sha256": "fb97696bc3e3614d83f651723cdc8525d155a39f10b33f4de52aaa9cc5f93e93",
+          "bytes": 4549
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0069/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0069/credits.txt",
+          "sha256": "42b8c134f4f2d0881356999a3b9a423107d9872f89f832a7305c51f3ca5dd846",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0070/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0070/AnimData.xml",
+          "sha256": "ccb3028928e33f3798405f1790ffccafe7d25f69809f6b15a7064638e7c75a96",
+          "bytes": 5304
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0070/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0070/Walk-Anim.png",
+          "sha256": "5ffeaf5af6a0e4180d52c82f2c005f67e85bb0c4b0df82f295b402c8a0c5f6b1",
+          "bytes": 5810
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0070/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0070/credits.txt",
+          "sha256": "2c46d945eb7799658dae93f1a7967539f38dba8d0837a93a3734ac7676156e28",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0071/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0071/AnimData.xml",
+          "sha256": "bf7ae787812d390042adf47f4210ce273716b66e942d4abc24529c292f1d8516",
+          "bytes": 5400
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0071/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0071/Walk-Anim.png",
+          "sha256": "dfe143633931a28f6fcb22b2857875e40968ba068b3949fdfdc4bbb1f1a4de64",
+          "bytes": 9625
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0071/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0071/credits.txt",
+          "sha256": "a76fa5254ae54763e7901124d1da2f8f383962d3533cde445d0efde1f2c9c404",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0072/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0072/AnimData.xml",
+          "sha256": "6d4c41f7b6ad5b8b88034116b6a972df59ab2021f6519c96b17e7c5c9d07ddbf",
+          "bytes": 5641
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0072/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0072/Walk-Anim.png",
+          "sha256": "91449da3edb0b17d94d1d7cd2a5c32812438859077f9cb7de0f58a709291da29",
+          "bytes": 6677
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0072/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0072/credits.txt",
+          "sha256": "c1985d4891ae9989df0ff4bc6a5dec11c6cdb57ae3e8db435458d0ba2698ac1d",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0073/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0073/AnimData.xml",
+          "sha256": "aefa8309b01508ba1662bdd8ef790b124db13dba971723e42ade06ff737fde42",
+          "bytes": 5444
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0073/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0073/Walk-Anim.png",
+          "sha256": "64be4736f766def612d9761bc03d4afbb64ffe1bed4e37b47d5fa7a8ce2c4e10",
+          "bytes": 8575
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0073/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0073/credits.txt",
+          "sha256": "8b7836e878d1fd56454d90c44e28c689bdd4c50cfcd3b3b19529d72a1edf4e74",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0074/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0074/AnimData.xml",
+          "sha256": "9964d5585586be10f3d9185d81c0cfae44535fe6ee760ee43699f9c2bf37cbe0",
+          "bytes": 5348
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0074/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0074/Walk-Anim.png",
+          "sha256": "a0d4753f962a93ee469bfb66e3a0acd8799f5d0a989f1527397689470384e0b2",
+          "bytes": 6580
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0074/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0074/credits.txt",
+          "sha256": "9fa93fd45cce8581d83373f822597dbc4e33a00d749a7d183951f36dc6b2af33",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        6,
+        10,
+        6,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0075/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0075/AnimData.xml",
+          "sha256": "5eab065202dcd7fdf3a469d8d5703090f30114db852af448d7225dc84d29f596",
+          "bytes": 8525
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0075/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0075/Walk-Anim.png",
+          "sha256": "998b9819389dd9a56b6d6bbc3d1c388b0dcb805f601488cee3d2a8ca926e3f7b",
+          "bytes": 10976
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0075/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0075/credits.txt",
+          "sha256": "fbb985f756cd5f4564d31ee5ba4db8c905e07eb13aea2091b04c3c960c50459a",
+          "bytes": 302
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0076/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0076/AnimData.xml",
+          "sha256": "14597d8cd51fe93c3996abe4276eadbe6d5756fbbefa2439c2d673de306d2b99",
+          "bytes": 5627
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0076/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0076/Walk-Anim.png",
+          "sha256": "b90f014a4a216feab9af0d149d1517930070dadb15c65316e4d55a7ab8d62ddc",
+          "bytes": 8704
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0076/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0076/credits.txt",
+          "sha256": "0dd43a7a6e5173f6bf61ef66cc7654ff03ee1dc3324df2e5ec2740aa655fc87e",
+          "bytes": 207
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0077/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0077/AnimData.xml",
+          "sha256": "f9d7bb0e664be8482392b0925e6bd45cd325aa3db350e4a1ea4d307dd48c6b46",
+          "bytes": 14123
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0077/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0077/Walk-Anim.png",
+          "sha256": "1e6b41df7b572f46d4faaf7a361cb674d7d8f39f7e16632cbfd5d0b02f7cb247",
+          "bytes": 7212
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0077/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0077/credits.txt",
+          "sha256": "e9292e1a379196af1ec0a8519dfb8e6ce086ebd3342ce8fdf94fcd9ff8e87ad3",
+          "bytes": 438
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0078/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0078/AnimData.xml",
+          "sha256": "c21f5cd530e6420cae259df93ac14280d4649e2db387403463d279b0077254da",
+          "bytes": 5378
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0078/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0078/Walk-Anim.png",
+          "sha256": "61880189382705dcf971baee5b4b7ce8acdf63c7ce89dfc4ae259f752b118cf0",
+          "bytes": 13915
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0078/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0078/credits.txt",
+          "sha256": "24c6547f2556bdb1a5a7420ed8244115060975c44e6f9ae6600970c56698adf0",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0079/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0079/AnimData.xml",
+          "sha256": "8a86861fd234476c2f53942bef58867a85c151b9c297841630a1888ef77a45e0",
+          "bytes": 4681
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0079/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0079/Walk-Anim.png",
+          "sha256": "8f9c17c5b5d04759e782036ccbec76eeafed3effd0f46d88565f1ab2460fa684",
+          "bytes": 6129
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0079/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0079/credits.txt",
+          "sha256": "93d80ccea661563c147654c34649fa075e53cbfd8a2a00d48ba48e5c504efb6b",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0080/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0080/AnimData.xml",
+          "sha256": "a858185a7df41108a9569bf5bcd48a9d329b95be8b62d085ff018de2d116f025",
+          "bytes": 5305
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0080/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0080/Walk-Anim.png",
+          "sha256": "55efb36975eb95833c98a4ccc7614072c8985db884844c5502ae6d3d0676fc6b",
+          "bytes": 9204
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0080/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0080/credits.txt",
+          "sha256": "0ed506ba1f521919e5e152835111cefdb37084d76c803d33730e98a903cb0433",
+          "bytes": 137
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 6,
+      "durations": [
+        8,
+        6,
+        6,
+        8,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0081/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0081/AnimData.xml",
+          "sha256": "8d98319aa238645c07ae41dd63a55342103825a4e182ce34a1853f02890f545c",
+          "bytes": 5381
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0081/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0081/Walk-Anim.png",
+          "sha256": "680523289171c5ca6e3719ad814c8fd1759899c8119e74b8c7a232a0cc13d3a2",
+          "bytes": 5349
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0081/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0081/credits.txt",
+          "sha256": "5abc7e0813b0c73e69dc521dc695640b5d847d0e1f0f26f8811f999d1c10f7c9",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 8,
+      "durations": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0082/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0082/AnimData.xml",
+          "sha256": "2a9f6b31728f2afb6db3e8bb78dd930469cc6eaaefff99d329999b80b687f3e7",
+          "bytes": 5193
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0082/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0082/Walk-Anim.png",
+          "sha256": "3dbe328636fb0eeccbae97caba35474e8c26520304e157719c8acedac2cbdc89",
+          "bytes": 16191
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0082/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0082/credits.txt",
+          "sha256": "6c392ea4ccd9bd0f14aafcc85aacedfbcf3e0e841375070e7200cf8f3af123d8",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        12,
+        6,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0083/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0083/AnimData.xml",
+          "sha256": "3c0b1ddce26814f20ef4b605746d1c0cd9a101af28cc62007997f3db22ac7aff",
+          "bytes": 4711
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0083/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0083/Walk-Anim.png",
+          "sha256": "2f75ab73c640d52d0e43f7fd62e4734074bd6b46d765243068c223a93befb8fc",
+          "bytes": 5806
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0083/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0083/credits.txt",
+          "sha256": "f7fed6a0b91dc61b2765a6ec023c2e609fca638ff6f3b02113900c5bd29e242b",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0084/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0084/AnimData.xml",
+          "sha256": "081709a55b41a72b6081746537222bcb2bda0deec78dadae8d976e89c4c25e20",
+          "bytes": 5489
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0084/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0084/Walk-Anim.png",
+          "sha256": "a12e3fdf5cad21578c06fd68981b0a4e7736714f15712c14a491b04f02ec0d4c",
+          "bytes": 6894
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0084/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0084/credits.txt",
+          "sha256": "047e313843f6c7bbdde5f91bd553c940d3b02c71213a2faecd43de13220e2c40",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0085/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0085/AnimData.xml",
+          "sha256": "f5d1608a6112d4c510ce39b2c77617b9bab36697717bc82cc92130c6e1721077",
+          "bytes": 5547
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0085/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0085/Walk-Anim.png",
+          "sha256": "06f0b6c6f0ff745a17e91cc158a0e31ef2e662d8e8b91a0ab23228fae86e6f22",
+          "bytes": 8894
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0085/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0085/credits.txt",
+          "sha256": "7751c3217882b465b64bd498efb42e32df30fb2a175ebc4bf65ee98534fec7a6",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 7,
+      "durations": [
+        8,
+        6,
+        8,
+        10,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0086/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0086/AnimData.xml",
+          "sha256": "ea1ed209d4b586fba420b2f5f0f1d16eb573ce9a50095a6e14515316e3eb6d5d",
+          "bytes": 4735
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0086/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0086/Walk-Anim.png",
+          "sha256": "0ef2ef8ddfd94ea4288b3f60b6b22150303d0c1d507a78ddf9e88a40639f4630",
+          "bytes": 8677
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0086/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0086/credits.txt",
+          "sha256": "d5b256c9678656862ceac3309244bfd99b3ae8230ab98bedd2fa214b9e02dc17",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 7,
+      "durations": [
+        8,
+        6,
+        6,
+        6,
+        10,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0087/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0087/AnimData.xml",
+          "sha256": "b761fe99723526926480d1eb2397c975d2a48d55dbcbc1560a8caa2af472b3e3",
+          "bytes": 4845
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0087/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0087/Walk-Anim.png",
+          "sha256": "430faf06842395392366a12653e827756b785910ba04f53be2b36944efc5954a",
+          "bytes": 11405
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0087/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0087/credits.txt",
+          "sha256": "822cde66e41f7f7efdf1b896b142e77cc996d7a8acfbd3363531dd3d8ec895c9",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 6,
+      "durations": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0088/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0088/AnimData.xml",
+          "sha256": "f78a58e542fbb262e51bb1026372f398ba478f457e9cf02270e6c0510522ae9c",
+          "bytes": 4815
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0088/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0088/Walk-Anim.png",
+          "sha256": "e6279af25a648c8a36bbc4448d11c04f46ce2c6fab94a56b4d3344c5b1acc421",
+          "bytes": 8699
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0088/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0088/credits.txt",
+          "sha256": "8302bac043aa03bcac57ba2a02f5a97a413850b8a20b7498c7a99c53602da45f",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "frameWidth": 48,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        10,
+        8,
+        6,
+        10,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0089/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0089/AnimData.xml",
+          "sha256": "7824567fa803d5a257f16e32c87dfa63233ab4330befcd08e6ce7de59683ecec",
+          "bytes": 4763
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0089/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0089/Walk-Anim.png",
+          "sha256": "50db24ccced618d830da80648a9b378744930a7207025458b94ddf7f784cc03c",
+          "bytes": 9689
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0089/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0089/credits.txt",
+          "sha256": "4ec272c4dc26af0f76434224e6f3d96a94b77c5945c7ed55167f918126acd3b5",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 6,
+      "durations": [
+        10,
+        6,
+        10,
+        10,
+        6,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0090/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0090/AnimData.xml",
+          "sha256": "c1eb82f285aaf4f2e95cbe23b1cb3151a04b2ffac653774d6e12d33e88f9a15a",
+          "bytes": 5139
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0090/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0090/Walk-Anim.png",
+          "sha256": "c033f6fd20fe4f2815febc439d31f112ee84c856d750f2dc2c76a1d3cedb8e97",
+          "bytes": 8326
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0090/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0090/credits.txt",
+          "sha256": "38756738b8233d103a52d0e3a5606c2bb81a6e44f35c9efdc4e5c747360b6443",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 6,
+      "durations": [
+        8,
+        8,
+        8,
+        10,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0091/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0091/AnimData.xml",
+          "sha256": "db1c9b5e995a77ac367f3a216dc06091d3893bbe8a3b4ec10992e9dac2839dee",
+          "bytes": 5300
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0091/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0091/Walk-Anim.png",
+          "sha256": "18041ab9c58b8d7a623f99a29085300a1bca99dfabde8a93cb45f8e165f04074",
+          "bytes": 15545
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0091/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0091/credits.txt",
+          "sha256": "dd60b49164a1cc4b3a94e96c5e685c3a11535debdb2467363a51a87dbb169249",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "frameWidth": 48,
+      "frameHeight": 64,
+      "frames": 12,
+      "durations": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0092/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0092/AnimData.xml",
+          "sha256": "9e294db4b4b11f63e9de09237cbf376786b697511719e9d323053d0a40ffb72f",
+          "bytes": 5622
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0092/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0092/Walk-Anim.png",
+          "sha256": "d60535fae6d2d131c6ba5d75a776446753eef826d956a3827172631d4ed5878f",
+          "bytes": 22076
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0092/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0092/credits.txt",
+          "sha256": "7c23ffa99b6376d5650df4b47ba248844e4dd93046b09cef19c021d99a1dacca",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 10,
+      "durations": [
+        6,
+        6,
+        6,
+        10,
+        6,
+        6,
+        6,
+        6,
+        10,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0093/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0093/AnimData.xml",
+          "sha256": "aa6afee163be245a6847091ee3e731683ca4063bfbd23a42478aa2aaa3b81f0c",
+          "bytes": 6022
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0093/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0093/Walk-Anim.png",
+          "sha256": "d53ebfe1a9e6a736663b63e7f5c8bc699e9d7632d2d1f10d619a62ca3e50f326",
+          "bytes": 13775
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0093/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0093/credits.txt",
+          "sha256": "9739f3b33b30a7697acf7ba7bcb9502d3ed28dbd35050721ba47b0df6eccb143",
+          "bytes": 134
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0094/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0094/AnimData.xml",
+          "sha256": "cffb806df2432f57a596eb2d945e7eac7ca4b66dd7e51c7bd06cfdd6de221df0",
+          "bytes": 14111
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0094/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0094/Walk-Anim.png",
+          "sha256": "be39dae12dae3715a3328628c4c6bc542fc9805d483e877d420d8dac31279a0d",
+          "bytes": 8403
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0094/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0094/credits.txt",
+          "sha256": "b585d7d7c723801ec276f228f44610d390c42d04f873985d6ffe83303d89ef47",
+          "bytes": 353
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "frameWidth": 88,
+      "frameHeight": 112,
+      "frames": 4,
+      "durations": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0095/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0095/AnimData.xml",
+          "sha256": "bef58e51370ba3aa112a6d680a268c826e39bce0b249f0cc0f2626fd70429de1",
+          "bytes": 4668
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0095/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0095/Walk-Anim.png",
+          "sha256": "f6a619b7f34f8dab42165d9f1a61b92113f42675d175c6d75ccdf7c68acf03b0",
+          "bytes": 24660
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0095/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0095/credits.txt",
+          "sha256": "1975948437d6b6b148172cfb79dcec512dfac58ce90e7e79b740c63cec2b8df7",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0096/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0096/AnimData.xml",
+          "sha256": "74623b97e6d81706ee94261e60a4850dc492280efa813375e4635912762299e9",
+          "bytes": 5214
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0096/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0096/Walk-Anim.png",
+          "sha256": "b7fc0638cb6fc11bb3f447793c42108ca625c78ef1cd9a6c26777479423db100",
+          "bytes": 7107
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0096/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0096/credits.txt",
+          "sha256": "67bf8e8d6ee2ff909bf3f2d3dfe0ea35d8dd117560e97f33f7f020f9c2aba721",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0097/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0097/AnimData.xml",
+          "sha256": "ec6f8e68cc2fb80c95208066356b191af41d30a75e4a880d57be12fca8149f66",
+          "bytes": 6098
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0097/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0097/Walk-Anim.png",
+          "sha256": "c7538797051ab93c012b60a9573459ddb5d78cc3e328a8fe78a4aaff725792d0",
+          "bytes": 8699
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0097/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0097/credits.txt",
+          "sha256": "5fca7d6d15311053430c7686db370719b6b217238bee0258d43951b971821795",
+          "bytes": 132
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0098/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0098/AnimData.xml",
+          "sha256": "f95d4840a84203d0eca1ee5e89dbcbf99047e56c783639b6e15b47fc1aad1fae",
+          "bytes": 5239
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0098/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0098/Walk-Anim.png",
+          "sha256": "ec5ad124f4d26c25010694a05ec0f092faaddf58568eb0e0bb429161eb0d7fc7",
+          "bytes": 5232
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0098/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0098/credits.txt",
+          "sha256": "a3362cc27c0e672dd8933578d6cff47e0bb855cae0b145d52529f5d82dee64f7",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0099/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0099/AnimData.xml",
+          "sha256": "f39b666c6836f23520ceee6f04d9a48acc3cdff336bd5d8b1db0a3951ec51d06",
+          "bytes": 5241
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0099/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0099/Walk-Anim.png",
+          "sha256": "cf123ec7cd029afc721d179537d55f788fb868132f4a55bd0afd9c02b8de8d30",
+          "bytes": 6742
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0099/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0099/credits.txt",
+          "sha256": "3d1d32d33151ac290aaf536636782088f310ff4322dbccb983f2c43612803c66",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 8,
+      "durations": [
+        6,
+        6,
+        10,
+        4,
+        4,
+        4,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0100/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0100/AnimData.xml",
+          "sha256": "f1584a8a1fb1eef5d0a4b57f89413593329648f09702ee205b2a93d30e25a356",
+          "bytes": 14155
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0100/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0100/Walk-Anim.png",
+          "sha256": "d3a33aeb5b4f150932fd782a6b9019907aa443c223107a67b82e2c116e2b8e4c",
+          "bytes": 7405
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0100/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0100/credits.txt",
+          "sha256": "5bd920f438c3d973910d5ac14c461049838c5e623b41c547278e072bf2d18f76",
+          "bytes": 549
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 7,
+      "durations": [
+        4,
+        4,
+        6,
+        8,
+        6,
+        4,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0101/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0101/AnimData.xml",
+          "sha256": "633cc17c1effd27bf02d72aed339bdf584531a4af4bda1ef54d3e94b21a37e9a",
+          "bytes": 5212
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0101/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0101/Walk-Anim.png",
+          "sha256": "c02d24fb693354bde6ea34fb7a618ebdca7d4ad975ea13fbe3f554aad42edca1",
+          "bytes": 7552
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0101/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0101/credits.txt",
+          "sha256": "17d42770d871df78c94b72e7245fdfa191326cfb9265bb30cb840ef6798d2375",
+          "bytes": 137
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0102/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0102/AnimData.xml",
+          "sha256": "f495addc67daaf9c19bd07a09ae2b8e8ed2c11aba6def2532fde56f4d3d3940c",
+          "bytes": 5319
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0102/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0102/Walk-Anim.png",
+          "sha256": "8b82a76f6d7a5f7cc7da507c18e98c74d30c05c7f726301aa350beaf8da6547f",
+          "bytes": 8154
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0102/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0102/credits.txt",
+          "sha256": "57538bd65841216c7defd6950dc1d1648e6f0983760ef1ac21e3d06b2528ba43",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0103/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0103/AnimData.xml",
+          "sha256": "60af1b67f2a46d4e44958ce6454381c8a8fe295fe1af377447ac4d918bb45021",
+          "bytes": 5141
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0103/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0103/Walk-Anim.png",
+          "sha256": "3531ba64819759990ee721cb19da4612d8f0c859f2c709a93d9edc0d54a59fc3",
+          "bytes": 12196
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0103/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0103/credits.txt",
+          "sha256": "4854245a5d3c9a8151eda23afc0a1ee9de66352aeff185d96eeb024416d83ebf",
+          "bytes": 136
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0104/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0104/AnimData.xml",
+          "sha256": "5342e2a91aff64b5185a9496cbbcea0954dbe2279a496d6a2e7311571c49d198",
+          "bytes": 13092
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0104/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0104/Walk-Anim.png",
+          "sha256": "839c41d482239230c15e8ce71ed435f219ee7d511663bdd5ad539dc5d540b44b",
+          "bytes": 6310
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0104/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0104/credits.txt",
+          "sha256": "b3c2401be49b2bcaf0d7e4bf8c7bbea4c53388d829dce9dcf588858340f45637",
+          "bytes": 417
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0105/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0105/AnimData.xml",
+          "sha256": "8981ff76b8d522ceb27b86c4e264d30c9a83ac297b73244d5b0375322cfb8304",
+          "bytes": 4890
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0105/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0105/Walk-Anim.png",
+          "sha256": "d34ef35f038f3a6d2a221f49de21a4eeddb7eefa012d6b38601b5f15563cb5e2",
+          "bytes": 9155
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0105/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0105/credits.txt",
+          "sha256": "99205a57c5519aa0ce3bc4a5cf6920620cbdf7bacd71197dbdef8c09ea2443f6",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        10,
+        12,
+        10,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0106/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0106/AnimData.xml",
+          "sha256": "ff61b66a35c68f52e667423990bfe33d5df35220082008ba61116f2956329902",
+          "bytes": 5131
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0106/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0106/Walk-Anim.png",
+          "sha256": "1582c8851d2ce4fda82e2b3d8a80bbc527963bf99a4a51610b2e4b8bb78038b1",
+          "bytes": 10344
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0106/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0106/credits.txt",
+          "sha256": "217d150393652cfb62e30d685be2f047277fc6cd2d87b86b90b3bbbd21cdf9be",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0107/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0107/AnimData.xml",
+          "sha256": "a2b44f5160914050e88a2d73fa9aa15d28da534256373e9574254b65b416c7ed",
+          "bytes": 5351
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0107/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0107/Walk-Anim.png",
+          "sha256": "94bde154fc4658d0bde58ce20e85620d6a8e3d313fced46ea2db07dc5899c877",
+          "bytes": 8798
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0107/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0107/credits.txt",
+          "sha256": "212d7a76481f7ab4ad6e813ba9390d2e6f45cb17bfef7e56ef8bcb86f8e952ae",
+          "bytes": 132
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0108/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0108/AnimData.xml",
+          "sha256": "fdeb2c4044f0fa7faf7c53f2150193e091e196492ee01080cc084fed81d72db9",
+          "bytes": 5191
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0108/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0108/Walk-Anim.png",
+          "sha256": "389bcbf62a2c68e4442fd23bf7614b30b6ebd1c34708fff39f65c6f87761fa27",
+          "bytes": 11108
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0108/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0108/credits.txt",
+          "sha256": "a3b36d92951c8921a77ff6d2784c497d6c4ec8fd5fa6f21ffca3e65f858cf5a2",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 10,
+      "durations": [
+        6,
+        6,
+        6,
+        6,
+        8,
+        6,
+        6,
+        6,
+        6,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0109/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0109/AnimData.xml",
+          "sha256": "b3b1f2c1429a52c9f550ad824ab894f47239e385ab87f3ef68a37576969cf2a1",
+          "bytes": 5755
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0109/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0109/Walk-Anim.png",
+          "sha256": "3fe7938688e8ce24571641f7368294f9661b980027e34ca8dfc35c634b6875ab",
+          "bytes": 14780
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0109/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0109/credits.txt",
+          "sha256": "8793f639ea8397f8f40a1596d43fb305adefbd6330a46f44b2d3be23e9b8ee35",
+          "bytes": 127
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "frameWidth": 32,
+      "frameHeight": 56,
+      "frames": 6,
+      "durations": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0110/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0110/AnimData.xml",
+          "sha256": "92ffc4e0e59ea979e0b6001e73352bb95211dd081b98d130d0078208bc95ae43",
+          "bytes": 5693
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0110/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0110/Walk-Anim.png",
+          "sha256": "4eae17ff74b7cb4ce8c5bfa07f90c52498e633ebb02197c8377a9b48011779e7",
+          "bytes": 15405
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0110/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0110/credits.txt",
+          "sha256": "2e9d32cbb48247ffd13d071e5198e1d14c180a17c685077010ad332344786f6d",
+          "bytes": 134
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0111/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0111/AnimData.xml",
+          "sha256": "7015403eaff7b5931477b6a807882d8dc428c0ebb725116d36d7f0ca1fb2c3ce",
+          "bytes": 5078
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0111/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0111/Walk-Anim.png",
+          "sha256": "87a517c14d19693e6f1d7be396803862e32bfa9313e6bff379e92a6b49264333",
+          "bytes": 8178
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0111/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0111/credits.txt",
+          "sha256": "4e73c4d6d59df2f34d2814fda0dccb7c0a473c78a0a1073f9d1ce84c220b1127",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0112/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0112/AnimData.xml",
+          "sha256": "49aa9878621e3eb4412e34defc8d1ee1cb720a0270d2c9c048d667b5611665c2",
+          "bytes": 5159
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0112/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0112/Walk-Anim.png",
+          "sha256": "96d89d75637f5d7ae3b5a9ffa3daedb11289255b114ebe8835ed1f988a938ff8",
+          "bytes": 11409
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0112/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0112/credits.txt",
+          "sha256": "7039175bedb49cf8fa1330d5adf4d88f9198b8007bf2f4521552d00dee0de35d",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0113/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0113/AnimData.xml",
+          "sha256": "db31919cdd5ef5be93b6d92ff61f30697db9a6a4fac4024a991cae2d09ce5330",
+          "bytes": 5324
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0113/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0113/Walk-Anim.png",
+          "sha256": "a8f9da37b1eb801649429a5748e1f84a0b635bc426f74fa7d0c5e10e53561302",
+          "bytes": 6166
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0113/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0113/credits.txt",
+          "sha256": "72cc87920398d3a2ef461b13c39afafeca6daa6a00a772db3ba9ccec8704f7a5",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 6,
+      "durations": [
+        8,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0114/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0114/AnimData.xml",
+          "sha256": "afb85ef5a0d8c0a84c1745f7983fa1e940f2686723ac43efd39e6dadd2fd7b55",
+          "bytes": 4881
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0114/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0114/Walk-Anim.png",
+          "sha256": "75296e311d1755dcd609307134b546b3003664d0c5152ff67ae495bc59dbbe18",
+          "bytes": 8355
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0114/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0114/credits.txt",
+          "sha256": "06bdcdef27ed39743414165670c0a7446aa309cd5f49b8bd018ae182b1219256",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 4,
+      "durations": [
+        16,
+        10,
+        16,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0115/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0115/AnimData.xml",
+          "sha256": "69b138d63718e0a8104b76efddc49fe03719ab6d85877d203acb58b94dd50bee",
+          "bytes": 5354
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0115/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0115/Walk-Anim.png",
+          "sha256": "10e0ad9cb74f27ace544d8e5da162159bb0e0d56f36149754e51034a471d3664",
+          "bytes": 14086
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0115/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0115/credits.txt",
+          "sha256": "0135e3e0c481382dbec06cdfde7809deca16c49b1559ab41ce1f53d15c1f6887",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "frameWidth": 24,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0116/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0116/AnimData.xml",
+          "sha256": "fb32ea926b1ce1f85b03fd9f6063ffa5ba7793d0cb8522057570fcf407a5e968",
+          "bytes": 4767
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0116/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0116/Walk-Anim.png",
+          "sha256": "b08761a8e3db6de7b7ce7742836849b75ac5eb9fd873f287f2a598b4590103a0",
+          "bytes": 4841
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0116/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0116/credits.txt",
+          "sha256": "35fa7c31f8df283295b3cc12f893ff51d36d74dcaea7aaa3250547d8bbb8ff12",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 5,
+      "durations": [
+        8,
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0117/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0117/AnimData.xml",
+          "sha256": "2d2f57c1f12fa7f68b5b88cf39bab89e296734c8eb1ca869a7807e46fbec9070",
+          "bytes": 4904
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0117/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0117/Walk-Anim.png",
+          "sha256": "c55092faa8f636ea8b6d2c8ec2f554dded80881a2fecc4cb5598ec93a6ad7c49",
+          "bytes": 11638
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0117/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0117/credits.txt",
+          "sha256": "afc93624c8329dd13937dc8661c49bb2cab7b51c319929ad57759c86ab1b8d07",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 8,
+      "durations": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0118/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0118/AnimData.xml",
+          "sha256": "f0c0b1be88427185f667ecd5b93389e474c925223ff8374933959509d7afa12a",
+          "bytes": 5633
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0118/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0118/Walk-Anim.png",
+          "sha256": "69c75026e0e876d4dd7d327d52c99cee8e036659f98ab1349006da3378c9654f",
+          "bytes": 9455
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0118/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0118/credits.txt",
+          "sha256": "b4e46fef742345ac72f53c0e13194d52ffd3b62c7c3b79dff357c81ee30956b1",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        10,
+        8,
+        10,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0119/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0119/AnimData.xml",
+          "sha256": "0ac1914049708203930195f5ea3d18a66bf86cf557aabc75f0a8c99a892484ab",
+          "bytes": 5519
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0119/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0119/Walk-Anim.png",
+          "sha256": "3577ae8c9fb490827210bffa030393b5c1bebc21185fe67af5c154c94e9ca401",
+          "bytes": 8111
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0119/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0119/credits.txt",
+          "sha256": "4e38c4f51815ea6f22d1eaa9a611fb2cd57a34009e347107494fd0f2ed9c2710",
+          "bytes": 131
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0120/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0120/AnimData.xml",
+          "sha256": "9027a8696506bd897565bf9673ab841254b1bd6d3876e5c14716f455d0bf574c",
+          "bytes": 4737
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0120/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0120/Walk-Anim.png",
+          "sha256": "568f454e8ed71d163b22e312652957168c2dcd745dc179f9a1fc97c86208b71d",
+          "bytes": 6274
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0120/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0120/credits.txt",
+          "sha256": "55d5a8d359f43a35ccbb1ea7829cdbcd43876033bf1ca935ed616e647656ef76",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0121/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0121/AnimData.xml",
+          "sha256": "2a32c65c9420d1d672f6e57b56dc71689929730d1430be785e0a6fcc4c0b16cc",
+          "bytes": 4924
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0121/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0121/Walk-Anim.png",
+          "sha256": "d37b87824f6020808cc22de7a3fc6cd6ad76a4d0d0f64e6becef6786118e9fda",
+          "bytes": 6800
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0121/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0121/credits.txt",
+          "sha256": "1d5f75a787109a4b4cea7b89dedaded289870e76b33542100992ded6938230b4",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0122/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0122/AnimData.xml",
+          "sha256": "e163facc4b6a382350ecb7b931426a53d3b656485bb0ab057d5543860637849b",
+          "bytes": 4737
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0122/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0122/Walk-Anim.png",
+          "sha256": "33a6ec7b5718f4577cd9d9bb32bdd15efba96eae5cf86aceea3762bb35806345",
+          "bytes": 8570
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0122/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0122/credits.txt",
+          "sha256": "6a0560013072fd7b6b1831cb0d2d9d5a5275e5956f6c42c077950401ac689a0f",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0123/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0123/AnimData.xml",
+          "sha256": "3d27dd055d8faf0d8b8e707954fd474af440c16421e2833a766a3753ca9f0bb6",
+          "bytes": 5134
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0123/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0123/Walk-Anim.png",
+          "sha256": "beca8bf4fbe76c844a2120fb97da09948d06295b6196f4179e774c06b5d2cf84",
+          "bytes": 9467
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0123/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0123/credits.txt",
+          "sha256": "12513c82cb6470b80aab06105ba0710cd46f19a5e3fd70d45b94eae352a16ac7",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0124/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0124/AnimData.xml",
+          "sha256": "eb993ae4cbcb0a7c113d261ba845976c930e76b1d5f81ed8bab5ae4ad48e365e",
+          "bytes": 5241
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0124/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0124/Walk-Anim.png",
+          "sha256": "9dab1114d59d70014ac84234dffd8a95bf9ce5f7f0ad93bbefe250c0290fed42",
+          "bytes": 8734
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0124/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0124/credits.txt",
+          "sha256": "7c05f472fbaa730b8c322615006029da3576c8260d859d9d37243753487e1626",
+          "bytes": 128
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0125/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0125/AnimData.xml",
+          "sha256": "2dc9316b3679dc402a70efc280ad77e3d51a50efa0b5c8e88eeb624745e8a828",
+          "bytes": 5161
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0125/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0125/Walk-Anim.png",
+          "sha256": "fcf52d580d4fb59cb359919a6a66261f0f048bec42b177038c198491d255119d",
+          "bytes": 9248
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0125/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0125/credits.txt",
+          "sha256": "3bf41e6389633511493a4e870008f9a64fe63f2db18210faa69600ef1449d9ee",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0126/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0126/AnimData.xml",
+          "sha256": "2a9a95ec8df2f44a9b2a7ea027e8300f77625fb4fa22802e6ab93acb246a3605",
+          "bytes": 5187
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0126/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0126/Walk-Anim.png",
+          "sha256": "f9fade19eabc69b55c9e21d675d833f9015687deb9724ab510a96f8736ccfdbb",
+          "bytes": 10126
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0126/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0126/credits.txt",
+          "sha256": "0a489141a13d71a7ab79ae1cdb1db0fc45549dec3ecb6a4df14dd3be6d1ca643",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 127,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0127/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0127/AnimData.xml",
+          "sha256": "45c6ab3233d90f93f0746b62dffcbf36c8318e9cccd1e59de03bff578c3b8a36",
+          "bytes": 4762
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0127/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0127/Walk-Anim.png",
+          "sha256": "deab8e4a805c79811e9059f325188d3a40534f5d6f3496fb6467bc550f5f8edf",
+          "bytes": 9992
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0127/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0127/credits.txt",
+          "sha256": "911fa08ac4e17156ff790a0f13f2947e533d61e4557f9d67b06d11803516317e",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 128,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 7,
+      "durations": [
+        8,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0128/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0128/AnimData.xml",
+          "sha256": "a59d0068d2f3249ecd7c8b9b8638b9e7a75c0af5eaa9d29037341698d27c7517",
+          "bytes": 4867
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0128/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0128/Walk-Anim.png",
+          "sha256": "3f72c1f7d4bb63f6a4a455b9b98d882652c201c81e71ec893bdd46e97c476c8c",
+          "bytes": 18536
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0128/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0128/credits.txt",
+          "sha256": "8f8954febe90e9bb2045a01925cd84a0bdfa00620005c465346c6ee7ecfc6dec",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 7,
+      "durations": [
+        6,
+        2,
+        4,
+        6,
+        4,
+        2,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0129/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0129/AnimData.xml",
+          "sha256": "662362880a8a57f45ec698a11fd1b18c461e999307fc710cf837d52766a44a08",
+          "bytes": 4921
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0129/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0129/Walk-Anim.png",
+          "sha256": "a1d26b4fbee1da62d6616dc1cbd3dc30330c21017cbb25108864e9a597129ab4",
+          "bytes": 11164
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0129/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0129/credits.txt",
+          "sha256": "82fa0eae97287b86c49f2cd2c0e1a2a6d7577960cd6701ca3a363368c3751905",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "frameWidth": 88,
+      "frameHeight": 128,
+      "frames": 4,
+      "durations": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0130/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0130/AnimData.xml",
+          "sha256": "dcdd0018344b4a3bccdbd78f7c6298734a1a64bf49f014fd187c8f00fee6bd23",
+          "bytes": 5332
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0130/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0130/Walk-Anim.png",
+          "sha256": "7cee3a662c821e98b990151f96b5a7964b95d1a0495f3adbc90e3d1f610739a5",
+          "bytes": 45010
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0130/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0130/credits.txt",
+          "sha256": "e9c2ff0fba42ad3d36907c873c922bb9e17e9d4e2c611d7051a41c83b2bae4bb",
+          "bytes": 138
+        }
+      ]
+    },
+    {
+      "id": 131,
+      "frameWidth": 48,
+      "frameHeight": 56,
+      "frames": 4,
+      "durations": [
+        10,
+        12,
+        10,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0131/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0131/AnimData.xml",
+          "sha256": "2aae6dc7abc305a560cb7bd5ef57c9b23f6187bea8e28d803aacf1c651642ad9",
+          "bytes": 5233
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0131/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0131/Walk-Anim.png",
+          "sha256": "7f2fac19960cf6ca7683329caff196e8d71e3e41f9ac027b57f38f088c8db9ca",
+          "bytes": 16761
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0131/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0131/credits.txt",
+          "sha256": "bfa85d8b3082673c7d0c40953c8e5d0ed5e28fc9182e61ab2d95a9f97ee56e83",
+          "bytes": 137
+        }
+      ]
+    },
+    {
+      "id": 132,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 5,
+      "durations": [
+        10,
+        8,
+        10,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0132/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0132/AnimData.xml",
+          "sha256": "2f8c3de9f6bd3e08cad800bf6d114c58507b9b8b2cea248613c56a8f6f1a218f",
+          "bytes": 4205
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0132/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0132/Walk-Anim.png",
+          "sha256": "0e695ed70fa16d5bc32959da2e240a41c8cf8373d0852b7e035d080a723a7e6c",
+          "bytes": 6444
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0132/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0132/credits.txt",
+          "sha256": "acfca87efc083b12724a42eaf2050e31c69d7fdc7b9b6d7228f8ac2cd95bfafd",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 133,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 7,
+      "durations": [
+        4,
+        4,
+        4,
+        4,
+        6,
+        2,
+        2
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0133/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0133/AnimData.xml",
+          "sha256": "f33b22fb64b51cd4f5868df7433ceb4fbb0c58606364ba3faa7f326960452b28",
+          "bytes": 11767
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0133/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0133/Walk-Anim.png",
+          "sha256": "037329dca93572a20115e679f10a85d4981b7cb961b6c8f0fd9c78745ba98cc0",
+          "bytes": 14849
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0133/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0133/credits.txt",
+          "sha256": "b60cb07a46c6f701f6098300f2860e09e5619dd71eef529fd4643f22536942ca",
+          "bytes": 292
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0134/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0134/AnimData.xml",
+          "sha256": "8b334b2a680d2814e85a6ddccb3cc1b9b22c7d2212f28b318894a197b1ecbcb8",
+          "bytes": 5095
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0134/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0134/Walk-Anim.png",
+          "sha256": "7664f55b8d717981f49c88e96999686f236ad2a2f2dc9ef496d468737eced3ac",
+          "bytes": 10180
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0134/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0134/credits.txt",
+          "sha256": "e63220ddc9a129a74d7f7f5ea5d081d0429f09e8ef83d355929708e2a97bfe00",
+          "bytes": 140
+        }
+      ]
+    },
+    {
+      "id": 135,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0135/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0135/AnimData.xml",
+          "sha256": "8d06a7243d0c1c05cbb34be3b03e1ee6a20746ab87869c0c973ca8f2434bb46d",
+          "bytes": 13831
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0135/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0135/Walk-Anim.png",
+          "sha256": "f8e5a80569dd52725510cd01c367fe994736b6445726bee46598039abb9a0fda",
+          "bytes": 7057
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0135/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0135/credits.txt",
+          "sha256": "24e47e1fa7f38c9c0fbc4901162d7b39b1d25044cf9752be44f4eec23cbed83d",
+          "bytes": 412
+        }
+      ]
+    },
+    {
+      "id": 136,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0136/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0136/AnimData.xml",
+          "sha256": "a65406ab26df85ef3c278a784c1ffbcb70ec7820ca8c4655069df9c04fc438eb",
+          "bytes": 13856
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0136/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0136/Walk-Anim.png",
+          "sha256": "58b7008226aa2532baad0b463c1c8feee227ba773247b5ab9c3a63e5b0031912",
+          "bytes": 7642
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0136/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0136/credits.txt",
+          "sha256": "bc58f8c33c99a26f19a79cadfd6da68b738c41b6cbab3ade3b8b162ebf23955f",
+          "bytes": 610
+        }
+      ]
+    },
+    {
+      "id": 137,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0137/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0137/AnimData.xml",
+          "sha256": "2808a3f7f39ebc3ed147b474abf6196cd07008ba59f28384ec8ccaab9f5b715a",
+          "bytes": 5257
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0137/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0137/Walk-Anim.png",
+          "sha256": "cd56599feda21290a7681ff959392050f17f942a9abbeab9a84cd323c140cb56",
+          "bytes": 7242
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0137/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0137/credits.txt",
+          "sha256": "30b2ef143c758de0e7e7dd319157a107b4ca554aa310ce74928259826ff1f6ad",
+          "bytes": 140
+        }
+      ]
+    },
+    {
+      "id": 138,
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 4,
+      "durations": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0138/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0138/AnimData.xml",
+          "sha256": "7a349fe02d2c2c8a36be49fa52aaf819880ac92f012c27a5040b072091d006e6",
+          "bytes": 5128
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0138/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0138/Walk-Anim.png",
+          "sha256": "45e96469ff829cec5c1dfcac49849aa03174496f285871dd5a6f61a1da4f9d0f",
+          "bytes": 6631
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0138/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0138/credits.txt",
+          "sha256": "0818ba58112f8ae17e62ea4dd844c7d0e02e3d2d8d0864c966fdc4a286e5e352",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 139,
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frames": 4,
+      "durations": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0139/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0139/AnimData.xml",
+          "sha256": "6c2a5e5531e12ab97b0ffa1ec4716122e1f97207d374d1d03844ae591fa9c64a",
+          "bytes": 5128
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0139/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0139/Walk-Anim.png",
+          "sha256": "2639988dc8c9bfb5ea6040e916f288808c291b6cacd4a74de5a1d390608f6f45",
+          "bytes": 8003
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0139/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0139/credits.txt",
+          "sha256": "23e7a04281455899978a083a5a4fff9f76dedbd5265c6851ea73077b1eab32dc",
+          "bytes": 133
+        }
+      ]
+    },
+    {
+      "id": 140,
+      "frameWidth": 24,
+      "frameHeight": 24,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0140/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0140/AnimData.xml",
+          "sha256": "aadb9c253b460ce9c8a57107d5587a1cd0a3df8a8973c8f6b8d6e3726e2ac25d",
+          "bytes": 13306
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0140/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0140/Walk-Anim.png",
+          "sha256": "97be18709ed5d8f28600b5ab721547ab07e9c2c7d96b4271777885e390bc884e",
+          "bytes": 4710
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0140/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0140/credits.txt",
+          "sha256": "287a00dbbd735db70b1ae0d50bb85cb9491e5c7888d846f250ae850b62babb8b",
+          "bytes": 468
+        }
+      ]
+    },
+    {
+      "id": 141,
+      "frameWidth": 40,
+      "frameHeight": 48,
+      "frames": 8,
+      "durations": [
+        6,
+        4,
+        8,
+        4,
+        6,
+        4,
+        8,
+        4
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0141/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0141/AnimData.xml",
+          "sha256": "77b626aae457ac9ac426e4e83387cda73aeeff35eaeec0884c76f268b02f66d5",
+          "bytes": 5192
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0141/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0141/Walk-Anim.png",
+          "sha256": "1d769e21fd34e03431397ef521a74bf6c3ad676d14e6cc9b829d28e2b318b9f6",
+          "bytes": 17034
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0141/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0141/credits.txt",
+          "sha256": "50d47c1664c2efee8f255b852420510e4709073ac9513ba9dde18b36faaa99eb",
+          "bytes": 135
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "frameWidth": 40,
+      "frameHeight": 64,
+      "frames": 4,
+      "durations": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0142/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0142/AnimData.xml",
+          "sha256": "48409c958822b3fb3af4b6ff66dee8e70bd5999ca53633f506a829b62d291156",
+          "bytes": 5818
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0142/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0142/Walk-Anim.png",
+          "sha256": "7f9c0ace84f4911b6945be4c0fb765fa8127796a7cfb94e9df3698643e84eb43",
+          "bytes": 12632
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0142/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0142/credits.txt",
+          "sha256": "a0b81ef6cadcee2508a8dac8149671822b49adff298d5b7bc1c5a37aba46c22b",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0143/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0143/AnimData.xml",
+          "sha256": "8bb337f67e592455afcb9391efb5d58819754ed6edb1fcb72ea6b4b78f08fd3b",
+          "bytes": 5239
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0143/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0143/Walk-Anim.png",
+          "sha256": "304247a70ae32ee08cf1927caf71926903d7b67a3e480f15dcd76feb4be801b6",
+          "bytes": 8608
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0143/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0143/credits.txt",
+          "sha256": "d28bdc9fa1236c8fe59e37b2923bd0568b504cc43e7bf5893ea00d18b0ccc11e",
+          "bytes": 129
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "frameWidth": 88,
+      "frameHeight": 88,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0144/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0144/AnimData.xml",
+          "sha256": "8319dcac62d5ffada0dc42e2938ce3dbeec4607d4c9d0fe7e623631948b51b6d",
+          "bytes": 5479
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0144/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0144/Walk-Anim.png",
+          "sha256": "2f1475714c40f7c68938bf6a2c5aa86c2edbd992a687562efb759630928045fd",
+          "bytes": 21343
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0144/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0144/credits.txt",
+          "sha256": "90f1a456a6f9467b25e5061e03e8c8cb1017eb40bd9dc53e773846330cac10d0",
+          "bytes": 140
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "frameWidth": 56,
+      "frameHeight": 96,
+      "frames": 4,
+      "durations": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0145/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0145/AnimData.xml",
+          "sha256": "83b7b0060e7c618a7d2a5bcc2fd5dc31f3bc224caaf1c8cec37a412a8eaccbb9",
+          "bytes": 5286
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0145/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0145/Walk-Anim.png",
+          "sha256": "6e5df7ace5c8d492de5a900c0f0963ce07763d48885e47c1731232025b5598d2",
+          "bytes": 19160
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0145/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0145/credits.txt",
+          "sha256": "c3d9318bdc898b08ad05c1d2de5f725190104fc5bf7742825097bf9998282b2e",
+          "bytes": 138
+        }
+      ]
+    },
+    {
+      "id": 146,
+      "frameWidth": 80,
+      "frameHeight": 96,
+      "frames": 4,
+      "durations": [
+        8,
+        10,
+        8,
+        10
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0146/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0146/AnimData.xml",
+          "sha256": "7f4a9f11cfa4f15cbe1775cbd321077b66cdcc36f9b87af5cb75aba3a87e8213",
+          "bytes": 5837
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0146/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0146/Walk-Anim.png",
+          "sha256": "2ad929f43ac6509fa6f9fc2d19a6391e9fccef983e6baa2af808f444133b0dac",
+          "bytes": 29706
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0146/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0146/credits.txt",
+          "sha256": "667c182aa24b795143964040b0588910ccef8005b2b5fc7ed82b2d304d797d99",
+          "bytes": 130
+        }
+      ]
+    },
+    {
+      "id": 147,
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "frames": 5,
+      "durations": [
+        10,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0147/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0147/AnimData.xml",
+          "sha256": "5385f0aba2861cabe81b0a46368d1a2c97d90d8ce59c6f08802ea46b8cd06ddd",
+          "bytes": 8889
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0147/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0147/Walk-Anim.png",
+          "sha256": "5bb7a6f744a19ea2ef1f2bf4200d6d8ec3d6f0eade4932959632c256a1ae88df",
+          "bytes": 8211
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0147/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0147/credits.txt",
+          "sha256": "34c4f794a14cc323451a2ab19d45bb6a5aa8362913aebd930c3469f82e9087aa",
+          "bytes": 257
+        }
+      ]
+    },
+    {
+      "id": 148,
+      "frameWidth": 48,
+      "frameHeight": 56,
+      "frames": 7,
+      "durations": [
+        8,
+        6,
+        6,
+        8,
+        6,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0148/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0148/AnimData.xml",
+          "sha256": "8272a90d4935b8512131836ffea967561f30adcf2e3874f15623e1d511a5b33a",
+          "bytes": 5627
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0148/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0148/Walk-Anim.png",
+          "sha256": "2e51bdec537524d12c392eda7aaa6d8eec1e6afe1e5deb959447f8807c12dd64",
+          "bytes": 17219
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0148/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0148/credits.txt",
+          "sha256": "32e76183cfaa614b3047c0f9cc66407bc2c1ab8181cd2983cf152b2d11bc4588",
+          "bytes": 138
+        }
+      ]
+    },
+    {
+      "id": 149,
+      "frameWidth": 40,
+      "frameHeight": 56,
+      "frames": 4,
+      "durations": [
+        8,
+        12,
+        8,
+        12
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0149/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0149/AnimData.xml",
+          "sha256": "0b1df18f52d8b807690246b178378ea3f5dc472779d27b26ba1b8c43ce084ac4",
+          "bytes": 6662
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0149/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0149/Walk-Anim.png",
+          "sha256": "04ae6ed9a69da739e09b2d8fca24905cb81c6f963865ee4e343dd82f25d06637",
+          "bytes": 13408
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0149/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0149/credits.txt",
+          "sha256": "8d6fd3fcecdbbcbb447fc6d03cdc49512c2f86c78ec2b1efffe409c357de41a4",
+          "bytes": 360
+        }
+      ]
+    },
+    {
+      "id": 150,
+      "frameWidth": 48,
+      "frameHeight": 56,
+      "frames": 6,
+      "durations": [
+        12,
+        6,
+        6,
+        12,
+        6,
+        6
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0150/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0150/AnimData.xml",
+          "sha256": "8bfec63ab9b01cf64f831232849ddf0aa5ca7fcddf51e5af3b8f5aad12cce935",
+          "bytes": 14981
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0150/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0150/Walk-Anim.png",
+          "sha256": "80fe3d8d560ac468a16e6dbdcf259681ccb2a3bd78af7b3355da8646ec36108f",
+          "bytes": 9331
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0150/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0150/credits.txt",
+          "sha256": "fb1d1fc3a5759e211ff1c2c371ce9941869d4dec9401b5c45cf384158c41cef4",
+          "bytes": 424
+        }
+      ]
+    },
+    {
+      "id": 151,
+      "frameWidth": 40,
+      "frameHeight": 64,
+      "frames": 6,
+      "durations": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "files": [
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0151/AnimData.xml",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0151/AnimData.xml",
+          "sha256": "7a5ed6d869425c21cda962ecbe80b8475a5ce2c7093e09597c4d19d87059efce",
+          "bytes": 14026
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0151/Walk-Anim.png",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0151/Walk-Anim.png",
+          "sha256": "aea7850de7a572739716f69da45c439f37a32409151ef977bff23ae9bf7fd032",
+          "bytes": 7890
+        },
+        {
+          "file": "src/DockWindows.App/Assets/PokemonWalk/0151/credits.txt",
+          "url": "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/sprite/0151/credits.txt",
+          "sha256": "a907150b862c95dc217e93f12cbcf3b32a21f646bcfddd9ecf5dd6cfd619fea9",
+          "bytes": 347
+        }
+      ]
+    }
+  ]
+}

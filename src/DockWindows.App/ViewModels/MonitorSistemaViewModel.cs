@@ -49,7 +49,8 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
     public double Largura => Estilo switch
     {
         "cpu" or "ram" or "ventoinha-cpu" => 64,
-        "rede-compacta" or "atividade-compacta" => 82,
+        "rede-compacta" => 82,
+        "atividade-compacta" => 102,
         "aneis-cpu-ram" or "medidores-cpu-ram" => 132,
         "atividade-larga" => 210,
         _ => 190

@@ -41,6 +41,9 @@ public class AjustesViewModel : ObservableObject
         _repo = repo;
         _autostart = autostart;
         _diagnosticoSistema = DiagnosticoSistemaService.Obter();
+        PokemonView = new ListCollectionView(PokemonOriginais.ToList());
+        PokemonView.Filter = item => item is PokemonOpcao pokemon && pokemon.CorrespondeBusca(BuscaPokemon);
+        LimparBuscaPokemonCommand = new RelayCommand(() => BuscaPokemon = string.Empty);
         WidgetsView = CollectionViewSource.GetDefaultView(WidgetsAmbiente);
         WidgetsView.Filter = item => item is WidgetInstanceConfig widget &&
             (_filtroWidgets == "Todos" || _filtroWidgets == "Ativos" && widget.Visivel || _filtroWidgets == "Inativos" && !widget.Visivel);
@@ -177,6 +180,30 @@ public class AjustesViewModel : ObservableObject
     public System.ComponentModel.ICollectionView WidgetsView { get; }
     public IReadOnlyList<PokemonOpcao> PokemonOriginais { get; } = PokemonOpcao.CriarOriginais();
     public MascotePokemonViewModel MascotePreview => _mainVm.MascotePokemon;
+    public ListCollectionView PokemonView { get; }
+    public ICommand LimparBuscaPokemonCommand { get; }
+    private string _buscaPokemon = string.Empty;
+    public string BuscaPokemon
+    {
+        get => _buscaPokemon;
+        set
+        {
+            if (!SetProperty(ref _buscaPokemon, value)) return;
+            PokemonView.Refresh();
+            OnPropertyChanged(nameof(ResumoBuscaPokemon));
+            OnPropertyChanged(nameof(SemResultadosPokemon));
+            OnPropertyChanged(nameof(PokemonSelecionado));
+        }
+    }
+    public string ResumoBuscaPokemon => $"{PokemonView.Count} de 151 Pokémon · Kanto";
+    public bool SemResultadosPokemon => PokemonView.IsEmpty;
+    public PokemonOpcao PokemonEscolhido => PokemonOriginais[PokemonSelecionadoId - 1];
+    public PokemonOpcao? PokemonSelecionado
+    {
+        get => PokemonEscolhido;
+        set { if (value != null && value.Id != PokemonSelecionadoId) PokemonSelecionadoId = value.Id; }
+    }
+    public string AmbienteMascote => AmbienteSelecionado?.Nome ?? "Escolha um ambiente";
     public int QuantidadeWidgetsAtivos => WidgetsAmbiente.Count(w => w.Visivel);
     public int QuantidadeWidgetsInativos => WidgetsAmbiente.Count - QuantidadeWidgetsAtivos;
     public string ResumoWidgets => $"{WidgetsAmbiente.Count} instalados · {QuantidadeWidgetsAtivos} ativos · {QuantidadeWidgetsInativos} inativos";
@@ -201,6 +228,8 @@ public class AjustesViewModel : ObservableObject
                 OnPropertyChanged(nameof(CalendarioAmbienteHabilitado));
                 OnPropertyChanged(nameof(MascotePokemonAtivo));
                 OnPropertyChanged(nameof(PokemonSelecionadoId));
+                NotificarPokemonSelecionado();
+                OnPropertyChanged(nameof(AmbienteMascote));
             }
         }
     }
@@ -240,7 +269,14 @@ public class AjustesViewModel : ObservableObject
                 AmbienteSelecionado.WidgetsInstalados.Add(widget); WidgetsAmbiente.Add(widget);
             }
             widget.DefinirConfiguracao("pokemonId", value.ToString(System.Globalization.CultureInfo.InvariantCulture)); SincronizarMascote(); OnPropertyChanged();
+            NotificarPokemonSelecionado();
         }
+    }
+
+    private void NotificarPokemonSelecionado()
+    {
+        OnPropertyChanged(nameof(PokemonEscolhido));
+        OnPropertyChanged(nameof(PokemonSelecionado));
     }
 
     private void SincronizarMascote()
@@ -1935,6 +1971,17 @@ public bool ExibirLixeira
 public sealed record PokemonOpcao(int Id, string Nome)
 {
     public string Rotulo => $"#{Id:000} · {Nome}";
+    public string Numero => $"#{Id:000}";
+    public string SpriteLocal => $"pack://application:,,,/DockWindows.App;component/Assets/Pokemon/{Id}.png";
+    public bool CorrespondeBusca(string? busca)
+    {
+        static string Normalizar(string texto) => string.Concat(texto.Replace("♀", "f").Replace("♂", "m").Normalize(System.Text.NormalizationForm.FormD)
+            .Where(c => System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+            .Where(char.IsLetterOrDigit)).ToUpperInvariant();
+        var termo = Normalizar(busca ?? string.Empty);
+        return termo.Length == 0 || Normalizar(Nome).Contains(termo, StringComparison.Ordinal) ||
+            int.TryParse(termo, out var numero) && numero == Id;
+    }
     public static IReadOnlyList<PokemonOpcao> CriarOriginais()
     {
         var nomes = "Bulbasaur,Ivysaur,Venusaur,Charmander,Charmeleon,Charizard,Squirtle,Wartortle,Blastoise,Caterpie,Metapod,Butterfree,Weedle,Kakuna,Beedrill,Pidgey,Pidgeotto,Pidgeot,Rattata,Raticate,Spearow,Fearow,Ekans,Arbok,Pikachu,Raichu,Sandshrew,Sandslash,Nidoran♀,Nidorina,Nidoqueen,Nidoran♂,Nidorino,Nidoking,Clefairy,Clefable,Vulpix,Ninetales,Jigglypuff,Wigglytuff,Zubat,Golbat,Oddish,Gloom,Vileplume,Paras,Parasect,Venonat,Venomoth,Diglett,Dugtrio,Meowth,Persian,Psyduck,Golduck,Mankey,Primeape,Growlithe,Arcanine,Poliwag,Poliwhirl,Poliwrath,Abra,Kadabra,Alakazam,Machop,Machoke,Machamp,Bellsprout,Weepinbell,Victreebel,Tentacool,Tentacruel,Geodude,Graveler,Golem,Ponyta,Rapidash,Slowpoke,Slowbro,Magnemite,Magneton,Farfetch’d,Doduo,Dodrio,Seel,Dewgong,Grimer,Muk,Shellder,Cloyster,Gastly,Haunter,Gengar,Onix,Drowzee,Hypno,Krabby,Kingler,Voltorb,Electrode,Exeggcute,Exeggutor,Cubone,Marowak,Hitmonlee,Hitmonchan,Lickitung,Koffing,Weezing,Rhyhorn,Rhydon,Chansey,Tangela,Kangaskhan,Horsea,Seadra,Goldeen,Seaking,Staryu,Starmie,Mr. Mime,Scyther,Jynx,Electabuzz,Magmar,Pinsir,Tauros,Magikarp,Gyarados,Lapras,Ditto,Eevee,Vaporeon,Jolteon,Flareon,Porygon,Omanyte,Omastar,Kabuto,Kabutops,Aerodactyl,Snorlax,Articuno,Zapdos,Moltres,Dratini,Dragonair,Dragonite,Mewtwo,Mew".Split(',');

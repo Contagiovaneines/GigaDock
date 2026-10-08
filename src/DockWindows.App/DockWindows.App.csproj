@@ -12,6 +12,11 @@
 
   <ItemGroup>
     <Resource Include="..\..\assets\gigadock.ico" Link="Assets\gigadock.ico" />
+    <Resource Include="Assets\Pokemon\*.png" />
+    <Resource Include="Assets\PokemonWalk\**\*.png" />
+    <Resource Include="Assets\PokemonWalk\**\AnimData.xml" />
+    <Content Include="Assets\PokemonWalk\**\*.txt;Assets\PokemonWalk\*.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Assets\Pokemon\LICENCE.txt" CopyToOutputDirectory="PreserveNewest" />
     <ProjectReference Include="..\DockWindows.Core\DockWindows.Core.csproj" />
     <ProjectReference Include="..\DockWindows.Infrastructure\DockWindows.Infrastructure.csproj" />
   </ItemGroup>

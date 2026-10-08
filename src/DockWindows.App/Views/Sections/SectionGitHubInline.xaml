@@ -30,6 +30,7 @@
             </Border.ContextMenu>
             <controls:GitHubContributionStyleControl ItemsSource="{Binding GitHub.Contribuicoes}"
                                                      Total="{Binding GitHub.TotalContribuicoes}"
+                                                     TotalConfirmado="{Binding GitHub.TotalConfirmado}"
                                                      Estilo="{Binding GitHub.Estilo}"
                                                      ToolTip="{Binding GitHub.ResumoCompleto}"
                                                      HorizontalAlignment="Center" VerticalAlignment="Center"/>

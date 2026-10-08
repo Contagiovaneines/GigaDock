@@ -122,30 +122,47 @@ public class IndicadorSistemaControl : FrameworkElement
 
         if (Estilo is "atividade-compacta" or "atividade-larga")
         {
-            dc.DrawRoundedRectangle(new LinearGradientBrush(Color.FromRgb(67, 68, 72), Color.FromRgb(37, 39, 43), 90), new Pen(new SolidColorBrush(Color.FromRgb(99, 102, 108)), 1), new Rect(0, 0, w, h), 14, 14);
+            var large = Estilo == "atividade-larga";
+            var surface = new Rect(.5, .5, Math.Max(0, w - 1), Math.Max(0, h - 1));
+            dc.DrawRoundedRectangle(new LinearGradientBrush(Color.FromRgb(41, 48, 60), Color.FromRgb(21, 26, 35), 90),
+                new Pen(new SolidColorBrush(Color.FromRgb(78, 91, 112)), 1), surface, 15, 15);
+            dc.DrawLine(new Pen(new SolidColorBrush(Color.FromArgb(85, 111, 129, 155)), 1),
+                new Point(w / 2, 17), new Point(w / 2, h - 17));
+            void CenterText(string value, double size, Point origin, Brush color)
+            {
+                var text = new FormattedText(value, CultureInfo.GetCultureInfo("pt-BR"), FlowDirection.LeftToRight,
+                    new Typeface("Segoe UI Semibold"), size, color, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+                dc.DrawText(text, new Point(origin.X - text.Width / 2, origin.Y - text.Height / 2));
+            }
             void ActivityRing(double value, Point center, Brush color, string label, double radius, double penSize)
             {
-                dc.DrawEllipse(null, new Pen(new SolidColorBrush(Color.FromRgb(54, 58, 64)), penSize), center, radius, radius);
-                if (double.IsFinite(value) && value > 0)
+                dc.DrawEllipse(new SolidColorBrush(Color.FromRgb(19, 25, 34)),
+                    new Pen(new SolidColorBrush(Color.FromRgb(54, 65, 82)), penSize), center, radius, radius);
+                var normalized = double.IsFinite(value) ? Math.Clamp(value, 0, 100) : 0;
+                var progressPen = new Pen(color, penSize) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round };
+                if (normalized >= 100)
+                    dc.DrawEllipse(null, progressPen, center, radius, radius);
+                else if (normalized > 0)
                 {
-                    var angle = Math.Clamp(value, 0, 99.99) * 2 * Math.PI / 100;
+                    var angle = normalized * 2 * Math.PI / 100;
                     var arc = new StreamGeometry();
                     using (var ctx = arc.Open())
                     {
                         ctx.BeginFigure(new Point(center.X, center.Y - radius), false, false);
                         ctx.ArcTo(new Point(center.X + Math.Sin(angle) * radius, center.Y - Math.Cos(angle) * radius), new Size(radius, radius), 0, angle > Math.PI, SweepDirection.Clockwise, true, false);
                     }
-                    dc.DrawGeometry(null, new Pen(color, penSize) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round }, arc);
+                    dc.DrawGeometry(null, progressPen, arc);
                 }
-                Text(double.IsFinite(value) ? $"{value:F0}" : "—", Estilo == "atividade-larga" ? 14 : 11, center.X - radius + 2, center.Y - 11, Brushes.White, radius * 2 - 4);
-                Text(label, Estilo == "atividade-larga" ? 8 : 7, center.X - radius + 2, center.Y + 3, color, radius * 2 - 4);
+                CenterText(double.IsFinite(value) ? $"{normalized:F0}" : "—", large ? 17 : 14,
+                    new Point(center.X, center.Y - 4), Brushes.White);
+                CenterText(label + " %", large ? 8.5 : 7.5, new Point(center.X, center.Y + 10), color);
             }
-            var radius = Estilo == "atividade-larga" ? 22d : 14d;
-            var distance = Estilo == "atividade-larga" ? 70d : 38d;
-            var penSize = Estilo == "atividade-larga" ? 6d : 4.5d;
+            var radius = large ? 22d : 18d;
+            var distance = large ? 100d : 50d;
+            var penSize = large ? 4.5d : 3.5d;
             var first = (w - distance) / 2;
-            ActivityRing(Valor, new Point(first, h / 2), Brushes.DodgerBlue, "CPU", radius, penSize);
-            ActivityRing(ValorSecundario, new Point(first + distance, h / 2), Brushes.MediumPurple, "RAM", radius, penSize);
+            ActivityRing(Valor, new Point(first, h / 2), new SolidColorBrush(Color.FromRgb(75, 184, 255)), "CPU", radius, penSize);
+            ActivityRing(ValorSecundario, new Point(first + distance, h / 2), new SolidColorBrush(Color.FromRgb(185, 148, 255)), "RAM", radius, penSize);
             return;
         }
 

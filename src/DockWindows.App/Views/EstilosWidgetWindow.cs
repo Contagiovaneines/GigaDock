@@ -38,23 +38,23 @@ public class EstilosWidgetWindow : Window
         var climaReferencia = new DockWindows.App.ViewModels.ClimaWidgetViewModel(iniciarConsulta: false);
         climaReferencia.AplicarDados(new DockWindows.App.ViewModels.DadosClima("21°", "Sua cidade", "Nublado", new[]
         {
-            new DockWindows.App.ViewModels.PrevisaoClima("Seg", "24°", "Nublado", "Nuvem"), new("Ter", "22°", "Chuva", "Chuva"), new("Qua", "21°", "Nublado", "Nuvem")
+            new DockWindows.App.ViewModels.PrevisaoClima("Seg", "24°", "Nublado", "Nuvem", "17°"), new("Ter", "22°", "Chuva", "Chuva", "16°"), new("Qua", "21°", "Nublado", "Nuvem", "15°")
         }, new[] { new DockWindows.App.ViewModels.PrevisaoHora("12h", "21°", "Nuvem"), new("15h", "20°", "Chuva"), new("18h", "19°", "Nuvem"), new("21h", "18°", "Nuvem"), new("00h", "17°", "Nuvem") }, "23°", "18 km/h", "SO", "0 mm", "06:12", "20:18", "Nuvem", new DateTime(2026, 6, 22, 12, 0, 0)));
         foreach (var estilo in EstilosWidget.Para(widget.Tipo))
         {
-            var panel = new StackPanel();
+            var panel = new StackPanel { Width = 232 };
             UIElement preview;
             if (widget.Tipo == TipoWidget.Relogio) preview = new EstiloRelogioControl { Width = 176, Height = 56, Estilo = estilo.Id, Horario = new DateTime(2026, 6, 22, 12, 34, 56) };
-            else if (widget.Tipo == TipoWidget.Clima) preview = new Viewbox { Width = 190, Height = 56, Child = new ClimaEstiloControl { Width = ClimaEstiloControl.LarguraPara(estilo.Id), Height = 64, Estilo = estilo.Id, Dados = climaReferencia } };
+            else if (widget.Tipo == TipoWidget.Clima) preview = new ClimaEstiloControl { Width = ClimaEstiloControl.LarguraPara(estilo.Id), Height = 64, Estilo = estilo.Id, Dados = climaReferencia };
             else if (widget.Tipo == TipoWidget.Midia) preview = new ReferenciaMidiaControl { Width = 190, Height = 56, Estilo = estilo.Id };
-            else if (widget.Tipo == TipoWidget.GitHubContribuicoes) preview = new GitHubContributionStyleControl { Width = estilo.Formato == FormatoWidget.Expandido ? 286 : 82, Height = 66, Estilo = estilo.Id, Total = 1284 };
+            else if (widget.Tipo == TipoWidget.GitHubContribuicoes) preview = new GitHubContributionStyleControl { Width = estilo.Formato == FormatoWidget.Expandido ? 300 : 68, Height = 68, Estilo = estilo.Id, Total = 1284, Preview = true };
             else if (widget.Tipo is TipoWidget.MonitorSistema or TipoWidget.Bateria)
                 preview = new IndicadorSistemaControl { Width = LarguraIndicador(estilo.Id), Height = 64, Estilo = estilo.Id, Titulo = widget.Tipo == TipoWidget.Bateria ? "Bateria" : estilo.Id.StartsWith("ram") ? "RAM" : estilo.Id.StartsWith("rede") ? "Rede" : estilo.Nome, Texto = estilo.Referencia.Split('\n')[0], Secundario = estilo.Referencia.Split('\n').Skip(1).FirstOrDefault() ?? "", Valor = widget.Tipo == TipoWidget.Bateria ? 78 : estilo.Id.StartsWith("ram") ? 61 : 34, ValorSecundario = 61, Serie = Enumerable.Range(0, 30).Select(i => 35.0 + Math.Sin(i * .7) * 20).ToArray(), SerieSecundaria = Enumerable.Range(0, 30).Select(i => 15.0 + Math.Cos(i * .4) * 10).ToArray() };
             else preview = new TextBlock { Text = estilo.Referencia, FontSize = 14, TextAlignment = TextAlignment.Center, Height = 56, TextWrapping = TextWrapping.Wrap, Foreground = Brushes.WhiteSmoke, VerticalAlignment = VerticalAlignment.Center };
 
             var dockPreview = new Border
             {
-                Height = 82, CornerRadius = new CornerRadius(18), Padding = new Thickness(10),
+                Width = 232, Height = 86, CornerRadius = new CornerRadius(18), Padding = new Thickness(10),
                 Background = new LinearGradientBrush(Color.FromArgb(235, 18, 23, 30), Color.FromArgb(245, 7, 10, 15), 90),
                 BorderBrush = new LinearGradientBrush(Color.FromRgb(255, 50, 101), Color.FromRgb(42, 221, 255), 0),
                 BorderThickness = new Thickness(1.5), Child = new Viewbox { StretchDirection = StretchDirection.DownOnly, Child = preview }
@@ -85,7 +85,8 @@ public class EstilosWidgetWindow : Window
     private static double LarguraIndicador(string estilo) => estilo switch
     {
         "ventoinha-cpu" => 68,
-        "rede-compacta" or "atividade-compacta" => 88,
+        "rede-compacta" => 88,
+        "atividade-compacta" => 102,
         "atividade-larga" => 210,
         _ => 206
     };

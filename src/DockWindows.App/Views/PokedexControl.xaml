@@ -1,0 +1,146 @@
+<UserControl x:Class="DockWindows.App.Views.PokedexControl"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="VisibleWhenTrue"/>
+  <Style x:Key="PokemonCard" TargetType="ListBoxItem">
+   <Setter Property="Width" Value="116"/>
+   <Setter Property="Margin" Value="4"/>
+   <Setter Property="Padding" Value="10"/>
+   <Setter Property="Background" Value="#222832"/>
+   <Setter Property="BorderBrush" Value="#343E4D"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Foreground" Value="#EFF5FF"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="AutomationProperties.Name" Value="{Binding Rotulo}"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ListBoxItem">
+      <Border x:Name="Card" CornerRadius="12" Padding="{TemplateBinding Padding}"
+       BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+       Background="{TemplateBinding Background}">
+       <ContentPresenter/>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True">
+        <Setter TargetName="Card" Property="Background" Value="#303C4B"/>
+        <Setter TargetName="Card" Property="BorderBrush" Value="#7895B7"/>
+       </Trigger>
+       <Trigger Property="IsSelected" Value="True">
+        <Setter TargetName="Card" Property="Background" Value="#153E3A"/>
+        <Setter TargetName="Card" Property="BorderBrush" Value="#64E2BF"/>
+        <Setter TargetName="Card" Property="BorderThickness" Value="2"/>
+       </Trigger>
+       <Trigger Property="IsKeyboardFocusWithin" Value="True">
+        <Setter TargetName="Card" Property="BorderBrush" Value="#FFFFFF"/>
+        <Setter TargetName="Card" Property="BorderThickness" Value="2"/>
+       </Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+ </UserControl.Resources>
+ <StackPanel>
+  <Grid Margin="0,0,0,20">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <StackPanel>
+    <StackPanel Orientation="Horizontal">
+     <Border Width="4" Background="#FF657A" CornerRadius="2" Margin="0,3,12,3"/>
+     <TextBlock Text="Pokédex" FontSize="28" FontWeight="Bold" Foreground="#F4F7FC"/>
+     <Border Background="#34242D" CornerRadius="6" Padding="8,4" Margin="12,0,0,0" VerticalAlignment="Center">
+      <TextBlock Text="KANTO" Foreground="#FFA7B6" FontSize="10" FontWeight="Bold"/>
+     </Border>
+    </StackPanel>
+    <TextBlock Text="Encontre seu próximo companheiro de dock." Foreground="#A9B8C9" Margin="16,6,8,0" TextWrapping="Wrap"/>
+   </StackPanel>
+   <CheckBox Grid.Column="1" Style="{DynamicResource ToggleSwitchStyle}" Content="Exibir na dock"
+    IsChecked="{Binding MascotePokemonAtivo, Mode=TwoWay}" VerticalAlignment="Center" Margin="12,0,0,0"
+    AutomationProperties.Name="Exibir mascote Pokémon na dock"/>
+  </Grid>
+
+  <Border CornerRadius="16" BorderBrush="#385650" BorderThickness="1" Padding="20" Margin="0,0,0,20">
+   <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+    <GradientStop Color="#163C39"/><GradientStop Color="#222B3D" Offset="1"/>
+   </LinearGradientBrush></Border.Background>
+   <Grid>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="112"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Border Background="#18302F" CornerRadius="14" BorderBrush="#3D625B" BorderThickness="1" Height="112" VerticalAlignment="Top">
+     <Image Source="{Binding PokemonEscolhido.SpriteLocal}" Width="104" Height="104" RenderOptions.BitmapScalingMode="NearestNeighbor"
+      AutomationProperties.Name="{Binding PokemonEscolhido.Nome}"/>
+    </Border>
+    <StackPanel Grid.Column="1" Margin="20,0,0,0">
+     <TextBlock Text="SEU COMPANHEIRO" FontSize="10" FontWeight="Bold" Foreground="#80DEBF"/>
+     <TextBlock Text="{Binding PokemonEscolhido.Rotulo}" FontSize="23" FontWeight="SemiBold" Foreground="#F4F7FC" Margin="0,5,0,4" TextWrapping="Wrap"/>
+     <TextBlock Foreground="#C0D4D3" TextWrapping="Wrap"><Run Text="Ambiente: "/><Run Text="{Binding AmbienteMascote, Mode=OneWay}"/></TextBlock>
+     <TextBlock Text="Selecione um cartão abaixo para trocar seu mascote." Foreground="#A9B8C9" FontSize="12" Margin="0,10,0,0" TextWrapping="Wrap"/>
+    </StackPanel>
+   </Grid>
+  </Border>
+
+  <Grid Margin="0,0,0,8">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <Label Content="_Buscar Pokémon" Target="{Binding ElementName=PokemonSearch}" Foreground="#E7EDF7" FontWeight="SemiBold" Padding="0"/>
+   <TextBlock Grid.Column="1" Text="{Binding ResumoBuscaPokemon}" Foreground="#A9B8C9" FontSize="11" VerticalAlignment="Center"/>
+  </Grid>
+  <Grid Margin="0,0,0,14">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <Grid>
+    <TextBox x:Name="PokemonSearch" Text="{Binding BuscaPokemon, UpdateSourceTrigger=PropertyChanged}" Height="42"
+     Padding="13,9" FontSize="13" Background="#222832" BorderBrush="#445369"
+     AutomationProperties.Name="Buscar Pokémon por nome ou número"/>
+    <TextBlock Text="Nome ou número: Pikachu, 25, #025…" Foreground="#9BAABD" Margin="14,0" VerticalAlignment="Center" IsHitTestVisible="False">
+     <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/>
+      <Style.Triggers><DataTrigger Binding="{Binding Text, ElementName=PokemonSearch}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+     </Style></TextBlock.Style>
+    </TextBlock>
+   </Grid>
+   <Button Grid.Column="1" Content="Limpar" Command="{Binding LimparBuscaPokemonCommand}" Margin="8,0,0,0" Padding="14,8"
+    AutomationProperties.Name="Limpar busca de Pokémon"/>
+  </Grid>
+
+  <Border Background="#151B23" CornerRadius="14" BorderBrush="#303C4B" BorderThickness="1" Padding="8">
+   <Grid>
+    <ListBox ItemsSource="{Binding PokemonView}" SelectedItem="{Binding PokemonSelecionado, Mode=TwoWay}"
+     IsSynchronizedWithCurrentItem="False" ItemContainerStyle="{StaticResource PokemonCard}"
+     Background="Transparent" BorderThickness="0" MaxHeight="350" MinHeight="150"
+     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+     ScrollViewer.CanContentScroll="False" SelectionMode="Single" AutomationProperties.Name="Pokédex de Kanto, escolha seu mascote">
+     <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ListBox.ItemsPanel>
+     <ListBox.ItemTemplate>
+      <DataTemplate>
+       <StackPanel>
+        <Grid><TextBlock Text="{Binding Numero}" Foreground="#A9B8C9" FontSize="10" FontWeight="SemiBold"/>
+         <TextBlock Text="✓" HorizontalAlignment="Right" Foreground="#80F2CC" FontWeight="Bold">
+          <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/>
+           <Style.Triggers><DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+          </Style></TextBlock.Style>
+         </TextBlock>
+        </Grid>
+        <Image Source="{Binding SpriteLocal}" Width="80" Height="72" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        <TextBlock Text="{Binding Nome}" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="11" TextTrimming="CharacterEllipsis" ToolTip="{Binding Nome}"/>
+       </StackPanel>
+      </DataTemplate>
+     </ListBox.ItemTemplate>
+    </ListBox>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16" IsHitTestVisible="False"
+     Visibility="{Binding SemResultadosPokemon, Converter={StaticResource VisibleWhenTrue}}">
+     <TextBlock Text="Nenhum Pokémon encontrado" Foreground="#EFF5FF" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+     <TextBlock Text="Tente outro nome ou um número de 1 a 151." Foreground="#A9B8C9" Margin="0,8,0,0" TextWrapping="Wrap"/>
+    </StackPanel>
+   </Grid>
+  </Border>
+  <TextBlock Text="Use as setas para navegar pelos cartões. Sua escolha é salva por ambiente." Foreground="#A9B8C9" FontSize="11" Margin="4,10,0,20" TextWrapping="Wrap"/>
+
+  <Border Background="#22262F" BorderBrush="#373F4D" BorderThickness="1" CornerRadius="12" Padding="16">
+   <StackPanel>
+    <TextBlock Text="Uma companhia que evolui com o dia" FontWeight="SemiBold" Foreground="#EFF5FF"/>
+    <TextBlock Text="O tempo começa quando você escolhe o Pokémon: após 1 hora, pode alcançar a segunda forma; após 3 horas, a forma final. Trocar de Pokémon reinicia a contagem. Ao fechar o aplicativo, a evolução temporária é reiniciada." Foreground="#B7C4D5" Margin="0,7,0,0" TextWrapping="Wrap" FontSize="12"/>
+    <TextBlock Text="Exceção: Eevee espera apenas 2 segundos, faz a animação de evolução e assume a forma do clima disponível. Pokémon sem evolução mantêm sua forma." Foreground="#80DEBF" Margin="0,7,0,0" TextWrapping="Wrap" FontSize="12"/>
+    <Separator Background="#3A4350" Margin="0,12"/>
+    <TextBlock Foreground="#B7C4D5" FontSize="12" TextWrapping="Wrap"><Run Text="Na dock ativa: "/><Run Text="{Binding MascotePreview.Nome, Mode=OneWay}" FontWeight="SemiBold"/><Run Text=" · "/><Run Text="{Binding MascotePreview.Estado, Mode=OneWay}"/></TextBlock>
+   </StackPanel>
+  </Border>
+ </StackPanel>
+</UserControl>

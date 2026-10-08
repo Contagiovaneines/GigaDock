@@ -77,7 +77,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
     private int _quadroArcade;
     private readonly GitHubArcadeAnimation _arcade = new();
     private List<(int X, int Y)> _corpo = new();
-    private (int X, int Y) _fantasma = (12, 6);
+    private readonly (int X, int Y)[] _fantasmas = new (int, int)[4];
 
     private bool _animacaoAutomatica = true;
     public bool AnimacaoAutomatica
@@ -113,6 +113,18 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
     }
 
     private List<int> _niveisOriginais = new();
+    private List<ContribuicaoDia> _diasDisponiveis = new();
+    public int ColunasAnimacao => Estilo == "resumo-anual" ? 36 : 7;
+    private int QuantidadeCelulas => ColunasAnimacao * 7;
+
+    private void AplicarGradeDisponivel()
+    {
+        if (_diasDisponiveis.Count == 0) return;
+        Contribuicoes.Clear();
+        foreach (var dia in _diasDisponiveis.TakeLast(QuantidadeCelulas))
+            Contribuicoes.Add(new ContribuicaoDia { Data = dia.Data, Nivel = dia.Nivel });
+        _niveisOriginais = Contribuicoes.Select(d => d.Nivel).ToList();
+    }
 
         private bool _habilitado;
     public bool Habilitado
@@ -132,7 +144,14 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
     public string Estilo
     {
         get => _estilo;
-        set => SetProperty(ref _estilo, value);
+        set
+        {
+            if (!SetProperty(ref _estilo, value)) return;
+            _reinicio?.Cancel();
+            LimparEstadoAnimacao();
+            AplicarGradeDisponivel();
+            IniciarAnimacao();
+        }
     }
 
     public string? NomeUsuario { get => _nomeUsuario; set => SetProperty(ref _nomeUsuario, value); }
@@ -215,6 +234,10 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         {
             if (!string.IsNullOrWhiteSpace(usuario))
             {
+                _reinicio?.Cancel(); LimparEstadoAnimacao();
+                _diasDisponiveis.Clear(); Contribuicoes.Clear(); _niveisOriginais.Clear();
+                TotalConfirmado = false; TotalContribuicoes = 0;
+                OnPropertyChanged(nameof(TotalConfirmado));
                 _nomeUsuario = usuario;
                 OnPropertyChanged(nameof(NomeUsuario));
                 _cacheAte = default; _consulta?.Cancel();
@@ -222,6 +245,10 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             }
             else
             {
+                _reinicio?.Cancel(); LimparEstadoAnimacao();
+                _diasDisponiveis.Clear(); _niveisOriginais.Clear();
+                TotalConfirmado = false;
+                OnPropertyChanged(nameof(TotalConfirmado));
                 _nomeUsuario = string.Empty;
                 Contribuicoes.Clear();
                 TotalContribuicoes = 0;
@@ -282,13 +309,13 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
                 _cacheAte = DateTimeOffset.UtcNow.AddMinutes(30);
                 LimparEstadoAnimacao();
                 Contribuicoes.Clear();
-                var ultimos = dias.OrderByDescending(d => d.Data).Take(91).Reverse().ToList();
-                foreach (var d in ultimos) Contribuicoes.Add(d);
-                _niveisOriginais = ultimos.Select(d => d.Nivel).ToList();
+                _diasDisponiveis = dias.OrderBy(d => d.Data).ToList();
+                AplicarGradeDisponivel();
                 
                 if (AnimacaoAutomatica) IniciarAnimacao();
 
                 ErroAtualizacao = ""; TotalConfirmado = matchesTooltip.Count > 0;
+                OnPropertyChanged(nameof(TotalConfirmado));
                 TotalContribuicoes = total; OnPropertyChanged(nameof(TextoResumo)); OnPropertyChanged(nameof(ResumoCompleto));
                 Carregando = false;
             }
@@ -351,12 +378,13 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
     public void IniciarAnimacao()
     {
-        if (!AnimacaoAutomatica || _animacaoRodando || Contribuicoes.Count < 91 || !_visual || !_animacoes || _disposed) return;
+        if (!AnimacaoAutomatica || _animacaoRodando || Contribuicoes.Count < QuantidadeCelulas || !_visual || !_animacoes || _disposed) return;
         _corpo.Clear();
         _quadroArcade = 0;
-        _arcade.Reset();
+        _arcade.Reset(ColunasAnimacao);
         _corpo.Add((0, 0));
-        _fantasma = (12, 6);
+        for (var i = 0; i < _fantasmas.Length; i++)
+            _fantasmas[i] = (ColunasAnimacao - 1 - i, 6);
         _animacaoRodando = true;
         _animTimer.Start();
     }
@@ -394,7 +422,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
     private void TickAnimacao()
     {
-        if (!_animacaoRodando || Contribuicoes.Count < 91)
+        if (!_animacaoRodando || Contribuicoes.Count < QuantidadeCelulas)
         {
             _animTimer.Stop();
             return;
@@ -407,11 +435,11 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         }
         if (EstiloAtual >= EstiloAnimacaoGitHub.Breakout)
         {
-            _arcade.Tick(EstiloAtual, _quadroArcade++, Contribuicoes);
+            _arcade.Tick(EstiloAtual, _quadroArcade++, Contribuicoes, ColunasAnimacao);
             if (_quadroArcade >= 140) FinalizarCiclo();
             return;
         }
-        if (!Contribuicoes.Any(c => c.Nivel > 0)) { FinalizarCiclo(); return; }
+        if (!Contribuicoes.Take(QuantidadeCelulas).Any(c => c.Nivel > 0)) { FinalizarCiclo(); return; }
 
         var head = _corpo.First();
         var nextStep = EncontrarProximoPasso(head);
@@ -425,7 +453,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         var n = nextStep.Value;
         _corpo.Insert(0, n);
 
-        int idx = n.Y * 13 + n.X;
+        int idx = n.Y * ColunasAnimacao + n.X;
         var cell = Contribuicoes[idx];
 
         if (cell.Nivel > 0)
@@ -435,7 +463,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             {
                 var tail = _corpo.Last();
                 _corpo.RemoveAt(_corpo.Count - 1);
-                var tailCell = Contribuicoes[tail.Y * 13 + tail.X];
+                var tailCell = Contribuicoes[tail.Y * ColunasAnimacao + tail.X];
                 tailCell.EhPacMan = false;
             }
         }
@@ -443,7 +471,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         {
             var tail = _corpo.Last();
             _corpo.RemoveAt(_corpo.Count - 1);
-            var tailCell = Contribuicoes[tail.Y * 13 + tail.X];
+            var tailCell = Contribuicoes[tail.Y * ColunasAnimacao + tail.X];
             tailCell.EhCobra = false;
             tailCell.EhCabecaCobra = false;
             tailCell.EhPacMan = false;
@@ -451,24 +479,25 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
         if (EstiloAtual == EstiloAnimacaoGitHub.PacMan)
         {
-            var oldFantasma = Contribuicoes[_fantasma.Y * 13 + _fantasma.X];
-            oldFantasma.EhFantasma = false;
-
-            var fDirs = new (int X, int Y)[] { (0, -1), (0, 1), (-1, 0), (1, 0) };
-            var validFDirs = fDirs.Select(d => (X: _fantasma.X + d.X, Y: _fantasma.Y + d.Y))
-                                  .Where(v => v.X >= 0 && v.X < 13 && v.Y >= 0 && v.Y < 7)
-                                  .ToList();
-            if (validFDirs.Count > 0)
+            cell.DirecaoPacMan = n.X > head.X ? 0 : n.Y > head.Y ? 1 : n.X < head.X ? 2 : 3;
+            cell.BocaPacManAberta = (_quadroArcade++ % 2) == 0;
+            foreach (var old in _fantasmas)
+                Contribuicoes[old.Y * ColunasAnimacao + old.X].EhFantasma = false;
+            for (var ghost = 0; ghost < _fantasmas.Length; ghost++)
             {
-                var r = new Random();
-                _fantasma = validFDirs[r.Next(validFDirs.Count)];
+                var position = _fantasmas[ghost];
+                var directions = new (int X, int Y)[] { (0, -1), (0, 1), (-1, 0), (1, 0) };
+                var candidates = directions.Select(d => (X: position.X + d.X, Y: position.Y + d.Y))
+                    .Where(v => v.X >= 0 && v.X < ColunasAnimacao && v.Y >= 0 && v.Y < 7
+                        && v != n && !_fantasmas.Where((_, index) => index != ghost).Contains(v)).ToArray();
+                if (candidates.Length > 0) _fantasmas[ghost] = candidates[Random.Shared.Next(candidates.Length)];
             }
         }
 
         for (int i = 0; i < _corpo.Count; i++)
         {
             var pt = _corpo[i];
-            var c = Contribuicoes[pt.Y * 13 + pt.X];
+            var c = Contribuicoes[pt.Y * ColunasAnimacao + pt.X];
             if (EstiloAtual == EstiloAnimacaoGitHub.Cobrinha)
             {
                 c.EhCabecaCobra = (i == 0);
@@ -482,8 +511,13 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
         if (EstiloAtual == EstiloAnimacaoGitHub.PacMan)
         {
-            var fCell = Contribuicoes[_fantasma.Y * 13 + _fantasma.X];
-            fCell.EhFantasma = true;
+            for (var ghost = 0; ghost < _fantasmas.Length; ghost++)
+            {
+                var position = _fantasmas[ghost];
+                var fCell = Contribuicoes[position.Y * ColunasAnimacao + position.X];
+                fCell.CorFantasma = ghost;
+                fCell.EhFantasma = true;
+            }
         }
     }
 
@@ -499,7 +533,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             var caminho = fila.Dequeue();
             var atual = caminho.Last();
 
-            if (atual != start && Contribuicoes[atual.Y * 13 + atual.X].Nivel > 0)
+            if (atual != start && Contribuicoes[atual.Y * ColunasAnimacao + atual.X].Nivel > 0)
                 return caminho[1];
 
             foreach (var dir in dirs)
@@ -510,7 +544,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
 
                 bool colisaoCorpo = EstiloAtual == EstiloAnimacaoGitHub.Cobrinha && _corpo.Contains(vizinho);
 
-                if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !visitados.Contains(vizinho) && !colisaoCorpo)
+                if (nx >= 0 && nx < ColunasAnimacao && ny >= 0 && ny < 7 && !visitados.Contains(vizinho) && !colisaoCorpo)
                 {
                     visitados.Add(vizinho);
                     var novoCaminho = new List<(int X, int Y)>(caminho) { vizinho };
@@ -525,7 +559,7 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
             var ny = start.Y + dir.Y;
             var vizinho = (X: nx, Y: ny);
             bool colisaoCorpo = EstiloAtual == EstiloAnimacaoGitHub.Cobrinha && _corpo.Contains(vizinho);
-            if (nx >= 0 && nx < 13 && ny >= 0 && ny < 7 && !colisaoCorpo)
+            if (nx >= 0 && nx < ColunasAnimacao && ny >= 0 && ny < 7 && !colisaoCorpo)
                 return vizinho;
         }
         return null;
@@ -543,6 +577,11 @@ public class ContribuicaoDia : ObservableObject
     private bool _ehCabecaCobra;
     private bool _ehPacMan;
     private bool _ehFantasma;
+    private int _direcaoPacMan, _corFantasma;
+    private bool _bocaPacManAberta;
+    public int DirecaoPacMan { get => _direcaoPacMan; set => SetProperty(ref _direcaoPacMan, value); }
+    public int CorFantasma { get => _corFantasma; set => SetProperty(ref _corFantasma, value); }
+    public bool BocaPacManAberta { get => _bocaPacManAberta; set => SetProperty(ref _bocaPacManAberta, value); }
 
     public DateTime Data { get; set; }
 

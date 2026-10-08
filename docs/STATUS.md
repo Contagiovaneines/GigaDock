@@ -239,3 +239,193 @@ As janelas de Ajustes e Loja de Widgets receberam uma linguagem visual unificada
 A Loja de Widgets ganhou navegação lateral por categoria, busca integrada, identificação do ambiente, contador de instalados e cartões com prévias grandes. Cada cartão informa categoria, disponibilidade, estado instalado/ativo, formato e ações de instalar, ativar, configurar ou desinstalar. As prévias usam gradientes e componentes do próprio projeto; nenhuma marca, imagem ou recurso gráfico da referência foi incorporado. A dock principal não foi alterada nesta etapa.
 
 Validação: solução Release compilada com 0 erros e 0 avisos.
+
+
+## Mascote na linha da dock e GIFs da Pok?API ? 2026-10-08
+
+Implementado percurso horizontal na borda superior da dock, com invers?o nas extremidades, mantendo os itens livres. O mascote respeita largura dispon?vel, visibilidade, anima??es desativadas e modo econ?mico; descansa quando inativo. O GIF tem prioridade pelo campo `sprites.versions.generation-v.black-white.animated.front_default`, com PNG quando o campo animado n?o existe. Quadros s?o compostos com offsets, transpar?ncia, descarte e dura??o, com recorte comum para alinhar o sprite ? linha. Cache local separado por extens?o; URLs limitadas ao diret?rio oficial PokeAPI/sprites via HTTPS. Sem nova depend?ncia.
+
+Valida??o: solu??o Release compilada com 0 erros e 0 avisos. Endpoint real de Bulbasaur e GIF consultados: HTTP 200, 19.484 bytes. Um programa tempor?rio de verifica??o dos quadros compilou, mas sua execu??o foi bloqueada pelo Controle de Aplicativo do Windows (0x800711C7); n?o houve valida??o visual nem confirma??o da decodifica??o em execu??o. Os GIFs s?o anima??es de batalha, n?o sequ?ncias espec?ficas de caminhada.
+
+Pr?ximos passos: verificar visualmente percurso, alinhamento, DPI e quadros em uma execu??o permitida do aplicativo. Detalhes em `docs/mascote-gif.md`.
+
+## Pokédex visual e busca de mascotes — 2026-10-08
+
+A seção Mascotes recebeu uma Pokédex com 151 cartões ilustrados, seleção destacada, painel do companheiro escolhido e visual escuro com acentos verdes e coral. A busca instantânea aceita nome parcial, número e formatos como #025, ignora caixa, acentos e pontuação e distingue Nidoran fêmea e macho. Contador, botão Limpar e mensagem sem resultados completam a navegação. O filtro preserva a escolha salva por ambiente. O painel distingue o Pokémon escolhido da forma evoluída na dock ativa.
+
+As 151 miniaturas do repositório oficial PokeAPI/sprites estão incorporadas ao aplicativo (125.426 bytes), permitindo galeria e busca offline. Licença original e manifesto de URLs, tamanhos e hashes foram preservados. O runtime animado da dock continua usando os GIFs e o cache existentes.
+
+Validação: `dotnet build DockWindows.slnx -c Release --nologo` concluído com 0 erros e 0 avisos. Integridade dos 151 PNGs conferida por CRC, SHA-256 e sequência de IDs. Foram adicionados 14 casos de teste de busca; a tentativa de executá-los foi interrompida pelo bloqueio preventivo já existente no projeto para Smart App Control. Os testes não foram executados. A interface não foi validada visualmente nesta etapa.
+
+Próximos passos: conferir galeria, seleção após filtrar, navegação por teclado e escalas de tela em execução permitida. Detalhes em `docs/pokedex.md`.
+
+## GitHub compacto conforme referência e correção das animações — 2026-10-08
+
+O compacto agora é quadrado (68 × 68), com superfície grafite arredondada e grade verde 7 × 7 centralizada. O estilo largo mantém total e grade em uma faixa proporcional à referência. As prévias da galeria usam as mesmas proporções.
+
+Corrigido o desenho dos efeitos: o controle ignorava estados de cobrinha, Pac-Man e marcas arcade. Agora representa as sete animações do menu e seus símbolos. O motor usa os limites reais de cada estilo (7 × 7 ou 36 × 7), preserva os dados originais e restaura a grade ao desativar. A troca de estilo recalcula a largura e reaproveita o histórico carregado.
+
+Validação: compilação Release com 0 erros e 0 avisos. Adicionados 14 casos cobrindo todos os efeitos nos dois formatos. A execução dos testes foi bloqueada preventivamente pelo projeto devido ao Smart App Control; não houve validação visual em execução. Próximos passos: conferir os sete efeitos, troca de formato, pausa ao ocultar e escalas de tela em execução permitida. Relatório em `docs/github-compacto-animacoes.md`.
+
+## Diagnóstico do alerta Check.dll — 2026-10-08
+
+Confirmado no log Microsoft-Windows-CodeIntegrity/Operational, evento 3077: o bloqueio refere-se ao Check.exe tentando carregar Check.dll em `%TEMP%/DockPokemonCheck-4f15a6a9213f48f9ba2b89c13407b81a/bin/Release/net10.0-windows/`. Esse é o verificador temporário criado durante a validação dos GIFs Pokémon, não uma biblioteca distribuída no GigaDock. A DLL não possui assinatura Authenticode; a política de integridade impediu seu carregamento.
+
+Resultado: origem e motivo identificados por caminho, evento e inspeção da assinatura. Nenhuma configuração de segurança foi alterada e nenhuma nova execução desse verificador foi feita. Próximos passos: manter a verificação em execução pendente até haver ambiente permitido ou assinatura confiável. Etapa de diagnóstico, sem alteração de código; não exigiu nova compilação.
+
+## Visual do indicador compacto CPU/RAM — 2026-10-08
+
+O estilo Atividade compacta recebeu fundo azul-grafite, borda discreta, divisória central e anéis maiores com trilha visível. Os números e rótulos agora são centralizados pela largura real do texto, com mais contraste e indicação de porcentagem. A largura passou de 82 para 102 unidades WPF para acomodar leituras de três dígitos. O formato largo usa a mesma linguagem visual, e a prévia foi alinhada às dimensões do compacto.
+
+O desenho trata 100% como círculo completo e valores indisponíveis como travessão. As leituras continuam usando o serviço existente, sem novos timers ou consultas.
+
+Validação: `dotnet build DockWindows.slnx -c Release --nologo` concluído com 0 erros e 0 avisos. Não foi realizada validação visual em execução. Nenhum verificador temporário foi executado, devido ao bloqueio de integridade identificado anteriormente. Próximos passos: conferir legibilidade em diferentes escalas e leituras 0, 100 e indisponível em execução permitida.
+
+## Clima: espaçamento e sobreposições nas prévias — 2026-10-08
+
+Os layouts Minimalista, Temperatura e Largo receberam áreas separadas para ícone e texto, larguras revistas e fundo azul-grafite com borda discreta. O largo organiza mínima e máxima em duas linhas próprias, separadas da temperatura atual. Ícones vetoriais WPF substituem os símbolos de fonte para manter limites previsíveis. Textos têm uma linha, reticências e recorte por área, evitando que graus e números invadam outras regiões. Os formatos Local, Condição, Previsão e Horas também usam os ícones com dimensões fixas.
+
+Na galeria, foi removido o Viewbox intermediário que ampliava as prévias menores. A área de apresentação tem largura fixa e só reduz os widgets quando necessário. A referência ilustrativa agora inclui mínimas explícitas.
+
+Validação: solução Release compilada com 0 erros e 0 avisos. Não houve execução visual nem lançamento de verificadores temporários. Próximos passos: conferir as prévias e a dock em execução permitida, especialmente temperatura negativa, cidade longa e escalas de 125%, 150% e 200%.
+
+## Instalador 3.2.0 — 2026-10-08
+
+Versão compartilhada, constante do instalador, manifestos e README atualizados para 3.2.0. Aplicativo win-x64 publicado com as alterações recentes de mascotes/Pokédex, GitHub, CPU/RAM e clima; conteúdo compactado em app.zip e incorporado ao instalador independente.
+
+Artefato: `release/GigaDock-Setup.exe` (173.715.506 bytes; 165,67 MiB). Cópia preservada em `dist/release-20261008-020254/GigaDock-Setup.exe`. Metadados de aplicativo e instalador confirmados em 3.2.0.0; hash SHA-256 conferido contra `docs/installer-validation.json`. O pacote contém o executável principal e não contém runners de testes, xUnit, cobertura ou Check.dll.
+
+Validação: solução Release compilada com 0 erros e 0 avisos. Publicação e empacotamento concluídos. O instalador não foi executado nem instalado nesta etapa. Assinatura Authenticode: NotSigned; o certificado autoassinado local não foi tratado como assinatura confiável. Nenhuma configuração global ou repositório de certificados foi alterado. Próximo passo: validar instalação/atualização em ambiente permitido e providenciar assinatura confiável para distribuição sem o bloqueio já identificado do Smart App Control.
+
+## README da versão 3.2 — 2026-10-08
+
+README atualizado com a versão pública 3.2, correspondente ao aplicativo e instalador 3.2.0. Documentadas Pokédex, busca local, mascotes com GIFs e evolução, estilos e sete animações do GitHub, monitor CPU/RAM, novos layouts do clima e correções de espaçamento. Incluídas instruções de uso, cache e serviços externos, atribuição dos sprites e limites reais de validação.
+
+Validação: alteração somente documental; revisão das funções contra o código e os registros desta sessão, com verificação de whitespace. Não houve nova compilação nem execução de testes. Próximos passos: atualizar os resultados documentados após a validação visual e de instalação em ambiente permitido.
+
+## Bloqueio do instalador 3.2 e correção do fluxo de assinatura — 2026-10-08
+
+Evento 3077 do CodeIntegrity confirmou que o Windows bloqueou `release/GigaDock-Setup.exe`; assinatura atual NotSigned. Disponível somente certificado autoassinado GigaDock OpenSource, inadequado para confiança pública do Smart App Control.
+
+O empacotamento passou a rejeitar certificados autoassinados, verificar o resultado das assinaturas e recusar UnknownError. O arquivo em release só é substituído após a validação final do fluxo assinado. O auxiliar build_e_assinar.ps1 agora exige um certificado existente e não cria/importa certificados nem altera raízes de confiança.
+
+Validação: sintaxe PowerShell dos dois scripts aprovada; tentativa com o certificado local recusada antes de publicar; solução Release com 0 erros e 0 avisos. O instalador existente permanece sem assinatura e bloqueado. Não foi realizada nova instalação nem alteração da proteção do Windows. Próximo passo necessário: disponibilizar certificado de provedor confiável ou configurar serviço de assinatura para assinar o aplicativo, componentes e instalador.
+
+## Reconstrução do instalador após bloqueio Smart App Control — 2026-10-08
+
+Aplicativo e instalador 3.2.0 reconstruídos e publicados pelo fluxo atualizado. Artefato em `release/GigaDock-Setup.exe`, cópia em `dist/release-20261008-021855/GigaDock-Setup.exe`. SHA-256 conferido contra o relatório de empacotamento. Publicação compilada com sucesso; instalador não executado.
+
+Bloqueio permanece sem solução: assinatura NotSigned; somente certificado autoassinado disponível em CurrentUser e nenhum certificado de código disponível em LocalMachine. Fluxo SignPath existe no GitHub Actions, mas a configuração remota não pôde ser consultada porque gh está sem autenticação. Solicitada ao usuário a informação sobre certificado ou serviço de assinatura disponível. Próximo passo obrigatório para liberar instalação com Smart App Control ativo: assinatura confiável de aplicativo, componentes e setup. Reconstrução local não equivale a correção da confiança.
+
+## Alerta de instalação no README — 2026-10-08
+
+Incluído, a pedido do usuário, alerta CAUTION com destaque vermelho no GitHub e observação sobre o bloqueio do Smart App Control. Documentados os passos opcionais para desativar o recurso, impacto sobre todos os aplicativos, limitações de reativação e alternativa recomendada de assinatura confiável, com referência oficial da Microsoft. Nenhuma configuração do Windows foi modificada.
+
+Validação: alteração somente documental e verificação de whitespace. Não houve compilação ou testes nesta etapa. Próximo passo: substituir a orientação de build sem assinatura quando houver instalador com assinatura confiável disponível.
+
+## Passos reais para Pikachu e demais mascotes — 2026-10-08
+
+Substituído o deslocamento visual de GIFs de batalha por sequências Walk locais para os 151 Pokémon originais. Cada espécie usa quadros laterais próprios para esquerda e direita, proporção estável, recorte comum e ciclo sincronizado à distância. Movimento a 18 unidades WPF/s, pausa de 350 ms nas pontas e interrupção da passada quando o mascote descansa. GIFs continuam como alternativa se o recurso local não puder ser carregado. Sem novas consultas ou timers.
+
+Assets obtidos do PMDCollab/SpriteCollab, com créditos e política de uso preservados e documentados separadamente da licença MIT. README atualizado e relatório em `docs/pokemon-caminhada.md`; manifesto em `docs/pokemon-walk-assets.json`.
+
+Validação: 151 spritesheets conferidos quanto a dimensões, oito direções e durações. Solução Release compilada com 0 erros e 0 avisos. Teste PokemonWalkAnimationTests executado e aprovado, incluindo decodificação WPF das 151 espécies, estabilidade de dimensões e ciclo por distância. Falha inicial de URI corrigida e teste repetido com sucesso. Não houve validação visual da dock em execução nem reconstrução do instalador. Próximos passos: conferir passada, alinhamento e pausas em diferentes escalas; integrar descanso/dormir específicos e regenerar instalador quando solicitado.
+
+## Auditoria dos 151 Pokémon e voo por espécie — 2026-10-08
+
+Conferidos os 151 recursos locais de movimento, com SHA-256 e manifesto por espécie. Adicionado comportamento aéreo para 18 voadores e flutuação para 9 espécies; demais 124 continuam no chão. Doduo/Dodrio permanecem terrestres. Selecionadas sequências Hover, Float, FlapAround, Idle e Special0 onde adequadas, com resolução de CopyOf e créditos preservados.
+
+Aéreos recebem altura e oscilação suaves, animação por tempo mesmo ao parar horizontalmente e área vertical de 60 unidades para evitar cortes. Terrestres mantêm passos por distância. Sono pousa/congela e preferência de animações desativadas mantém imagem estática. Relatório e limites de poses em `docs/pokemon-voo.md`, inventário em `docs/pokemon-movement-audit.json`.
+
+Validação: 13 testes executados e aprovados, incluindo decodificação WPF das 151 espécies, ciclo por tempo/distância e altura conforme espécie, sono e preferências. Solução Release compilada com 0 erros e 0 avisos. Não houve validação visual na dock em execução nem regeneração do instalador. Próximos passos: conferir voo/planagem e oscilação em diferentes escalas e incluir a alteração no próximo pacote solicitado.
+
+## Tempo de evolução desde a escolha — 2026-10-08
+
+Removida a evolução baseada no tempo ligado do Windows. A contagem começa ao escolher a espécie, com etapas após uma e três horas. Trocar de espécie reinicia o prazo; reaplicar a mesma seleção preserva tempo e forma. README e ajuda da Pokédex atualizados. Relatório: docs/pokemon-tempo-evolucao.md.
+
+Validação: compilação Debug concluída e um teste aprovado cobrindo limites, tempo prévio do sistema, seleção repetida e troca de espécie. Sem validação visual nem reconstrução do instalador. Próximos passos: conferir na dock e incluir no próximo pacote.
+
+## Virada dos Pokémon nas bordas — 2026-10-08
+
+Mantidas as sequências laterais próprias de esquerda/direita. A pausa de 350 ms agora mostra uma pose frontal nos primeiros 175 ms e o novo lado antes de retomar o deslocamento, tanto no chão quanto no ar. Nenhuma direção de costas é usada. Recorte comum inclui a pose frontal para preservar tamanho e alinhamento.
+
+Validação: compilação e teste das sequências dos 151 Pokémon, incluindo os quadros frontais; resultado registrado em docs/pokemon-virada.md. Próximos passos: conferir a virada visualmente na dock e incluir no próximo instalador.
+
+## Poses de descanso e sono — 2026-10-08
+
+Auditados os 151 Pokémon: 27 possuem Sit, 124 usam Idle e todos possuem Sleep. Recursos incorporados com créditos existentes preservados e manifesto docs/pokemon-rest-assets.json. Descansando mostra pose frontal sentada (último quadro de Sit) ou animação Idle; Dormindo usa Sleep. Ambos pousam na linha da dock. A escala considera a altura da caminhada para evitar ampliar a pose sentada.
+
+Validação: compilação Debug concluída e 13 testes aprovados, incluindo decodificação das poses de descanso/sono dos 151 Pokémon e ciclos frontais. Relatório docs/pokemon-descanso.md. Sem inspeção visual na dock nem reconstrução do instalador. Próximos passos: conferir transição, escala e poses em diferentes telas e incluir no próximo pacote.
+
+## Personagens Pac-Man no GitHub — 2026-10-08
+
+Desenho WPF em pixels inspirado na referência enviada, com boca alternada orientada ao deslocamento, quatro fantasmas coloridos com olhos e pontos dourados no percurso. Funciona nas grades compacta e anual. Relatório: docs/github-pacman-sprites.md.
+
+Validação: compilação Debug e 28 testes aprovados, incluindo direção, boca e quatro fantasmas nos dois estilos. Sem inspeção visual na dock nem atualização do instalador. Próximos passos: conferir legibilidade em escalas de tela e incluir no próximo pacote.
+
+## Instalador 3.2 atualizado — 2026-10-08 às 03:18
+
+Regenerado release/GigaDock-Setup.exe com todas as alterações atuais: evolução desde a escolha, movimento lateral e voo, virada frontal, descanso/sono dos 151 Pokémon e personagens Pac-Man no GitHub. Publicação Release win-x64 concluída para aplicativo e instalador. Artefato preservado em dist/release-20261008-031745/GigaDock-Setup.exe.
+
+Verificados: executável do aplicativo dentro de app.zip idêntico à publicação recém-gerada, créditos presentes, ausência de artefatos de teste e cópia release idêntica ao instalador gerado. Versão 3.2.0.0, tamanho 176873522 bytes, SHA-256 ABB5CD89521613EE581A821CBCE8242EF5D18A4C8AD18907775750E7FA67E32C. Detalhes em docs/installer-validation.json.
+
+Limites: instalador continua sem assinatura Authenticode e pode ser bloqueado pelo Smart App Control. Não foi executada instalação manual nem validação visual na dock. Próximos passos: validar instalação e interface em Windows e assinar com certificado confiável para distribuição.
+
+## Eevee com evolução imediata por clima — 2026-10-08
+
+Eevee passa a ser a única exceção aos prazos de horas: espera 2 segundos visível, faz brilho pulsante de 1,2 segundo parado de frente e assume Vaporeon/Jolteon/Flareon conforme o clima em cache. Mantém a forma na sessão. Troca de espécie, ocultação e descarte cancelam a transição. Preferência de animações respeitada. README, ajuda e relatório docs/eevee-clima.md atualizados.
+
+Validação: compilação Debug e 10 testes aprovados para clima e contagem de evolução normal. Publicação Release win-x64 do aplicativo e instalador concluída; release/GigaDock-Setup.exe atualizado a partir de dist/release-20261008-032124. Metadados e hash em docs/installer-validation.json. Sem inspeção visual da transição ou instalação manual. Instalador permanece sem assinatura. Próximos passos: conferir efeito e cancelamento visualmente na dock e assinar o pacote com certificado confiável para distribuição.
+
+## Transformação de evolução com esfera de energia — 2026-10-08
+
+Inspecionados 102 quadros do GIF fornecido. Substituído o pulso simples por efeito WPF de 3 segundos: silhueta branca, esfera luminosa com arcos de energia azul/branca e partículas, revelação da espécie nova. Aplicado ao Eevee por clima e aos demais ao alcançar seus prazos de evolução. Sem fundo, temporizador extra ou dependência de download. Relatório docs/pokemon-evolution-effect.md.
+
+Validação: compilação Debug/Release concluída; 23 testes de Pokémon aprovados e um teste adicional de renderização WPF aprovado após ajuste do UpdateLayout no teste. Prévia de seis quadros renderizados inspecionada em docs/pokemon-evolution-preview.png. Instalador 3.2 regenerado em release/GigaDock-Setup.exe, cópia preservada em dist/release-20261008-032453. Metadados em docs/installer-validation.json. Sem inspeção em tempo real na dock nem instalação manual; pacote continua sem assinatura digital. Próximos passos: verificar animação na dock e distribuição assinada.
+
+## Instalador entregue novamente — 2026-10-08
+
+A pedido do usuário, regenerado instalador 3.2 com o estado atual, incluindo o efeito de evolução com esfera de energia. Publicação Release win-x64 concluída para aplicativo e instalador. Conferidos hash do aplicativo no ZIP em relação à publicação, ausência de artefatos de teste e igualdade da cópia final release. Artefato preservado em dist/release-20261008-032552/GigaDock-Setup.exe; entrega em release/GigaDock-Setup.exe. Metadados e SHA-256 em docs/installer-validation.json.
+
+Limites: instalação manual não executada; pacote permanece sem assinatura digital. Próximos passos: verificar instalação e animação na dock e obter assinatura confiável para distribuição.
+
+## Inversão das direções dos Pokémon — 2026-10-08
+
+Atendendo ao relato visual de deslocamento de costas, invertida a associação das linhas laterais dos sprites: linha 6 para esquerda e linha 2 para direita. A alteração vale para caminhada e voo; a pose frontal continua usando linha 0.
+
+Validação: compilação Debug concluída e 13 testes de sprites/movimento aprovados. A validação verifica carregamento e ciclos, não identifica visualmente o lado para o qual cada espécie olha. Sem inspeção da dock em execução. Próximos passos: confirmar o sentido na dock após instalar a versão corrigida.
+Instalador 3.2 também regenerado com a inversão: publicação Release concluída, entrega em release/GigaDock-Setup.exe e cópia preservada em dist/release-20261008-032809. Metadados em docs/installer-validation.json. Instalação manual não executada; permanece sem assinatura digital.
+
+## Sono exclusivo do Snorlax — 2026-10-08
+
+Somente Snorlax dorme automaticamente, com cochilos de 30 segundos a cada 2 minutos desde a escolha, independentemente de interação no Windows. As outras 150 espécies apenas descansam por inatividade. Consulta de estado a cada segundo, sem novas chamadas de rede. README atualizado; regras e limites em docs/snorlax-sono.md.
+
+Validação: compilação Debug concluída e 10 testes aprovados, incluindo limites de entrada/saída, repetição, exclusividade entre as 151 espécies e relógio desde a escolha. Sem observação de ciclo real na dock. Próximos passos: conferir soneca e retomada na dock.
+Instalador 3.2 regenerado com o sono exclusivo: publicação Release concluída, entrega em release/GigaDock-Setup.exe e cópia preservada em dist/release-20261008-033007. Metadados em docs/installer-validation.json. Instalação manual não executada; permanece sem assinatura digital.
+
+## Transformação aleatória exclusiva do Ditto — 2026-10-08
+
+Ditto (#132) sorteia outra espécie após 2 segundos e muda novamente a cada 2 minutos, entre as outras 150 do catálogo, sem repetir a forma atual. Usa a esfera de transformação e movimento da forma copiada. Permanece selecionado como Ditto, sem herdar evolução do Eevee ou sono do Snorlax. Trocar de espécie reinicia o ciclo. README atualizado e relatório docs/ditto-transformacao.md.
+
+Validação: compilação Debug e 11 testes aprovados para exclusividade, intervalos, reinício, sorteio e alcance das espécies, além do sono exclusivo do Snorlax. Sem observação visual na dock. Próximos passos: confirmar transformação e movimento das formas copiadas na dock.
+Instalador 3.2 regenerado com a habilidade do Ditto: publicação Release concluída, entrega em release/GigaDock-Setup.exe e cópia preservada em dist/release-20261008-033135. Metadados em docs/installer-validation.json. Instalação manual não executada; permanece sem assinatura digital.
+
+## Pausas frontais durante o passeio — 2026-10-08
+
+Pokémon param horizontalmente e olham para frente por 2 a 4 segundos após intervalos aleatórios de 6 a 12 segundos de movimento, retomando o mesmo sentido. Terrestres ficam parados; voadores continuam o ciclo frontal no ar. Descanso, sono e transformação têm prioridade. Sem novos temporizadores. README atualizado e relatório docs/pokemon-pausas-frontais.md.
+
+Validação: publicação Release do aplicativo e instalador concluída. Instalador 3.2 atualizado em release/GigaDock-Setup.exe; cópia preservada em dist/release-20261008-033222. Metadados em docs/installer-validation.json. Sem inspeção visual na dock, instalação manual ou novos testes automatizados nesta alteração visual localizada. Pacote permanece sem assinatura digital. Próximos passos: conferir frequência das pausas e retomada na dock.
+
+## Ditto alternando formas a cada meia hora — 2026-10-08
+
+Ajustado o ciclo conforme solicitado: 30 minutos como Ditto, transformação de frente, 30 minutos como espécie copiada, retorno a Ditto e mais 30 minutos antes de copiar outra. Não repete a última espécie copiada. Mantidas exclusividade, animação e seleção original na Pokédex. README e docs/ditto-transformacao.md atualizados.
+
+Validação: compilação Debug e 2 testes aprovados, cobrindo limites de 30/60/90 minutos, alternância, exclusividade, reinício e alcance das 150 formas. Não foi observado um ciclo real na dock. Próximos passos: conferir a alternância em execução.
+Instalador 3.2 regenerado: publicação Release concluída, entrega em release/GigaDock-Setup.exe e cópia preservada em dist/release-20261008-033348. Metadados em docs/installer-validation.json. Instalação manual não executada; permanece sem assinatura digital.
+
+## Pausas raras somente no centro da dock — 2026-10-08
+
+Ajustado conforme refinamento do usuário: pausas frontais somente ao cruzar o meio da dock, após acumular de 90 a 180 segundos de movimento efetivo. Para no centro exato do percurso por 2 a 3 segundos e retoma o mesmo sentido. Sono, descanso e pausas não contam como caminhada. README e docs/pokemon-pausas-frontais.md atualizados.
+
+Validação: publicação Release do aplicativo concluída. Sem inspeção visual na dock ou novos testes automatizados nesta alteração visual localizada. Próximos passos: conferir a frequência e alinhamento no centro em execução.
+Instalador 3.2 também regenerado: publicação Release concluída, entrega em release/GigaDock-Setup.exe e cópia preservada em dist/release-20261008-033653. Metadados em docs/installer-validation.json. Instalação manual não executada; pacote permanece sem assinatura digital.

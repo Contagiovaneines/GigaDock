@@ -138,9 +138,9 @@
     <!-- Container geral com margem compacta para renderizar o DropShadow suavemente -->
     <StackPanel Margin="{Binding MargemDock}" Name="MainGrid" VerticalAlignment="Bottom">
         
-        <!-- Mascote flutuando livremente ACIMA da Dock -->
+        <!-- Mascote percorre a borda superior da dock -->
         <sections:SectionMascotePokemonInline Visibility="{Binding MascotePokemon.Habilitado, Converter={StaticResource BoolToVis}}"
-                                              HorizontalAlignment="Center" Margin="0,0,0,2" />
+                                              HorizontalAlignment="Stretch" Margin="0,0,0,-2" />
                                               
         <Grid>
           
