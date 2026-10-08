@@ -12,7 +12,7 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
 {
     public bool? EmExecucao => TimerAtivo;
     public EstadoAmostra EstadoLeitura => Estilo.StartsWith("ram", StringComparison.Ordinal) ? _metricas.Ram.HasValue ? EstadoAmostra.Disponivel : EstadoAmostra.Indisponivel
-        : Estilo is "rede" or "rede-grafico" or "download" or "upload" ? _metricas.EstadoRede
+        : Estilo is "rede" or "rede-grafico" or "rede-compacta" or "download" or "upload" ? _metricas.EstadoRede
         : Estilo == "armazenamento" ? _metricas.DiscoUsado.HasValue ? EstadoAmostra.Disponivel : EstadoAmostra.Indisponivel : _metricas.EstadoCpu;
     public DockWindows.Core.Widgets.SaudeWidget Saude => EstadoLeitura == EstadoAmostra.Indisponivel ? DockWindows.Core.Widgets.SaudeWidget.Indisponivel : DockWindows.Core.Widgets.SaudeWidget.Disponivel;
     public string? MotivoEstado => EstadoLeitura == EstadoAmostra.PrimeiraAmostra ? "Aguardando a segunda amostra para calcular a taxa." : Descricao;
@@ -46,12 +46,19 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
     public double UsoCpu => _metricas.Cpu ?? double.NaN;
     public double UsoRam => _metricas.Ram ?? double.NaN;
     public double Valor => Estilo.StartsWith("ram", StringComparison.Ordinal) ? UsoRam : Estilo == "armazenamento" ? _metricas.DiscoUsado ?? double.NaN : UsoCpu;
-    public double Largura => Estilo is "cpu" or "ram" ? 64 : Estilo is "aneis-cpu-ram" or "medidores-cpu-ram" ? 132 : 190;
+    public double Largura => Estilo switch
+    {
+        "cpu" or "ram" or "ventoinha-cpu" => 64,
+        "rede-compacta" or "atividade-compacta" => 82,
+        "aneis-cpu-ram" or "medidores-cpu-ram" => 132,
+        "atividade-larga" => 210,
+        _ => 190
+    };
     public string TextoResumo => $"CPU {Percentual(_metricas.Cpu)} | RAM {Percentual(_metricas.Ram)}";
-    public string Titulo => Estilo.StartsWith("ram", StringComparison.Ordinal) ? "RAM" : Estilo == "armazenamento" ? "Disco do Windows" : Estilo is "rede" or "rede-grafico" ? "Rede" : Estilo == "download" ? "Download" : Estilo == "upload" ? "Upload" : "CPU";
-    public string TextoValor => Estilo switch { "download" => "↓ " + Velocidade(_metricas.Download), "upload" => "↑ " + Velocidade(_metricas.Upload), "rede" or "rede-grafico" => "↓ " + Velocidade(_metricas.Download), "armazenamento" => _metricas.DiscoLivre, "compacto" or "expandido" => TextoResumo, _ => Percentual(double.IsNaN(Valor) ? null : Valor) };
-    public string TextoSecundario => Estilo is "rede" or "rede-grafico" ? "↑ " + Velocidade(_metricas.Upload) : "";
-    public string Descricao => (EstadoLeitura == EstadoAmostra.PrimeiraAmostra ? "Aguardando primeira taxa. " : EstadoLeitura == EstadoAmostra.Indisponivel ? "Leitura indisponível. " : "") + "Leituras locais. Rede soma interfaces ativas (VPN pode duplicar tráfego). Disco: unidade do Windows. Traço indica dado indisponível.";
+    public string Titulo => Estilo.StartsWith("ram", StringComparison.Ordinal) ? "RAM" : Estilo == "armazenamento" ? "Disco do Windows" : Estilo is "rede" or "rede-grafico" or "rede-compacta" ? "Rede" : Estilo == "download" ? "Download" : Estilo == "upload" ? "Upload" : "CPU";
+    public string TextoValor => Estilo switch { "download" => "↓ " + Velocidade(_metricas.Download), "upload" => "↑ " + Velocidade(_metricas.Upload), "rede" or "rede-grafico" or "rede-compacta" => "↓ " + Velocidade(_metricas.Download), "armazenamento" => _metricas.DiscoLivre, "compacto" or "expandido" or "atividade-compacta" or "atividade-larga" => TextoResumo, _ => Percentual(double.IsNaN(Valor) ? null : Valor) };
+    public string TextoSecundario => Estilo is "rede" or "rede-grafico" or "rede-compacta" ? "↑ " + Velocidade(_metricas.Upload) : "";
+    public string Descricao => (Estilo == "ventoinha-cpu" ? "Indicador visual baseado no uso da CPU; não representa RPM da ventoinha. " : "") + (EstadoLeitura == EstadoAmostra.PrimeiraAmostra ? "Aguardando primeira taxa. " : EstadoLeitura == EstadoAmostra.Indisponivel ? "Leitura indisponível. " : "") + "Leituras locais. Rede soma interfaces ativas (VPN pode duplicar tráfego). Disco: unidade do Windows. Traço indica dado indisponível.";
     public ObservableCollection<double> Historico { get; } = new();
     public ObservableCollection<double> HistoricoSecundario { get; } = new();
     public ICommand AlternarPainelCommand { get; }
@@ -61,9 +68,9 @@ public class MonitorSistemaViewModel : ObservableObject, IAtividadeWidget
     {
         if (_disposed) return;
         try { _metricas = _service.Ler(Estilo switch {
-            "compacto" or "expandido" or "aneis-cpu-ram" or "medidores-cpu-ram" => MetricasSolicitadas.Cpu | MetricasSolicitadas.Ram,
+            "compacto" or "expandido" or "aneis-cpu-ram" or "medidores-cpu-ram" or "atividade-compacta" or "atividade-larga" => MetricasSolicitadas.Cpu | MetricasSolicitadas.Ram,
             "ram" or "ram-grafico" => MetricasSolicitadas.Ram,
-            "rede" or "rede-grafico" or "download" or "upload" => MetricasSolicitadas.Rede,
+            "rede" or "rede-grafico" or "rede-compacta" or "download" or "upload" => MetricasSolicitadas.Rede,
             "armazenamento" => MetricasSolicitadas.Disco, _ => MetricasSolicitadas.Cpu }); } catch { _metricas = new(null, null, null, null, null, "—"); }
         var v = Estilo == "rede-grafico" ? _metricas.Download : double.IsNaN(Valor) ? null : (double?)Valor;
         if (v != null) Adicionar(Historico, v.Value);

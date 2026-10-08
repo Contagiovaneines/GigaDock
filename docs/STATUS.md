@@ -176,6 +176,34 @@ Coleções visuais, biblioteca de aplicativos e ampliação suave já existiam e
 
 Validação: solução Release compilada com 0 erros e 0 avisos.
 
+## Mascotes Pokémon (Beta)
+
+Ajustes recebeu a seção própria **Mascotes (Beta)**. Nela é possível escolher um dos 151 Pokémon originais, ativar ou desativar o mascote e manter uma seleção diferente em cada ambiente. O mascote aparece como um cartão compacto na dock, mostra nome e estado e anima somente quando a dock está visível e as animações estão permitidas.
+
+O runtime consulta os endpoints públicos de Pokémon, espécie e cadeia evolutiva da PokéAPI somente quando o recurso está habilitado. Sprites são armazenados no cache local e reutilizados quando a rede fica indisponível. Após uma hora de atividade da sessão pode ser usada a segunda forma; após três horas, a forma final. O reinício do Windows restaura a forma escolhida. Pokémon sem evolução permanecem na mesma forma.
+
+Eevee escolhe temporariamente Vaporeon em chuva, Jolteon em tempestade e Flareon em sol ou calor, reaproveitando a condição já mantida pelo Clima. A escolha fica estável durante a sessão. Sem condição disponível, usa Vaporeon como alternativa previsível. O widget observa apenas tempo ligado e inatividade do Windows; não registra teclas, textos ou títulos de janelas.
+
+Limites atuais do beta: os sprites estáticos recebem movimento leve por WPF; ações específicas como sentar, correr e dormir ainda dependem de spritesheets próprios. A evolução usa o tempo ligado informado pela sessão do Windows, incluindo períodos anteriores à ativação do widget.
+
+Validação: solução Release compilada com 0 erros e 0 avisos. Os endpoints reais de Bulbasaur, espécie, cadeia evolutiva e sprite foram consultados com sucesso; retornaram `bulbasaur`, evolução para `ivysaur` e sprite no host permitido `raw.githubusercontent.com`.
+
+## Novos estilos de atividade do sistema
+
+O Monitor do Sistema recebeu quatro opções adicionais: **Ventoinha da CPU**, **Rede compacta**, **Atividade compacta** e **Atividade larga**. Rede mostra download e upload reais; os dois formatos de atividade combinam CPU e RAM em anéis. Todos reutilizam o ciclo de leitura existente e não criam timers adicionais.
+
+Como o Windows não oferece uma leitura pública e universal de RPM, a ventoinha é um indicador visual da carga da CPU e informa essa limitação na dica acessível. Ela não apresenta um valor de rotação inventado. As quatro opções possuem prévias reais na galeria e são salvas por ambiente.
+
+Validação: solução Release compilada com 0 erros e 0 avisos.
+
+## Estilos de contribuições do GitHub
+
+O widget GitHub recebeu os estilos **Grade compacta** e **Resumo anual**. O primeiro mostra apenas uma grade quadrada de atividade; o segundo apresenta o total de contribuições no ano ao lado de uma faixa horizontal mais longa. Ambos usam os dados públicos já carregados pelo widget, preservam as animações existentes e são desenhados vetorialmente para acompanhar a escala da tela sem imagens externas.
+
+Os estilos aparecem na galeria de personalização e também podem ser abertos pelo menu de contexto do próprio widget. A escolha é salva por ambiente.
+
+Validação: solução Release compilada com 0 erros e 0 avisos.
+
 ## Ciclo e contorno dos alertas visuais
 
 O alerta visual agora é encerrado ao abrir ou selecionar WhatsApp, Teams ou Discord pela dock, inclusive quando a janela do aplicativo já estava ativa. A heurística que interpretava toda segunda janela do WhatsApp como chamada foi removida; chamadas continuam sendo identificadas pelas notificações públicas do Windows e também terminam quando a notificação correspondente é removida.

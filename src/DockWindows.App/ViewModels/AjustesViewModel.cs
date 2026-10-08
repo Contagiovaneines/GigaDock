@@ -145,6 +145,7 @@ public class AjustesViewModel : ObservableObject
             {
                 OnPropertyChanged(nameof(EhSecaoAmbientes));
                 OnPropertyChanged(nameof(EhSecaoWidgets));
+                OnPropertyChanged(nameof(EhSecaoMascotes));
                 OnPropertyChanged(nameof(EhSecaoEspacadores));
                 OnPropertyChanged(nameof(EhSecaoAparencia));
                 OnPropertyChanged(nameof(EhSecaoGeral));
@@ -158,6 +159,7 @@ public class AjustesViewModel : ObservableObject
     public bool EhSecaoVisualizacoes => SecaoAtiva == "Visualizacoes";
     public bool EhSecaoAmbientes => SecaoAtiva == "Ambientes";
     public bool EhSecaoWidgets => SecaoAtiva == "Widgets";
+    public bool EhSecaoMascotes => SecaoAtiva == "Mascotes";
     public bool EhSecaoEspacadores => SecaoAtiva == "Espacadores";
     public bool EhSecaoAparencia => SecaoAtiva == "Aparencia";
     public bool EhSecaoGeral => SecaoAtiva == "Geral";
@@ -173,6 +175,8 @@ public class AjustesViewModel : ObservableObject
     public ObservableCollection<ColecaoApp> ColecoesAmbiente { get; } = new();
     public ObservableCollection<WidgetInstanceConfig> WidgetsAmbiente { get; } = new();
     public System.ComponentModel.ICollectionView WidgetsView { get; }
+    public IReadOnlyList<PokemonOpcao> PokemonOriginais { get; } = PokemonOpcao.CriarOriginais();
+    public MascotePokemonViewModel MascotePreview => _mainVm.MascotePokemon;
     public int QuantidadeWidgetsAtivos => WidgetsAmbiente.Count(w => w.Visivel);
     public int QuantidadeWidgetsInativos => WidgetsAmbiente.Count - QuantidadeWidgetsAtivos;
     public string ResumoWidgets => $"{WidgetsAmbiente.Count} instalados · {QuantidadeWidgetsAtivos} ativos · {QuantidadeWidgetsInativos} inativos";
@@ -195,12 +199,61 @@ public class AjustesViewModel : ObservableObject
                 OnPropertyChanged(nameof(RelogioAmbienteHabilitado));
                 OnPropertyChanged(nameof(PomodoroAmbienteHabilitado));
                 OnPropertyChanged(nameof(CalendarioAmbienteHabilitado));
+                OnPropertyChanged(nameof(MascotePokemonAtivo));
+                OnPropertyChanged(nameof(PokemonSelecionadoId));
             }
         }
     }
 
     public bool EstaAtivoAmbienteSelecionado =>
         AmbienteSelecionado != null && _mainVm.AmbienteAtivo?.Id == AmbienteSelecionado.Id;
+
+    private WidgetInstanceConfig? MascoteConfig => AmbienteSelecionado?.WidgetsInstalados.FirstOrDefault(x => x.Tipo == TipoWidget.MascotePokemon);
+    public bool MascotePokemonAtivo
+    {
+        get => MascoteConfig?.Visivel == true;
+        set
+        {
+            if (AmbienteSelecionado == null) return;
+            var widget = MascoteConfig;
+            if (widget == null)
+            {
+                widget = new WidgetInstanceConfig { Id = $"wgt-mascote-{Guid.NewGuid():N}", Tipo = TipoWidget.MascotePokemon, Nome = "Mascote Pokémon (Beta)", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = AmbienteSelecionado.WidgetsInstalados.Count };
+                widget.DefinirConfiguracao("pokemonId", "1");
+                AmbienteSelecionado.WidgetsInstalados.Add(widget); WidgetsAmbiente.Add(widget);
+            }
+            if (widget.Visivel == value) return;
+            widget.Visivel = value; SincronizarMascote(); OnPropertyChanged();
+        }
+    }
+
+    public int PokemonSelecionadoId
+    {
+        get => int.TryParse(MascoteConfig?.ObterConfiguracao("pokemonId", "1"), out var id) ? Math.Clamp(id, 1, 151) : 1;
+        set
+        {
+            if (value is < 1 or > 151 || AmbienteSelecionado == null) return;
+            var widget = MascoteConfig;
+            if (widget == null)
+            {
+                widget = new WidgetInstanceConfig { Id = $"wgt-mascote-{Guid.NewGuid():N}", Tipo = TipoWidget.MascotePokemon, Nome = "Mascote Pokémon (Beta)", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = AmbienteSelecionado.WidgetsInstalados.Count };
+                AmbienteSelecionado.WidgetsInstalados.Add(widget); WidgetsAmbiente.Add(widget);
+            }
+            widget.DefinirConfiguracao("pokemonId", value.ToString(System.Globalization.CultureInfo.InvariantCulture)); SincronizarMascote(); OnPropertyChanged();
+        }
+    }
+
+    private void SincronizarMascote()
+    {
+        var ambienteVm = _mainVm.Ambientes.FirstOrDefault(a => a.Id == AmbienteSelecionado?.Id);
+        if (ambienteVm != null && AmbienteSelecionado != null)
+        {
+            ambienteVm.WidgetsInstalados.Clear();
+            foreach (var item in AmbienteSelecionado.WidgetsInstalados) ambienteVm.WidgetsInstalados.Add(item);
+        }
+        if (_mainVm.AmbienteAtivo?.Id == AmbienteSelecionado?.Id) _mainVm.SincronizarWidgetsAmbiente(_mainVm.AmbienteAtivo);
+        _mainVm.SalvarPreferencias(); AtualizarResumoWidgets();
+    }
 
     public ItemFixado? ItemSelecionado
     {
@@ -1876,6 +1929,16 @@ public bool ExibirLixeira
             });
         }
         catch { }
+    }
+}
+
+public sealed record PokemonOpcao(int Id, string Nome)
+{
+    public string Rotulo => $"#{Id:000} · {Nome}";
+    public static IReadOnlyList<PokemonOpcao> CriarOriginais()
+    {
+        var nomes = "Bulbasaur,Ivysaur,Venusaur,Charmander,Charmeleon,Charizard,Squirtle,Wartortle,Blastoise,Caterpie,Metapod,Butterfree,Weedle,Kakuna,Beedrill,Pidgey,Pidgeotto,Pidgeot,Rattata,Raticate,Spearow,Fearow,Ekans,Arbok,Pikachu,Raichu,Sandshrew,Sandslash,Nidoran♀,Nidorina,Nidoqueen,Nidoran♂,Nidorino,Nidoking,Clefairy,Clefable,Vulpix,Ninetales,Jigglypuff,Wigglytuff,Zubat,Golbat,Oddish,Gloom,Vileplume,Paras,Parasect,Venonat,Venomoth,Diglett,Dugtrio,Meowth,Persian,Psyduck,Golduck,Mankey,Primeape,Growlithe,Arcanine,Poliwag,Poliwhirl,Poliwrath,Abra,Kadabra,Alakazam,Machop,Machoke,Machamp,Bellsprout,Weepinbell,Victreebel,Tentacool,Tentacruel,Geodude,Graveler,Golem,Ponyta,Rapidash,Slowpoke,Slowbro,Magnemite,Magneton,Farfetch’d,Doduo,Dodrio,Seel,Dewgong,Grimer,Muk,Shellder,Cloyster,Gastly,Haunter,Gengar,Onix,Drowzee,Hypno,Krabby,Kingler,Voltorb,Electrode,Exeggcute,Exeggutor,Cubone,Marowak,Hitmonlee,Hitmonchan,Lickitung,Koffing,Weezing,Rhyhorn,Rhydon,Chansey,Tangela,Kangaskhan,Horsea,Seadra,Goldeen,Seaking,Staryu,Starmie,Mr. Mime,Scyther,Jynx,Electabuzz,Magmar,Pinsir,Tauros,Magikarp,Gyarados,Lapras,Ditto,Eevee,Vaporeon,Jolteon,Flareon,Porygon,Omanyte,Omastar,Kabuto,Kabutops,Aerodactyl,Snorlax,Articuno,Zapdos,Moltres,Dratini,Dragonair,Dragonite,Mewtwo,Mew".Split(',');
+        return nomes.Select((nome, i) => new PokemonOpcao(i + 1, nome)).ToArray();
     }
 }
 

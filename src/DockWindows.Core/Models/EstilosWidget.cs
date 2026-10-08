@@ -45,10 +45,19 @@ public static class EstilosWidget
             new("compacto", "CPU e RAM compactos", "CPU 34% · RAM 61%"), new("expandido", "CPU e RAM", "CPU 34% · RAM 61%", FormatoWidget.Expandido),
             new("aneis-cpu-ram", "CPU e RAM em anéis", "CPU 34% · RAM 61%"),
             new("medidores-cpu-ram", "Medidores CPU e RAM", "CPU 34% · RAM 61%"),
+            new("atividade-compacta", "Atividade compacta", "CPU 34% · RAM 61%"),
+            new("atividade-larga", "Atividade larga", "CPU 34% · RAM 61%", FormatoWidget.Expandido),
+            new("ventoinha-cpu", "Ventoinha da CPU", "CPU 34%"),
+            new("rede-compacta", "Rede compacta", "↓ 2,3 MB/s\n↑ 176 KB/s"),
             new("cpu", "CPU em anel", "34%"), new("ram", "RAM em anel", "61%"),
             new("cpu-grafico", "Gráfico de CPU", "CPU 34%", FormatoWidget.Expandido), new("ram-grafico", "Gráfico de RAM", "RAM 61%", FormatoWidget.Expandido),
             new("rede", "Rede", "↓ 4,2 MB/s\n↑ 312 KB/s"), new("download", "Download", "↓ 4,2 MB/s"), new("upload", "Upload", "↑ 312 KB/s"),
             new("rede-grafico", "Gráfico de rede", "↓ 4,2 MB/s · ↑ 312 KB/s", FormatoWidget.Expandido), new("armazenamento", "Armazenamento", "128 GB livres")
+        },
+        TipoWidget.GitHubContribuicoes => new EstiloWidget[]
+        {
+            new("grade-compacta", "Grade compacta", "Contribuições em grade"),
+            new("resumo-anual", "Resumo anual", "1.284 neste ano · contribuições", FormatoWidget.Expandido)
         },
         _ => new EstiloWidget[] { new("compacto", "Compacto", "Resumo", FormatoWidget.Compacto), new("expandido", "Expandido", "Resumo com detalhes", FormatoWidget.Expandido) }
     };
@@ -62,6 +71,7 @@ public static class EstilosWidget
             TipoWidget.Clima => climaLegado ? "detalhado" : "compacto",
             TipoWidget.CalendarioCompromissos => widget.Formato == FormatoWidget.Expandido ? "agenda" : "proximo",
             TipoWidget.Midia => "capa",
+            TipoWidget.GitHubContribuicoes => widget.Formato == FormatoWidget.Expandido ? "resumo-anual" : "grade-compacta",
             _ => widget.Formato == FormatoWidget.Expandido ? "expandido" : "compacto"
         };
     }

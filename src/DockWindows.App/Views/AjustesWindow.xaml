@@ -323,6 +323,13 @@
                                 <TextBlock Text="Widgets" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
+                        <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoMascotes}" Command="{Binding NavegarCommand}" CommandParameter="Mascotes">
+                            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="✦" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#72D99C"/>
+                                <TextBlock Grid.Column="1" Text="Mascotes" VerticalAlignment="Center"/>
+                                <Border Grid.Column="2" Background="#4A2016" CornerRadius="6" Padding="5,2"><TextBlock Text="BETA" FontSize="8" Foreground="#FF9A75"/></Border>
+                            </Grid>
+                        </Button>
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoEspacadores}" Command="{Binding NavegarCommand}" CommandParameter="Espacadores">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE76F;" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#32D74B"/>
@@ -1242,6 +1249,19 @@
 
                     <!-- 5. PAINEL DE EDIÇÃO GERAL                         -->
                     <!-- ================================================= -->
+                    <StackPanel Visibility="{Binding EhSecaoMascotes, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
+                        <Grid Margin="0,0,0,16"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <StackPanel><StackPanel Orientation="Horizontal"><TextBlock Text="Mascotes" FontSize="22" FontWeight="Bold"/><Border Background="#4A2016" CornerRadius="7" Padding="7,3" Margin="10,2,0,0"><TextBlock Text="BETA" FontSize="9" FontWeight="Bold" Foreground="#FF9A75"/></Border></StackPanel><TextBlock Text="Um companheiro opcional que reage à sessão do Windows." Foreground="#A9B8C9" Margin="0,5,0,0"/></StackPanel>
+                            <CheckBox Grid.Column="1" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding MascotePokemonAtivo, Mode=TwoWay}" Content="Exibir na dock" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="20">
+                            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="190"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                                <Border Height="170" CornerRadius="16" BorderBrush="#466366" BorderThickness="1"><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#103F3E"/><GradientStop Color="#252044" Offset="1"/></LinearGradientBrush></Border.Background><StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"><Image Source="{Binding MascotePreview.Sprite}" Width="96" Height="96" RenderOptions.BitmapScalingMode="NearestNeighbor"/><TextBlock Text="{Binding MascotePreview.Nome}" HorizontalAlignment="Center" FontWeight="SemiBold"/><TextBlock Text="{Binding MascotePreview.Estado}" HorizontalAlignment="Center" Foreground="#9EC1B5" FontSize="11"/></StackPanel></Border>
+                                <StackPanel Grid.Column="1" Margin="22,0,0,0"><TextBlock Text="Escolha seu Pokémon" FontSize="16" FontWeight="SemiBold"/><TextBlock Text="Os 151 Pokémon originais estão disponíveis. A escolha pertence ao ambiente em edição." Foreground="#A9B8C9" TextWrapping="Wrap" Margin="0,5,0,12"/><ComboBox ItemsSource="{Binding PokemonOriginais}" DisplayMemberPath="Rotulo" SelectedValuePath="Id" SelectedValue="{Binding PokemonSelecionadoId, Mode=TwoWay}" Height="36" Padding="9,4" MaxDropDownHeight="310" AutomationProperties.Name="Escolher Pokémon"/><Separator Margin="0,16,0,12" Background="#3D444E"/><TextBlock Text="Evolução temporária" FontWeight="SemiBold"/><TextBlock Text="Após 1 hora pode alcançar a segunda forma; após 3 horas, a forma final. Ao reiniciar o Windows, retorna ao Pokémon escolhido. Pokémon sem evolução apenas mudam o comportamento." Foreground="#A9B8C9" TextWrapping="Wrap" Margin="0,5,0,0"/><TextBlock Text="Eevee usa o clima em cache para escolher Vaporeon, Jolteon ou Flareon e mantém a forma até reiniciar." Foreground="#72D99C" TextWrapping="Wrap" Margin="0,9,0,0"/></StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
                     <StackPanel Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
                         <TextBlock Text="Geral" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="Opções de inicialização, atalhos e comportamento do sistema." FontSize="12" Foreground="#A9B8C9" Margin="0,2,0,16"/>
@@ -1625,7 +1645,7 @@
             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                 <TextBlock Text="Ajustes" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,18,0"/>
                 <ComboBox Grid.Column="1" MaxWidth="260" HorizontalAlignment="Left" MinWidth="185" SelectedValuePath="Tag" SelectedValue="{Binding SecaoAtiva, Mode=TwoWay}" AutomationProperties.Name="Seção de ajustes">
-                    <ComboBoxItem Content="Ambientes" Tag="Ambientes"/><ComboBoxItem Content="Widgets" Tag="Widgets"/><ComboBoxItem Content="Espaçadores" Tag="Espacadores"/><ComboBoxItem Content="Aparência" Tag="Aparencia"/><ComboBoxItem Content="Visualizações" Tag="Visualizacoes"/><ComboBoxItem Content="Geral" Tag="Geral"/><ComboBoxItem Content="Utilitários" Tag="Utilitarios"/><ComboBoxItem Content="Sobre" Tag="Sobre"/>
+                    <ComboBoxItem Content="Ambientes" Tag="Ambientes"/><ComboBoxItem Content="Widgets" Tag="Widgets"/><ComboBoxItem Content="Mascotes (Beta)" Tag="Mascotes"/><ComboBoxItem Content="Espaçadores" Tag="Espacadores"/><ComboBoxItem Content="Aparência" Tag="Aparencia"/><ComboBoxItem Content="Visualizações" Tag="Visualizacoes"/><ComboBoxItem Content="Geral" Tag="Geral"/><ComboBoxItem Content="Utilitários" Tag="Utilitarios"/><ComboBoxItem Content="Sobre" Tag="Sobre"/>
                 </ComboBox>
                 <Button Grid.Column="2" Content="Concluir" Command="{Binding ConcluirCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0"/>
             </Grid>

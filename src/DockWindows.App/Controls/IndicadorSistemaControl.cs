@@ -96,6 +96,58 @@ public class IndicadorSistemaControl : FrameworkElement
             return;
         }
 
+        if (Estilo == "ventoinha-cpu")
+        {
+            dc.DrawRoundedRectangle(new LinearGradientBrush(Color.FromRgb(54, 59, 65), Color.FromRgb(24, 29, 37), 90), new Pen(new SolidColorBrush(Color.FromRgb(70, 78, 91)), 1), new Rect(0, 0, w, h), 14, 14);
+            var center = new Point(w / 2, h / 2 - 4);
+            dc.DrawEllipse(new SolidColorBrush(Color.FromRgb(12, 18, 29)), new Pen(new SolidColorBrush(Color.FromRgb(121, 134, 151)), 1.5), center, 20, 20);
+            for (var i = 0; i < 7; i++)
+            {
+                dc.PushTransform(new RotateTransform(i * 360d / 7 + (double.IsFinite(Valor) ? Valor : 0), center.X, center.Y));
+                dc.DrawEllipse(new LinearGradientBrush(Color.FromRgb(224, 232, 241), Color.FromRgb(100, 117, 141), 45), null, new Point(center.X, center.Y - 9), 5, 10);
+                dc.Pop();
+            }
+            dc.DrawEllipse(new SolidColorBrush(Color.FromRgb(215, 225, 237)), new Pen(new SolidColorBrush(Color.FromRgb(55, 67, 83)), 1), center, 4, 4);
+            Text(double.IsFinite(Valor) ? $"{Valor:F0}%" : "—", 9, 8, h - 16, Brushes.WhiteSmoke, w - 16);
+            return;
+        }
+
+        if (Estilo == "rede-compacta")
+        {
+            dc.DrawRoundedRectangle(new LinearGradientBrush(Color.FromRgb(13, 128, 119), Color.FromRgb(8, 48, 46), 90), new Pen(new SolidColorBrush(Color.FromRgb(21, 112, 106)), 1), new Rect(0, 0, w, h), 14, 14);
+            Text(Texto, 10, 10, 15, new SolidColorBrush(Color.FromRgb(126, 255, 238)), w - 18);
+            Text(Secundario, 10, 10, 32, new SolidColorBrush(Color.FromRgb(255, 223, 118)), w - 18);
+            return;
+        }
+
+        if (Estilo is "atividade-compacta" or "atividade-larga")
+        {
+            dc.DrawRoundedRectangle(new LinearGradientBrush(Color.FromRgb(67, 68, 72), Color.FromRgb(37, 39, 43), 90), new Pen(new SolidColorBrush(Color.FromRgb(99, 102, 108)), 1), new Rect(0, 0, w, h), 14, 14);
+            void ActivityRing(double value, Point center, Brush color, string label, double radius)
+            {
+                dc.DrawEllipse(null, new Pen(new SolidColorBrush(Color.FromRgb(54, 58, 64)), 6), center, radius, radius);
+                if (double.IsFinite(value) && value > 0)
+                {
+                    var angle = Math.Clamp(value, 0, 99.99) * 2 * Math.PI / 100;
+                    var arc = new StreamGeometry();
+                    using (var ctx = arc.Open())
+                    {
+                        ctx.BeginFigure(new Point(center.X, center.Y - radius), false, false);
+                        ctx.ArcTo(new Point(center.X + Math.Sin(angle) * radius, center.Y - Math.Cos(angle) * radius), new Size(radius, radius), 0, angle > Math.PI, SweepDirection.Clockwise, true, false);
+                    }
+                    dc.DrawGeometry(null, new Pen(color, 6) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round }, arc);
+                }
+                Text(double.IsFinite(value) ? $"{value:F0}" : "—", Estilo == "atividade-larga" ? 14 : 10, center.X - radius + 4, center.Y - 12, Brushes.White, radius * 2 - 8);
+                Text(label, Estilo == "atividade-larga" ? 8 : 7, center.X - radius + 4, center.Y + 5, color, radius * 2 - 8);
+            }
+            var radius = Estilo == "atividade-larga" ? 22d : 17d;
+            var distance = Estilo == "atividade-larga" ? 70d : 40d;
+            var first = (w - distance) / 2;
+            ActivityRing(Valor, new Point(first, h / 2), Brushes.DodgerBlue, "CPU", radius);
+            ActivityRing(ValorSecundario, new Point(first + distance, h / 2), Brushes.MediumPurple, "RAM", radius);
+            return;
+        }
+
         dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromRgb(28, 34, 29)), new Pen(new SolidColorBrush(Color.FromRgb(60, 67, 54)), 1), new Rect(0, 0, w, h), 10, 10);
         if (Estilo == "aneis-cpu-ram")
         {

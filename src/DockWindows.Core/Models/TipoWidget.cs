@@ -21,7 +21,8 @@ public enum TipoWidget
     ArquivosRecentes = 16,
     Conectividade = 17,
     AudioSistema = 18,
-    EstanteArquivos = 19
+    EstanteArquivos = 19,
+    MascotePokemon = 20
 }
 
 

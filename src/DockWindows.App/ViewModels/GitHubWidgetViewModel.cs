@@ -128,6 +128,13 @@ public class GitHubWidgetViewModel : ObservableObject, IAtividadeWidget
         set => SetProperty(ref _formato, value);
     }
 
+    private string _estilo = "grade-compacta";
+    public string Estilo
+    {
+        get => _estilo;
+        set => SetProperty(ref _estilo, value);
+    }
+
     public string? NomeUsuario { get => _nomeUsuario; set => SetProperty(ref _nomeUsuario, value); }
     public bool Carregando { get => _carregando; set => SetProperty(ref _carregando, value); }
     public int TotalContribuicoes { get => _totalContribuicoes; set => SetProperty(ref _totalContribuicoes, value); }

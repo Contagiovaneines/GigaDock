@@ -476,6 +476,7 @@ public class MainViewModel : ObservableObject, IDisposable
             SalvarPreferencias();
         };
         Clima = new ClimaWidgetViewModel();
+        MascotePokemon = new MascotePokemonViewModel(() => Clima.Condicao);
         Bateria = new BateriaViewModel { Habilitado = _preferencias.ExibirBateria };
         MonitorSistema.ModoEconomico = _preferencias.ModoEconomico;
         Bateria.ModoEconomico = _preferencias.ModoEconomico;
@@ -548,6 +549,7 @@ public class MainViewModel : ObservableObject, IDisposable
         RegistrarWidget("WhatsApp", WhatsApp, WhatsApp, () => WhatsApp.Habilitado);
         RegistrarWidget("Discord", Discord, Discord, () => Discord.Habilitado);
         RegistrarWidget("OBS", Obs, Obs, () => Obs.Habilitado);
+        RegistrarWidget("MascotePokemon", MascotePokemon, MascotePokemon, () => MascotePokemon.Habilitado);
 
         CarregarDados();
         _syncNotificacoesTimer = new System.Windows.Threading.DispatcherTimer { Interval = System.TimeSpan.FromMilliseconds(250) };
@@ -610,7 +612,8 @@ public class MainViewModel : ObservableObject, IDisposable
     public EstanteArquivosViewModel EstanteArquivos { get; }
     public MonitorSistemaViewModel MonitorSistema { get; }
     public GitHubWidgetViewModel GitHub { get; }
-        public ClimaWidgetViewModel Clima { get; }
+    public ClimaWidgetViewModel Clima { get; }
+    public MascotePokemonViewModel MascotePokemon { get; }
     public ControlesRapidosViewModel ControlesRapidos { get; }
     public BateriaViewModel Bateria { get; }
     public WhatsAppWidgetViewModel WhatsApp { get; }
@@ -1789,6 +1792,7 @@ public bool ExibirLixeira
         {
             GitHub.Habilitado = wGitHub.Visivel;
             GitHub.Formato = wGitHub.Formato;
+            GitHub.Estilo = EstilosWidget.Resolver(wGitHub);
             GitHub.SincronizarUsuario(wGitHub.ObterConfiguracao("usuario", _preferencias.GitHubUsuario));
             GitHub.SelecionarAnimacao(wGitHub.ObterConfiguracao("animacao", _preferencias.GitHubAnimacao));
         }
@@ -1796,6 +1800,13 @@ public bool ExibirLixeira
         {
             GitHub.Habilitado = false;
         }
+        var wMascote = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.MascotePokemon);
+        if (wMascote != null)
+        {
+            MascotePokemon.Habilitado = wMascote.Visivel;
+            _ = MascotePokemon.SelecionarAsync(int.TryParse(wMascote.ObterConfiguracao("pokemonId", "1"), out var pokemonId) ? Math.Clamp(pokemonId, 1, 151) : 1);
+        }
+        else MascotePokemon.Habilitado = false;
 
                 var wClima = amb.WidgetsInstalados.FirstOrDefault(w => w.Tipo == TipoWidget.Clima);
         if (wClima != null) { Clima.Habilitado = wClima.Visivel; Clima.Formato = wClima.Formato; Clima.Estilo = EstilosWidget.Resolver(wClima, climaLegado: _preferencias.ClimaExpandido); } else { Clima.Habilitado = false; }

@@ -127,7 +127,8 @@ public class Preferencias
         new WidgetInstanceConfig { Id = "wgt-clima", Tipo = TipoWidget.Clima, Nome = "Clima e Tempo", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 4 },
         new WidgetInstanceConfig { Id = "wgt-whatsapp", Tipo = TipoWidget.WhatsAppNotificacoes, Nome = "WhatsApp", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 5 },
         new WidgetInstanceConfig { Id = "wgt-teams", Tipo = TipoWidget.TeamsStatus, Nome = "Microsoft Teams", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 6 },
-        new WidgetInstanceConfig { Id = "wgt-discord", Tipo = TipoWidget.DiscordVoz, Nome = "Discord", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 7 }
+        new WidgetInstanceConfig { Id = "wgt-discord", Tipo = TipoWidget.DiscordVoz, Nome = "Discord", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 7 },
+        new WidgetInstanceConfig { Id = "wgt-mascote-pokemon", Tipo = TipoWidget.MascotePokemon, Nome = "Mascote Pokémon (Beta)", Formato = FormatoWidget.Compacto, Visivel = false, Ordem = 8, Configuracao = new() { ["pokemonId"] = "1" } }
     };
 
     public static List<CompromissoLocal> CriarCompromissosPadrao() => new();

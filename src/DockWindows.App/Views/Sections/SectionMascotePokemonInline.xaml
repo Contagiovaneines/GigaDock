@@ -1,0 +1,19 @@
+<UserControl x:Class="DockWindows.App.Views.Sections.SectionMascotePokemonInline"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:atividade="clr-namespace:DockWindows.App.Common" atividade:AtividadeVisual.Componente="MascotePokemon"
+ Margin="2,0" ToolTip="{Binding MascotePokemon.Descricao}">
+ <Border CornerRadius="13" Padding="7,3" Background="#25383A" BorderBrush="#466366" BorderThickness="1">
+  <StackPanel Orientation="Horizontal">
+   <Image Width="50" Height="50" Source="{Binding MascotePokemon.Sprite}" RenderOptions.BitmapScalingMode="NearestNeighbor">
+    <Image.RenderTransform><TranslateTransform/></Image.RenderTransform>
+    <Image.Style><Style TargetType="Image"><Style.Triggers>
+     <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding MascotePokemon.Estado}" Value="Acompanhando você"/><Condition Binding="{Binding AnimacoesAtivas}" Value="True"/></MultiDataTrigger.Conditions>
+      <MultiDataTrigger.EnterActions><BeginStoryboard x:Name="MascoteWalk"><Storyboard RepeatBehavior="Forever"><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="1" To="-2" Duration="0:0:0.45" AutoReverse="True"/></Storyboard></BeginStoryboard></MultiDataTrigger.EnterActions>
+      <MultiDataTrigger.ExitActions><RemoveStoryboard BeginStoryboardName="MascoteWalk"/></MultiDataTrigger.ExitActions>
+     </MultiDataTrigger>
+    </Style.Triggers></Style></Image.Style>
+   </Image>
+   <StackPanel VerticalAlignment="Center" Margin="5,0,3,0"><TextBlock Text="{Binding MascotePokemon.Nome}" Foreground="White" FontSize="11" FontWeight="SemiBold"/><TextBlock Text="{Binding MascotePokemon.Estado}" Foreground="#A9C4C5" FontSize="9"/></StackPanel>
+  </StackPanel>
+ </Border>
+</UserControl>
