@@ -15,7 +15,7 @@ public partial class SectionClimaInline : UserControl
     public SectionClimaInline()
     {
         InitializeComponent();
-        _hover = new(() => (DataContext as MainViewModel) is { ModoAberturaPaineis: "Mouse", Clima.Habilitado: true }, anchor =>
+        _hover = new(() => (DataContext as MainViewModel) is { ModoAberturaPaineis: "Mouse", Clima.Habilitado: true, ClimaExpandido: true }, anchor =>
         { ClimaDetalhes_Click(anchor, new RoutedEventArgs()); return _details; });
         Loaded += (_, _) =>
         {
@@ -36,7 +36,7 @@ public partial class SectionClimaInline : UserControl
     }
     private void ClimaDetalhes_Click(object sender, RoutedEventArgs e)
     {
-        if (DataContext is not MainViewModel { Clima.Habilitado: true } main || sender is not FrameworkElement anchor) return;
+        if (DataContext is not MainViewModel { Clima.Habilitado: true, ClimaExpandido: true } main || sender is not FrameworkElement anchor) return;
         _details?.Close();
         _details = new DockFlyoutWindow("Previsão do tempo");
         var panel = (Border)_details.Content;
