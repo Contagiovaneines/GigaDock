@@ -123,9 +123,9 @@ public class IndicadorSistemaControl : FrameworkElement
         if (Estilo is "atividade-compacta" or "atividade-larga")
         {
             dc.DrawRoundedRectangle(new LinearGradientBrush(Color.FromRgb(67, 68, 72), Color.FromRgb(37, 39, 43), 90), new Pen(new SolidColorBrush(Color.FromRgb(99, 102, 108)), 1), new Rect(0, 0, w, h), 14, 14);
-            void ActivityRing(double value, Point center, Brush color, string label, double radius)
+            void ActivityRing(double value, Point center, Brush color, string label, double radius, double penSize)
             {
-                dc.DrawEllipse(null, new Pen(new SolidColorBrush(Color.FromRgb(54, 58, 64)), 6), center, radius, radius);
+                dc.DrawEllipse(null, new Pen(new SolidColorBrush(Color.FromRgb(54, 58, 64)), penSize), center, radius, radius);
                 if (double.IsFinite(value) && value > 0)
                 {
                     var angle = Math.Clamp(value, 0, 99.99) * 2 * Math.PI / 100;
@@ -135,16 +135,17 @@ public class IndicadorSistemaControl : FrameworkElement
                         ctx.BeginFigure(new Point(center.X, center.Y - radius), false, false);
                         ctx.ArcTo(new Point(center.X + Math.Sin(angle) * radius, center.Y - Math.Cos(angle) * radius), new Size(radius, radius), 0, angle > Math.PI, SweepDirection.Clockwise, true, false);
                     }
-                    dc.DrawGeometry(null, new Pen(color, 6) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round }, arc);
+                    dc.DrawGeometry(null, new Pen(color, penSize) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round }, arc);
                 }
-                Text(double.IsFinite(value) ? $"{value:F0}" : "—", Estilo == "atividade-larga" ? 14 : 10, center.X - radius + 4, center.Y - 12, Brushes.White, radius * 2 - 8);
-                Text(label, Estilo == "atividade-larga" ? 8 : 7, center.X - radius + 4, center.Y + 5, color, radius * 2 - 8);
+                Text(double.IsFinite(value) ? $"{value:F0}" : "—", Estilo == "atividade-larga" ? 14 : 11, center.X - radius + 2, center.Y - 11, Brushes.White, radius * 2 - 4);
+                Text(label, Estilo == "atividade-larga" ? 8 : 7, center.X - radius + 2, center.Y + 3, color, radius * 2 - 4);
             }
-            var radius = Estilo == "atividade-larga" ? 22d : 17d;
-            var distance = Estilo == "atividade-larga" ? 70d : 40d;
+            var radius = Estilo == "atividade-larga" ? 22d : 14d;
+            var distance = Estilo == "atividade-larga" ? 70d : 38d;
+            var penSize = Estilo == "atividade-larga" ? 6d : 4.5d;
             var first = (w - distance) / 2;
-            ActivityRing(Valor, new Point(first, h / 2), Brushes.DodgerBlue, "CPU", radius);
-            ActivityRing(ValorSecundario, new Point(first + distance, h / 2), Brushes.MediumPurple, "RAM", radius);
+            ActivityRing(Valor, new Point(first, h / 2), Brushes.DodgerBlue, "CPU", radius, penSize);
+            ActivityRing(ValorSecundario, new Point(first + distance, h / 2), Brushes.MediumPurple, "RAM", radius, penSize);
             return;
         }
 
