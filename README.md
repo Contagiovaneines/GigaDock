@@ -4,7 +4,9 @@ Dock moderna e personalizável para Windows 10 e 11, criada com C#, .NET 10 e WP
 
 O GigaDock organiza aplicativos, widgets e controles do Windows em ambientes independentes, como **Trabalho**, **Estudos** e **Pessoal**. As configurações ficam no computador, sem conta obrigatória, backend próprio ou telemetria.
 
-> **Status:** versão 3.0.0 em beta. Os recursos principais estão funcionais, mas instalação, integrações, acessibilidade e comportamento em diferentes computadores ainda passam por validação.
+> **Status:** versão 3.1.0 em beta. Os recursos principais estão funcionais, mas instalação, integrações, acessibilidade e comportamento em diferentes computadores ainda passam por validação.
+
+> **Distribuição no Windows:** builds locais sem assinatura podem ser bloqueados pelo Smart App Control. O instalador público deve ser gerado com certificado Authenticode confiável; “Desbloquear arquivo” não substitui a assinatura nesse caso.
 
 ## Principais recursos
 

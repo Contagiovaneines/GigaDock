@@ -129,7 +129,14 @@ public partial class MainWindow : Window
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(this, $"O GigaDock foi instalado, mas não foi possível iniciá-lo: {ex.Message}", "Abrir GigaDock", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        var bloqueioPolitica = ex is System.ComponentModel.Win32Exception win32 && win32.NativeErrorCode is 1260 or 577
+                            || ex.Message.Contains("Controle de Aplicativo", StringComparison.OrdinalIgnoreCase)
+                            || ex.Message.Contains("Application Control", StringComparison.OrdinalIgnoreCase)
+                            || ex.Message.Contains("policy", StringComparison.OrdinalIgnoreCase);
+                        var mensagem = bloqueioPolitica
+                            ? "O GigaDock foi instalado, mas o Smart App Control bloqueou o executável porque esta compilação não possui uma assinatura digital confiável.\n\nBaixe uma versão assinada pelo publicador. Reinstalar ou usar ‘Desbloquear arquivo’ não resolve este tipo de política."
+                            : $"O GigaDock foi instalado, mas não foi possível iniciá-lo.\n\nDetalhes: {ex.Message}";
+                        MessageBox.Show(this, mensagem, "Não foi possível abrir o GigaDock", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
                 Close();

@@ -14,7 +14,7 @@ public class InstallService
 {
     public const string AppName = "GigaDock";
     public const string AppExeName = "DockWindows.App.exe";
-    public const string CurrentVersion = "3.0.0";
+    public const string CurrentVersion = "3.1.0";
     private const string RegUninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\DockWindows";
     private const string RegRunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 

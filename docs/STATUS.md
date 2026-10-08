@@ -4,7 +4,7 @@
 
 ## Estado atual
 
-O GigaDock 3.0.0 está em beta. A solução usa C#, .NET 10 e WPF e contém cinco projetos:
+O GigaDock 3.1.0 está em beta. A solução usa C#, .NET 10 e WPF e contém cinco projetos:
 
 - `DockWindows.App`: interface e composição da dock;
 - `DockWindows.Core`: modelos, contratos e regras;
@@ -175,6 +175,18 @@ Aplicativos fixados podem ser reordenados diretamente na dock por arrastar e sol
 Coleções visuais, biblioteca de aplicativos e ampliação suave já existiam e foram preservadas. Nenhuma cor, tamanho, ordem de seções ou aparência dos itens da dock foi redesenhada nesta etapa.
 
 Validação: solução Release compilada com 0 erros e 0 avisos.
+
+## Diagnóstico do bloqueio pelo Smart App Control
+
+O erro após a instalação foi reproduzido e identificado como bloqueio do `DockWindows.App.exe` sem assinatura, não como falha de caminho ou extração. O executável instalado não possui fluxo `Zone.Identifier`, portanto `Unblock-File` não altera o resultado. A máquina não possui certificado válido de assinatura de código nem SignTool x64 disponível, então não é possível produzir localmente um pacote confiável para essa política.
+
+O instalador agora reconhece os códigos e textos usuais de bloqueio por política e mostra uma explicação curta em português, orientando o uso de uma versão assinada. O script de empacotamento também identifica builds sem assinatura como artefatos de desenvolvimento. A solução definitiva para distribuição permanece assinar o aplicativo, suas bibliotecas próprias e o instalador com Authenticode e timestamp confiável.
+
+## Instalador 3.1.0
+
+Aplicativo, instalador e manifesto foram alinhados na versão **3.1.0**. O aplicativo win-x64 foi publicado, compactado no recurso `app.zip` e incorporado ao instalador independente. O artefato final está em `release/GigaDock-Setup.exe`; o relatório em `docs/installer-validation.json` registra tamanho, SHA-256 e situação da assinatura.
+
+Validação: o pacote contém `DockWindows.App.exe`, não contém testhost, xUnit, cobertura ou assemblies de testes, e o SHA-256 do instalador corresponde ao relatório. A solução Release compilou com 0 erros e 0 avisos. O executável permanece sem Authenticode porque nenhum certificado de assinatura de código foi fornecido; o Smart App Control pode exibir aviso até que um instalador assinado e com reputação seja distribuído.
 
 ## Clima minimalista e largo
 

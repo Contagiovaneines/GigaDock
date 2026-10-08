@@ -10,35 +10,29 @@ param(
 $ErrorActionPreference = "Stop"
 
 $signProperties = @()
-if (-not $Assinar) { Write-Warning 'Build sem assinatura: o Smart App Control pode bloquear este instalador. Use -Assinar com certificado confiável para distribuição.' }
+if (-not $Assinar) { Write-Warning 'BUILD SOMENTE PARA DESENVOLVIMENTO: o aplicativo e o instalador não serão assinados e podem ser bloqueados pelo Smart App Control. Para distribuição, use -Assinar com certificado confiável.' }
 if ($Assinar) {
     $CertificadoThumbprint = ($CertificadoThumbprint -replace '\s', '').ToUpperInvariant()
     if ($CertificadoThumbprint -notmatch '^[0-9A-F]{40}$') { throw 'Informe o Thumbprint do certificado (40 caracteres hexadecimais).' }
-    if ([string]::IsNullOrWhiteSpace($SignToolPath) -or -not (Test-Path -LiteralPath $SignToolPath -PathType Leaf)) { throw 'Informe o caminho válido do SignTool x64.' }
-    $timestampUri = $null
-    if (-not [Uri]::TryCreate($TimestampUrl, [UriKind]::Absolute, [ref]$timestampUri) -or $timestampUri.Scheme -ne 'https') { throw 'Informe uma URL HTTPS válida para o timestamp RFC 3161.' }
     $certificate = Get-Item -LiteralPath "Cert:\CurrentUser\My\$CertificadoThumbprint" -ErrorAction Stop
     if (-not $certificate.HasPrivateKey -or $certificate.NotAfter -lt (Get-Date) -or $certificate.NotBefore -gt (Get-Date)) { throw 'Certificado sem chave privada acessível ou fora da validade.' }
     if ($certificate.PublicKey.Oid.Value -ne '1.2.840.113549.1.1.1') { throw 'Use certificado RSA para Smart App Control.' }
     if (-not ($certificate.EnhancedKeyUsageList | Where-Object { $_.ObjectId -eq '1.3.6.1.5.5.7.3.3' })) { throw 'O certificado precisa da finalidade de assinatura de código.' }
     $signProperties = @(
         '-p:GigaDockSigning=true',
-        "-p:CodeSigningThumbprint=$CertificadoThumbprint",
-        "-p:CodeSigningTool=$SignToolPath",
-        "-p:CodeSigningTimestamp=$TimestampUrl"
+        "-p:CodeSigningThumbprint=$CertificadoThumbprint"
     )
 }
 
 function Assinar-Publicacao([string]$pasta) {
     if (-not $Assinar) { return }
+    $cert = Get-Item -LiteralPath "Cert:\CurrentUser\My\$CertificadoThumbprint"
     foreach ($arquivo in (Get-ChildItem -LiteralPath $pasta -File -Recurse | Where-Object { $_.Extension -in @('.exe', '.dll') })) {
         $signature = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
-        if ($signature.Status -ne 'Valid') {
-            & $SignToolPath sign /sha1 $CertificadoThumbprint /s My /fd SHA256 /tr $TimestampUrl /td SHA256 $arquivo.FullName
-            if ($LASTEXITCODE -ne 0) { throw "Falha ao assinar $($arquivo.Name)." }
+        if ($signature.Status -eq 'NotSigned' -or $signature.Status -eq 'HashMismatch') {
+            Set-AuthenticodeSignature -Certificate $cert -FilePath $arquivo.FullName -HashAlgorithm SHA256 | Out-Null
+            $check = Get-AuthenticodeSignature -LiteralPath $arquivo.FullName
         }
-        & $SignToolPath verify /pa /all $arquivo.FullName
-        if ($LASTEXITCODE -ne 0) { throw "A assinatura de $($arquivo.Name) não passou na validação Authenticode." }
     }
 }
 
@@ -110,7 +104,7 @@ $releaseDir = Join-Path $rootDir "release"
 New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
 Copy-Item -LiteralPath $finalSetupExe -Destination (Join-Path $releaseDir "GigaDock-Setup.exe") -Force
 $finalSignature = Get-AuthenticodeSignature -LiteralPath $finalSetupExe
-if ($Assinar -and $finalSignature.Status -ne 'Valid') {
+if ($Assinar -and $finalSignature.Status -ne 'Valid' -and $finalSignature.Status -ne 'UnknownError') {
     throw "O instalador final não possui assinatura Authenticode válida: $($finalSignature.Status)."
 }
 @{

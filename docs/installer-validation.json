@@ -1,9 +1,9 @@
 ﻿{
-    "data":  "2026-10-07T01:01:58.3321501-03:00",
+    "data":  "2026-10-07T23:13:47.1567749-03:00",
     "assinaturaSolicitada":  false,
     "assinaturaStatus":  "NotSigned",
     "instalacaoManualExecutada":  false,
-    "sha256":  "776A34FCD9A585579A4C8F1A2B2C5C3A24ADD9778F20A0412FE43F7FB446E46F",
-    "tamanhoBytes":  173529650,
+    "sha256":  "53C24821A00C10074827AD887073363DD223B6A33C3E776134BF7C810A23383D",
+    "tamanhoBytes":  173584434,
     "instalador":  "release/GigaDock-Setup.exe"
 }
