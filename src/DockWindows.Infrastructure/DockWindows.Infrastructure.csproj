@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DockWindows.Core\DockWindows.Core.csproj" />
+    <ProjectReference Include="..\GigaDock.Services\GigaDock.Services.csproj" />
   </ItemGroup>
 
 </Project>

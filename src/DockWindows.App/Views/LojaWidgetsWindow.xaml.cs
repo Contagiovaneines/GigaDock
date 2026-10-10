@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using DockWindows.Core.Models;
+using DockWindows.Core.Widgets;
 
 namespace DockWindows.App.Views;
 
@@ -50,6 +51,7 @@ public partial class LojaWidgetsWindow : Window
         {
             new ItemLoja { Tipo = TipoWidget.Midia, Nome = "Mídia", Categoria = "Mídia", Descricao = "Capa, tocando agora, mini ou barra de reprodução da sessão de mídia do Windows.", PreviewTitle = "Nome da música", DescricaoFormato = "Quatro estilos com controles" },
             new ItemLoja { Tipo = TipoWidget.Bateria, Nome = "Bateria", Categoria = "Sistema", Descricao = "Porcentagem compacta ou anel com a carga real da bateria.", PreviewTitle = "78%", DescricaoFormato = "Compacto ou anel" },
+            new ItemLoja { Tipo = TipoWidget.Tarefas, Nome = "Tarefas", Categoria = "Produtividade", Descricao = "Lista local por ambiente, com conclusão e exclusão. Sem conta ou internet.", PreviewTitle = "Minhas tarefas", DescricaoFormato = "Lista com checkbox" },
             new ItemLoja { Tipo = TipoWidget.Notas, Nome = "Notas", Categoria = "Produtividade", Descricao = "Editor de texto local com salvamento automático. Não exige internet ou conta.", PreviewTitle = "Minhas notas", PreviewSubtitle = "Dados ilustrativos", DescricaoFormato = "Texto local" },
             new ItemLoja { Tipo = TipoWidget.LembreteAgua, Nome = "Lembrete de água", Categoria = "Produtividade", Descricao = "Lembretes locais com intervalo e período ativo configuráveis.", PreviewTitle = "Água · 3 hoje", PreviewSubtitle = "Próximo às 15:30", DescricaoFormato = "Intervalo local" },
             new ItemLoja { Tipo = TipoWidget.CotacaoMoedas, Nome = "Cotação de moedas", Categoria = "Utilidade", Descricao = "Taxas de referência diárias do Banco Central Europeu, com cache offline.", PreviewTitle = "1 USD = 5,20 BRL", PreviewSubtitle = "Atualização diária", DescricaoFormato = "Par de moedas" },
@@ -120,6 +122,20 @@ public partial class LojaWidgetsWindow : Window
             }
         };
 
+        foreach (var info in WidgetStoreCatalog.ForPlatform(WidgetPlatform.Windows))
+        {
+            var item = _catalogoCompleto.FirstOrDefault(item => item.Tipo == info.Kind);
+            if (item is null)
+            {
+                item = new ItemLoja { Tipo = info.Kind, Formato = FormatoWidget.Compacto, Icone = "\uE80A", Categoria = info.Kind == TipoWidget.MascotePokemon ? "Utilidade" : "Sistema", DescricaoFormato = "Widget local" };
+                _catalogoCompleto.Add(item);
+            }
+            item.Nome = info.Name;
+            item.Descricao = info.Description;
+            if (!info.CanInstall) { item.PreviewTitle = info.State == WidgetStoreState.Unavailable ? "Exclusivo do Linux" : "Em desenvolvimento"; item.PreviewSubtitle = "Instalação indisponível"; }
+            if (item.Tipo == TipoWidget.TeamsStatus) { item.PreviewTitle = "Estado estimado"; item.PreviewSubtitle = "Sem presença oficial"; item.DescricaoFormato = "Estimativa local"; }
+        }
+
         foreach (var item in _catalogoCompleto)
         {
             var jaTem = _widgetsInstalados.FirstOrDefault(w => w.Tipo == item.Tipo);
@@ -166,7 +182,7 @@ public partial class LojaWidgetsWindow : Window
 
     private void BtnAdicionar_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not Button btn || btn.Tag is not ItemLoja item) return;
+        if (sender is not Button btn || btn.Tag is not ItemLoja item || !item.PodeInstalar) return;
         var instalado = _widgetsInstalados.FirstOrDefault(w => w.Tipo == item.Tipo);
         if (instalado != null && !instalado.Visivel && !WidgetCapabilities.PermiteMultiplasInstancias(item.Tipo))
         {
@@ -219,9 +235,13 @@ public class ItemLoja
     public bool JaAdicionado { get; set; }
     public bool InstaladoAtivo { get; set; }
     public bool FormatoAtivo { get; set; }
-    public string EstadoTexto => !JaAdicionado ? "Disponível" : InstaladoAtivo ? "Ativo" : "Instalado";
-    public string EstadoDescricao => !JaAdicionado ? "Ainda não instalado neste ambiente" : InstaladoAtivo ? "Exibido na dock deste ambiente" : "Instalado, mas oculto da dock";
-    public string EstadoCor => !JaAdicionado ? "#8FB9E8" : InstaladoAtivo ? "#72D99C" : "#A9B8C9";
+    public WidgetStoreEntry Catalogo => WidgetStoreCatalog.Get(Tipo, WidgetPlatform.Windows);
+    public bool PodeInstalar => Catalogo.CanInstall;
+    public string ComoFunciona => Catalogo.HowTo;
+    public string Requisitos => Catalogo.Requirements;
+    public string EstadoTexto => !PodeInstalar ? Catalogo.Status : Catalogo.State == WidgetStoreState.Beta ? "Beta funcional" : !JaAdicionado ? "Disponível" : InstaladoAtivo ? "Ativo" : "Instalado";
+    public string EstadoDescricao => !PodeInstalar ? "Instalação bloqueada" : !JaAdicionado ? "Ainda não instalado neste ambiente" : InstaladoAtivo ? "Exibido na dock deste ambiente" : "Instalado, mas oculto da dock";
+    public string EstadoCor => !PodeInstalar ? "#EAC17F" : Catalogo.State == WidgetStoreState.Beta ? "#EAC17F" : !JaAdicionado ? "#8FB9E8" : InstaladoAtivo ? "#72D99C" : "#A9B8C9";
 
     public string PreviewTitle { get; set; } = string.Empty;
     public string PreviewSubtitle { get; set; } = string.Empty;
@@ -230,7 +250,7 @@ public class ItemLoja
     public bool ShowPreviewBar { get; set; } = false;
 
     // UI Helpers
-    public string TextoBotao => JaAdicionado && WidgetCapabilities.PermiteMultiplasInstancias(Tipo)
+    public string TextoBotao => !PodeInstalar ? Catalogo.State == WidgetStoreState.Unavailable ? "Exclusivo do Linux" : "Em desenvolvimento" : JaAdicionado && WidgetCapabilities.PermiteMultiplasInstancias(Tipo)
         ? "Adicionar outro"
         : JaAdicionado ? InstaladoAtivo ? "Configurar estilo" : "Ativar na dock" : "Instalar e escolher estilo";
     public string CorBotao => JaAdicionado ? "Transparent" : "#0A84FF"; 

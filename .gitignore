@@ -41,7 +41,6 @@ __pycache__/
 /docs/*-inventory*.txt
 /docs/*-inventory*.json
 /docs/*-validation.json
-!/docs/installer-validation.json
 /docs/*-preview.png
 
 # Credenciais e dados privados
@@ -54,3 +53,25 @@ __pycache__/
 *.key
 /settings.json
 /notas.txt
+
+# Arquivo de trabalho local: relatórios antigos, capturas e auditorias
+/docs/local/
+/docs/installer-validation.json
+
+# Saídas de publicação/assinatura e arquivos de sessão
+/unsigned-app/
+/signed-app/
+/signed-setup/
+/.vercel/
+**/.vercel/
+*.cer
+*.crt
+*.keystore
+*.jks
+*.kdbx
+*.sqlite
+*.sqlite3
+*.dmp
+*.dump
+*.bak
+*.orig

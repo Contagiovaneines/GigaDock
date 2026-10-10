@@ -53,6 +53,9 @@ public class Preferencias
     public bool DesativarAnimacoes { get; set; } = false;
     public bool ModoEconomico { get; set; } = false;
     public int EspacamentoItens { get; set; } = 6;
+    // Seleção explícita do frontend Linux; -1 acompanha a tela principal.
+    public int MonitorDockLinux { get; set; } = -1;
+    public DecoracaoDock DecoracaoDock { get; set; } = DecoracaoDock.Nenhuma;
 
     // Área Permanente de Aplicativos e Janelas Abertas
     public bool AppsFixadosGlobais { get; set; } = true;

@@ -97,6 +97,22 @@ public class TemaDefinicao
             OpacidadePadrao = 0.85,
             CorMiniatura = "#111B2B",
             CorBordaMiniatura = "#7DD3FC"
+        },
+        new TemaDefinicao
+        {
+            Estilo = EstiloTema.Areia,
+            Nome = "Areia",
+            Descricao = "Base clara em areia, facetas suaves, ícones em peças brancas e controles em grafite.",
+            FundoDockColor = "#FFF2E9DC",
+            BordaDockColor = "#D6C9B7",
+            TextoPrincipalColor = "#30343B",
+            TextoSecundarioColor = "#62646A",
+            FundoCardColor = "#292B32",
+            HighlightColor = "#176AC6",
+            RaioCantos = 22,
+            OpacidadePadrao = 1,
+            CorMiniatura = "#F2E9DC",
+            CorBordaMiniatura = "#CDBEA9"
         }
     };
 

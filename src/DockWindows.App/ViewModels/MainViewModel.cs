@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -79,7 +79,7 @@ public class MainViewModel : ObservableObject, IDisposable
         if (_disposed) return;
         _disposed = true;
         _alertaCancelamento?.Cancel(); _alertaCancelamento?.Dispose();
-        _syncNotificacoesTimer?.Stop();
+        _syncNotificacoesTimer?.Stop(); Notificacoes.Dispose();
         _toastService.OnNotificationReceived -= ToastRecebido;
         _toastService.ChamadasEncerradas -= ChamadaToastEncerrada;
         _toastService.PermissaoAlterada -= ToastPermissaoAlterada;
@@ -109,6 +109,7 @@ public class MainViewModel : ObservableObject, IDisposable
     private int _teamsGhosts = 0;
     private System.Windows.Threading.DispatcherTimer? _syncNotificacoesTimer;
     private readonly DockWindows.Infrastructure.Windows.ToastNotificationService _toastService;
+    public NotificationCenterViewModel Notificacoes { get; }
     
 
 
@@ -385,6 +386,9 @@ public class MainViewModel : ObservableObject, IDisposable
         _aplicativosSegundoPlanoService = aplicativosSegundoPlanoService ?? new AplicativosSegundoPlanoService();
         _winKeyHookService = winKeyHookService ?? new WinKeyHookService();
         _toastService = new DockWindows.Infrastructure.Windows.ToastNotificationService();
+        Notificacoes = new NotificationCenterViewModel(_toastService, _iconService,
+            () => MessageBox.Show("Limpar todas as notificações também remove os avisos da central do Windows. Continuar?",
+                "Limpar notificações", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes);
         _toastService.OnNotificationReceived += ToastRecebido;
         _toastService.ChamadasEncerradas += ChamadaToastEncerrada;
         _toastService.ContagensAlteradas += ToastContagemAlterada;
@@ -518,7 +522,8 @@ public class MainViewModel : ObservableObject, IDisposable
         AlternarVisibilidadeCommand = new RelayCommand(AlternarVisibilidade);
         SairCommand = new RelayCommand(() => SolicitarFechamento?.Invoke());
         AbrirLixeiraCommand = new RelayCommand(() => { try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo { FileName = "explorer.exe", Arguments = "shell:RecycleBinFolder", UseShellExecute = true }); } catch { } });
-        AbrirBandejaOcultaCommand = new RelayCommand(() => PainelAppsSegundoPlanoAberto = !PainelAppsSegundoPlanoAberto);
+        AbrirBandejaOcultaCommand = new RelayCommand(() => _ = AbrirBandejaWindowsAsync());
+        AbrirBandejaNativaCommand = new RelayCommand(() => _ = AbrirBandejaNativaAsync());
 
         _winKeyHookService.WinKeyTapped += WinTapped;
 
@@ -772,8 +777,10 @@ public class MainViewModel : ObservableObject, IDisposable
     public string TextoSecundarioColor => TemaAtual.TextoSecundarioColor;
     public string FundoCardColor => TemaAtual.FundoCardColor;
     public string HighlightColor => TemaAtual.HighlightColor;
+    public bool EhAreia => EstiloTema == EstiloTema.Areia;
+    public string FundoControlesColor => EhAreia ? "#70FFFFFF" : FundoCardColor;
     public string HoverItemColor => EhVidroLiquido ? "#35FFFFFF" : "#25FFFFFF";
-    public string SeparadorColor => EstiloTema == EstiloTema.Colorido 
+    public string SeparadorColor => EhAreia ? "#40A18D72" : EstiloTema == EstiloTema.Colorido
         ? "#40A855F7" 
         : (EstiloTema == EstiloTema.ComBrilho ? "#60FFFFFF" : (EstiloTema == EstiloTema.VidroLiquido ? "#75FFFFFF" : "#28FFFFFF"));
 
@@ -796,6 +803,8 @@ public class MainViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(HoverItemColor));
         OnPropertyChanged(nameof(SeparadorColor));
         OnPropertyChanged(nameof(EhVidroLiquido));
+        OnPropertyChanged(nameof(EhAreia));
+        OnPropertyChanged(nameof(FundoControlesColor));
         OnPropertyChanged(nameof(TemEfeitoVidro));
         OnPropertyChanged(nameof(WidgetsHabilitados));
     }
@@ -1385,8 +1394,170 @@ public bool ExibirLixeira
     public ICommand SairCommand { get; }
     public ICommand AbrirLixeiraCommand { get; }
     public ICommand AbrirBandejaOcultaCommand { get; }
+    public ICommand AbrirBandejaNativaCommand { get; }
 
     private bool _painelAppsSegundoPlanoAberto;
+    private string _bandejaMensagem = "";
+    public string BandejaMensagem { get => _bandejaMensagem; private set => SetProperty(ref _bandejaMensagem, value); }
+    private bool _bandejaAvisoAberto;
+    public bool BandejaAvisoAberto { get => _bandejaAvisoAberto; set => SetProperty(ref _bandejaAvisoAberto, value); }
+    private bool _abrindoBandejaWindows;
+    private bool _bandejaEspelhadaAberta;
+    public bool BandejaEspelhadaAberta { get => _bandejaEspelhadaAberta; set => SetProperty(ref _bandejaEspelhadaAberta, value); }
+    public ObservableCollection<AplicativoSegundoPlanoViewModel> IconesBandejaEspelhada { get; } = new();
+    private async System.Threading.Tasks.Task AbrirBandejaNativaAsync()
+    {
+        if (_disposed || _abrindoBandejaWindows) return;
+        _abrindoBandejaWindows = true;
+        BandejaEspelhadaAberta = false;
+        BandejaAvisoAberto = false;
+        try
+        {
+            var result = await new WindowsTrayController(_taskbarService, new WindowsTrayService())
+                .OpenAsync(_preferencias.UsarComoBarraPrincipal, _preferencias.EstadoAnteriorBarraTarefas);
+            if (_disposed) return;
+            if (result.TaskbarRestored) _barraNativaVisivelTemporariamente = true;
+            BandejaMensagem = result.Message;
+            BandejaAvisoAberto = !result.Opened;
+        }
+        finally { _abrindoBandejaWindows = false; }
+    }
+    private async System.Threading.Tasks.Task AbrirBandejaWindowsAsync()
+    {
+        if (_disposed || _abrindoBandejaWindows) return;
+        var restoreSession = new TrayTaskbarRestoreSession(_taskbarService,
+            _preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente);
+        _abrindoBandejaWindows = true;
+        PainelAppsSegundoPlanoAberto = false;
+        BandejaEspelhadaAberta = false;
+        BandejaAvisoAberto = false;
+        try
+        {
+            var result = await new WindowsTrayController(_taskbarService, new WindowsTrayService())
+                .OpenAsync(_preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente, _preferencias.EstadoAnteriorBarraTarefas);
+            restoreSession.MarkShown(result.TaskbarRestored);
+            if (_disposed) return;
+            if (result.TaskbarRestored) _barraNativaVisivelTemporariamente = true;
+            BandejaMensagem = result.Message;
+            BandejaAvisoAberto = !result.Opened;
+            if (result.Opened)
+            {
+                await System.Threading.Tasks.Task.Delay(250);
+                using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                var items = await System.Threading.Tasks.Task.Run(() => new WindowsTrayMirror().Read(timeout.Token)).WaitAsync(timeout.Token);
+                if (_disposed) return;
+                // O foco normalmente dispensa o flyout do Explorer sem alternar a seta novamente.
+                FocarDockParaBandeja?.Invoke();
+                await System.Threading.Tasks.Task.Delay(100, timeout.Token);
+                var closed = await System.Threading.Tasks.Task.Run(() => new WindowsTrayMirror().CloseAsync(timeout.Token)).WaitAsync(timeout.Token);
+                if (!closed)
+                {
+                    BandejaMensagem = "A bandeja do Windows permaneceu aberta. O painel da dock não será mostrado junto dela.";
+                    BandejaAvisoAberto = true;
+                    return;
+                }
+                if (_disposed) return;
+                if (_preferencias.UsarComoBarraPrincipal && restoreSession.NeedsRestore)
+                {
+                    if (!restoreSession.Restore()) throw new InvalidOperationException();
+                    _barraNativaVisivelTemporariamente = false;
+                    // Explorer pode reagir ao fechamento do flyout depois do primeiro Hide.
+                    await System.Threading.Tasks.Task.Delay(250, timeout.Token);
+                    if (_disposed) return;
+                    if (_preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente)
+                        _taskbarService.GarantirBarraOculta();
+                }
+                if (items.Count == 0)
+                {
+                    BandejaMensagem = "N\u00e3o foi poss\u00edvel ler os \u00edcones. Tente novamente ou abra a bandeja nativa explicitamente.";
+                    BandejaAvisoAberto = true;
+                    return;
+                }
+                IconesBandejaEspelhada.Clear();
+                foreach (var item in items)
+                    IconesBandejaEspelhada.Add(new(item.Name, "", false, item.Image,
+                        () => _ = InvocarIconeEspelhadoAsync(item.Name, item.CanInvoke)));
+                BandejaEspelhadaAberta = true;
+            }
+        }
+        catch (Exception)
+        {
+            if (!_disposed) { BandejaMensagem = "Abra a bandeja pela barra do Windows."; BandejaAvisoAberto = true; }
+        }
+        finally
+        {
+            try
+            {
+                if (!_disposed && _preferencias.UsarComoBarraPrincipal && restoreSession.NeedsRestore)
+                {
+                    using var cleanupTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                    try { await System.Threading.Tasks.Task.Run(() => new WindowsTrayMirror().CloseAsync(cleanupTimeout.Token)).WaitAsync(cleanupTimeout.Token); }
+                    catch { }
+                    if (restoreSession.Restore()) _barraNativaVisivelTemporariamente = false;
+                    else
+                    {
+                        BandejaEspelhadaAberta = false;
+                        BandejaMensagem = "N\u00e3o foi poss\u00edvel voltar a ocultar a barra do Windows. Use Mostrar barra do Windows para ajustar.";
+                        BandejaAvisoAberto = true;
+                    }
+                }
+            }
+            finally { _abrindoBandejaWindows = false; }
+        }
+    }
+
+    private async System.Threading.Tasks.Task InvocarIconeEspelhadoAsync(string name, bool supported)
+    {
+        if (_disposed || _abrindoBandejaWindows) return;
+        BandejaEspelhadaAberta = false;
+        if (!supported)
+        {
+            BandejaMensagem = "Este ícone não oferece clique pela acessibilidade do Windows. Use a bandeja nativa.";
+            BandejaAvisoAberto = true;
+            return;
+        }
+        var restoreSession = new TrayTaskbarRestoreSession(_taskbarService,
+            _preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente);
+        _abrindoBandejaWindows = true;
+        try
+        {
+            var result = await new WindowsTrayController(_taskbarService, new WindowsTrayService())
+                .OpenAsync(_preferencias.UsarComoBarraPrincipal && !_barraNativaVisivelTemporariamente, _preferencias.EstadoAnteriorBarraTarefas);
+            restoreSession.MarkShown(result.TaskbarRestored);
+            if (_disposed) return;
+            if (result.TaskbarRestored) _barraNativaVisivelTemporariamente = true;
+            if (!result.Opened) throw new InvalidOperationException();
+            await System.Threading.Tasks.Task.Delay(200);
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            var invoked = await System.Threading.Tasks.Task.Run(() => new WindowsTrayMirror().Invoke(name, timeout.Token)).WaitAsync(timeout.Token);
+            if (!invoked) throw new InvalidOperationException();
+        }
+        catch (Exception)
+        {
+            BandejaMensagem = "Não foi possível acionar esse ícone. Use a bandeja nativa; o aplicativo não foi encerrado nem reiniciado.";
+            BandejaAvisoAberto = true;
+        }
+        finally
+        {
+            try
+            {
+                if (!_disposed && _preferencias.UsarComoBarraPrincipal && restoreSession.NeedsRestore)
+                {
+                    using var cleanupTimeout = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                    try { await System.Threading.Tasks.Task.Run(() => new WindowsTrayMirror().CloseAsync(cleanupTimeout.Token)).WaitAsync(cleanupTimeout.Token); }
+                    catch { }
+                    if (restoreSession.Restore()) _barraNativaVisivelTemporariamente = false;
+                    else
+                    {
+                        BandejaEspelhadaAberta = false;
+                        BandejaMensagem = "N\u00e3o foi poss\u00edvel voltar a ocultar a barra do Windows. Use Mostrar barra do Windows para ajustar.";
+                        BandejaAvisoAberto = true;
+                    }
+                }
+            }
+            finally { _abrindoBandejaWindows = false; }
+        }
+    }
     public bool PainelAppsSegundoPlanoAberto
     {
         get => _painelAppsSegundoPlanoAberto;
@@ -1429,22 +1600,39 @@ public bool ExibirLixeira
                 if (icone == null) continue;
                 AplicativosSegundoPlano.Add(new AplicativoSegundoPlanoViewModel(
                     info.Nome, info.CaminhoExecutavel, info.PossuiJanela, icone,
-                    () =>
-                    {
-                        PainelAppsSegundoPlanoAberto = false;
-                        // Atualiza a busca no clique, inclusive para janelas ocultas na bandeja.
-                        // Esta lista representa processos em execução: nunca iniciar outra instância.
-                        if (!_windowTrackingService.AtivarAplicativoEmExecucao(info.CaminhoExecutavel))
-                            MostrarAlerta?.Invoke("Não foi possível mostrar o aplicativo",
-                                $"Não foi possível trazer {info.Nome} para frente. Abra pelo ícone na bandeja do Windows. Se ele já foi encerrado, abra pelo atalho fixado.");
-                    }));
+                    () => _ = AbrirAplicativoSegundoPlanoAsync(info)));
             }
         }
         finally { CarregandoAppsSegundoPlano = false; }
     }
 
+    private bool _abrindoAplicativoSegundoPlano;
+    private async System.Threading.Tasks.Task AbrirAplicativoSegundoPlanoAsync(AplicativoSegundoPlanoInfo info)
+    {
+        if (_disposed || _abrindoAplicativoSegundoPlano) return;
+        _abrindoAplicativoSegundoPlano = true;
+        PainelAppsSegundoPlanoAberto = false;
+        try
+        {
+            // Liberar o popup/captura do mouse antes de ativar uma janela externa.
+            await System.Threading.Tasks.Task.Yield();
+            if (_disposed) return;
+            var activated = await System.Threading.Tasks.Task.Run(() => _windowTrackingService.AtivarAplicativoEmExecucao(info.CaminhoExecutavel));
+            if (!_disposed && !activated)
+                MostrarAlerta?.Invoke("Abra pelo ícone na bandeja do Windows",
+                    $"{info.Nome} não disponibilizou uma janela que possa ser ativada com segurança. Use o ícone do próprio aplicativo na bandeja do Windows. Se ele já foi encerrado, abra pelo atalho fixado.");
+        }
+        catch (Exception ex)
+        {
+            RegistrarFalhaNaoFatal("aplicativos-segundo-plano.log", ex);
+            if (!_disposed) MostrarAlerta?.Invoke("Não foi possível mostrar o aplicativo", "Abra pelo ícone do próprio aplicativo na bandeja do Windows.");
+        }
+        finally { _abrindoAplicativoSegundoPlano = false; }
+    }
+
     public Action? FocarBuscaLaunchpad;
     public Action? AtivarJanelaPrincipal;
+    public Action? FocarDockParaBandeja;
 
     private bool _menuIniciarAberto;
     public bool MenuIniciarAberto
@@ -1468,6 +1656,7 @@ public bool ExibirLixeira
                         app.MenuJanelasAberto = false;
                     }
                     TextoFiltroLaunchpad = string.Empty;
+                    _ = CarregarCatalogoLaunchpadAsync();
                 }
             }
         }
@@ -1575,7 +1764,22 @@ public bool ExibirLixeira
         catch { }
     }
 
-    public void SalvarPreferencias()
+    public DecoracaoDock DecoracaoDock
+    {
+        get => Preferencias.DecoracaoDock;
+        set
+        {
+            if (!Enum.IsDefined(value) || Preferencias.DecoracaoDock == value) return;
+            var previous = Preferencias.DecoracaoDock; Preferencias.DecoracaoDock = value;
+            if (!TentarSalvarPreferencias()) Preferencias.DecoracaoDock = previous;
+            OnPropertyChanged();
+        }
+    }
+    public bool TarefasHabilitadas => Preferencias.WidgetsGlobais.Concat(AmbienteAtivo?.Model.WidgetsInstalados ?? []).Any(w => w.Tipo == TipoWidget.Tarefas && w.Visivel);
+
+    public void SalvarPreferencias() => TentarSalvarPreferencias();
+
+    public bool TentarSalvarPreferencias()
     {
         try
         {
@@ -1584,10 +1788,12 @@ public bool ExibirLixeira
             _preferencias.ColecoesGlobais = ColecoesGlobais.Select((c, idx) => { c.Model.Ordem = idx; return c.Model; }).ToList();
             _preferencias.Espacadores = Espacadores.ToList();
             _repository.Salvar(_preferencias);
+            return true;
         }
         catch (Exception ex)
         {
             MostrarAlerta?.Invoke("Erro ao Salvar", $"Falha ao salvar preferÃªncias: {ex.Message}");
+            return false;
         }
     }
 
@@ -1840,6 +2046,7 @@ public bool ExibirLixeira
         Calendario.SincronizarUrlIcal(UrlIcalAmbiente);
         Clima.SincronizarLocalizacao(LocalizacaoClima);
         SincronizarWidgetsInstanciadosAdicionais(amb);
+        OnPropertyChanged(nameof(TarefasHabilitadas));
     }
 
     private void SalvarEstanteArquivos(string json)
@@ -1924,7 +2131,9 @@ public bool ExibirLixeira
                 return IconExtractionService.ResolverCaminhoCompleto(caminho);
             }
             var lista = itens.GroupBy(Chave, StringComparer.OrdinalIgnoreCase).Select(g => g.First());
-            foreach (var item in lista.OrderBy(a => a.Ordem))
+            var savedOrder = (AmbienteAtivo.Model.OrdemAplicativosDock ?? []).Where(id => !string.IsNullOrWhiteSpace(id)).Select((id, index) => (id, index))
+                .GroupBy(entry => entry.id).ToDictionary(group => group.Key, group => group.First().index);
+            foreach (var item in lista.OrderBy(a => savedOrder.GetValueOrDefault(a.Id, int.MaxValue)).ThenBy(a => a.Ordem))
             {
                 Aplicativos.Add(CriarAppItemViewModel(item));
             }
@@ -2108,6 +2317,9 @@ public bool ExibirLixeira
 
     private static bool CorrespondeAoCaminho(string caminho, JanelaInfo janela)
     {
+        const string appsFolder = "shell:AppsFolder\\";
+        if (caminho.StartsWith(appsFolder, StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(janela.AppUserModelId))
+            return string.Equals(caminho[appsFolder.Length..], janela.AppUserModelId, StringComparison.OrdinalIgnoreCase);
         if (string.Equals(caminho, janela.CaminhoExecutavel, StringComparison.OrdinalIgnoreCase))
             return true;
 
@@ -2158,8 +2370,7 @@ public bool ExibirLixeira
         int idx = Aplicativos.IndexOf(app);
         if (idx > 0)
         {
-            Aplicativos.Move(idx, idx - 1);
-            SalvarPreferencias();
+            ReordenarAplicativo(app, Aplicativos[idx - 1]);
         }
     }
 
@@ -2168,8 +2379,7 @@ public bool ExibirLixeira
         int idx = Aplicativos.IndexOf(app);
         if (idx >= 0 && idx < Aplicativos.Count - 1)
         {
-            Aplicativos.Move(idx, idx + 1);
-            SalvarPreferencias();
+            ReordenarAplicativo(app, Aplicativos[idx + 1]);
         }
     }
 
@@ -2179,7 +2389,12 @@ public bool ExibirLixeira
         var de = Aplicativos.IndexOf(origem);
         var para = Aplicativos.IndexOf(destino);
         if (de < 0 || para < 0) return;
+        var environment = AmbienteAtivo?.Model;
+        if (environment is null) return;
+        var previousOrder = environment.OrdemAplicativosDock;
+        var previousRanks = _preferencias.AppsPermanentes.Concat(environment.Itens).ToDictionary(item => item, item => item.Ordem);
         Aplicativos.Move(de, para);
+        environment.OrdemAplicativosDock = Aplicativos.Where(app => app.EstaFixado).Select(app => app.Id).ToList();
 
         var ordemGlobal = 0;
         var ordemAmbiente = 0;
@@ -2190,7 +2405,12 @@ public bool ExibirLixeira
             var local = AmbienteAtivo?.Model.Itens.FirstOrDefault(i => i.Id == app.Id);
             if (local != null) local.Ordem = ordemAmbiente++;
         }
-        SalvarPreferencias();
+        if (!TentarSalvarPreferencias())
+        {
+            environment.OrdemAplicativosDock = previousOrder;
+            foreach (var (item, order) in previousRanks) item.Ordem = order;
+            Aplicativos.Move(para, de);
+        }
     }
 
     public void MoverAppParaAmbiente(AppItemViewModel app)
@@ -2547,6 +2767,35 @@ public bool ExibirLixeira
         AtualizarPreferencias(padrao);
     }
 
+    private IReadOnlyList<AppInstalado> _catalogoLaunchpad = Array.Empty<AppInstalado>();
+    private bool _carregandoCatalogoLaunchpad;
+    public string EstadoCatalogoLaunchpad { get; private set; } = "Aplicativos e atalhos do ambiente";
+
+    private async System.Threading.Tasks.Task CarregarCatalogoLaunchpadAsync()
+    {
+        if (_carregandoCatalogoLaunchpad || _disposed) return;
+        _carregandoCatalogoLaunchpad = true;
+        EstadoCatalogoLaunchpad = "Carregando aplicativos instalados...";
+        OnPropertyChanged(nameof(EstadoCatalogoLaunchpad));
+        try
+        {
+            _catalogoLaunchpad = await InstalledAppsScanner.ListarAsync(forcarAtualizacao: true);
+            if (_disposed) return;
+            EstadoCatalogoLaunchpad = $"{_catalogoLaunchpad.Count} aplicativos instalados · atalhos do ambiente primeiro";
+            OnPropertyChanged(nameof(ItensLaunchpadFiltrados));
+        }
+        catch (Exception ex)
+        {
+            EstadoCatalogoLaunchpad = "Não foi possível carregar todos os aplicativos. Reabra para tentar novamente.";
+            RegistrarFalhaNaoFatal("launchpad.log", ex);
+        }
+        finally
+        {
+            _carregandoCatalogoLaunchpad = false;
+            OnPropertyChanged(nameof(EstadoCatalogoLaunchpad));
+        }
+    }
+
     public IEnumerable<LaunchpadItemModel> ItensLaunchpadFiltrados
     {
         get
@@ -2642,46 +2891,33 @@ public bool ExibirLixeira
                 }
             }
 
-                        if (string.IsNullOrWhiteSpace(TextoFiltroLaunchpad))
+            // AppsFolder inclui aplicativos Win32 e Microsoft Store, sem bloquear a digita??o.
+            foreach (var app in _catalogoLaunchpad)
             {
-                return lista;
-            }
-
-            var filtro = TextoFiltroLaunchpad.Trim();
-            var resultados = lista.Where(i => 
-                i.Titulo.Contains(filtro, StringComparison.OrdinalIgnoreCase) || 
-                i.Subtitulo.Contains(filtro, StringComparison.OrdinalIgnoreCase) || 
-                i.Categoria.Contains(filtro, StringComparison.OrdinalIgnoreCase)
-            ).ToList();
-
-            // Buscar aplicativos instalados no Windows
-            var instalados = DockWindows.Infrastructure.Windows.AppSearchService.BuscarAppsInstalados();
-            var instaladosFiltrados = instalados.Where(a => a.Nome.Contains(filtro, StringComparison.OrdinalIgnoreCase));
-            
-            foreach (var app in instaladosFiltrados)
-            {
-                if (idsAdicionados.Add(app.Caminho))
+                if (!idsAdicionados.Add(app.CaminhoExecucao)) continue;
+                lista.Add(new LaunchpadItemModel
                 {
-                    resultados.Add(new LaunchpadItemModel
+                    Id = app.ParsingName,
+                    Titulo = app.Nome,
+                    Subtitulo = "Aplicativo instalado",
+                    Icone = _iconService.ObterIcone(app.CaminhoExecucao, TipoItem.Aplicativo),
+                    IconeTexto = "▦",
+                    ExecutarCommand = new RelayCommand(() =>
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Titulo = app.Nome,
-                        Subtitulo = "Aplicativo",
-                        Icone = null, // Deixamos sem ícone para ser muito mais rápido ao digitar
-                        IconeTexto = "🚀",
-                        ExecutarCommand = new RelayCommand(() =>
-                        {
-                            MenuIniciarAberto = false;
-                            _launcher.ExecutarCaminho(app.Caminho);
-                        }),
-                        EstaAberto = false,
-                        EstaAtivo = false,
-                        Categoria = "Sistema"
-                    });
-                }
+                        MenuIniciarAberto = false;
+                        _launcher.ExecutarCaminho(app.CaminhoExecucao);
+                    }),
+                    Categoria = "Sistema"
+                });
             }
+            var filtro = TextoFiltroLaunchpad.Trim();
+            if (filtro.Length == 0) return lista;
+            var comparador = System.Globalization.CultureInfo.GetCultureInfo("pt-BR").CompareInfo;
+            return lista.Where(i => comparador.IndexOf(i.Titulo, filtro,
+                System.Globalization.CompareOptions.IgnoreCase | System.Globalization.CompareOptions.IgnoreNonSpace) >= 0
+                || comparador.IndexOf(i.Subtitulo, filtro,
+                System.Globalization.CompareOptions.IgnoreCase | System.Globalization.CompareOptions.IgnoreNonSpace) >= 0);
 
-            return resultados;
         }
     }
 }
@@ -2730,23 +2966,3 @@ public class LaunchpadItemModel
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

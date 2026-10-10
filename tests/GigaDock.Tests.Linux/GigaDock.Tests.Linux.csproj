@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <Using Include="Xunit" />
+    <ProjectReference Include="../../src/GigaDock.Infrastructure.Linux/GigaDock.Infrastructure.Linux.csproj" />
+  </ItemGroup>
+  <Target Name="BloquearTesthostQuandoSmartAppControlEstiverAtivo" BeforeTargets="VSTest"
+          Condition="'$(CI)' != 'true' and '$(OS)' == 'Windows_NT' and '$(PermitirTestesLocaisSemAssinatura)' != 'true'">
+    <PropertyGroup>
+      <EstadoSmartAppControl>$(registry:HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy@VerifiedAndReputablePolicyState)</EstadoSmartAppControl>
+    </PropertyGroup>
+    <Error Condition="'$(EstadoSmartAppControl)' == '1'" Text="Testes locais não iniciados: Smart App Control bloquearia GigaDock.Tests.Linux.dll sem assinatura. Execute em Linux ou no CI." />
+  </Target>
+</Project>

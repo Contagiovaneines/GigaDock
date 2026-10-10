@@ -6,5 +6,6 @@ public enum EstiloTema
     Escuro = 1,
     Colorido = 2,
     ComBrilho = 3,
-    VidroLiquido = 4
+    VidroLiquido = 4,
+    Areia = 5
 }

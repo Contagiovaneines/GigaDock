@@ -24,7 +24,7 @@ public sealed class PastaPreviewWindow : DockFlyoutWindow
     {
         Closed += (_, _) => { _closed = true; _generation++; _selected = null; _cancelamento.Cancel(); _cancelamento.Dispose(); _files.ItemsSource = null; _preview.Children.Clear(); };
         var path = Environment.ExpandEnvironmentVariables(pasta);
-        var result = ItemValidator.ValidarPasta(path);
+        var result = WindowsItemPathValidator.Instance.ValidarPasta(path);
         if (!result.Valido || !Directory.Exists(path))
         {
             Body.Children.Add(new TextBlock { Text = result.MensagemErro ?? "Esta pasta não oferece prévia local.", TextWrapping = TextWrapping.Wrap, MaxWidth = 400 });

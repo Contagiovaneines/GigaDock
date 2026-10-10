@@ -1,0 +1,74 @@
+<UserControl x:Class="DockWindows.App.Views.Sections.SectionNotificacoes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:DockWindows.App.Converters">
+    <UserControl.Resources><ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="DockControls.xaml"/></ResourceDictionary.MergedDictionaries>
+        <conv:BooleanToVisibilityConverter x:Key="NotificationsVisibility"/>
+        <conv:ColorToBrushConverter x:Key="NotificationsBrush"/>
+        <Style x:Key="NotificationAction" TargetType="Button">
+            <Setter Property="Background" Value="#14FFFFFF"/><Setter Property="Foreground" Value="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType=Border}}"/>
+            <Setter Property="Padding" Value="10,7"/><Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                <Border x:Name="ActionSurface" CornerRadius="9" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="Transparent"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="ActionSurface" Property="Background" Value="#28FFFFFF"/></Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="ActionSurface" Property="BorderBrush" Value="#78BEFF"/></Trigger>
+                    <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate></Setter.Value></Setter>
+        </Style>
+    </ResourceDictionary></UserControl.Resources>
+    <Grid>
+        <Button x:Name="NotificationButton" Style="{StaticResource DockControlButton}" Command="{Binding Notificacoes.OpenCommand}" Click="NotificationButton_Click"
+                AutomationProperties.Name="Central de notificações da dock" ToolTip="Notificações" Margin="3,0">
+            <Grid><Path Style="{StaticResource DockControlIcon}" Data="M5,17 H19 L17,14 V9 A5,5 0 0 0 7,9 V14 Z M10,20 A2,2 0 0 0 14,20 M12,2 V4"/>
+                <Border Background="#308BEA" CornerRadius="5" MinWidth="14" Height="14" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-6,-7,0"
+                        Visibility="{Binding Notificacoes.HasItems, Converter={StaticResource NotificationsVisibility}}">
+                    <TextBlock Text="{Binding Notificacoes.Badge}" Foreground="White" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0"/>
+                </Border>
+            </Grid>
+        </Button>
+        <Popup x:Name="NotificationsPopup" IsOpen="{Binding Notificacoes.IsOpen, Mode=TwoWay}" PlacementTarget="{Binding ElementName=NotificationButton}"
+               Placement="Top" VerticalOffset="-12" StaysOpen="False" AllowsTransparency="True">
+            <Border Width="410" MaxWidth="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}" MaxHeight="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}"
+                    CornerRadius="18" Padding="18" Background="{Binding FundoCardColor, Converter={StaticResource NotificationsBrush}}"
+                    BorderBrush="{Binding BordaDockColor, Converter={StaticResource NotificationsBrush}}" BorderThickness="1"
+                    TextElement.Foreground="{Binding TextoPrincipalColor, Converter={StaticResource NotificationsBrush}}">
+                <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <Grid Margin="0,0,0,14"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel><TextBlock Text="Notificações" FontSize="17" FontWeight="SemiBold"/><TextBlock Text="{Binding Notificacoes.Count, StringFormat={}{0} avisos recentes}" FontSize="11" Opacity="0.7" Margin="0,4,0,0"/></StackPanel>
+                        <Button Grid.Column="1" Style="{StaticResource NotificationAction}" Command="{Binding Notificacoes.ClearCommand}" Content="Limpar tudo"
+                                AutomationProperties.Name="Limpar notificações da dock e do Windows" VerticalAlignment="Center"/>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Margin="0,0,0,14">
+                        <TextBlock Text="{Binding Notificacoes.Status}" TextWrapping="Wrap" FontSize="12" Opacity="0.8"/>
+                        <WrapPanel Margin="0,10,0,0">
+                            <Button Style="{StaticResource NotificationAction}" Content="Ativar notificações" Command="{Binding Notificacoes.ActivateCommand}" Margin="0,0,8,0"
+                                    Visibility="{Binding Notificacoes.NeedsActivation, Converter={StaticResource NotificationsVisibility}}"/>
+                            <Button Style="{StaticResource NotificationAction}" Content="Atualizar" Command="{Binding Notificacoes.RefreshCommand}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                    <ScrollViewer Grid.Row="2" MaxHeight="320" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Notificacoes.Items}"><ItemsControl.ItemTemplate><DataTemplate>
+                            <Border Background="#10FFFFFF" CornerRadius="12" Padding="12" Margin="0,0,0,8">
+                                <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                                    <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <Grid Width="24" Height="24" Margin="0,0,8,0"><Border CornerRadius="6" Background="#24FFFFFF"><TextBlock Text="{Binding Initial}" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><Image Source="{Binding Icon}" RenderOptions.BitmapScalingMode="HighQuality"/></Grid>
+                                        <TextBlock Grid.Column="1" Text="{Binding Application}" FontWeight="SemiBold" FontSize="12" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding Time}" Opacity="0.6" FontSize="11" VerticalAlignment="Center" Margin="8,0"/>
+                                        <Button Grid.Column="3" Command="{Binding RemoveCommand}" Style="{StaticResource NotificationAction}" Padding="5" ToolTip="Remover também do Windows" AutomationProperties.Name="Remover notificação">
+                                            <Path Data="M2,2 L10,10 M10,2 L2,10" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.4" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Width="12" Height="12"/>
+                                        </Button>
+                                    </Grid>
+                                    <TextBlock Grid.Row="1" Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap" FontSize="13"/>
+                                    <TextBlock Grid.Row="2" Text="{Binding Body}" TextWrapping="Wrap" FontSize="12" Opacity="0.8" Margin="0,5,0,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

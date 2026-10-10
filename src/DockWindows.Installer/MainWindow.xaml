@@ -135,7 +135,10 @@
                         <TextBlock Text="Opções de atalho" FontSize="11" FontWeight="Bold" Foreground="#A9BACF" Margin="0,0,0,6"/>
                         <CheckBox x:Name="ChkAtalhoIniciar" Content="Criar atalho no Menu Iniciar" IsChecked="True"/>
                         <CheckBox x:Name="ChkAtalhoDesktop" Content="Criar atalho na Área de Trabalho" IsChecked="True"/>
-                        <CheckBox x:Name="ChkIniciarComWindows" Content="Iniciar GigaDock com o Windows" IsChecked="False" Margin="0,8,0,16"/>
+                        <CheckBox x:Name="ChkIniciarComWindows" Content="Iniciar GigaDock com o Windows" IsChecked="False" Margin="0,8,0,8"/>
+                        <CheckBox x:Name="ChkIdentidadeNotificacoes" Content="Preparar central de notificações (opcional)" IsChecked="False" Margin="0,0,0,16"
+                                  ToolTip="Registra a identidade assinada do GigaDock. O acesso às notificações será solicitado separadamente dentro da dock."/>
+                        <Button Content="Conhecer o GigaDock →" Click="ConhecerGigaDock_Click" Background="#243148" Foreground="#D8E4FF" HorizontalAlignment="Left" AutomationProperties.Name="Abrir guia do GigaDock antes da instalação"/>
 
                     </StackPanel>
 
@@ -156,6 +159,7 @@
                                    FontSize="13" Foreground="#A9BACF" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,24"/>
 
                         <CheckBox x:Name="ChkExecutarAgora" Content="Lançar o GigaDock agora" IsChecked="True" HorizontalAlignment="Center" FontSize="14"/>
+                        <Button Content="Conhecer o GigaDock →" Click="ConhecerGigaDock_Click" Background="#243148" Foreground="#D8E4FF" HorizontalAlignment="Center" Margin="0,12,0,0" AutomationProperties.Name="Abrir guia do GigaDock após a instalação"/>
                     </StackPanel>
 
                     <!-- 4. MODO DESINSTALAÇÃO: CONFIRMAÇÃO -->

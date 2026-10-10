@@ -1,8 +1,6 @@
 # Como gerar o instalador assinado
 
-O instalador 3.2.0 continua sem assinatura. Nesta máquina existe somente o certificado autoassinado `GigaDock OpenSource`; ele não resolve a confiança pública exigida pelo Smart App Control. É necessário um certificado de provedor confiável ou um serviço de assinatura configurado.
-
-Em 2026-10-08, o evento 3077 do log CodeIntegrity confirmou o bloqueio de `release/GigaDock-Setup.exe`. O empacotamento agora rejeita certificados autoassinados e resultados de assinatura diferentes de `Valid`, inclusive `UnknownError`, antes de substituir o instalador em `release/`. O auxiliar `build_e_assinar.ps1` exige um certificado existente; não cria certificados nem adiciona raízes de confiança. Sintaxe dos scripts validada, rejeição do certificado local executada e compilação Release concluída com zero erros e avisos. A instalação permanece bloqueada até obter assinatura confiável.
+Builds locais não têm assinatura confiável por padrão. Certificados autoassinados não substituem a confiança pública exigida pelo Windows. O empacotamento rejeita assinatura diferente de `Valid`; o auxiliar de assinatura exige certificado existente e não altera raízes de confiança.
 
 ## 1. Obter o certificado
 
@@ -15,7 +13,7 @@ Para projeto open source, verifique a elegibilidade da SignPath Foundation nas [
 - Instale .NET SDK 10 e o [Windows SDK](https://developer.microsoft.com/windows/downloads/windows-sdk/) com o SignTool.
 - Instale/configure o certificado conforme o fornecedor, no repositório **Pessoal do usuário atual** (`Cert:\CurrentUser\My`). O script usa este repositório; provedores que exigem um fluxo próprio precisam de adaptação.
 - Token/PIN devem ser usados apenas no software do fornecedor. Não coloque senha, PFX ou chave privada no projeto ou no chat.
-- Use um ambiente de desenvolvimento autorizado a executar scripts PowerShell. Nesta máquina a política bloqueou arquivos `.ps1`; o fluxo assinado não foi executado. O procedimento não altera nem desativa essa política ou o Smart App Control.
+- Use um ambiente de desenvolvimento autorizado a executar scripts PowerShell. A execução depende da política configurada pelo usuário ou administrador. O procedimento não altera nem desativa essa política ou o Smart App Control.
 
 Liste apenas as informações públicas dos certificados:
 

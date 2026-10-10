@@ -10,9 +10,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>GigaDock-Setup</AssemblyName>
     <RootNamespace>DockWindows.Installer</RootNamespace>
+    <DefineConstants>$(DefineConstants);GIGADOCK_INSTALLER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\DockWindows.App\Views\GuideWindow.cs" Link="Views\GuideWindow.cs" />
+    <Compile Include="..\DockWindows.App\Views\WindowScreenSizing.cs" Link="Views\WindowScreenSizing.cs" />
     <Resource Include="..\..\assets\gigadock.ico" Link="Assets\gigadock.ico" />
     <ProjectReference Include="..\DockWindows.Core\DockWindows.Core.csproj" />
     <ProjectReference Include="..\DockWindows.Infrastructure\DockWindows.Infrastructure.csproj" />

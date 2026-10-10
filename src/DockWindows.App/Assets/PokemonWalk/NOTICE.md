@@ -6,4 +6,4 @@ Foram preservados `Walk-Anim.png`, `AnimData.xml` e `credits.txt` por espécie, 
 
 Esses recursos não são cobertos pela licença MIT do código do GigaDock. Consulte `SOURCE-README.md`, `spritebot_credits.txt` e o arquivo `credits.txt` de cada espécie antes de redistribuir, especialmente para uso comercial.
 
-O aplicativo lê Walk e sequências aéreas selecionadas (Hover, Float, FlapAround, Idle e Special0), usando direções laterais e recorte transparente comum em memória. Os arquivos de origem foram preservados sem alteração. Manifestos de arquivos, URLs e SHA-256: `docs/pokemon-walk-assets.json` e `docs/pokemon-air-assets.json`.
+O aplicativo lê Walk e sequências aéreas selecionadas (Hover, Float, FlapAround, Idle e Special0), usando direções laterais e recorte transparente comum em memória. Os arquivos de origem foram preservados sem alteração. Manifestos de arquivos, URLs e SHA-256: `docs/referencia/assets/pokemon-walk-assets.json` e `docs/referencia/assets/pokemon-air-assets.json`.

@@ -11,6 +11,7 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <Button Content="Tarefas" Click="Tarefas_OnClick" Visibility="{Binding TarefasHabilitadas, Converter={StaticResource BoolToVis}}" AutomationProperties.Name="Abrir tarefas deste ambiente" ToolTip="Tarefas deste ambiente" Margin="2,0"/>
         
         <!-- WIDGET 1: POMODORO -->
         <Border x:Name="PomodoroBorder" atividade:AtividadeVisual.Componente="Pomodoro"

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>GigaDock</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="../../assets/gigadock.png" Link="Assets/gigadock.png" />
+    <AvaloniaResource Include="../DockWindows.App/Assets/PokemonWalk/**/*-Anim.png" Link="Assets/PokemonWalk/%(RecursiveDir)%(Filename)%(Extension)" />
+    <AvaloniaResource Include="../DockWindows.App/Assets/PokemonWalk/**/AnimData.xml" Link="Assets/PokemonWalk/%(RecursiveDir)%(Filename)%(Extension)" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.4" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.4" />
+    <ProjectReference Include="../DockWindows.Core/DockWindows.Core.csproj" />
+    <!-- Regras puras já utilizadas no WPF; nenhum tipo/API Windows nesses arquivos. -->
+    <Compile Include="../DockWindows.App/Common/PokemonLocomotion.cs" Link="Shared/PokemonLocomotion.cs" />
+    <Compile Include="../DockWindows.App/Common/PokemonBehavior.cs" Link="Shared/PokemonBehavior.cs" />
+    <ProjectReference Include="../GigaDock.Services/GigaDock.Services.csproj" />
+    <ProjectReference Include="../GigaDock.Infrastructure.Linux/GigaDock.Infrastructure.Linux.csproj" />
+  </ItemGroup>
+</Project>
+

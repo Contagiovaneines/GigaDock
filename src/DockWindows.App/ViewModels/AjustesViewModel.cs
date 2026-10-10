@@ -67,6 +67,7 @@ public class AjustesViewModel : ObservableObject
 
         // Comandos de Ambientes
         NovoAmbienteCommand = new RelayCommand(NovoAmbiente);
+        DuplicarAmbienteCommand = new RelayCommand(DuplicarAmbiente, () => AmbienteSelecionado != null);
         ExcluirAmbienteCommand = new RelayCommand(ExcluirAmbiente, () => Ambientes.Count > 1);
         MoverAmbienteCimaCommand = new RelayCommand(MoverAmbienteCima, () => AmbienteSelecionado != null && ObterIndiceAmbienteSelecionado() > 0);
         MoverAmbienteBaixoCommand = new RelayCommand(MoverAmbienteBaixo, () => AmbienteSelecionado != null && ObterIndiceAmbienteSelecionado() < Ambientes.Count - 1);
@@ -662,6 +663,8 @@ public class AjustesViewModel : ObservableObject
         }
     }
 
+    public Array DecoracoesDisponiveis => Enum.GetValues<DecoracaoDock>();
+    public DecoracaoDock DecoracaoDock { get => _mainVm.DecoracaoDock; set { _mainVm.DecoracaoDock = value; OnPropertyChanged(); } }
     public bool UsarComoBarraPrincipal
     {
         get => _mainVm.UsarComoBarraPrincipal;
@@ -1001,6 +1004,7 @@ public bool ExibirLixeira
     // Comandos
     public ICommand NavegarCommand { get; }
     public ICommand NovoAmbienteCommand { get; }
+    public ICommand DuplicarAmbienteCommand { get; }
     public ICommand ExcluirAmbienteCommand { get; }
     public ICommand MoverAmbienteCimaCommand { get; }
     public ICommand MoverAmbienteBaixoCommand { get; }
@@ -1076,7 +1080,7 @@ public bool ExibirLixeira
 
         if (AmbienteSelecionado != null)
         {
-            foreach (var it in _mainVm.Preferencias.AppsPermanentes.Concat(AmbienteSelecionado.Itens).GroupBy(i => i.Id).Select(g => g.First()).OrderBy(i => i.Ordem))
+            foreach (var it in _mainVm.Preferencias.AppsPermanentes.Concat(AmbienteSelecionado.Itens).GroupBy(i => i.Id).Select(g => g.First()).OrderBy(i => { var index = AmbienteSelecionado.OrdemAplicativosDock?.IndexOf(i.Id) ?? -1; return index < 0 ? int.MaxValue : index; }).ThenBy(i => i.Ordem))
             {
                 ItensAmbiente.Add(it);
             }
@@ -1128,6 +1132,21 @@ public bool ExibirLixeira
             Colecoes = new List<ColecaoApp>()
         };
 
+        AdicionarAmbiente(novoAmb);
+    }
+
+    private void DuplicarAmbiente()
+    {
+        if (AmbienteSelecionado == null) return;
+        var nome = PedirTexto?.Invoke("Duplicar ambiente", "Nome da cópia:");
+        if (string.IsNullOrWhiteSpace(nome)) return;
+        try { AdicionarAmbiente(AmbienteDuplicador.Duplicar(AmbienteSelecionado, nome)); }
+        catch (ArgumentException erro) { MostrarAlerta?.Invoke("Duplicar ambiente", erro.Message); }
+    }
+
+    private void AdicionarAmbiente(Ambiente novoAmb)
+    {
+        var anterior = AmbienteSelecionado;
         _mainVm.Preferencias.Ambientes.Add(novoAmb);
         var novoVm = new EnvironmentViewModel(
             novoAmb,
@@ -1143,7 +1162,12 @@ public bool ExibirLixeira
 
         Ambientes.Add(novoVm);
         AmbienteSelecionado = novoAmb;
-        _mainVm.SalvarPreferencias();
+        if (!_mainVm.TentarSalvarPreferencias())
+        {
+            Ambientes.Remove(novoVm);
+            _mainVm.Preferencias.Ambientes.RemoveAll(a => a.Id == novoAmb.Id);
+            AmbienteSelecionado = anterior;
+        }
     }
 
     private void ExcluirAmbiente()
@@ -1439,6 +1463,7 @@ public bool ExibirLixeira
         if (idx > 0)
         {
             ItensAmbiente.Move(idx, idx - 1);
+            AmbienteSelecionado.OrdemAplicativosDock = ItensAmbiente.Select(i => i.Id).ToList();
             var globais = _mainVm.Preferencias.AppsPermanentes.Select(i => i.Id).ToHashSet();
             _mainVm.Preferencias.AppsPermanentes = ItensAmbiente.Where(i => globais.Contains(i.Id)).ToList();
             AmbienteSelecionado.Itens = ItensAmbiente.Where(i => !globais.Contains(i.Id)).ToList();
@@ -1457,6 +1482,7 @@ public bool ExibirLixeira
         if (idx >= 0 && idx < ItensAmbiente.Count - 1)
         {
             ItensAmbiente.Move(idx, idx + 1);
+            AmbienteSelecionado.OrdemAplicativosDock = ItensAmbiente.Select(i => i.Id).ToList();
             var globais = _mainVm.Preferencias.AppsPermanentes.Select(i => i.Id).ToHashSet();
             _mainVm.Preferencias.AppsPermanentes = ItensAmbiente.Where(i => globais.Contains(i.Id)).ToList();
             AmbienteSelecionado.Itens = ItensAmbiente.Where(i => !globais.Contains(i.Id)).ToList();
@@ -1702,6 +1728,7 @@ public bool ExibirLixeira
             {
                 // Adicionar novo widget
                 var novoWidget = janelaLoja.WidgetSelecionado;
+                if (!DockWindows.Core.Widgets.WidgetStoreCatalog.Get(novoWidget.Tipo, DockWindows.Core.Widgets.WidgetPlatform.Windows).CanInstall) return;
                 var existente = WidgetCapabilities.PermiteMultiplasInstancias(novoWidget.Tipo)
                     ? null
                     : WidgetsAmbiente.FirstOrDefault(w => w.Tipo == novoWidget.Tipo);

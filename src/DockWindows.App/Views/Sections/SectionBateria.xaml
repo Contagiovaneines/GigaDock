@@ -14,7 +14,7 @@
     <Border Padding="4,5" ToolTip="{Binding Bateria.Descricao}" AutomationProperties.Name="{Binding Bateria.Descricao}">
         <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Visible"/><Style.Triggers><DataTrigger Binding="{Binding Bateria.Estilo}" Value="anel"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Bateria.Porcentagem}" Foreground="#E1E4E8" FontSize="11"
+            <TextBlock Text="{Binding Bateria.Porcentagem}" Foreground="{Binding TextoPrincipalColor, Converter={StaticResource ColorToBrushConverter}}" FontSize="11"
                        FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,6,0"/>
             <Grid Width="27" Height="14" VerticalAlignment="Center">
                 <Border Width="25" Height="14" CornerRadius="4" BorderThickness="1.5"

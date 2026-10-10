@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DockWindows.Core.Models;
 using DockWindows.Core.Validation;
+using DockWindows.Infrastructure.Windows;
 using Microsoft.Win32;
 
 namespace DockWindows.App.Views;
@@ -141,7 +142,7 @@ public partial class ItemEditDialog : Window
             TxtCaminho.Text = _item.CaminhoOuUrl;
         }
 
-        var validacao = ItemValidator.ValidarItem(_item);
+        var validacao = ItemValidator.ValidarItem(_item, WindowsItemPathValidator.Instance);
         if (!validacao.Valido)
         {
             TxtErro.Text = validacao.MensagemErro;

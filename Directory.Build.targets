@@ -4,7 +4,7 @@
     <Error Condition="'$(CodeSigningThumbprint)' == ''" Text="Informe o certificado (CodeSigningThumbprint)." />
     <PropertyGroup><GigaDockSignedDir>$(IntermediateOutputPath)signed-bundle\</GigaDockSignedDir></PropertyGroup>
     <ItemGroup>
-      <GigaDockToSign Include="@(FilesToBundle)" Condition="'%(FilesToBundle.Extension)' == '.dll' and ($([System.String]::Copy('%(FilesToBundle.Filename)').StartsWith('DockWindows.')) or '%(FilesToBundle.Filename)' == 'GigaDock-Setup' or '%(FilesToBundle.Filename)' == 'Ical.Net' or '%(FilesToBundle.Filename)' == 'NodaTime')" />
+      <GigaDockToSign Include="@(FilesToBundle)" Condition="'%(FilesToBundle.Extension)' == '.dll' and ($([System.String]::Copy('%(FilesToBundle.Filename)').StartsWith('DockWindows.')) or '%(FilesToBundle.Filename)' == 'GigaDock.Services' or '%(FilesToBundle.Filename)' == 'GigaDock-Setup' or '%(FilesToBundle.Filename)' == 'Ical.Net' or '%(FilesToBundle.Filename)' == 'NodaTime')" />
     </ItemGroup>
     <MakeDir Directories="$(GigaDockSignedDir)" />
     <Copy SourceFiles="@(GigaDockToSign)" DestinationFiles="@(GigaDockToSign->'$(GigaDockSignedDir)%(Filename)%(Extension)')" />

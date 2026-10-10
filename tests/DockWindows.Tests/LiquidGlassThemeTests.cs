@@ -160,5 +160,22 @@ public class LiquidGlassThemeTests
         var recarregadas = repo.Carregar();
         Assert.Equal(EstiloTema.VidroLiquido, recarregadas.EstiloTema);
     }
+    [Fact]
+    public void Areia_SelecaoPersisteEPermiteRetornarAoTemaAnterior()
+    {
+        var repo = new JsonSettingsRepository(_tempDir);
+        repo.Salvar(Preferencias.CriarPadrao());
+        var mainVm = CriarMainViewModel(repo);
+        var ajustes = new AjustesViewModel(mainVm, repo, new FakeAutostartService(), "Aparencia");
+        ajustes.TemaSelecionado = ajustes.TemasPredefinidos.Single(t => t.Estilo == EstiloTema.Areia);
+        Assert.True(mainVm.EhAreia);
+        Assert.Equal(EstiloTema.Areia, repo.Carregar().EstiloTema);
+        Assert.Equal(1, mainVm.OpacidadeDock);
+        ajustes.TemaSelecionado = ajustes.TemasPredefinidos.Single(t => t.Estilo == EstiloTema.Escuro);
+        Assert.False(mainVm.EhAreia);
+        Assert.Equal(mainVm.FundoCardColor, mainVm.FundoControlesColor);
+        Assert.Equal(EstiloTema.Escuro, repo.Carregar().EstiloTema);
+    }
+
 }
 

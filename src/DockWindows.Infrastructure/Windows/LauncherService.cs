@@ -19,7 +19,7 @@ public class LauncherService : ILauncherService
             return ExecutarCaminho(caminhoResolvido, item.Argumentos);
         }
 
-        var validacao = ItemValidator.ValidarItem(item);
+        var validacao = ItemValidator.ValidarItem(item, WindowsItemPathValidator.Instance);
         if (!validacao.Valido)
         {
             return LaunchResult.Falha(validacao.MensagemErro ?? "Item com parâmetros inválidos.");
@@ -71,7 +71,7 @@ public class LauncherService : ILauncherService
     public LaunchResult ExecutarCaminho(string caminho, string? argumentos = null)
     {
         var caminhoResolvido = ResolverAplicativoEmpacotado(caminho);
-        var validacao = ItemValidator.ValidarArquivoOuApp(caminhoResolvido);
+        var validacao = WindowsItemPathValidator.Instance.ValidarArquivoOuApp(caminhoResolvido);
         if (!validacao.Valido) return LaunchResult.Falha(validacao.MensagemErro ?? "Caminho inválido.");
         try
         {

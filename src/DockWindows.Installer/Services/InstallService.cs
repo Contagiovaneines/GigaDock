@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -17,6 +17,21 @@ public class InstallService
     public const string CurrentVersion = "3.2.0";
     private const string RegUninstallKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall\DockWindows";
     private const string RegRunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+    public bool TemIdentidadeNotificacoesAssinada()
+    {
+        try
+        {
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DockWindows.Installer.Resources.app.zip");
+            if (stream == null) return false;
+            using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
+            var entry = archive.GetEntry("identity/GigaDock.Identity.msix");
+            if (entry == null || entry.Length > 2 * 1024 * 1024) return false;
+            using var input = entry.Open(); using var package = new MemoryStream();
+            input.CopyTo(package); package.Position = 0;
+            return NotificationIdentityRegistration.IsSigned(package);
+        }
+        catch { return false; }
+    }
 
     public string ObterDiretorioInstalacaoPadrao()
     {
@@ -228,6 +243,9 @@ public class InstallService
                 taskbarService.RestaurarBarraNativa(prefs.EstadoAnteriorBarraTarefas);
             }
             catch { }
+
+            // A desinstalação remove somente a identidade própria, após restaurar a barra nativa.
+            NotificationIdentityRegistration.UnregisterAsync().GetAwaiter().GetResult();
 
             // 2. Remover atalhos
             notificarProgresso("Removendo atalhos do sistema...");
@@ -562,9 +580,3 @@ public class InstallService
         catch { }
     }
 }
-
-
-
-
-
-

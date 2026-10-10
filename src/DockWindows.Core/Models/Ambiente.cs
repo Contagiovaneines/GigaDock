@@ -10,6 +10,7 @@ public class Ambiente
     public string ModoAberturaPaineis { get; set; } = "Clique";
     public string EstiloControlesRapidos { get; set; } = "Compacto";
     public List<ItemFixado> Itens { get; set; } = new();
+    public List<string> OrdemAplicativosDock { get; set; } = new();
     public List<ColecaoApp> Colecoes { get; set; } = new();
     public List<WidgetInstanceConfig> WidgetsInstalados { get; set; } = new();
     public bool WidgetsSistemaMigrados { get; set; }

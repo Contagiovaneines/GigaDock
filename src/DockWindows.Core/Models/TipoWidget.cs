@@ -22,7 +22,12 @@ public enum TipoWidget
     Conectividade = 17,
     AudioSistema = 18,
     EstanteArquivos = 19,
-    MascotePokemon = 20
+    MascotePokemon = 20,
+    Tarefas = 21,
+    SensoresLinux = 22,
+    AplicativosFlatpak = 23,
+    WorkspacesLinux = 24,
+    ScriptLocalLinux = 25
 }
 
 

@@ -5,7 +5,8 @@ param(
     [string]$SignToolPath,
     [string]$TimestampUrl,
     [string]$AppPublicadaPath,
-    [switch]$ExigirAplicativoAssinado
+    [switch]$ExigirAplicativoAssinado,
+    [string]$RelatorioValidacao = 'docs/installer-validation.json'
 )
 $ErrorActionPreference = "Stop"
 
@@ -77,11 +78,19 @@ else {
 
 # O pacote público nunca deve transportar o runner, bibliotecas ou resultados de testes.
 $artefatosTeste = Get-ChildItem -LiteralPath $appDistDir -File -Recurse | Where-Object {
-    $_.Name -match '(?i)(testhost|vstest|xunit|DockWindows\.Tests|\.trx$|coverage)'
+    $_.Name -match '(?i)(testhost|vstest|xunit|DockWindows\.Tests|GigaDock\.Tests|\.trx$|coverage)'
 }
 if ($artefatosTeste) {
     throw "Publicação inválida: artefatos de teste encontrados: $($artefatosTeste.Name -join ', ')"
 }
+
+# Identidade externa opcional: preserva o instalador existente e declara o listener.
+$identityDir = Join-Path $distDir 'identity'
+$identityArgs = @{ OutputDirectory = $identityDir }
+if ($Assinar) { $identityArgs.CertificateThumbprint = $CertificadoThumbprint }
+& (Join-Path $PSScriptRoot 'build-notification-identity.ps1') @identityArgs
+New-Item -ItemType Directory -Path (Join-Path $appDistDir 'identity') -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $identityDir 'GigaDock.Identity.msix') -Destination (Join-Path $appDistDir 'identity\GigaDock.Identity.msix') -Force
 
 # 2. Compactar arquivos do app em app.zip
 Write-Host "`n[2/4] Compactando arquivos do aplicativo em app.zip..." -ForegroundColor Yellow
@@ -117,7 +126,7 @@ Copy-Item -LiteralPath $finalSetupExe -Destination (Join-Path $releaseDir "GigaD
     assinaturaSolicitada = [bool]$Assinar
     assinaturaStatus = $finalSignature.Status.ToString()
     instalacaoManualExecutada = $false
-} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $rootDir 'docs/installer-validation.json') -Encoding UTF8
+} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $rootDir $RelatorioValidacao) -Encoding UTF8
 
 Write-Host "`n[4/4] Instalador gerado com sucesso!" -ForegroundColor Green
 $setupSize = (Get-Item $finalSetupExe).Length / 1MB

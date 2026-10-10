@@ -80,6 +80,14 @@ public partial class SectionIniciarPesquisa : UserControl
         TxtBuscaLaunchpad?.Focus();
     }
 
+    private void Energia_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { ContextMenu: { } menu } button) return;
+        menu.PlacementTarget = button;
+        menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Top;
+        menu.IsOpen = true;
+    }
+
     private void DesligarPc_Click(object sender, RoutedEventArgs e) => SolicitarEnergia(false);
 
     private void ReiniciarPc_Click(object sender, RoutedEventArgs e) => SolicitarEnergia(true);

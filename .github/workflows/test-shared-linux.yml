@@ -1,0 +1,50 @@
+name: GigaDock - Serviços compartilhados Linux
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      - name: Compilar e executar testes comuns sem WPF
+        run: >-
+          dotnet test tests/GigaDock.Tests.Core/GigaDock.Tests.Core.csproj
+          -c Release
+          --logger "trx;LogFileName=shared-linux-ci.trx"
+          --results-directory docs/TestResults/ci-linux
+      - name: Dependência de testes nativos no runner temporário
+        run: sudo apt-get update && sudo apt-get install -y libglib2.0-bin
+      - name: Compilar aplicativo Linux
+        run: dotnet build src/GigaDock.App.Linux/GigaDock.App.Linux.csproj -c Release
+      - name: Testar composição Linux
+        # NativeLinuxTests também valida gio launch, permissões e lock entre processos.
+        run: >-
+          dotnet test tests/GigaDock.Tests.Linux/GigaDock.Tests.Linux.csproj
+          -c Release
+          --logger "trx;LogFileName=composition-linux-ci.trx"
+          --results-directory docs/TestResults/ci-linux
+      - name: Testar instalador em HOME/XDG temporários
+        run: python3 tests/test_linux_package.py -v
+      - name: Disponibilizar resultados
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: GigaDock-Shared-Linux-Tests
+          path: docs/TestResults/ci-linux/*.trx
+          if-no-files-found: warn

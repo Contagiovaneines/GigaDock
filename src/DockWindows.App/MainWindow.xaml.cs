@@ -27,6 +27,22 @@ public partial class MainWindow : Window
     public static extern uint RegisterWindowMessage(string lpString);
 
     private uint _shellHookMessage;
+    private void Decoracao_OnSizeChanged(object sender, SizeChangedEventArgs e) => AtualizarDecoracao();
+    private void AtualizarDecoracao()
+    {
+        if (_viewModel is null || SeasonDecorationLayer is null) return;
+        SeasonDecorationLayer.Children.Clear();
+        var colors = DecoracoesDock.Cores(_viewModel.DecoracaoDock);
+        if (colors.Length == 0) return;
+        var width = SeasonDecorationLayer.ActualWidth;
+        for (var index = 0; index < 8; index++)
+        {
+            var light = new System.Windows.Shapes.Ellipse { Width = 5, Height = 5,
+                Fill = (Brush)new BrushConverter().ConvertFromString(colors[index % colors.Length])! };
+            Canvas.SetLeft(light, Math.Max(12, (width - 166) / 2) + index * 23); Canvas.SetTop(light, 2);
+            SeasonDecorationLayer.Children.Add(light);
+        }
+    }
     private const int HSHELL_FLASH = 0x8006;
 
     private readonly MainViewModel _viewModel;
@@ -137,6 +153,11 @@ public partial class MainWindow : Window
             System.Windows.MessageBox.Show(this, msg, titulo, MessageBoxButton.OK, MessageBoxImage.Information);
         };
 
+        _viewModel.FocarDockParaBandeja = () =>
+        {
+            Activate();
+            Focus();
+        };
         _viewModel.AtivarJanelaPrincipal = () =>
         {
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
@@ -235,6 +256,7 @@ public partial class MainWindow : Window
 
         _viewModel.PropertyChanged += (s, e) =>
         {
+            if (e.PropertyName == nameof(_viewModel.DecoracaoDock)) AtualizarDecoracao();
             if (e.PropertyName == nameof(_viewModel.DockVisivel) || e.PropertyName == nameof(_viewModel.OcultoPorTelaCheia))
             {
                 if (_viewModel.DockVisivel && !_viewModel.OcultoPorTelaCheia)

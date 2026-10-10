@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Facetas originais vetoriais; sem imagem ou recurso da referência. -->
+    <DrawingBrush x:Key="AreiaDockBrush" Stretch="Fill">
+        <DrawingBrush.Drawing><DrawingGroup>
+            <GeometryDrawing Brush="#F2E9DC" Geometry="M0,0 H1000 V100 H0 Z"/>
+            <GeometryDrawing Brush="#F7F0E6" Geometry="M0,0 H225 L130,70 Z"/>
+            <GeometryDrawing Brush="#EAE0D1" Geometry="M75,100 L245,20 L350,100 Z"/>
+            <GeometryDrawing Brush="#F8F2E9" Geometry="M310,0 H630 L490,90 Z"/>
+            <GeometryDrawing Brush="#EBE1D3" Geometry="M610,100 L740,18 L850,100 Z"/>
+            <GeometryDrawing Brush="#F7EFE3" Geometry="M800,0 H1000 V65 L940,100 Z"/>
+        </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+</ResourceDictionary>

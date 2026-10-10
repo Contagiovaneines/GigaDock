@@ -1,0 +1,42 @@
+name: GigaDock - Pacote Linux x64
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      - name: Dependências dos testes nativos (runner temporário)
+        run: sudo apt-get update && sudo apt-get install -y libglib2.0-bin
+      - name: Testes de serviços comuns
+        run: dotnet test tests/GigaDock.Tests.Core/GigaDock.Tests.Core.csproj -c Release
+      - name: Testes Linux e instalação isolada
+        run: |
+          dotnet test tests/GigaDock.Tests.Linux/GigaDock.Tests.Linux.csproj -c Release
+          python3 tests/test_linux_package.py -v
+          bash -n tools/build-linux.sh tools/install-linux.sh tools/uninstall-linux.sh
+      - name: Publicar e criar pacote com manifesto
+        run: bash tools/build-linux.sh
+      - name: Disponibilizar pacote e SHA-256
+        uses: actions/upload-artifact@v6
+        with:
+          name: GigaDock-linux-x64
+          path: release/linux/*
+          if-no-files-found: error

@@ -5,17 +5,23 @@
         xmlns:models="clr-namespace:DockWindows.Core.Models;assembly=DockWindows.Core"
         xmlns:vm="clr-namespace:DockWindows.App.ViewModels"
         xmlns:views="clr-namespace:DockWindows.App.Views"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         Title="GigaDock — Ajustes e Configurações"
         Width="1180"
         Height="760"
-        MinWidth="760"
-        MinHeight="500"
-        WindowStartupLocation="CenterScreen"
+        MinWidth="360"
+        MinHeight="360"
+        WindowStartupLocation="CenterOwner"
         Background="#191C21"
         Foreground="#FFFFFF"
         FontFamily="Segoe UI"
         ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
         UseLayoutRounding="True" SnapsToDevicePixels="True">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="48" ResizeBorderThickness="6" GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
+    </shell:WindowChrome.WindowChrome>
 
     <Window.Resources>
         <Style TargetType="Slider">
@@ -255,6 +261,26 @@
     </Window.Resources>
 
     <!-- ESTRUTURA PRINCIPAL EM 3 COLUNAS -->
+    <DockPanel LastChildFill="True">
+        <Border DockPanel.Dock="Top" Height="48" Background="#222A37" BorderBrush="#424954" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <TextBlock Text="GigaDock · Ajustes" FontSize="14" FontWeight="SemiBold" Margin="16,0,8,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="46"/><Setter Property="Height" Value="48"/>
+                            <Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderThickness" Value="0"/><Setter Property="FontSize" Value="16"/>
+                            <Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="#42516A"/></Trigger></Style.Triggers>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button x:Name="MinimizeWindowButton" Content="−" Click="Minimizar_OnClick" ToolTip="Minimizar" AutomationProperties.Name="Minimizar ajustes"/>
+                    <Button x:Name="MaximizeWindowButton" Content="□" Click="Maximizar_OnClick" ToolTip="Maximizar" AutomationProperties.Name="Maximizar ajustes"/>
+                    <Button x:Name="CloseWindowButton" Content="×" Click="Fechar_OnClick" ToolTip="Fechar" AutomationProperties.Name="Fechar ajustes"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions><RowDefinition x:Name="CompactHeaderRow" Height="0"/><RowDefinition Height="*"/><RowDefinition x:Name="StackedDetailsRow" Height="0"/></Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -293,6 +319,9 @@
                             </StackPanel>
                         </StackPanel>
 
+                        <TextBox x:Name="BuscaConfiguracoes" MaxLength="100" Margin="0,12,0,0" ToolTip="Buscar configurações" AutomationProperties.Name="Buscar configurações" TextChanged="BuscarConfiguracoes_OnTextChanged"/>
+                        <ListBox x:Name="ResultadosConfiguracoes" MaxHeight="160" Visibility="Collapsed" SelectionChanged="ResultadosConfiguracoes_OnSelectionChanged" AutomationProperties.Name="Seções encontradas"/>
+
                         <!-- Indicador do Ambiente Ativo -->
                         <Border Margin="0,14,0,0" Padding="10,7" CornerRadius="9" Background="#30353D" BorderBrush="#454C57" BorderThickness="1">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -326,7 +355,7 @@
                         <Button Style="{StaticResource NavButtonStyle}" Tag="{Binding EhSecaoMascotes}" Command="{Binding NavegarCommand}" CommandParameter="Mascotes">
                             <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                                 <TextBlock Text="✦" Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Foreground="#72D99C"/>
-                                <TextBlock Grid.Column="1" Text="Mascotes" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Pokédex" VerticalAlignment="Center"/>
                                 <Border Grid.Column="2" Background="#4A2016" CornerRadius="6" Padding="5,2"><TextBlock Text="BETA" FontSize="8" Foreground="#FF9A75"/></Border>
                             </Grid>
                         </Button>
@@ -395,6 +424,7 @@
                     <Border Background="#202026" CornerRadius="6" Padding="4" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Style="{StaticResource SecondaryButtonStyle}" Content="➕ Novo" Command="{Binding NovoAmbienteCommand}" Margin="2,0" ToolTip="Criar novo ambiente"/>
+                            <Button Style="{StaticResource SecondaryButtonStyle}" Content="Duplicar" Command="{Binding DuplicarAmbienteCommand}" Margin="2,0" ToolTip="Criar uma cópia independente deste ambiente"/>
                             <Button Style="{StaticResource SecondaryButtonStyle}" Content="➖ Excluir" Command="{Binding ExcluirAmbienteCommand}" Margin="2,0" ToolTip="Excluir ambiente selecionado"/>
                             <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬆️" Command="{Binding MoverAmbienteCimaCommand}" Margin="2,0" ToolTip="Mover para cima"/>
                             <Button Style="{StaticResource SecondaryButtonStyle}" Content="⬇️" Command="{Binding MoverAmbienteBaixoCommand}" Margin="2,0" ToolTip="Mover para baixo"/>
@@ -1017,6 +1047,8 @@
                     <!-- 4. APARÊNCIA (TEMAS PRÉ-DEFINIDOS) E CUSTOMIZAÇÃO -->
                     <!-- ================================================= -->
                     <StackPanel Grid.Row="0" Visibility="{Binding EhSecaoAparencia, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
+                        <TextBlock Text="Decoração opcional" FontSize="13" Margin="0,0,0,6"/>
+                        <ComboBox ItemsSource="{Binding DecoracoesDisponiveis}" SelectedItem="{Binding DecoracaoDock, Mode=TwoWay}" AutomationProperties.Name="Decoração opcional" Margin="0,0,0,14"/>
                         <TextBlock Text="Tema" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="Escolha um tema e personalize a aparência da sua dock." FontSize="12" Foreground="#A9B8C9" Margin="0,6,0,16" TextWrapping="Wrap"/>
                         
@@ -1252,6 +1284,7 @@
                     <views:PokedexControl Visibility="{Binding EhSecaoMascotes, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20"/>
 
                     <StackPanel Visibility="{Binding EhSecaoGeral, Converter={StaticResource BoolToVis}}" Margin="0,0,0,20">
+                        <Button Content="Conhecer o GigaDock" Click="ConhecerGigaDock_OnClick" Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left" Margin="0,0,0,12"/>
                         <TextBlock Text="Geral" FontSize="18" FontWeight="Bold" Foreground="#FFFFFF"/>
                         <TextBlock Text="Opções de inicialização, atalhos e comportamento do sistema." FontSize="12" Foreground="#A9B8C9" Margin="0,2,0,16"/>
                         
@@ -1560,9 +1593,9 @@
                             <Border Background="#24282E" BorderBrush="#3D444E" BorderThickness="1" CornerRadius="14" Padding="18" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="O PROJETO É OPEN SOURCE" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
-                                <TextBlock Text="  O GigaDock é 100% open-source e gratuito!" FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
+                                <TextBlock Text="  O código do GigaDock é aberto sob a licença MIT." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
                                 <TextBlock Text="  Se alguém quiser contribuir com o projeto fique à vontade." FontSize="11" Foreground="#C8C8CE" Margin="0,0,0,4"/>
-                                <TextBlock Text="  Feito em C# .NET 10 WPF." FontSize="11" Foreground="#C8C8CE"/>
+                                <TextBlock Text="  C# e .NET 10: WPF no Windows e Avalonia no Linux." FontSize="11" Foreground="#C8C8CE"/>
                             </StackPanel>
                         </Border>
 
@@ -1570,27 +1603,8 @@
                             <StackPanel>
                                 <TextBlock Text="CRIADO POR GIOVANE INES" FontSize="11" FontWeight="Bold" Foreground="#92A6BC" Margin="0,0,0,8"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE71B;" Foreground="#0A84FF" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                                    <TextBlock Text="LinkedIn: https://www.linkedin.com/in/giovaneines/" FontSize="11" Foreground="#C8C8CE" VerticalAlignment="Center"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                                     <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE774;" Foreground="#C9D1D9" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
                                     <TextBlock Text="GitHub: https://github.com/Contagiovaneines" FontSize="11" Foreground="#C8C8CE" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Background="#2A1B3D" BorderBrush="#4A2569" BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
-                            <StackPanel>
-                                <TextBlock Text="APOIE O DESENVOLVEDOR" FontSize="11" FontWeight="Bold" Foreground="#BF5AF2" Margin="0,0,0,8"/>
-                                <TextBlock Text="  Se quiser mandar um alô pro dev ou apoiar o projeto:" FontSize="11" Foreground="#E5D0FF" Margin="0,0,0,6"/>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE715;" Foreground="#E5D0FF" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                                    <TextBlock Text="Email: giovaneinesdev@gmail.com" FontSize="11" Foreground="#E5D0FF" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE8D7;" Foreground="#32D74B" FontSize="12" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                                    <TextBlock Text="Pix: giovaneinesdev@gmail.com" FontSize="11" Foreground="#32D74B" VerticalAlignment="Center" FontWeight="Bold"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -1631,15 +1645,15 @@
             <views:VisualizacoesSettings/>
         </Border>
         <Border x:Name="CompactNavigation" Grid.Row="0" Grid.ColumnSpan="3" Visibility="Collapsed" Background="#272C33" BorderBrush="#424954" BorderThickness="0,0,0,1" Padding="16,12">
-            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                <TextBlock Text="Ajustes" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,18,0"/>
-                <ComboBox Grid.Column="1" MaxWidth="260" HorizontalAlignment="Left" MinWidth="185" SelectedValuePath="Tag" SelectedValue="{Binding SecaoAtiva, Mode=TwoWay}" AutomationProperties.Name="Seção de ajustes">
-                    <ComboBoxItem Content="Ambientes" Tag="Ambientes"/><ComboBoxItem Content="Widgets" Tag="Widgets"/><ComboBoxItem Content="Mascotes (Beta)" Tag="Mascotes"/><ComboBoxItem Content="Espaçadores" Tag="Espacadores"/><ComboBoxItem Content="Aparência" Tag="Aparencia"/><ComboBoxItem Content="Visualizações" Tag="Visualizacoes"/><ComboBoxItem Content="Geral" Tag="Geral"/><ComboBoxItem Content="Utilitários" Tag="Utilitarios"/><ComboBoxItem Content="Sobre" Tag="Sobre"/>
+            <DockPanel LastChildFill="True">
+                <Button DockPanel.Dock="Right" Content="Concluir" Command="{Binding ConcluirCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0"/>
+                <ComboBox MinWidth="120" SelectedValuePath="Tag" SelectedValue="{Binding SecaoAtiva, Mode=TwoWay}" AutomationProperties.Name="Seção de ajustes">
+                    <ComboBoxItem Content="Ambientes" Tag="Ambientes"/><ComboBoxItem Content="Widgets" Tag="Widgets"/><ComboBoxItem Content="Pokédex (Beta)" Tag="Mascotes"/><ComboBoxItem Content="Espaçadores" Tag="Espacadores"/><ComboBoxItem Content="Aparência" Tag="Aparencia"/><ComboBoxItem Content="Visualizações" Tag="Visualizacoes"/><ComboBoxItem Content="Geral" Tag="Geral"/><ComboBoxItem Content="Utilitários" Tag="Utilitarios"/><ComboBoxItem Content="Sobre" Tag="Sobre"/>
                 </ComboBox>
-                <Button Grid.Column="2" Content="Concluir" Command="{Binding ConcluirCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0"/>
-            </Grid>
+            </DockPanel>
         </Border>
     </Grid>
+    </DockPanel>
 </Window>
 
 

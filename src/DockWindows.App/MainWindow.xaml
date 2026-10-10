@@ -19,6 +19,8 @@
         PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="Views/Themes/AreiaTheme.xaml"/></ResourceDictionary.MergedDictionaries>
         <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBooleanToVisibilityConverter x:Key="InvertBoolToVis"/>
@@ -55,6 +57,10 @@
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.EhAreia, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#FAFFFFFF"/>
+                                <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#E2D8C9"/>
+                            </DataTrigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="ItemBorder" Property="Background" Value="#2EFFFFFF"/>
                                 <Setter TargetName="ItemBorder" Property="BorderBrush" Value="#55FFFFFF"/>
@@ -95,6 +101,10 @@
                                     </BeginStoryboard>
                                 </Trigger.ExitActions>
                             </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions><Condition Binding="{Binding DataContext.EhAreia, RelativeSource={RelativeSource AncestorType=Window}}" Value="True"/><Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True"/></MultiDataTrigger.Conditions>
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#FFFFFF"/><Setter TargetName="ItemBorder" Property="BorderBrush" Value="#B7A68C"/>
+                            </MultiDataTrigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="ItemBorder" Property="Background" Value="#4AFFFFFF"/>
                                 <Trigger.EnterActions>
@@ -133,6 +143,7 @@
             <MenuItem Header="✏️ Editar Item..." Command="{Binding EditarCommand}"/>
             <MenuItem Header="🗑️ Desafixar do Ambiente" Command="{Binding RemoverCommand}"/>
         </ContextMenu>
+    </ResourceDictionary>
     </Window.Resources>
 
     <!-- Container geral com margem compacta para renderizar o DropShadow suavemente -->
@@ -233,18 +244,16 @@
                 Padding="0"
                 Height="{Binding AlturaBarra}"
                 Opacity="{Binding OpacidadeDock}">
-            <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#50FFFFFF" Offset="0.0"/>
-                    <GradientStop Color="#15FFFFFF" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Border.BorderBrush>
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="#85000000" Offset="0.0"/>
-                    <GradientStop Color="#AA05050A" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Border.Background>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush"><Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#50FFFFFF" Offset="0"/><GradientStop Color="#15FFFFFF" Offset="1"/></LinearGradientBrush></Setter.Value></Setter>
+                    <Setter Property="Background"><Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#85000000" Offset="0"/><GradientStop Color="#AA05050A" Offset="1"/></LinearGradientBrush></Setter.Value></Setter>
+                    <Style.Triggers><DataTrigger Binding="{Binding EhAreia}" Value="True">
+                        <Setter Property="Background" Value="{StaticResource AreiaDockBrush}"/>
+                        <Setter Property="BorderBrush" Value="#D6C9B7"/>
+                    </DataTrigger></Style.Triggers>
+                </Style>
+            </Border.Style>
             <Border.ContextMenu>
                 <ContextMenu Background="#1E1E22" Foreground="#FFFFFF" BorderBrush="#33333A">
                     <MenuItem Header="Mudar de Ambiente" ItemsSource="{Binding Ambientes}">
@@ -302,6 +311,8 @@
                 VerticalAlignment="Center" BorderThickness="2"
                 BorderBrush="{Binding BorderBrush, ElementName=RainbowGlowBorder}"
                 Visibility="{Binding GlowRgbVisivel, Converter={StaticResource BoolToVis}}"/>
+
+        <Canvas x:Name="SeasonDecorationLayer" IsHitTestVisible="False" Height="{Binding AlturaBarra}" VerticalAlignment="Center" SizeChanged="Decoracao_OnSizeChanged"/>
 
         <!-- Contorno de alerta acima da dock e do RGB gamer. -->
         <Border IsHitTestVisible="False" CornerRadius="{Binding RaioCantosDock}" Height="{Binding AlturaBarra}" VerticalAlignment="Center" BorderThickness="2.5" BorderBrush="{Binding CorAlerta, Converter={StaticResource ColorToBrushConverter}}">

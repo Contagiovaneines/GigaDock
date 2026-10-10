@@ -1,24 +1,5 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 namespace DockWindows.App.Common;
 
-public abstract class ObservableObject : INotifyPropertyChanged
+public abstract class ObservableObject : GigaDock.Services.Presentation.ObservableObject
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(storage, value))
-            return false;
-
-        storage = value;
-        OnPropertyChanged(propertyName);
-        return true;
-    }
 }

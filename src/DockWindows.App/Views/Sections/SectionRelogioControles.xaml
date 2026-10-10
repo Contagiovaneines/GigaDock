@@ -7,8 +7,11 @@
              xmlns:controls="clr-namespace:DockWindows.App.Controls">
 
     <UserControl.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries><ResourceDictionary Source="DockControls.xaml"/></ResourceDictionary.MergedDictionaries>
         <conv:BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -28,6 +31,7 @@
 </Viewbox>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding EhAreia}" Value="True"><Setter TargetName="ClockSurface" Property="Background" Value="#292B32"/></DataTrigger>
 <DataTrigger Binding="{Binding RelogioAnalogico}" Value="True"><Setter TargetName="ClockSurface" Property="Background" Value="#B52C3D87"/></DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="ClockSurface" Property="Background" Value="#16FFFFFF"/>
@@ -36,6 +40,7 @@
                             <Setter TargetName="ClockSurface" Property="BorderBrush" Value="#ABD7BB"/>
                             <Setter TargetName="ClockSurface" Property="BorderThickness" Value="1"/>
                         </Trigger>
+                        <MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding EhAreia}" Value="True"/><Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True"/></MultiDataTrigger.Conditions><Setter TargetName="ClockSurface" Property="Background" Value="#383C45"/></MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Button.Template>
@@ -71,7 +76,8 @@
                             Background="Transparent" BorderThickness="0" Margin="3"
                             Cursor="Hand" ToolTip="{Binding Nome}"
                             AutomationProperties.Name="{Binding Nome}">
-                        <Border CornerRadius="10" Padding="7,0" Background="#10FFFFFF">
+                        <Border CornerRadius="10" Padding="7,0">
+                            <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="#10FFFFFF"/><Style.Triggers><DataTrigger Binding="{Binding DataContext.EhAreia, RelativeSource={RelativeSource AncestorType=Window}}" Value="True"><Setter Property="Background" Value="#292B32"/></DataTrigger></Style.Triggers></Style></Border.Style>
                             <Viewbox Stretch="Uniform" MaxHeight="{Binding DataContext.AlturaBarra, RelativeSource={RelativeSource AncestorType=Window}}">
                                 <controls:EstiloRelogioControl Width="156" Height="52"
                                     Estilo="{Binding Relogio.Estilo}"
@@ -89,73 +95,22 @@
                    Visibility="{Binding ExibirBotoesAcao, Converter={StaticResource BoolToVis}}"
                    Margin="6,0"/>
 
-        <!-- AÇÕES RÁPIDAS -->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                    Visibility="{Binding ExibirBotoesAcao, Converter={StaticResource BoolToVis}}">
-
-            <!-- Mostrar/Esconder Barra do Windows (Bandeja) -->
-            <Button Command="{Binding ToggleBarraNativaCommand}"
-                    Visibility="{Binding UsarComoBarraPrincipal, Converter={StaticResource BoolToVis}}"
-                    Width="30" Height="30" Margin="2,0"
-                    Background="#18FFFFFF" BorderThickness="0"
-                    Foreground="#FFFFFF" Content="^" FontSize="14" FontWeight="Bold"
-                    Cursor="Hand" ToolTip="Mostrar/Esconder Barra do Windows (Bandeja do Sistema)"
-                    AutomationProperties.Name="Mostrar Barra do Windows">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="8" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,3,0,0"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#30FFFFFF"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <!-- Adicionar Item -->
-            <Button Command="{Binding AdicionarItemCommand}"
-                    Width="30" Height="30" Margin="2,0"
-                    Background="#18FFFFFF" BorderThickness="0"
-                    Foreground="#FFFFFF" Content="➕" FontSize="12"
-                    Cursor="Hand" ToolTip="Adicionar novo item ao ambiente"
-                    AutomationProperties.Name="Adicionar novo item ao ambiente">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="8" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#30FFFFFF"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-
-            <!-- Central de Ajustes (Aparência, Widgets, Ambientes, Geral) -->
-            <Button Command="{Binding AbrirAjustesCommand}"
-                    Width="30" Height="30" Margin="2,0"
-                    Background="#18FFFFFF" BorderThickness="0"
-                    Foreground="#FFFFFF" Content="⚙️" FontSize="13"
-                    Cursor="Hand" ToolTip="Ajustes e Personalização..."
-                    AutomationProperties.Name="Ajustes e Personalização">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="8" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#30FFFFFF"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-        </StackPanel>
+        <!-- Área de ações: superfície compartilhada e ícones vetoriais. -->
+        <Border x:Name="QuickActionsSurface" Padding="0" Margin="2,0"
+                Background="Transparent" BorderThickness="0"
+                Visibility="{Binding ExibirBotoesAcao, Converter={StaticResource BoolToVis}}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Style="{StaticResource DockControlButton}" Command="{Binding ToggleBarraNativaCommand}"
+                        Visibility="{Binding UsarComoBarraPrincipal, Converter={StaticResource BoolToVis}}"
+                        ToolTip="Mostrar ou esconder a barra do Windows" AutomationProperties.Name="Mostrar Barra do Windows">
+                    <Path Style="{StaticResource DockControlIcon}" Data="{StaticResource DockIconTaskbar}"/>
+                </Button>
+                <Button Style="{StaticResource DockControlButton}" Command="{Binding AbrirAjustesCommand}"
+                        ToolTip="Ajustes e personalização" AutomationProperties.Name="Ajustes e Personalização">
+                    <Path Style="{StaticResource DockControlIcon}" Data="{StaticResource DockIconSettings}"/>
+                </Button>
+            </StackPanel>
+        </Border>
 
         <!-- Separador Lixeira -->
         <Rectangle Width="1" Height="24"
@@ -163,49 +118,35 @@
                    Visibility="{Binding ExibirLixeira, Converter={StaticResource BoolToVis}}"
                    Margin="6,0"/>
 
-        <!-- Lixeira -->
-        <Button Command="{Binding AbrirLixeiraCommand}"
+        <Button Style="{StaticResource DockControlButton}" Command="{Binding AbrirLixeiraCommand}"
                 Visibility="{Binding ExibirLixeira, Converter={StaticResource BoolToVis}}"
-                Width="32" Height="32" Margin="2,0"
-                Background="Transparent" BorderThickness="0"
-                Foreground="#FFFFFF" FontSize="16"
-                Cursor="Hand" ToolTip="Lixeira">
-            <Button.Content>
-                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE74D;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Button.Content>
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="Border" CornerRadius="10" Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#30FFFFFF"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
+                ToolTip="Lixeira" AutomationProperties.Name="Abrir lixeira">
+            <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE74D;" FontSize="16"/>
         </Button>
 
         <sections:SectionBateria/>
-        <Button x:Name="AppsSegundoPlanoButton" Command="{Binding AbrirBandejaOcultaCommand}" Width="30" Height="30" Margin="3,0"
-                Background="#202630" Foreground="#E5ECE8" Cursor="Hand"
-                ToolTip="Aplicativos em segundo plano" AutomationProperties.Name="Mostrar aplicativos em segundo plano">
-            <Button.Template><ControlTemplate TargetType="Button">
-                <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="9" BorderThickness="1" BorderBrush="Transparent">
-                    <Path Data="M 1,7 L 7,1 L 13,7" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="#39443E"/></Trigger>
-                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="#A7D9BF"/></Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate></Button.Template>
-        </Button>
+        <Button x:Name="AppsSegundoPlanoButton" Style="{StaticResource DockControlButton}"
+                Command="{Binding AbrirBandejaOcultaCommand}" Margin="3,0"
+                ToolTip="Bandeja da dock (experimental)" AutomationProperties.Name="Abrir bandeja da dock">
+                    <Path Style="{StaticResource DockControlIcon}" Data="{StaticResource DockIconTray}"/>
+                </Button>
+        <Popup IsOpen="{Binding BandejaAvisoAberto, Mode=TwoWay}" PlacementTarget="{Binding ElementName=AppsSegundoPlanoButton}"
+               Placement="Top" VerticalOffset="-10" StaysOpen="False" AllowsTransparency="True">
+            <Border Width="300" Padding="16" CornerRadius="12"
+                    Background="{Binding FundoCardColor, Converter={StaticResource ColorToBrushConverter}}"
+                    BorderBrush="{Binding BordaDockColor, Converter={StaticResource ColorToBrushConverter}}" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Bandeja do Windows" FontWeight="SemiBold" FontSize="14"
+                               Foreground="{Binding TextoPrincipalColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                    <TextBlock Text="{Binding BandejaMensagem}" TextWrapping="Wrap" Margin="0,8,0,0"
+                               Foreground="{Binding TextoPrincipalColor, Converter={StaticResource ColorToBrushConverter}}"/>
+                </StackPanel>
+            </Border>
+        </Popup>
         <Popup IsOpen="{Binding PainelAppsSegundoPlanoAberto, Mode=TwoWay}"
                PlacementTarget="{Binding ElementName=AppsSegundoPlanoButton}" Placement="Top"
                VerticalOffset="-12" StaysOpen="False" AllowsTransparency="True" PopupAnimation="None">
-            <Border Width="360" MaxHeight="310" Padding="16" CornerRadius="18"
+            <Border PreviewMouseMove="BandejaDock_Interaction" PreviewMouseDown="BandejaDock_Interaction" PreviewKeyDown="BandejaDock_Interaction" Width="390" MaxHeight="310" Padding="16" CornerRadius="18"
                     Background="#F2171B22" BorderBrush="#445566" BorderThickness="1">
                 <Border.Effect><DropShadowEffect Color="#000000" BlurRadius="24" ShadowDepth="6" Opacity="0.55"/></Border.Effect>
                 <StackPanel>
@@ -257,8 +198,67 @@
                 </StackPanel>
             </Border>
         </Popup>
+        <Popup x:Name="BandejaDockPopup" Opened="BandejaDock_Opened" Closed="BandejaDock_Closed" IsOpen="{Binding BandejaEspelhadaAberta, Mode=TwoWay}"
+               PlacementTarget="{Binding ElementName=AppsSegundoPlanoButton}" Placement="Top"
+               VerticalOffset="-12" StaysOpen="False" AllowsTransparency="True" PopupAnimation="None">
+            <Border PreviewMouseMove="BandejaDock_Interaction" PreviewMouseDown="BandejaDock_Interaction" PreviewKeyDown="BandejaDock_Interaction" Width="390" MaxHeight="310" Padding="16" CornerRadius="18"
+                    Background="{Binding FundoCardColor, Converter={StaticResource ColorToBrushConverter}}" BorderBrush="{Binding BordaDockColor, Converter={StaticResource ColorToBrushConverter}}" BorderThickness="1">
+                <Border.Effect><DropShadowEffect Color="#000000" BlurRadius="24" ShadowDepth="6" Opacity="0.55"/></Border.Effect>
+                <StackPanel>
+                    <Grid Margin="2,0,2,12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Bandeja da dock" Foreground="{Binding TextoPrincipalColor, Converter={StaticResource ColorToBrushConverter}}" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="Experimental · atualiza ao abrir · clique simples" Foreground="#94A3B8" FontSize="10" Margin="0,3,0,0"/>
+                        </StackPanel>
+                        <Border Grid.Column="1" Background="#253141" CornerRadius="10" Padding="9,4" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding IconesBandejaEspelhada.Count}" Foreground="#B9D9F4" FontWeight="SemiBold"/>
+                        </Border>
+                        <Button Grid.Column="2" Click="BandejaDock_Close" Content="&#x00D7;" Width="30" Height="30" Margin="8,0,0,0" FontSize="20" Background="Transparent" BorderThickness="0" Foreground="{Binding TextoPrincipalColor, Converter={StaticResource ColorToBrushConverter}}" ToolTip="Fechar bandeja" AutomationProperties.Name="Fechar bandeja da dock"/>
+                    </Grid>
+                    <Border Height="1" Background="#394451" Margin="2,0,2,10"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="225">
+                        <ItemsControl ItemsSource="{Binding IconesBandejaEspelhada}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate><WrapPanel ItemWidth="64" ItemHeight="68"/></ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding AbrirCommand}" Width="58" Height="62" Margin="3"
+                                            Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                            ToolTip="{Binding Nome}" AutomationProperties.Name="{Binding Nome}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Card" CornerRadius="12" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Padding="7">
+                                                    <Grid>
+                                                        <Border Width="34" Height="34" CornerRadius="9" Background="#25364A">
+                                                            <TextBlock Text="{Binding Inicial}" Foreground="#B9D9F4" FontSize="15" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <Image Source="{Binding Icone}" Width="34" Height="34" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                        <Border Width="7" Height="7" CornerRadius="4" Background="Transparent"
+                                                                HorizontalAlignment="Right" VerticalAlignment="Bottom" BorderBrush="Transparent" BorderThickness="1"/>
+                                                    </Grid>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Card" Property="Background" Value="#18FFFFFF"/><Setter TargetName="Card" Property="BorderBrush" Value="#355B7A"/></Trigger>
+                                                    <Trigger Property="IsPressed" Value="True"><Setter TargetName="Card" Property="Background" Value="#2AFFFFFF"/></Trigger>
+                                                    <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Card" Property="BorderBrush" Value="#78BEFF"/></Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Button Command="{Binding AbrirBandejaNativaCommand}" Content="Abrir bandeja do Windows" Margin="2,12,2,0" Padding="10,8" Cursor="Hand" Background="#18FFFFFF" Foreground="{Binding TextoPrincipalColor, Converter={StaticResource ColorToBrushConverter}}" ToolTip="Menus e ações nativas, incluindo botão direito">
+                        <Button.Template><ControlTemplate TargetType="Button"><Border x:Name="NativeSurface" CornerRadius="10" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" BorderThickness="1" BorderBrush="#30FFFFFF"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="NativeSurface" Property="Background" Value="#30FFFFFF"/></Trigger><Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="NativeSurface" Property="BorderBrush" Value="#78BEFF"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <sections:SectionNotificacoes/>
         <sections:SectionControlesRapidos/>
     </StackPanel>
 </UserControl>
-
 

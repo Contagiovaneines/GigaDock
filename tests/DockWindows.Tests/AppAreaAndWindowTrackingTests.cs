@@ -13,6 +13,65 @@ namespace DockWindows.Tests;
 
 public class AppAreaAndWindowTrackingTests
 {
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void OrdemIcones_SetasOuArraste_PermaneceAoTrocarAmbienteEReabrir(bool drag)
+    {
+        var root = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Dock-order-" + Guid.NewGuid().ToString("N"));
+        try
+        {
+            var prefs = Preferencias.CriarPadrao(); prefs.AppsGlobaisMigrados = true;
+            prefs.AppsPermanentes = [new ItemFixado { Id = "code", Titulo = "Code", CaminhoOuUrl = @"C:\Test\code.exe", Ordem = 0 },
+                new ItemFixado { Id = "notes", Titulo = "Notas", CaminhoOuUrl = @"C:\Test\notes.exe", Ordem = 1 }];
+            prefs.Ambientes[0].Itens = [new ItemFixado { Id = "teams", Titulo = "Teams", CaminhoOuUrl = @"C:\Test\teams.exe", Ordem = 1 }];
+            prefs.Ambientes[1].Itens = [];
+            var repo = new DockWindows.Infrastructure.Persistence.JsonSettingsRepository(root); repo.Salvar(prefs);
+            string[] expected;
+            using (var main = new MainViewModel(repo, new FakeLauncherService(), new FakeIconExtractionService(), new FakeAutostartService(), windowTrackingService: new FakeWindowTrackingService()))
+            {
+                if (drag) main.ReordenarAplicativo(main.Aplicativos.Single(a => a.Id == "teams"), main.Aplicativos.Single(a => a.Id == "code"));
+                else main.Aplicativos.Single(a => a.Id == "notes").MoverEsquerdaCommand.Execute(null);
+                expected = main.Aplicativos.Where(a => a.EstaFixado).Select(a => a.Id).ToArray();
+                var original = main.AmbienteAtivo!;
+                main.AmbienteAtivo = main.Ambientes[1]; main.AmbienteAtivo = original;
+                Assert.Equal(expected, main.Aplicativos.Where(a => a.EstaFixado).Select(a => a.Id));
+            }
+            using var reopened = new MainViewModel(repo, new FakeLauncherService(), new FakeIconExtractionService(), new FakeAutostartService(), windowTrackingService: new FakeWindowTrackingService());
+            Assert.Equal(expected, reopened.Aplicativos.Where(a => a.EstaFixado).Select(a => a.Id));
+        }
+        finally { if (System.IO.Directory.Exists(root)) System.IO.Directory.Delete(root, true); }
+    }
+
+    [Fact]
+    public void TeamsStore_JanelaAbertaUsaIconeFixadoMesmoComCaminhoVersionado()
+    {
+        var prefs = Preferencias.CriarPadrao(); prefs.AppsGlobaisMigrados = true;
+        prefs.AppsPermanentes = [new ItemFixado { Id = "teams-store", Titulo = "Teams", CaminhoOuUrl = @"shell:AppsFolder\MSTeams_8wekyb3d8bbwe!MSTeams" }];
+        prefs.Ambientes[0].Itens = [];
+        var tracking = new FakeWindowTrackingService { Janelas = [new JanelaInfo { Hwnd = (nint)321,
+            CaminhoExecutavel = @"C:\Program Files\WindowsApps\MSTeams_999_x64__8wekyb3d8bbwe\ms-teams.exe",
+            NomeProcesso = "ms-teams", AppUserModelId = "MSTeams_8wekyb3d8bbwe!MSTeams" }] };
+        using var main = new MainViewModel(new FakeSettingsRepository(prefs), new FakeLauncherService(), new FakeIconExtractionService(), new FakeAutostartService(), windowTrackingService: tracking);
+        var app = Assert.Single(main.Aplicativos);
+        Assert.Equal("teams-store", app.Id); Assert.True(app.EstaAberto); Assert.True(app.EstaFixado);
+        tracking.Janelas = tracking.Janelas.AsEnumerable().Reverse().ToList(); main.AtualizarAplicativosAbertos();
+        Assert.Single(main.Aplicativos);
+    }
+
+    [Fact]
+    public void Store_IdentidadesDiferentesNaoSaoAgrupadasPeloNome()
+    {
+        var prefs = Preferencias.CriarPadrao(); prefs.AppsGlobaisMigrados = true;
+        prefs.AppsPermanentes = [new ItemFixado { Id = "store-one", Titulo = "App", CaminhoOuUrl = @"shell:AppsFolder\family!App" }];
+        prefs.Ambientes[0].Itens = [];
+        var tracking = new FakeWindowTrackingService { Janelas = [new JanelaInfo { Hwnd = (nint)321,
+            CaminhoExecutavel = @"C:\Test\App.exe", NomeProcesso = "family!App", AppUserModelId = "otherFamily!App" }] };
+        using var main = new MainViewModel(new FakeSettingsRepository(prefs), new FakeLauncherService(), new FakeIconExtractionService(), new FakeAutostartService(), windowTrackingService: tracking);
+        Assert.Equal(2, main.Aplicativos.Count);
+        Assert.False(main.Aplicativos.Single(a => a.Id == "store-one").EstaAberto);
+    }
+
     [Fact]
     public void AlertaChamada_PriorizaCorFixaSobreRgbGamerEMensagens()
     {
@@ -282,7 +341,7 @@ public class AppAreaAndWindowTrackingTests
         Assert.Equal("compacto", climaAtivo.Estilo);
         var salvo = repo.Prefs.Ambientes.Single(a => a.Id == outro.Id).WidgetsInstalados.Single(w => w.Tipo == TipoWidget.Clima);
         Assert.Equal("sol", salvo.Estilo);
-        Assert.Equal(9, EstilosWidget.Para(TipoWidget.Clima).Count);
+        Assert.Equal(11, EstilosWidget.Para(TipoWidget.Clima).Count);
     }
 
     [Fact]

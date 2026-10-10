@@ -1,19 +1,20 @@
-﻿# Contribuindo para o GigaDock
+# Contribuindo para o GigaDock
 
-Obrigado por se interessar em contribuir para o GigaDock! Este é um projeto open-source e toda ajuda é bem-vinda.
+Faça um fork, trabalhe em uma branch e abra um pull request com o problema resolvido, o comportamento resultante e a validação executada.
 
-## Como Contribuir
+## Desenvolvimento
 
-1. Faça um Fork do projeto
-2. Crie uma branch para sua feature (git checkout -b feature/MinhaFeatureIncrivel)
-3. Faça commit das suas alterações (git commit -m 'Add: alguma feature legal')
-4. Faça push para a branch (git push origin feature/MinhaFeatureIncrivel)
-5. Abra um Pull Request
+- Use C# e o SDK .NET 10 definido em `global.json`.
+- Windows usa WPF; Linux usa Avalonia. Modelos e serviços compartilhados ficam nos projetos sem dependências de interface.
+- Mantenha interface em português do Brasil, navegação por teclado e suporte a escalas.
+- Prefira APIs documentadas; não altere configurações globais nem esconda o painel do sistema automaticamente.
+- Dados devem permanecer locais. Não adicione conta, telemetria ou backend obrigatório.
+- Preserve licenças e créditos de dependências e recursos gráficos.
 
-## Padrões de Código
-- Utilizamos C# 11 e WPF (.NET 10).
-- Mantenha o padrão de arquitetura MVVM utilizado no projeto.
-- Evite adicionar bibliotecas de terceiros se a funcionalidade puder ser implementada nativamente.
+Comandos de build e testes estão no [README](README.md#compilar-e-testar). Compile a plataforma afetada e execute testes pertinentes. Registre limitações reais; não declare testes que não foram executados.
 
-## Relatando Bugs
-Use a aba de Issues do GitHub para relatar problemas. Inclua o máximo de detalhes possível, incluindo versão do Windows e passos para reproduzir.
+## Relatar problemas
+
+Informe versão do GigaDock, sistema/arquitetura, passos para reproduzir e comportamento esperado. No Linux, inclua distribuição, desktop, X11/Wayland e escala. Remova dados pessoais de capturas e logs.
+
+Não publique senhas, tokens, notas ou configurações reais. Antes de enviar código, consulte [PUBLICACAO-GITHUB.md](docs/PUBLICACAO-GITHUB.md) e execute `python tools/audit-publication.py --history`.

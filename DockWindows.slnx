@@ -1,11 +1,19 @@
 <Solution>
+  <Folder Name="/prototypes/">
+    <Project Path="prototypes/GigaDock.Linux.DesktopProbe/GigaDock.Linux.DesktopProbe.csproj" />
+  </Folder>
   <Folder Name="/src/">
+    <Project Path="src/GigaDock.App.Linux/GigaDock.App.Linux.csproj" />
+    <Project Path="src/GigaDock.Infrastructure.Linux/GigaDock.Infrastructure.Linux.csproj" />
+    <Project Path="src/GigaDock.Services/GigaDock.Services.csproj" />
     <Project Path="src/DockWindows.App/DockWindows.App.csproj" />
     <Project Path="src/DockWindows.Core/DockWindows.Core.csproj" />
     <Project Path="src/DockWindows.Infrastructure/DockWindows.Infrastructure.csproj" />
     <Project Path="src/DockWindows.Installer/DockWindows.Installer.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/GigaDock.Tests.Linux/GigaDock.Tests.Linux.csproj" />
+    <Project Path="tests/GigaDock.Tests.Core/GigaDock.Tests.Core.csproj" />
     <Project Path="tests/DockWindows.Tests/DockWindows.Tests.csproj" />
   </Folder>
 </Solution>

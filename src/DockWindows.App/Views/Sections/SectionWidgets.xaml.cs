@@ -2,6 +2,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DockWindows.App.ViewModels;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 
 namespace DockWindows.App.Views.Sections;
 
@@ -10,6 +12,26 @@ public partial class SectionWidgets : UserControl
     public SectionWidgets()
     {
         InitializeComponent();
+    }
+
+    private void Tarefas_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is not MainViewModel main || main.AmbienteAtivo is null || sender is not Button button) return;
+        if (button.Tag is Popup old) old.IsOpen = false;
+        var popup = new Popup { PlacementTarget = button, Placement = PlacementMode.Top, StaysOpen = false, AllowsTransparency = true,
+            Child = new Border { Background = new SolidColorBrush(Color.FromRgb(25, 28, 33)), Padding = new Thickness(16),
+                CornerRadius = new CornerRadius(12), Child = new TarefasPanel(main.AmbienteAtivo.Id) } };
+        popup.KeyDown += (_, key) => { if (key.Key == Key.Escape) { popup.IsOpen = false; key.Handled = true; } };
+        popup.Opened += (_, _) => ((FrameworkElement)popup.Child).MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+        System.ComponentModel.PropertyChangedEventHandler closeOnEnvironment = (_, changed) =>
+        {
+            if (changed.PropertyName == nameof(main.AmbienteAtivo) || changed.PropertyName == nameof(main.TarefasHabilitadas)) popup.IsOpen = false;
+        };
+        main.PropertyChanged += closeOnEnvironment;
+        popup.Closed += (_, _) => { main.PropertyChanged -= closeOnEnvironment; button.Unloaded -= CloseWhenUnloaded; button.Tag = null; button.Focus(); };
+        button.Unloaded += CloseWhenUnloaded;
+        void CloseWhenUnloaded(object source, RoutedEventArgs args) { popup.IsOpen = false; button.Unloaded -= CloseWhenUnloaded; }
+        button.Tag = popup; popup.IsOpen = true;
     }
 
     private void AudioSistemaButton_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)

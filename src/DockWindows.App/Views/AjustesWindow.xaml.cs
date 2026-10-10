@@ -7,18 +7,47 @@ namespace DockWindows.App.Views;
 public partial class AjustesWindow : Window
 {
     private readonly AjustesViewModel _viewModel;
+    private void Minimizar_OnClick(object sender, RoutedEventArgs e) => SystemCommands.MinimizeWindow(this);
+    private void Maximizar_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized) SystemCommands.RestoreWindow(this);
+        else SystemCommands.MaximizeWindow(this);
+    }
+    private void Fechar_OnClick(object sender, RoutedEventArgs e) => Close();
+    private void ConhecerGigaDock_OnClick(object sender, RoutedEventArgs e) =>
+        new GuideWindow(_viewModel.NavegarPara, _viewModel.DesativarAnimacoes) { Owner = this }.Show();
+
+    private void BuscarConfiguracoes_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (ResultadosConfiguracoes is null || sender is not TextBox field) return;
+        ResultadosConfiguracoes.Items.Clear();
+        foreach (var entry in DockWindows.Core.Models.SettingsSearch.Find(field.Text))
+            ResultadosConfiguracoes.Items.Add(new ListBoxItem { Content = entry.Title, Tag = entry.WindowsSection });
+        ResultadosConfiguracoes.Visibility = string.IsNullOrWhiteSpace(field.Text) ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void ResultadosConfiguracoes_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ResultadosConfiguracoes.SelectedItem is not ListBoxItem { Tag: string section }) return;
+        _viewModel.NavegarPara(section); BuscaConfiguracoes.Clear();
+    }
 
     public AjustesWindow(AjustesViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
         DataContext = _viewModel;
+        WindowScreenSizing.Attach(this);
+        StateChanged += (_, _) =>
+        {
+            var maximized = WindowState == WindowState.Maximized;
+            MaximizeWindowButton.Content = maximized ? "❐" : "□";
+            MaximizeWindowButton.ToolTip = maximized ? "Restaurar" : "Maximizar";
+            System.Windows.Automation.AutomationProperties.SetName(MaximizeWindowButton, maximized ? "Restaurar ajustes" : "Maximizar ajustes");
+        };
         SizeChanged += (_, _) => AtualizarLayoutResponsivo();
         Loaded += (_, _) =>
         {
-            var area = SystemParameters.WorkArea;
-            Width = Math.Max(MinWidth, Math.Min(Width, area.Width - 32));
-            Height = Math.Max(MinHeight, Math.Min(Height, area.Height - 32));
             AtualizarLayoutResponsivo();
         };
         _viewModel.PropertyChanged += SecaoAlterada;
@@ -76,8 +105,8 @@ public partial class AjustesWindow : Window
     private void AtualizarLayoutResponsivo()
     {
         if (_viewModel == null) return;
-        bool compacto = ActualWidth < 1050;
-        bool empilhado = ActualWidth < 760;
+        bool compacto = LayoutRoot.ActualWidth < 1050;
+        bool empilhado = LayoutRoot.ActualWidth < 760;
         bool widgets = _viewModel.EhSecaoWidgets;
         bool lista = _viewModel.EhSecaoAmbientes || _viewModel.EhSecaoEspacadores;
         NavigationPanel.Visibility = compacto ? Visibility.Collapsed : Visibility.Visible;
@@ -88,7 +117,7 @@ public partial class AjustesWindow : Window
         DetailsPanel.Visibility = widgets ? Visibility.Collapsed : Visibility.Visible;
         MasterColumn.Width = lista && !empilhado ? new GridLength(compacto ? 260 : 330) : new GridLength(0);
         StackedDetailsRow.Height = empilhado && lista ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
-        LayoutRoot.RowDefinitions[1].Height = empilhado && lista ? new GridLength(210) : new GridLength(1, GridUnitType.Star);
+        LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
         Grid.SetRow(DetailsPanel, empilhado && lista ? 2 : 1);
         Grid.SetColumn(MasterPanel, widgets ? 1 : empilhado ? 2 : 1);
         Grid.SetColumnSpan(MasterPanel, widgets ? 2 : 1);

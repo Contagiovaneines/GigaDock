@@ -27,6 +27,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private IntPtr _ultimaJanelaAtiva = IntPtr.Zero;
     private bool _ultimoEstadoTelaCheia = false;
     private readonly object _lock = new();
+    private readonly WindowsWindowActivation _activation = new();
 
     private delegate void WinEventDelegate(
         IntPtr hWinEventHook,
@@ -51,8 +52,6 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private const uint GW_OWNER = 4;
     private const int DWMWA_CLOAKED = 14;
 
-    private const int SW_RESTORE = 9;
-    private const int SW_SHOW = 5;
     private const int SW_MINIMIZE = 6;
     private const uint WM_CLOSE = 0x0010;
 
@@ -124,15 +123,6 @@ public class Win32WindowTrackingService : IWindowTrackingService
     private static extern IntPtr GetForegroundWindow();
 
     [DllImport("user32.dll")]
-    private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    private static extern bool BringWindowToTop(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
-    private static extern bool IsWindow(IntPtr hWnd);
-
-    [DllImport("user32.dll")]
     private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     [DllImport("user32.dll")]
@@ -159,9 +149,6 @@ public class Win32WindowTrackingService : IWindowTrackingService
 
     [DllImport("kernel32.dll", SetLastError = true)]
     private static extern bool CloseHandle(IntPtr hObject);
-
-    [DllImport("user32.dll")]
-    private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
     public Win32WindowTrackingService()
     {
@@ -362,6 +349,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     public IReadOnlyList<JanelaInfo> ObterJanelasAbertas()
     {
         var lista = new List<JanelaInfo>();
+        var identities = new Dictionary<uint, string>();
         var foreground = GetForegroundWindow();
         int meuPid = Environment.ProcessId;
 
@@ -387,6 +375,8 @@ public class Win32WindowTrackingService : IWindowTrackingService
 
             bool estaAtiva = (hWnd == foreground);
             bool estaMinimizada = IsIconic(hWnd);
+            if (!identities.TryGetValue(pid, out var identity))
+                identities[pid] = identity = WindowsApplicationIdentity.Read((int)pid);
 
             lista.Add(new JanelaInfo
             {
@@ -394,6 +384,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
                 Titulo = titulo,
                 CaminhoExecutavel = caminhoExe,
                 NomeProcesso = nomeProcesso,
+                AppUserModelId = identity,
                 ProcessId = (int)pid,
                 EstaAtiva = estaAtiva,
                 EstaMinimizada = estaMinimizada
@@ -414,14 +405,15 @@ public class Win32WindowTrackingService : IWindowTrackingService
             GetWindowThreadProcessId(hwnd, out uint pid);
             if (pid == Environment.ProcessId ||
                 !string.Equals(ObterCaminhoProcesso(pid), caminhoExecutavel, StringComparison.OrdinalIgnoreCase)) return true;
-            // Inclui janelas ocultas, mas evita auxiliares e janelas de outros desktops virtuais.
+            // Janelas ocultas na bandeja precisam ser abertas pelo próprio app.
+            // Revelá-las diretamente pode expor uma janela desabilitada/incompleta.
+            if (!IsWindowVisible(hwnd)) return true;
             var estilo = (long)GetWindowLongPtr(hwnd, GWL_EXSTYLE);
             if ((estilo & WS_EX_TOOLWINDOW) != 0 || GetWindow(hwnd, GW_OWNER) != IntPtr.Zero ||
                 string.IsNullOrWhiteSpace(ObterTextoJanela(hwnd))) return true;
             DwmGetWindowAttribute(hwnd, DWMWA_CLOAKED, out int cloaked, sizeof(int));
             if (cloaked != 0) return true;
-            if (IsWindowVisible(hwnd)) candidatas.Insert(0, hwnd);
-            else candidatas.Add(hwnd);
+            candidatas.Add(hwnd);
             return true;
         }, IntPtr.Zero);
         foreach (var hwnd in candidatas)
@@ -518,22 +510,7 @@ public class Win32WindowTrackingService : IWindowTrackingService
     {
         try
         {
-            if (hWnd == IntPtr.Zero || !IsWindow(hWnd)) return false;
-
-            if (IsIconic(hWnd))
-            {
-                ShowWindow(hWnd, SW_RESTORE);
-            }
-            else
-            {
-                ShowWindow(hWnd, SW_SHOW);
-            }
-
-            BringWindowToTop(hWnd);
-            // O clique do usuário na dock permite a transferência de primeiro plano.
-            keybd_event(0, 0, 0, 0);
-            SetForegroundWindow(hWnd);
-            return GetForegroundWindow() == hWnd;
+            return _activation.Activate(hWnd);
         }
         catch
         {

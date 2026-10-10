@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   build:
-    name: Compilar, testar e gerar instalador
+    name: Gerar instalador e validar testes
     runs-on: windows-2025
     timeout-minutes: 45
     defaults:
@@ -43,14 +43,6 @@ jobs:
       - name: Compilar Release
         run: dotnet build DockWindows.slnx -c Release --no-restore
 
-      - name: Executar testes sem alterações globais no Windows
-        run: >-
-          dotnet test tests/DockWindows.Tests/DockWindows.Tests.csproj
-          -c Release --no-build --no-restore
-          --filter "Category!=SystemIntegration"
-          --logger "trx;LogFileName=windows-ci.trx"
-          --results-directory docs/TestResults/ci
-
       - name: Gerar instalador de desenvolvimento sem assinatura
         run: ./build_release.ps1
 
@@ -64,6 +56,31 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
+
+      - name: Executar testes compartilhados
+        run: >-
+          dotnet test tests/GigaDock.Tests.Core/GigaDock.Tests.Core.csproj
+          -c Release --no-build --no-restore
+          --logger "trx;LogFileName=shared-windows-ci.trx"
+          --results-directory docs/TestResults/ci
+
+      - name: Testar composição Linux em diretórios isolados
+        run: >-
+          dotnet test tests/GigaDock.Tests.Linux/GigaDock.Tests.Linux.csproj
+          -c Release --no-build --no-restore
+          --logger "trx;LogFileName=composition-windows-ci.trx"
+          --results-directory docs/TestResults/ci
+
+      - name: Executar testes sem alterações globais no Windows
+        timeout-minutes: 10
+        run: >-
+          dotnet test tests/DockWindows.Tests/DockWindows.Tests.csproj
+          -c Release --no-build --no-restore
+          --filter "Category!=SystemIntegration"
+          --blame-hang --blame-hang-timeout 3m --blame-hang-dump-type none
+          --logger "console;verbosity=normal"
+          --logger "trx;LogFileName=windows-ci.trx"
+          --results-directory docs/TestResults/ci
 
       - name: Publicar aplicativo para assinatura
         if: >-
@@ -212,6 +229,8 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: testes-windows-${{ github.run_number }}
-          path: docs/TestResults/ci/*.trx
+          path: |
+            docs/TestResults/ci/**/*.trx
+            docs/TestResults/ci/**/*Sequence.xml
           if-no-files-found: ignore
           retention-days: 14
