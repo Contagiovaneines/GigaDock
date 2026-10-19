@@ -1,5 +1,5 @@
 # GigaDock
-
+ 
 Dock gratuita com **código aberto sob licença MIT**, para **Windows 10/11 x64** e **Linux x64 em beta**. Desenvolvida em C# e .NET 10, usa WPF no Windows e Avalonia no Linux, compartilhando modelos e serviços.
 
 Organize aplicativos e widgets em ambientes como Trabalho, Estudos e Pessoal. Configurações e notas ficam no computador, sem conta obrigatória, backend próprio ou telemetria.
